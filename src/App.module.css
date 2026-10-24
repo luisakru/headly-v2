@@ -1,0 +1,10 @@
+.app {
+  min-height: 100dvh;
+  padding: env(safe-area-inset-top) var(--screen-padding) env(safe-area-inset-bottom);
+}
+
+.wordmark {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
