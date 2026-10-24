@@ -133,6 +133,7 @@ type Prevention = {
 type Settings = {
   language: 'de' | 'en';
   lastBackupAt?: number;
+  backupReminderEnabled: boolean;
   backupReminderSnoozedUntil?: number;
   installHintDismissed: boolean;
 };
