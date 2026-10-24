@@ -8,3 +8,9 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 );
+
+if (import.meta.env.DEV) {
+  void import('./data/seed').then(({ seedDatabase }) => {
+    Object.assign(window, { seedDemoData: seedDatabase });
+  });
+}
