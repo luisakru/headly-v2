@@ -1,0 +1,11 @@
+.appShell {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100dvh;
+}
+
+.content {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(env(safe-area-inset-top) + var(--space-8)) var(--screen-padding) var(--space-8);
+}

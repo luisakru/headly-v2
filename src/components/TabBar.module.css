@@ -1,0 +1,27 @@
+.tabBar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: var(--space-1) var(--space-2) max(var(--space-1), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  color: var(--color-text-secondary);
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+.tab[aria-current='page'] {
+  color: var(--color-primary);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: -4px;
+  border-radius: var(--radius-cell);
+}

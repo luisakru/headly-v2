@@ -1,0 +1,48 @@
+.pips {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+/* The whole cell is the touch target; the visible dot sits centered inside it. */
+.pip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(32px, 100%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+}
+
+.pip[aria-checked='true'] .dot {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.pip:focus-visible .dot {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}

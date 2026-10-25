@@ -1,0 +1,56 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  background: rgb(58 48 40 / 25%);
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 90dvh;
+  padding: 0 var(--screen-padding) calc(var(--space-4) + env(safe-area-inset-bottom));
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  background: var(--color-bg);
+  outline: none;
+}
+
+/* Swiping down anywhere in the header closes the sheet; the content keeps native scrolling. */
+.dragArea {
+  touch-action: none;
+}
+
+.handle {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: var(--touch-target);
+  padding: var(--space-3) 0 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.handle::before {
+  content: '';
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-border);
+}
+
+.title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.content {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
