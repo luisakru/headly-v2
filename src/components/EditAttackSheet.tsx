@@ -11,6 +11,8 @@ import styles from './EditAttackSheet.module.css';
 import { PlusIcon, TrashIcon } from './icons';
 import { PainScale } from './PainScale';
 
+const HOUR_MS = 60 * 60 * 1000;
+
 type DraftIntake = {
   /** Undefined for an intake added in this sheet. */
   id?: string;
@@ -45,6 +47,7 @@ export function EditAttackSheet({
     toInputValue(attack?.startedAt ?? defaultStartedAt ?? Date.now()),
   );
   const [end, setEnd] = useState(() => (attack?.endedAt ? toInputValue(attack.endedAt) : ''));
+  const [endTouched, setEndTouched] = useState(false);
   const [painLevel, setPainLevel] = useState(attack?.painLevel);
   const [draftIntakes, setDraftIntakes] = useState<DraftIntake[]>(() =>
     intakes
@@ -94,6 +97,11 @@ export function EditAttackSheet({
           onChange={(event) => {
             setStart(event.target.value);
             setError(undefined);
+            // A new attack's end follows its start by one hour until the end is set by hand.
+            const newStart = fromInputValue(event.target.value);
+            if (!attack && !endTouched && !Number.isNaN(newStart)) {
+              setEnd(toInputValue(newStart + HOUR_MS));
+            }
           }}
         />
         <label htmlFor={endId} className={styles.fieldLabel}>
@@ -106,6 +114,7 @@ export function EditAttackSheet({
           value={end}
           onChange={(event) => {
             setEnd(event.target.value);
+            setEndTouched(true);
             setError(undefined);
           }}
         />

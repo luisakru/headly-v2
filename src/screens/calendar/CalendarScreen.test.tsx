@@ -101,3 +101,24 @@ test('rejects an overlapping new migraine and saves nothing', async () => {
   );
   expect(await listAttacks()).toHaveLength(1);
 });
+
+test('prefills the end one hour after the chosen start', async () => {
+  const day = lastMonth(10);
+  await renderWithI18n(<CalendarScreen />);
+
+  fireEvent.click(await screen.findByRole('button', { name: 'Previous month' }));
+  fireEvent.click(screen.getByRole('button', { name: formatDate(day, 'en') }));
+  fireEvent.click(screen.getByRole('button', { name: 'Add migraine' }));
+  fireEvent.change(screen.getByLabelText('Start'), {
+    target: { value: toInputValue(day.getTime()) },
+  });
+  expect(screen.getByLabelText('End')).toHaveValue(toInputValue(day.getTime() + HOUR_MS));
+
+  fireEvent.change(screen.getByLabelText('End'), {
+    target: { value: toInputValue(day.getTime() + 4 * HOUR_MS) },
+  });
+  fireEvent.change(screen.getByLabelText('Start'), {
+    target: { value: toInputValue(day.getTime() + HOUR_MS) },
+  });
+  expect(screen.getByLabelText('End')).toHaveValue(toInputValue(day.getTime() + 4 * HOUR_MS));
+});
