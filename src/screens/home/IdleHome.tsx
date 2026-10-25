@@ -1,5 +1,4 @@
 import { addMonths, startOfMonth } from 'date-fns';
-import { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { startAttack } from '../../data/attackRepository';
@@ -11,10 +10,8 @@ import { useI18n } from '../../i18n/context';
 import { formatMonthYear } from '../../i18n/format';
 import { formatInsight } from '../../i18n/insights';
 import styles from './Home.module.css';
-import { MedicationSheet } from './MedicationSheet';
 import { RatingPromptCard } from './RatingPromptCard';
 import { RecentWeeks } from './RecentWeeks';
-import { TimePickerSheet } from './TimePickerSheet';
 import type { HomeData } from './useHomeData';
 
 export function IdleHome({
@@ -25,7 +22,6 @@ export function IdleHome({
   now,
 }: HomeData & { now: number }) {
   const { t, language } = useI18n();
-  const [sheet, setSheet] = useState<'medication' | 'startTime'>();
 
   const monthStart = startOfMonth(now);
   const thisMonth = { start: monthStart.getTime(), end: addMonths(monthStart, 1).getTime() };
@@ -58,12 +54,6 @@ export function IdleHome({
         <Button large onClick={() => void startAttack()}>
           {t.home.startMigraine}
         </Button>
-        <button type="button" className={styles.link} onClick={() => setSheet('startTime')}>
-          {t.home.startedEarlier}
-        </button>
-        <Button large variant="secondary" onClick={() => setSheet('medication')}>
-          {t.home.medicationTaken}
-        </Button>
       </div>
 
       <RecentWeeks attacks={attacks} intakes={intakes} now={now} />
@@ -73,18 +63,6 @@ export function IdleHome({
           <h2 className={styles.sectionLabel}>{t.home.insight}</h2>
           <Card className={styles.insight}>{formatInsight(insight, t, language)}</Card>
         </section>
-      )}
-
-      {sheet === 'medication' && (
-        <MedicationSheet medications={medications} onClose={() => setSheet(undefined)} />
-      )}
-      {sheet === 'startTime' && (
-        <TimePickerSheet
-          title={t.timePicker.startTitle}
-          initialTime={now}
-          onClose={() => setSheet(undefined)}
-          onConfirm={startAttack}
-        />
       )}
     </>
   );

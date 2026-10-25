@@ -22,8 +22,6 @@ export const en = {
       n === 1 ? '1 migraine day this month' : `${n} migraine days this month`,
     activePreventions: 'Active prevention',
     startMigraine: 'Start migraine',
-    startedEarlier: 'Started earlier?',
-    medicationTaken: 'Medication taken',
     lastFourWeeks: 'Last 4 weeks',
     insight: 'Insight',
   },

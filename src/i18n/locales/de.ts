@@ -23,8 +23,6 @@ export const de: Dictionary = {
       n === 1 ? '1 Migränetag in diesem Monat' : `${n} Migränetage in diesem Monat`,
     activePreventions: 'Aktive Prophylaxe',
     startMigraine: 'Migräne starten',
-    startedEarlier: 'Früher begonnen?',
-    medicationTaken: 'Medikament genommen',
     lastFourWeeks: 'Letzte 4 Wochen',
     insight: 'Erkenntnis',
   },

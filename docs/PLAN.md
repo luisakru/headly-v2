@@ -188,8 +188,6 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 - Greeting and current month with "N migraine days this month"
 - Pill showing active preventions, comma-separated ("Amitriptyline, Low carb"); hidden if none
 - Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
-- Small link under it: "Started earlier?" opens a time picker for a past start
-- Secondary button "Medication taken": opens a sheet listing saved medications; one tap logs the intake at now. Empty state links to adding a medication
 - Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar
 - One insight card, the most relevant current insight
 - Prompt cards above the buttons when due: rate an intake, attack still running, backup reminder
@@ -201,7 +199,8 @@ Shown on the Home tab while an attack is active.
 - "Migraine active" label with the pulsing dot
 - Elapsed time, large, and start time; tapping the start time edits it
 - Pain scale 1–10 as ten tappable pips with "barely noticeable" and "unbearable" labels. The first tap sets `painAtStart`; later taps raise `painMax` if higher
-- "Medication" button (same sheet as on Home, intake linked to this attack)
+- "Medication" button: opens a sheet listing saved medications; one tap logs the intake at now, linked to this attack. Empty state links to adding a medication
+- The "Medication" and "End migraine" buttons appear only after the first pain tap
 - List of intakes during this attack with rating status
 - Outlined "End migraine" button: ends at now, with "Ended earlier?" to pick a time
 

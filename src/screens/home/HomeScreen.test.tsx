@@ -23,13 +23,15 @@ test('logs a full attack: start, pain, medication, end', async () => {
 
   fireEvent.click(await screen.findByRole('button', { name: 'Start migraine' }));
   expect(await screen.findByText('Migraine active')).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Log medication' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'End migraine' })).not.toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('radio', { name: '6' }));
   fireEvent.click(screen.getByRole('radio', { name: '4' }));
   await waitFor(async () => expect((await getActiveAttack())?.painMax).toBe(6));
   expect((await getActiveAttack())?.painAtStart).toBe(6);
 
-  fireEvent.click(screen.getByRole('button', { name: 'Log medication' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
   fireEvent.click(await screen.findByRole('button', { name: /Sumatriptan/ }));
   await waitFor(async () => expect(await listIntakes()).toHaveLength(1));
   fireEvent.click(screen.getByRole('button', { name: 'Done' }));
@@ -45,37 +47,17 @@ test('logs a full attack: start, pain, medication, end', async () => {
 
 test('tapping a logged medication again undoes the intake', async () => {
   await createMedication({ name: 'Ibuprofen', isTriptan: false });
+  const attack = await startAttack();
+  await db.attacks.update(attack.id, { painAtStart: 5, painMax: 5 });
   await renderWithI18n(<HomeScreen />);
 
-  fireEvent.click(await screen.findByRole('button', { name: 'Medication taken' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
   const row = await screen.findByRole('button', { name: /Ibuprofen/ });
   fireEvent.click(row);
   await waitFor(() => expect(row).toHaveAttribute('aria-pressed', 'true'));
   fireEvent.click(row);
   await waitFor(() => expect(row).toHaveAttribute('aria-pressed', 'false'));
   expect(await listIntakes()).toHaveLength(0);
-});
-
-test('starting earlier rejects a time that overlaps another attack', async () => {
-  const attack = await startAttack(Date.now() - 3 * HOUR_MS);
-  await db.attacks.update(attack.id, { endedAt: Date.now() - HOUR_MS });
-  await renderWithI18n(<HomeScreen />);
-
-  fireEvent.click(await screen.findByRole('button', { name: 'Started earlier?' }));
-  const input = screen.getByLabelText('Date and time');
-  const twoHoursAgo = new Date(Date.now() - 2 * HOUR_MS);
-  const pad = (n: number) => String(n).padStart(2, '0');
-  fireEvent.change(input, {
-    target: {
-      value: `${twoHoursAgo.getFullYear()}-${pad(twoHoursAgo.getMonth() + 1)}-${pad(twoHoursAgo.getDate())}T${pad(twoHoursAgo.getHours())}:${pad(twoHoursAgo.getMinutes())}`,
-    },
-  });
-  fireEvent.click(screen.getByRole('button', { name: 'Save' }));
-
-  expect(await screen.findByRole('alert')).toHaveTextContent(
-    'This overlaps with another migraine.',
-  );
-  expect(await listAttacks()).toHaveLength(1);
 });
 
 test('asks to rate an intake older than two hours', async () => {
