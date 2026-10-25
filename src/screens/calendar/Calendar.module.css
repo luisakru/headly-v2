@@ -1,0 +1,65 @@
+.header {
+  display: grid;
+  grid-template-columns: var(--touch-target) 1fr var(--touch-target);
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.subtitle {
+  grid-column: 1 / -1;
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  text-align: center;
+}
+
+.monthButton,
+.textButton {
+  min-height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.monthButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+}
+
+.textButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-serif);
+  font-size: 19px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.hint {
+  color: var(--color-text-secondary);
+}
+
+.monthButton:focus-visible,
+.textButton:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
