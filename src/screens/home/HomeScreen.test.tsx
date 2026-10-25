@@ -3,6 +3,7 @@ import { getActiveAttack, listAttacks, startAttack } from '../../data/attackRepo
 import { db } from '../../data/db';
 import { listIntakes, logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
+import { getSettings } from '../../data/settingsRepository';
 import { formatDate } from '../../i18n/format';
 import { renderWithI18n } from '../../test/renderWithI18n';
 import { toInputValue } from '../../components/attackForm';
@@ -170,4 +171,19 @@ test('deletes the active attack after confirmation', async () => {
 
   expect(await screen.findByRole('button', { name: 'Start migraine' })).toBeInTheDocument();
   expect(await listAttacks()).toHaveLength(0);
+});
+
+test('reminds to back up once there is enough data, and snoozes on later', async () => {
+  for (const name of ['A', 'B', 'C', 'D', 'E']) {
+    await createMedication({ name, isTriptan: false });
+  }
+  await renderWithI18n(<HomeScreen />);
+
+  expect(
+    await screen.findByText('Your data only lives on this phone. Save a backup?'),
+  ).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Later' }));
+
+  await waitFor(() => expect(screen.queryByText(/Save a backup\?/)).not.toBeInTheDocument());
+  expect((await getSettings()).backupReminderSnoozedUntil).toBeGreaterThan(Date.now());
 });

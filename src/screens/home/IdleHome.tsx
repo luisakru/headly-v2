@@ -9,6 +9,7 @@ import { isActivePrevention } from '../../domain/prevention';
 import { useI18n } from '../../i18n/context';
 import { formatMonthYear } from '../../i18n/format';
 import { formatInsight } from '../../i18n/insights';
+import { BackupReminderCard } from './BackupReminderCard';
 import styles from './Home.module.css';
 import { RatingPromptCard } from './RatingPromptCard';
 import { RecentWeeks } from './RecentWeeks';
@@ -51,6 +52,7 @@ export function IdleHome({
 
       <div className={styles.actions}>
         <RatingPromptCard intakes={intakes} medications={medications} now={now} />
+        <BackupReminderCard data={{ attacks, intakes, medications, preventions }} now={now} />
         <Button large onClick={() => void startAttack()}>
           {t.home.startMigraine}
         </Button>
