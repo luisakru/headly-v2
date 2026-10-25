@@ -1,4 +1,11 @@
-import { addDays, addWeeks, startOfWeek } from 'date-fns';
+import {
+  addDays,
+  addWeeks,
+  eachDayOfInterval,
+  endOfMonth,
+  startOfMonth,
+  startOfWeek,
+} from 'date-fns';
 
 export type DayKind = 'none' | 'migraine' | 'migraineWithMedication' | 'medicationOnly';
 
@@ -6,6 +13,19 @@ export type DayKind = 'none' | 'migraine' | 'migraineWithMedication' | 'medicati
 export function recentWeekDays(now: number, weeks: number): Date[] {
   const start = addWeeks(startOfWeek(now, { weekStartsOn: 1 }), -(weeks - 1));
   return Array.from({ length: weeks * 7 }, (_, index) => addDays(start, index));
+}
+
+/** Cells of a month grid, Monday first; `undefined` fills the cells outside the month. */
+export function monthGridDays(month: number | Date): (Date | undefined)[] {
+  const first = startOfMonth(month);
+  const leading = (first.getDay() + 6) % 7;
+  const days = eachDayOfInterval({ start: first, end: endOfMonth(first) });
+  const trailing = (7 - ((leading + days.length) % 7)) % 7;
+  return [
+    ...Array<undefined>(leading).fill(undefined),
+    ...days,
+    ...Array<undefined>(trailing).fill(undefined),
+  ];
 }
 
 export function dayKind(
