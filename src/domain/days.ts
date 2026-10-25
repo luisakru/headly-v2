@@ -40,3 +40,14 @@ export function countDaysInRange(dayKeys: Set<string>, range: TimeRange): number
   }
   return count;
 }
+
+export type DurationParts = { days: number; hours: number; minutes: number };
+
+export function durationParts(ms: number): DurationParts {
+  const totalMinutes = Math.max(0, Math.floor(ms / 60_000));
+  return {
+    days: Math.floor(totalMinutes / (24 * 60)),
+    hours: Math.floor(totalMinutes / 60) % 24,
+    minutes: totalMinutes % 60,
+  };
+}
