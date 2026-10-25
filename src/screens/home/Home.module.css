@@ -1,0 +1,385 @@
+.header {
+  margin-bottom: var(--space-6);
+}
+
+.eyebrow,
+.sectionLabel,
+.activeLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.greeting {
+  margin: var(--space-2) 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 17px;
+}
+
+.pill {
+  display: inline-block;
+  margin: var(--space-3) 0 0;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-button);
+  background: var(--color-primary-soft);
+  color: var(--color-on-primary);
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.link,
+.startTime,
+.textButton {
+  min-height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.link {
+  align-self: center;
+  padding: 0 var(--space-4);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.textButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-serif);
+  font-size: 19px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.weekGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-1);
+}
+
+.weekday {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.dayCell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: var(--radius-cell);
+  background: var(--color-surface-muted);
+  font-family: var(--font-serif);
+  font-size: 17px;
+}
+
+.dayCell[data-kind='migraine'] {
+  background: var(--color-primary-soft);
+  color: var(--color-on-primary);
+}
+
+.dayCell[data-kind='migraineWithMedication'] {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.dayCell[data-future] {
+  color: var(--color-text-muted);
+}
+
+.dayCell[data-kind='medicationOnly']::before,
+.dayCell[data-today]::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* A medication day without migraine shows its dot at the top, so it never collides with today. */
+.dayCell[data-kind='medicationOnly']::before {
+  top: 5px;
+  bottom: auto;
+  background: var(--color-primary);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legendSwatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+}
+
+.legendSwatch[data-kind='migraineWithMedication'] {
+  background: var(--color-primary);
+}
+
+.legendDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text);
+}
+
+.insight {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+.promptCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.promptTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 20px;
+}
+
+.promptActions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+}
+
+.muted {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+}
+
+/* Active attack */
+
+.activeLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-warning-text);
+}
+
+.pulseDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-warning-text);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.runningFor {
+  margin: var(--space-6) 0 0;
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  font-style: italic;
+}
+
+.elapsed {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 72px;
+  line-height: 1.1;
+}
+
+.startTime {
+  color: var(--color-text-secondary);
+  text-align: left;
+  text-decoration: underline dotted;
+  text-underline-offset: 4px;
+}
+
+.divider {
+  margin: var(--space-4) 0 var(--space-6);
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.intakeList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.intakeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-right: var(--space-2);
+}
+
+.intakeText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.statusChip {
+  min-height: var(--touch-target);
+  padding: 0 var(--space-3);
+  border: none;
+  border-radius: var(--radius-button);
+  background: var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.statusChip[data-rated] {
+  background: var(--color-warning-bg);
+  color: var(--color-text);
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-warning-text);
+  cursor: pointer;
+}
+
+/* Sheets */
+
+.sheetContent,
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.sheetContent {
+  gap: var(--space-4);
+}
+
+.fieldLabel {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.form .fieldLabel {
+  margin-bottom: calc(-1 * var(--space-2));
+}
+
+.input {
+  min-height: var(--touch-target);
+  padding: 0 var(--space-3);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-cell);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.error {
+  margin: 0;
+  color: var(--color-warning-text);
+}
+
+.medicationList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.medicationRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 56px;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: none;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.medicationName {
+  font-family: var(--font-serif);
+  font-size: 19px;
+}
+
+.medicationDose {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text-secondary);
+}
+
+.medicationRow[aria-pressed='true'] .medicationDose {
+  color: var(--color-primary);
+}
+
+.link:focus-visible,
+.startTime:focus-visible,
+.textButton:focus-visible,
+.medicationRow:focus-visible,
+.statusChip:focus-visible,
+.iconButton:focus-visible,
+.input:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}

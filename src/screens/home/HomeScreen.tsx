@@ -1,7 +1,17 @@
-import { ScreenTitle } from '../../components/ScreenTitle';
-import { useI18n } from '../../i18n/context';
+import { findActiveAttack } from '../../domain/attacks';
+import { ActiveAttack } from './ActiveAttack';
+import { IdleHome } from './IdleHome';
+import { useHomeData, useNow } from './useHomeData';
 
 export function HomeScreen() {
-  const { t } = useI18n();
-  return <ScreenTitle>{t.home.title}</ScreenTitle>;
+  const data = useHomeData();
+  const now = useNow();
+  if (!data) return null;
+
+  const activeAttack = findActiveAttack(data.attacks);
+  return activeAttack ? (
+    <ActiveAttack {...data} attack={activeAttack} now={now} />
+  ) : (
+    <IdleHome {...data} now={now} />
+  );
 }

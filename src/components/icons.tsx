@@ -53,3 +53,27 @@ export function ProfileIcon({ filled }: IconProps) {
     </svg>
   );
 }
+
+export function PlusIcon() {
+  return (
+    <svg {...svgProps} width={22} height={22} strokeWidth={2}>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+export function CheckIcon() {
+  return (
+    <svg {...svgProps} width={22} height={22} strokeWidth={2}>
+      <path d="M5 12.5l4.5 4.5L19 7" />
+    </svg>
+  );
+}
+
+export function TrashIcon() {
+  return (
+    <svg {...svgProps} width={22} height={22}>
+      <path d="M4 7h16M9.5 7V4.5h5V7M6 7l1 13h10l1-13M10 11v5.5M14 11v5.5" />
+    </svg>
+  );
+}
