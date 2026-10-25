@@ -168,6 +168,7 @@ Warm earth tones on a light background: calm, playful, never bright white or har
 | `--color-warning-bg` | #E8D5C8 | Overuse warning background |
 | `--color-warning-text` | #8B3A1A | Overuse warning text, active-attack label |
 | `--color-positive` | #6B8B4A | Improving trend arrows |
+| `--color-error` | #A9483A | Validation error messages |
 
 **Typography:** DM Sans (400, 500) for UI text; DM Serif Display (upright, no italic anywhere) for screen titles, big numbers and the wordmark. Both are self-hosted woff2 files in `public/fonts/`, never loaded from Google.
 

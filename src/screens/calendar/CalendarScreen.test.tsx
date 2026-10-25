@@ -34,7 +34,7 @@ test('selects today on open and toggles the selection', async () => {
   expect(screen.getByText('Tap a day for details')).toBeInTheDocument();
 });
 
-test('changes month with the arrows and counts its migraine days', async () => {
+test('changes month, returns to the current one and counts migraine days', async () => {
   const day = lastMonth(8);
   await createAttack({ startedAt: day.getTime(), endedAt: day.getTime() + 30 * HOUR_MS });
   await renderWithI18n(<CalendarScreen />);
@@ -43,8 +43,9 @@ test('changes month with the arrows and counts its migraine days', async () => {
   expect(screen.getByRole('heading', { name: formatMonthYear(day.getTime(), 'en') })).toBeVisible();
   expect(screen.getByText('2 migraine days')).toBeInTheDocument();
 
-  fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
+  fireEvent.click(screen.getByRole('button', { name: `← ${formatMonthYear(Date.now(), 'en')}` }));
   expect(screen.getByText('0 migraine days')).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /←/ })).not.toBeInTheDocument();
 });
 
 test('adds a past migraine with medication', async () => {

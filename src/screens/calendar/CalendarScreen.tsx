@@ -1,4 +1,4 @@
-import { addMonths, startOfMonth } from 'date-fns';
+import { addMonths, isSameMonth, startOfMonth } from 'date-fns';
 import { useRef, useState, type TouchEvent } from 'react';
 import { Card } from '../../components/Card';
 import { DayDetails } from '../../components/DayDetails';
@@ -32,6 +32,7 @@ export function CalendarScreen() {
 
   const monthRange = { start: month.getTime(), end: addMonths(month, 1).getTime() };
   const migraineDayCount = countDaysInRange(migraineDays(attacks, now), monthRange);
+  const isCurrentMonth = isSameMonth(month, now);
   const showMonth = (offset: number) => setMonth((current) => addMonths(current, offset));
 
   const startSwipe = (event: TouchEvent) => {
@@ -58,6 +59,15 @@ export function CalendarScreen() {
   return (
     <>
       <header className={styles.header}>
+        {!isCurrentMonth && (
+          <button
+            type="button"
+            className={styles.currentMonthLink}
+            onClick={() => setMonth(startOfMonth(now))}
+          >
+            {t.calendar.backTo(formatMonthYear(now, language))}
+          </button>
+        )}
         <button
           type="button"
           className={styles.monthButton}
@@ -91,7 +101,7 @@ export function CalendarScreen() {
             onSelect={setSelectedDay}
           />
         </div>
-        <DayLegend withSelected />
+        <DayLegend />
       </section>
 
       {selectedDay ? (

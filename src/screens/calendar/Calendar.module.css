@@ -5,6 +5,20 @@
   margin-bottom: var(--space-6);
 }
 
+.currentMonthLink {
+  grid-column: 1 / -1;
+  justify-self: center;
+  min-height: var(--touch-target);
+  padding: 0 var(--space-4);
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-size: 16px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
 .title {
   margin: 0;
   font-family: var(--font-serif);
@@ -59,6 +73,7 @@
 }
 
 .monthButton:focus-visible,
+.currentMonthLink:focus-visible,
 .textButton:focus-visible {
   outline: 2px solid var(--color-text);
   outline-offset: 2px;

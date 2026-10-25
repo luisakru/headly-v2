@@ -29,7 +29,6 @@ export const en = {
     migraine: 'Migraine',
     withMedication: '+ Medication',
     today: 'Today',
-    selected: 'Selected',
   },
   dayDetail: {
     start: 'Start',
@@ -131,6 +130,7 @@ export const en = {
   calendar: {
     title: 'Calendar',
     migraineDays: (n: number) => (n === 1 ? '1 migraine day' : `${n} migraine days`),
+    backTo: (month: string) => `← ${month}`,
     previousMonth: 'Previous month',
     nextMonth: 'Next month',
     tapADay: 'Tap a day for details',

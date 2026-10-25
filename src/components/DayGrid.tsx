@@ -59,7 +59,7 @@ export function DayGrid({ days, attacks, intakes, now, selectedDay, onSelect }: 
   );
 }
 
-export function DayLegend({ withSelected = false }: { withSelected?: boolean }) {
+export function DayLegend() {
   const { t } = useI18n();
   return (
     <div className={styles.legend}>
@@ -75,12 +75,6 @@ export function DayLegend({ withSelected = false }: { withSelected?: boolean }) 
         <span className={styles.legendDot} />
         {t.dayLegend.today}
       </span>
-      {withSelected && (
-        <span className={styles.legendItem}>
-          <span className={styles.legendSelected} />
-          {t.dayLegend.selected}
-        </span>
-      )}
     </div>
   );
 }

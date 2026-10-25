@@ -93,13 +93,6 @@
   background: var(--color-primary);
 }
 
-.legendSelected {
-  width: 12px;
-  height: 12px;
-  border: 2px solid var(--color-text);
-  border-radius: 50%;
-}
-
 .legendDot {
   width: 6px;
   height: 6px;
