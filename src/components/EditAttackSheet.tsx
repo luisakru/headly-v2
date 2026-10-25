@@ -1,16 +1,15 @@
 import { useId, useState } from 'react';
-import { BottomSheet } from '../../components/BottomSheet';
-import { Button } from '../../components/Button';
-import { EffectivenessChips } from '../../components/EffectivenessChips';
-import { PlusIcon, TrashIcon } from '../../components/icons';
-import { PainScale } from '../../components/PainScale';
-import { deleteAttack, updateAttack } from '../../data/attackRepository';
-import { deleteIntake, logIntake, updateIntake } from '../../data/intakeRepository';
-import type { Attack, Effectiveness, Medication, MedicationIntake } from '../../domain/types';
-import { useI18n } from '../../i18n/context';
-import { formatDateTime } from '../../i18n/format';
+import { deleteAttack, saveAttackWithIntakes } from '../data/attackRepository';
+import type { Attack, Effectiveness, Medication, MedicationIntake } from '../domain/types';
+import { useI18n } from '../i18n/context';
+import { formatDateTime } from '../i18n/format';
 import { errorMessage, fromInputValue, toInputValue } from './attackForm';
-import styles from './Home.module.css';
+import { BottomSheet } from './BottomSheet';
+import { Button } from './Button';
+import { EffectivenessChips } from './EffectivenessChips';
+import styles from './EditAttackSheet.module.css';
+import { PlusIcon, TrashIcon } from './icons';
+import { PainScale } from './PainScale';
 
 type DraftIntake = {
   /** Undefined for an intake added in this sheet. */
@@ -22,23 +21,34 @@ type DraftIntake = {
 };
 
 type EditAttackSheetProps = {
-  attack: Attack;
+  /** Undefined to add a new attack. */
+  attack?: Attack;
+  /** Prefilled start of a new attack. */
+  defaultStartedAt?: number;
   intakes: MedicationIntake[];
   medications: Medication[];
   onClose: () => void;
 };
 
 /** Changes stay in the sheet until Save. */
-export function EditAttackSheet({ attack, intakes, medications, onClose }: EditAttackSheetProps) {
+export function EditAttackSheet({
+  attack,
+  defaultStartedAt,
+  intakes,
+  medications,
+  onClose,
+}: EditAttackSheetProps) {
   const { t, language } = useI18n();
   const startId = useId();
   const endId = useId();
-  const [start, setStart] = useState(() => toInputValue(attack.startedAt));
-  const [end, setEnd] = useState(() => (attack.endedAt ? toInputValue(attack.endedAt) : ''));
-  const [painLevel, setPainLevel] = useState(attack.painLevel);
+  const [start, setStart] = useState(() =>
+    toInputValue(attack?.startedAt ?? defaultStartedAt ?? Date.now()),
+  );
+  const [end, setEnd] = useState(() => (attack?.endedAt ? toInputValue(attack.endedAt) : ''));
+  const [painLevel, setPainLevel] = useState(attack?.painLevel);
   const [draftIntakes, setDraftIntakes] = useState<DraftIntake[]>(() =>
     intakes
-      .filter((intake) => intake.attackId === attack.id)
+      .filter((intake) => attack && intake.attackId === attack.id)
       .map(({ id, medicationId, takenAt, effectiveness }) => ({
         id,
         key: id,
@@ -62,30 +72,16 @@ export function EditAttackSheet({ attack, intakes, medications, onClose }: EditA
 
   const save = async () => {
     try {
-      await updateAttack(attack.id, {
-        startedAt,
-        endedAt,
-        painLevel,
-      });
+      await saveAttackWithIntakes(attack?.id, { startedAt, endedAt, painLevel }, draftIntakes);
     } catch (caught) {
       setError(errorMessage(caught, t.errors.attack));
       return;
-    }
-    const keptIds = new Set(draftIntakes.map((intake) => intake.id));
-    for (const intake of intakes) {
-      if (intake.attackId === attack.id && !keptIds.has(intake.id)) await deleteIntake(intake.id);
-    }
-    for (const draft of draftIntakes) {
-      const id =
-        draft.id ??
-        (await logIntake(draft.medicationId, { takenAt: startedAt, attackId: attack.id })).id;
-      await updateIntake(id, { effectiveness: draft.effectiveness });
     }
     onClose();
   };
 
   return (
-    <BottomSheet open onClose={onClose} title={t.editAttack.title}>
+    <BottomSheet open onClose={onClose} title={attack ? t.editAttack.title : t.editAttack.addTitle}>
       <div className={styles.form}>
         <label htmlFor={startId} className={styles.fieldLabel}>
           {t.editAttack.start}
@@ -193,17 +189,19 @@ export function EditAttackSheet({ attack, intakes, medications, onClose }: EditA
         >
           {t.editAttack.save}
         </Button>
-        <Button
-          variant="outline"
-          className={styles.deleteButton}
-          onClick={() =>
-            confirmingDelete
-              ? void deleteAttack(attack.id).then(onClose)
-              : setConfirmingDelete(true)
-          }
-        >
-          {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
-        </Button>
+        {attack && (
+          <Button
+            variant="outline"
+            className={styles.deleteButton}
+            onClick={() =>
+              confirmingDelete
+                ? void deleteAttack(attack.id).then(onClose)
+                : setConfirmingDelete(true)
+            }
+          >
+            {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
+          </Button>
+        )}
       </div>
     </BottomSheet>
   );

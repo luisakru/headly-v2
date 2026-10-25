@@ -1,0 +1,113 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-1);
+}
+
+.weekday {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.dayCell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-cell);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.dayCell[aria-pressed='true'] {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.dayCell:disabled,
+.emptyCell {
+  cursor: default;
+}
+
+.dayCell[data-kind='migraine'] {
+  background: var(--color-primary-soft);
+  color: var(--color-on-primary);
+}
+
+.dayCell[data-kind='migraineWithMedication'] {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.dayCell[data-future] {
+  color: var(--color-text-muted);
+}
+
+.dayCell[data-kind='medicationOnly']::before,
+.dayCell[data-today]::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* A medication day without migraine shows its dot at the top, so it never collides with today. */
+.dayCell[data-kind='medicationOnly']::before {
+  top: 5px;
+  bottom: auto;
+  background: var(--color-primary);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legendSwatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+}
+
+.legendSwatch[data-kind='migraineWithMedication'] {
+  background: var(--color-primary);
+}
+
+.legendSelected {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-text);
+  border-radius: 50%;
+}
+
+.legendDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text);
+}
+
+.dayCell:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}

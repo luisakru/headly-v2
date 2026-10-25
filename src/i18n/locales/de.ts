@@ -30,6 +30,7 @@ export const de: Dictionary = {
     migraine: 'Migräne',
     withMedication: '+ Medikament',
     today: 'Heute',
+    selected: 'Ausgewählt',
   },
   dayDetail: {
     start: 'Beginn',
@@ -43,6 +44,7 @@ export const de: Dictionary = {
   },
   editAttack: {
     title: 'Migräne bearbeiten',
+    addTitle: 'Migräne nachtragen',
     start: 'Beginn',
     end: 'Ende',
     painLevel: 'Schmerzintensität',
@@ -129,6 +131,11 @@ export const de: Dictionary = {
   },
   calendar: {
     title: 'Kalender',
+    migraineDays: (n: number) => (n === 1 ? '1 Migränetag' : `${n} Migränetage`),
+    previousMonth: 'Vorheriger Monat',
+    nextMonth: 'Nächster Monat',
+    tapADay: 'Tippe auf einen Tag für Details',
+    addMigraine: 'Migräne nachtragen',
   },
   stats: {
     title: 'Statistik',

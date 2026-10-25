@@ -1,6 +1,6 @@
 import { format, parse } from 'date-fns';
-import { DomainError } from '../../data/db';
-import type { Dictionary } from '../../i18n/locales/en';
+import { DomainError } from '../data/db';
+import type { Dictionary } from '../i18n/locales/en';
 
 const INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm";
 

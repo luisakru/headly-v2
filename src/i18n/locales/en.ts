@@ -29,6 +29,7 @@ export const en = {
     migraine: 'Migraine',
     withMedication: '+ Medication',
     today: 'Today',
+    selected: 'Selected',
   },
   dayDetail: {
     start: 'Start',
@@ -42,6 +43,7 @@ export const en = {
   },
   editAttack: {
     title: 'Edit migraine',
+    addTitle: 'Add migraine',
     start: 'Start',
     end: 'End',
     painLevel: 'Pain level',
@@ -128,6 +130,11 @@ export const en = {
   },
   calendar: {
     title: 'Calendar',
+    migraineDays: (n: number) => (n === 1 ? '1 migraine day' : `${n} migraine days`),
+    previousMonth: 'Previous month',
+    nextMonth: 'Next month',
+    tapADay: 'Tap a day for details',
+    addMigraine: 'Add migraine',
   },
   stats: {
     title: 'Statistics',

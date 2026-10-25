@@ -2,7 +2,7 @@ import { useId, useState } from 'react';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
 import { useI18n } from '../../i18n/context';
-import { errorMessage, fromInputValue, toInputValue } from './attackForm';
+import { errorMessage, fromInputValue, toInputValue } from '../../components/attackForm';
 import styles from './Home.module.css';
 
 type TimePickerSheetProps = {

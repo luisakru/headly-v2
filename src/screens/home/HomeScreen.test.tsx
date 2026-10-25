@@ -5,7 +5,7 @@ import { listIntakes, logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
 import { formatDate } from '../../i18n/format';
 import { renderWithI18n } from '../../test/renderWithI18n';
-import { toInputValue } from './attackForm';
+import { toInputValue } from '../../components/attackForm';
 import { HomeScreen } from './HomeScreen';
 
 const HOUR_MS = 60 * 60 * 1000;
