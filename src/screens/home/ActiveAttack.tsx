@@ -32,13 +32,13 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
     medications.find((medication) => medication.id === intake.medicationId)?.name ?? '';
 
   return (
-    <>
+    <div className={styles.active}>
       <p className={styles.activeLabel}>
         <span className={styles.pulseDot} aria-hidden="true" />
         {t.activeAttack.label}
       </p>
-      <p className={styles.runningFor}>{t.activeAttack.runningFor}</p>
       <p className={styles.elapsed}>
+        <span className={styles.runningFor}>{t.activeAttack.runningFor}</span>{' '}
         {t.activeAttack.duration(durationParts(now - attack.startedAt))}
       </p>
       <button type="button" className={styles.startTime} onClick={() => setSheet('startTime')}>
@@ -46,8 +46,6 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
           ? t.activeAttack.startedToday(formatTime(attack.startedAt, language))
           : t.activeAttack.startedOn(formatDateTime(attack.startedAt, language))}
       </button>
-
-      <hr className={styles.divider} />
 
       <section className={styles.section}>
         <h2 className={styles.sectionLabel}>{t.activeAttack.painNow}</h2>
@@ -123,7 +121,7 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
           />
         </BottomSheet>
       )}
-    </>
+    </div>
   );
 }
 
