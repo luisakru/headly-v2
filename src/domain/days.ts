@@ -18,6 +18,14 @@ export function attackDayKeys(attack: Attack, now: number): string[] {
   return eachDayOfInterval({ start: startOfDay(attack.startedAt), end: lastMoment }).map(toDayKey);
 }
 
+export function attacksOnDay(attacks: Attack[], dayKey: string, now: number): Attack[] {
+  return attacks.filter((attack) => attackDayKeys(attack, now).includes(dayKey));
+}
+
+export function intakesOnDay(intakes: MedicationIntake[], dayKey: string): MedicationIntake[] {
+  return intakes.filter((intake) => toDayKey(intake.takenAt) === dayKey);
+}
+
 export function migraineDays(attacks: Attack[], now: number): Set<string> {
   return new Set(attacks.flatMap((attack) => attackDayKeys(attack, now)));
 }

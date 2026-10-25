@@ -97,10 +97,22 @@
   align-items: center;
   justify-content: center;
   aspect-ratio: 1;
+  padding: 0;
+  border: 1.5px solid transparent;
   border-radius: var(--radius-cell);
   background: var(--color-surface-muted);
+  color: var(--color-text);
   font-family: var(--font-serif);
   font-size: 17px;
+  cursor: pointer;
+}
+
+.dayCell[aria-pressed='true'] {
+  border-color: var(--color-text);
+}
+
+.dayCell:disabled {
+  cursor: default;
 }
 
 .dayCell[data-kind='migraine'] {
@@ -126,6 +138,11 @@
   height: 4px;
   border-radius: 50%;
   background: currentColor;
+}
+
+/* On dark cells the selected border has to be light to stay visible. */
+.dayCell[data-kind='migraineWithMedication'][aria-pressed='true'] {
+  border-color: var(--color-on-primary);
 }
 
 /* A medication day without migraine shows its dot at the top, so it never collides with today. */
@@ -374,6 +391,7 @@
 }
 
 .link:focus-visible,
+.dayCell:focus-visible,
 .startTime:focus-visible,
 .textButton:focus-visible,
 .medicationRow:focus-visible,

@@ -3,6 +3,7 @@ import { getActiveAttack, listAttacks, startAttack } from '../../data/attackRepo
 import { db } from '../../data/db';
 import { listIntakes, logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
+import { formatDate } from '../../i18n/format';
 import { renderWithI18n } from '../../test/renderWithI18n';
 import { HomeScreen } from './HomeScreen';
 
@@ -71,4 +72,22 @@ test('asks to rate an intake older than two hours', async () => {
     expect((await db.medicationIntakes.get(intake.id))?.effectiveness).toBe('slight'),
   );
   await waitFor(() => expect(screen.queryByText('Did Ibuprofen help?')).not.toBeInTheDocument());
+});
+
+test('tapping a day shows its attacks', async () => {
+  const startedAt = new Date();
+  startedAt.setDate(startedAt.getDate() - 1);
+  startedAt.setHours(10, 0, 0, 0);
+  const attack = await startAttack(startedAt.getTime());
+  await db.attacks.update(attack.id, {
+    endedAt: startedAt.getTime() + 2 * HOUR_MS,
+    painAtStart: 4,
+    painMax: 6,
+  });
+  await renderWithI18n(<HomeScreen />);
+
+  fireEvent.click(await screen.findByRole('button', { name: formatDate(startedAt, 'en') }));
+
+  expect(await screen.findByText('2h 0m')).toBeInTheDocument();
+  expect(screen.getByText('6/10')).toBeInTheDocument();
 });

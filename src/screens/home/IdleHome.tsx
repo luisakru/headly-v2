@@ -56,7 +56,7 @@ export function IdleHome({
         </Button>
       </div>
 
-      <RecentWeeks attacks={attacks} intakes={intakes} now={now} />
+      <RecentWeeks attacks={attacks} intakes={intakes} medications={medications} now={now} />
 
       {insight && (
         <section className={styles.section}>

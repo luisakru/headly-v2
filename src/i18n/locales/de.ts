@@ -31,6 +31,16 @@ export const de: Dictionary = {
     withMedication: '+ Medikament',
     today: 'Heute',
   },
+  dayDetail: {
+    start: 'Beginn',
+    end: 'Ende',
+    ongoing: 'läuft noch',
+    duration: 'Dauer',
+    maxPain: 'Max. Intensität',
+    painOutOfTen: (n: number) => `${n}/10`,
+    medications: 'Medikamente',
+    noEntry: 'Kein Eintrag an diesem Tag',
+  },
   activeAttack: {
     label: 'Migräne aktiv',
     runningFor: 'läuft seit',

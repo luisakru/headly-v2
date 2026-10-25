@@ -1,8 +1,10 @@
+import { useState } from 'react';
+import { DayDetailCard } from '../../components/DayDetailCard';
 import { dayKind, recentWeekDays } from '../../domain/calendar';
 import { medicationDays, migraineDays, toDayKey } from '../../domain/days';
-import type { Attack, MedicationIntake } from '../../domain/types';
+import type { Attack, Medication, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
-import { formatWeekday } from '../../i18n/format';
+import { formatDate, formatWeekday } from '../../i18n/format';
 import styles from './Home.module.css';
 
 const WEEKS = 4;
@@ -10,11 +12,13 @@ const WEEKS = 4;
 type RecentWeeksProps = {
   attacks: Attack[];
   intakes: MedicationIntake[];
+  medications: Medication[];
   now: number;
 };
 
-export function RecentWeeks({ attacks, intakes, now }: RecentWeeksProps) {
+export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksProps) {
   const { t, language } = useI18n();
+  const [selectedDay, setSelectedDay] = useState<Date>();
   const days = recentWeekDays(now, WEEKS);
   const migraine = migraineDays(attacks, now);
   const medication = medicationDays(intakes);
@@ -31,16 +35,22 @@ export function RecentWeeks({ attacks, intakes, now }: RecentWeeksProps) {
         ))}
         {days.map((day) => {
           const dayKey = toDayKey(day);
+          const isSelected = selectedDay !== undefined && toDayKey(selectedDay) === dayKey;
           return (
-            <span
+            <button
               key={dayKey}
+              type="button"
               className={styles.dayCell}
               data-kind={dayKind(dayKey, migraine, medication)}
               data-today={dayKey === todayKey || undefined}
               data-future={dayKey > todayKey || undefined}
+              disabled={dayKey > todayKey}
+              aria-pressed={isSelected}
+              aria-label={formatDate(day, language)}
+              onClick={() => setSelectedDay(isSelected ? undefined : day)}
             >
               {day.getDate()}
-            </span>
+            </button>
           );
         })}
       </div>
@@ -58,6 +68,15 @@ export function RecentWeeks({ attacks, intakes, now }: RecentWeeksProps) {
           {t.dayLegend.today}
         </span>
       </div>
+      {selectedDay && (
+        <DayDetailCard
+          day={selectedDay}
+          attacks={attacks}
+          intakes={intakes}
+          medications={medications}
+          now={now}
+        />
+      )}
     </section>
   );
 }

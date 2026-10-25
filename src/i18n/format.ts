@@ -13,6 +13,14 @@ export function formatDateTime(time: number, language: Language): string {
   }).format(time);
 }
 
+export function formatDate(time: number | Date, language: Language): string {
+  return new Intl.DateTimeFormat(language, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(time);
+}
+
 export function formatMonthYear(time: number, language: Language): string {
   return new Intl.DateTimeFormat(language, { month: 'long', year: 'numeric' }).format(time);
 }

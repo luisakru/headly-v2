@@ -1,5 +1,13 @@
 import { at, makeAttack, makeIntake, makeMedication } from '../test/factories';
-import { attackDayKeys, countDaysInRange, durationParts, migraineDays, triptanDays } from './days';
+import {
+  attackDayKeys,
+  attacksOnDay,
+  countDaysInRange,
+  durationParts,
+  intakesOnDay,
+  migraineDays,
+  triptanDays,
+} from './days';
 
 describe('attackDayKeys', () => {
   test('counts a single day', () => {
@@ -79,5 +87,24 @@ describe('durationParts', () => {
 
   test('clamps negative durations to zero', () => {
     expect(durationParts(-5 * MINUTE)).toEqual({ days: 0, hours: 0, minutes: 0 });
+  });
+});
+
+describe('attacksOnDay', () => {
+  test('includes an attack on every day it touches', () => {
+    const attack = makeAttack({ startedAt: at(2026, 3, 5, 22), endedAt: at(2026, 3, 6, 3) });
+    const other = makeAttack({ startedAt: at(2026, 3, 8, 10), endedAt: at(2026, 3, 8, 12) });
+    const now = at(2026, 4, 1);
+    expect(attacksOnDay([attack, other], '2026-03-05', now)).toEqual([attack]);
+    expect(attacksOnDay([attack, other], '2026-03-06', now)).toEqual([attack]);
+    expect(attacksOnDay([attack, other], '2026-03-07', now)).toEqual([]);
+  });
+});
+
+describe('intakesOnDay', () => {
+  test('keeps intakes taken on that day', () => {
+    const intake = makeIntake({ medicationId: 'm', takenAt: at(2026, 3, 5, 23, 59) });
+    const nextDay = makeIntake({ medicationId: 'm', takenAt: at(2026, 3, 6, 0) });
+    expect(intakesOnDay([intake, nextDay], '2026-03-05')).toEqual([intake]);
   });
 });

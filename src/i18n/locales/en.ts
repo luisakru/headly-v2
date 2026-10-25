@@ -30,6 +30,16 @@ export const en = {
     withMedication: '+ Medication',
     today: 'Today',
   },
+  dayDetail: {
+    start: 'Start',
+    end: 'End',
+    ongoing: 'ongoing',
+    duration: 'Duration',
+    maxPain: 'Max. pain',
+    painOutOfTen: (n: number) => `${n}/10`,
+    medications: 'Medication',
+    noEntry: 'No entry on this day',
+  },
   activeAttack: {
     label: 'Migraine active',
     runningFor: 'running for',
