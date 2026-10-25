@@ -146,10 +146,28 @@ export const en = {
       '1Y': '1Y',
       custom: 'Custom',
     },
+    from: 'From',
+    to: 'To',
     series: {
       migraine: 'Migraine',
       medication: 'Medication',
     },
+    chartLabel: 'Migraine days and medication days per month',
+    averageMigraineDays: 'Avg. migraine days / month',
+    effectivenessRate: 'Effectiveness',
+    unrated: (n: number) => `${n} not rated`,
+    averagePain: 'Avg. pain',
+    medicationDays: 'Medication days',
+    overuseTitle: 'Possible medication overuse',
+    overuseText: (months: string, triptanDays: number, medicationDays: number) =>
+      `${months}: ${triptanDays} or more triptan days or ${medicationDays} or more medication days in a month can make headaches more frequent. Please talk to your doctor.`,
+    insights: 'Insights',
+    preventions: 'Prevention in this period',
+    since: (month: string) => `since ${month}`,
+    active: 'active',
+    preventionEffect: (before: string, after: string) =>
+      `Migraine days per 30 days: ${before} → ${after}`,
+    notEnoughData: 'Not enough data',
   },
   profile: {
     title: 'Profile',

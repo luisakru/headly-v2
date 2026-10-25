@@ -37,3 +37,16 @@ export function formatNumber(value: number, language: Language): string {
 export function formatPercent(share: number, language: Language): string {
   return new Intl.NumberFormat(language, { style: 'percent' }).format(share);
 }
+
+/** Compact month label for chart axes, e.g. "Nov 25". */
+export function formatMonthShort(time: number, language: Language): string {
+  return new Intl.DateTimeFormat(language, { month: 'short', year: '2-digit' })
+    .format(time)
+    .replace('.', '');
+}
+
+export function formatMonthYearShort(time: number, language: Language): string {
+  return new Intl.DateTimeFormat(language, { month: 'short', year: 'numeric' })
+    .format(time)
+    .replace('.', '');
+}

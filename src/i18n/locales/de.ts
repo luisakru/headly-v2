@@ -147,10 +147,28 @@ export const de: Dictionary = {
       '1Y': '1J',
       custom: 'Eigene',
     },
+    from: 'Von',
+    to: 'Bis',
     series: {
       migraine: 'Migräne',
       medication: 'Medikament',
     },
+    chartLabel: 'Migränetage und Medikamententage pro Monat',
+    averageMigraineDays: 'Ø Migränetage / Monat',
+    effectivenessRate: 'Ø Wirksamkeit',
+    unrated: (n: number) => `${n} nicht bewertet`,
+    averagePain: 'Ø Intensität',
+    medicationDays: 'Medikamententage',
+    overuseTitle: 'Möglicher Medikamentenübergebrauch',
+    overuseText: (months: string, triptanDays: number, medicationDays: number) =>
+      `${months}: ${triptanDays} oder mehr Triptantage oder ${medicationDays} oder mehr Medikamententage im Monat können Kopfschmerzen häufiger machen. Bitte ärztlich abklären.`,
+    insights: 'Erkenntnisse',
+    preventions: 'Prophylaxe im Zeitraum',
+    since: (month: string) => `seit ${month}`,
+    active: 'aktiv',
+    preventionEffect: (before: string, after: string) =>
+      `Migränetage pro 30 Tage: ${before} → ${after}`,
+    notEnoughData: 'Nicht genug Daten',
   },
   profile: {
     title: 'Profil',

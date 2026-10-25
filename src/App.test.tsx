@@ -12,7 +12,7 @@ test('navigates between tabs', async () => {
   expect(await screen.findByRole('heading', { name: 'Hello' })).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('link', { name: 'Statistics' }));
-  expect(screen.getByRole('heading', { name: 'Statistics' })).toBeInTheDocument();
+  expect(await screen.findByRole('heading', { name: 'Statistics' })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'Statistics' })).toHaveAttribute('aria-current', 'page');
 });
 
