@@ -1,3 +1,4 @@
+import type { DurationParts } from '../../domain/days';
 import type { Dictionary } from './en';
 
 export const de: Dictionary = {
@@ -18,8 +19,94 @@ export const de: Dictionary = {
   },
   home: {
     title: 'Guten Tag',
+    migraineDaysThisMonth: (n: number) =>
+      n === 1 ? '1 Migränetag in diesem Monat' : `${n} Migränetage in diesem Monat`,
+    activePreventions: 'Aktive Prophylaxe',
     startMigraine: 'Migräne starten',
+    startedEarlier: 'Früher begonnen?',
     medicationTaken: 'Medikament genommen',
+    lastFourWeeks: 'Letzte 4 Wochen',
+    insight: 'Erkenntnis',
+  },
+  dayLegend: {
+    migraine: 'Migräne',
+    withMedication: '+ Medikament',
+    today: 'Heute',
+  },
+  activeAttack: {
+    label: 'Migräne aktiv',
+    runningFor: 'läuft seit',
+    duration: ({ days, hours, minutes }: DurationParts) =>
+      days > 0 ? `${days}T ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
+    startedToday: (time: string) => `gestartet um ${time} Uhr heute`,
+    startedOn: (dateTime: string) => `gestartet am ${dateTime} Uhr`,
+    painNow: 'Schmerzintensität jetzt',
+    medicationsDuring: 'Medikamente in dieser Migräne',
+    logMedication: 'Medikament eintragen',
+    endMigraine: 'Migräne beenden',
+    endedEarlier: 'Früher beendet?',
+    deleteIntake: (name: string) => `${name} löschen`,
+  },
+  medicationSheet: {
+    title: 'Welches Medikament?',
+    empty: 'Noch keine Medikamente gespeichert.',
+    newMedication: 'Neues Medikament',
+    name: 'Name',
+    dose: 'Dosis (optional)',
+    isTriptan: 'Triptan',
+    save: 'Speichern',
+    done: 'Fertig',
+  },
+  timePicker: {
+    startTitle: 'Wann hat sie begonnen?',
+    endTitle: 'Wann hat sie aufgehört?',
+    label: 'Datum und Uhrzeit',
+    save: 'Speichern',
+  },
+  effectiveness: {
+    strong: 'Stark verbessert',
+    slight: 'Leicht verbessert',
+    none: 'Keine Wirkung',
+    worse: 'Verschlechtert',
+    pending: 'Wirkung ausstehend',
+    sheetTitle: (name: string) => `Wirkung · ${name}`,
+  },
+  prompts: {
+    rateIntake: (name: string) => `Hat ${name} geholfen?`,
+    takenAt: (time: string) => `Genommen ${time}`,
+    stillRunning: 'Hält die Migräne noch an?',
+    stillRunningNextDay: 'War gestern noch ein Migränetag?',
+    stillRunningNextDayHint: 'Die Migräne ist noch als aktiv markiert.',
+    stillGoing: 'Hält noch an',
+    itIsOver: 'Sie ist vorbei',
+    endAtTime: 'Sie hat früher aufgehört',
+  },
+  errors: {
+    attack: {
+      startInFuture: 'Dieser Zeitpunkt liegt in der Zukunft.',
+      endBeforeStart: 'Das Ende muss nach dem Beginn liegen.',
+      invalidPainLevel: 'Die Schmerzintensität muss zwischen 1 und 10 liegen.',
+      painMaxBelowStart: 'Die maximale Intensität kann nicht unter der Start-Intensität liegen.',
+      overlap: 'Das überschneidet sich mit einer anderen Migräne.',
+      activeAttackExists: 'Es ist bereits eine Migräne aktiv.',
+      notFound: 'Diese Migräne gibt es nicht mehr.',
+    },
+  },
+  insights: {
+    migraineDaysDropped: (before: string, after: string) =>
+      `Die Migränetage sind von ${before} auf ${after} pro Monat gesunken.`,
+    migraineDaysRose: (before: string, after: string) =>
+      `Die Migränetage sind von ${before} auf ${after} pro Monat gestiegen.`,
+    preventionFewerMedicationDays: (name: string, percent: string) =>
+      `Seit Beginn von ${name}: ${percent} weniger Medikamententage.`,
+    preventionMoreMedicationDays: (name: string, percent: string) =>
+      `Seit Beginn von ${name}: ${percent} mehr Medikamententage.`,
+    medicationHelpedLess: (name: string, months: number, before: string, after: string) =>
+      `${name} hat in den letzten ${months} Monaten weniger geholfen (${before} auf ${after}).`,
+    medicationHelpedMore: (name: string, months: number, before: string, after: string) =>
+      `${name} hat in den letzten ${months} Monaten besser geholfen (${before} auf ${after}).`,
+    fewerButStronger: (points: string) =>
+      `Weniger Attacken, aber im Schnitt ${points} Punkte stärker.`,
   },
   calendar: {
     title: 'Kalender',
