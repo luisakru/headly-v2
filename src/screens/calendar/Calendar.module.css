@@ -9,6 +9,8 @@
   grid-column: 1 / -1;
   justify-self: center;
   min-height: var(--touch-target);
+  /* The touch target already adds space around the text. */
+  margin-bottom: calc(-1 * var(--space-3));
   padding: 0 var(--space-4);
   border: none;
   background: none;
@@ -30,7 +32,7 @@
 
 .subtitle {
   grid-column: 1 / -1;
-  margin: var(--space-1) 0 0;
+  margin: calc(-1 * var(--space-1)) 0 0;
   color: var(--color-text-secondary);
   font-size: 17px;
   text-align: center;
