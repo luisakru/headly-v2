@@ -1,22 +1,9 @@
-import { format, parse } from 'date-fns';
 import { useId, useState } from 'react';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
-import { DomainError } from '../../data/db';
 import { useI18n } from '../../i18n/context';
-import type { Dictionary } from '../../i18n/locales/en';
+import { errorMessage, fromInputValue, toInputValue } from './attackForm';
 import styles from './Home.module.css';
-
-const INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm";
-
-type AttackErrors = Dictionary['errors']['attack'];
-
-function errorMessage(error: unknown, messages: AttackErrors): string {
-  if (error instanceof DomainError && error.code in messages) {
-    return messages[error.code as keyof AttackErrors];
-  }
-  throw error;
-}
 
 type TimePickerSheetProps = {
   title: string;
@@ -29,9 +16,9 @@ type TimePickerSheetProps = {
 export function TimePickerSheet({ title, initialTime, onClose, onConfirm }: TimePickerSheetProps) {
   const { t } = useI18n();
   const inputId = useId();
-  const [value, setValue] = useState(() => format(initialTime, INPUT_FORMAT));
+  const [value, setValue] = useState(() => toInputValue(initialTime));
   const [error, setError] = useState<string>();
-  const time = parse(value, INPUT_FORMAT, new Date()).getTime();
+  const time = fromInputValue(value);
 
   const confirm = async () => {
     try {

@@ -5,6 +5,7 @@ import { medicationDays, migraineDays, toDayKey } from '../../domain/days';
 import type { Attack, Medication, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatDate, formatWeekday } from '../../i18n/format';
+import { EditAttackSheet } from './EditAttackSheet';
 import styles from './Home.module.css';
 
 const WEEKS = 4;
@@ -19,6 +20,7 @@ type RecentWeeksProps = {
 export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksProps) {
   const { t, language } = useI18n();
   const [selectedDay, setSelectedDay] = useState<Date>();
+  const [editingAttack, setEditingAttack] = useState<Attack>();
   const days = recentWeekDays(now, WEEKS);
   const migraine = migraineDays(attacks, now);
   const medication = medicationDays(intakes);
@@ -75,6 +77,15 @@ export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksP
           intakes={intakes}
           medications={medications}
           now={now}
+          onEditAttack={setEditingAttack}
+        />
+      )}
+      {editingAttack && (
+        <EditAttackSheet
+          attack={editingAttack}
+          intakes={intakes}
+          medications={medications}
+          onClose={() => setEditingAttack(undefined)}
         />
       )}
     </section>

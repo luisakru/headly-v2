@@ -1,0 +1,215 @@
+import { useId, useState } from 'react';
+import { BottomSheet } from '../../components/BottomSheet';
+import { Button } from '../../components/Button';
+import { EffectivenessChips } from '../../components/EffectivenessChips';
+import { PlusIcon, TrashIcon } from '../../components/icons';
+import { PainScale } from '../../components/PainScale';
+import { deleteAttack, updateAttack } from '../../data/attackRepository';
+import { deleteIntake, logIntake, updateIntake } from '../../data/intakeRepository';
+import type { Attack, Effectiveness, Medication, MedicationIntake } from '../../domain/types';
+import { useI18n } from '../../i18n/context';
+import { formatDateTime } from '../../i18n/format';
+import { errorMessage, fromInputValue, toInputValue } from './attackForm';
+import styles from './Home.module.css';
+
+type DraftIntake = {
+  /** Undefined for an intake added in this sheet. */
+  id?: string;
+  key: string;
+  medicationId: string;
+  takenAt?: number;
+  effectiveness?: Effectiveness;
+};
+
+type EditAttackSheetProps = {
+  attack: Attack;
+  intakes: MedicationIntake[];
+  medications: Medication[];
+  onClose: () => void;
+};
+
+/** Changes stay in the sheet until Save. */
+export function EditAttackSheet({ attack, intakes, medications, onClose }: EditAttackSheetProps) {
+  const { t, language } = useI18n();
+  const startId = useId();
+  const endId = useId();
+  const [start, setStart] = useState(() => toInputValue(attack.startedAt));
+  const [end, setEnd] = useState(() => (attack.endedAt ? toInputValue(attack.endedAt) : ''));
+  const [painMax, setPainMax] = useState(attack.painMax);
+  const [draftIntakes, setDraftIntakes] = useState<DraftIntake[]>(() =>
+    intakes
+      .filter((intake) => intake.attackId === attack.id)
+      .map(({ id, medicationId, takenAt, effectiveness }) => ({
+        id,
+        key: id,
+        medicationId,
+        takenAt,
+        effectiveness,
+      })),
+  );
+  const [picking, setPicking] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [error, setError] = useState<string>();
+
+  const startedAt = fromInputValue(start);
+  const endedAt = end ? fromInputValue(end) : undefined;
+  const medicationName = (id: string) => medications.find((m) => m.id === id)?.name ?? '';
+
+  const updateDraft = (key: string, changes: Partial<DraftIntake>) =>
+    setDraftIntakes((current) =>
+      current.map((intake) => (intake.key === key ? { ...intake, ...changes } : intake)),
+    );
+
+  const save = async () => {
+    try {
+      await updateAttack(attack.id, {
+        startedAt,
+        endedAt,
+        painMax,
+        // Lowering the maximum below the start pain corrects the start pain as well.
+        painAtStart:
+          painMax === undefined
+            ? attack.painAtStart
+            : Math.min(attack.painAtStart ?? painMax, painMax),
+      });
+    } catch (caught) {
+      setError(errorMessage(caught, t.errors.attack));
+      return;
+    }
+    const keptIds = new Set(draftIntakes.map((intake) => intake.id));
+    for (const intake of intakes) {
+      if (intake.attackId === attack.id && !keptIds.has(intake.id)) await deleteIntake(intake.id);
+    }
+    for (const draft of draftIntakes) {
+      const id =
+        draft.id ??
+        (await logIntake(draft.medicationId, { takenAt: startedAt, attackId: attack.id })).id;
+      await updateIntake(id, { effectiveness: draft.effectiveness });
+    }
+    onClose();
+  };
+
+  return (
+    <BottomSheet open onClose={onClose} title={t.editAttack.title}>
+      <div className={styles.form}>
+        <label htmlFor={startId} className={styles.fieldLabel}>
+          {t.editAttack.start}
+        </label>
+        <input
+          id={startId}
+          type="datetime-local"
+          className={styles.input}
+          value={start}
+          onChange={(event) => {
+            setStart(event.target.value);
+            setError(undefined);
+          }}
+        />
+        <label htmlFor={endId} className={styles.fieldLabel}>
+          {t.editAttack.end}
+        </label>
+        <input
+          id={endId}
+          type="datetime-local"
+          className={styles.input}
+          value={end}
+          onChange={(event) => {
+            setEnd(event.target.value);
+            setError(undefined);
+          }}
+        />
+
+        <span className={styles.fieldLabel}>{t.editAttack.maxPain}</span>
+        <PainScale value={painMax} onChange={setPainMax} />
+
+        <span className={styles.fieldLabel}>{t.editAttack.medications}</span>
+        {draftIntakes.map((intake) => {
+          const name = medicationName(intake.medicationId);
+          return (
+            <div key={intake.key} className={styles.editIntake}>
+              <div className={styles.editIntakeHeader}>
+                <span className={styles.medicationName}>
+                  {name}
+                  {intake.takenAt !== undefined && (
+                    <span className={styles.muted}>
+                      {' '}
+                      · {formatDateTime(intake.takenAt, language)}
+                    </span>
+                  )}
+                </span>
+                <button
+                  type="button"
+                  className={styles.iconButton}
+                  aria-label={t.editAttack.removeIntake(name)}
+                  onClick={() =>
+                    setDraftIntakes((current) => current.filter(({ key }) => key !== intake.key))
+                  }
+                >
+                  <TrashIcon />
+                </button>
+              </div>
+              <EffectivenessChips
+                label={t.effectiveness.sheetTitle(name)}
+                value={intake.effectiveness}
+                onChange={(effectiveness) => updateDraft(intake.key, { effectiveness })}
+              />
+            </div>
+          );
+        })}
+        {picking ? (
+          <ul className={styles.medicationList}>
+            {medications
+              .filter((medication) => !medication.archived)
+              .map((medication) => (
+                <li key={medication.id}>
+                  <button
+                    type="button"
+                    className={styles.medicationRow}
+                    onClick={() => {
+                      setDraftIntakes((current) => [
+                        ...current,
+                        { key: `new-${Date.now()}`, medicationId: medication.id },
+                      ]);
+                      setPicking(false);
+                    }}
+                  >
+                    <span className={styles.medicationName}>{medication.name}</span>
+                    <span className={styles.medicationDose}>{medication.dose}</span>
+                  </button>
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <button type="button" className={styles.textButton} onClick={() => setPicking(true)}>
+            <PlusIcon />
+            {t.editAttack.addMedication}
+          </button>
+        )}
+
+        {error && (
+          <p role="alert" className={styles.error}>
+            {error}
+          </p>
+        )}
+        <Button
+          large
+          disabled={Number.isNaN(startedAt) || Number.isNaN(endedAt)}
+          onClick={() => void save()}
+        >
+          {t.editAttack.save}
+        </Button>
+        <Button
+          variant="outline"
+          className={styles.deleteButton}
+          onClick={() =>
+            confirmingDelete
+              ? void deleteAttack(attack.id).then(onClose)
+              : setConfirmingDelete(true)
+          }
+        >
+          {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
+        </Button>
+      </div>
+    </BottomSheet>
+  );
+}

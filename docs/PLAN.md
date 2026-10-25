@@ -188,7 +188,7 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 - Greeting and current month with "N migraine days this month"
 - Pill showing active preventions, comma-separated ("Amitriptyline, Low carb"); hidden if none
 - Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
-- Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack (no "Edit" link yet); tapping it again hides the card
+- Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack. Tapping an attack card (or its "Edit" button) opens the edit sheet; tapping the day again hides the cards
 - One insight card, the most relevant current insight
 - Prompt cards above the buttons when due: rate an intake, attack still running, backup reminder
 
@@ -215,11 +215,12 @@ Shown on the Home tab while an attack is active.
 
 ### Edit sheet
 
-A bottom sheet over the dimmed calendar.
+A bottom sheet over the dimmed calendar (and over Home when opened from the 4-week grid). Changes apply only on "Save".
 
 - Fields: start, end (date + time, native pickers), max pain (pips), medications taken (list with add and remove), effectiveness per intake (four chips)
 - "Save" (primary) and "Delete" (muted destructive, with confirmation)
-- Validation: end after start, no overlap with another attack, `painMax` at least `painAtStart`
+- Validation: end after start, no overlap with another attack, `painMax` at least `painAtStart` (choosing a max pain below the start pain lowers the start pain too)
+- A medication added here is logged at the attack's start time
 
 ### Statistics
 

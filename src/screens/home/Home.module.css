@@ -319,6 +319,26 @@
 
 /* Sheets */
 
+.editIntake {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.editIntakeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.deleteButton {
+  border-color: var(--color-border);
+  color: var(--color-warning-text);
+}
+
 .sheetContent,
 .form {
   display: flex;

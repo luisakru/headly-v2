@@ -1,10 +1,11 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { getActiveAttack, listAttacks, startAttack } from '../../data/attackRepository';
 import { db } from '../../data/db';
 import { listIntakes, logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
 import { formatDate } from '../../i18n/format';
 import { renderWithI18n } from '../../test/renderWithI18n';
+import { toInputValue } from './attackForm';
 import { HomeScreen } from './HomeScreen';
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -97,4 +98,69 @@ test('tapping a day shows each attack in its own card with its medication', asyn
   expect(firstCard).toHaveTextContent('Ibuprofen');
   expect(firstCard).not.toHaveTextContent('Sumatriptan');
   expect(secondCard).toHaveTextContent('Sumatriptan');
+});
+
+test('editing an attack from the day overview saves times, pain and medication', async () => {
+  const day = new Date();
+  day.setDate(day.getDate() - 1);
+  const startedAt = day.setHours(8, 0, 0, 0);
+  const ibuprofen = await createMedication({ name: 'Ibuprofen', isTriptan: false });
+  await createMedication({ name: 'Sumatriptan', isTriptan: true });
+  const attack = await startAttack(startedAt);
+  await db.attacks.update(attack.id, {
+    endedAt: startedAt + 2 * HOUR_MS,
+    painAtStart: 4,
+    painMax: 6,
+  });
+  await logIntake(ibuprofen.id, { takenAt: startedAt + HOUR_MS, attackId: attack.id });
+  await renderWithI18n(<HomeScreen />);
+
+  fireEvent.click(await screen.findByRole('button', { name: formatDate(day, 'en') }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Edit' }));
+  fireEvent.change(screen.getByLabelText('End'), {
+    target: { value: toInputValue(startedAt + 3 * HOUR_MS) },
+  });
+  fireEvent.click(screen.getByRole('radio', { name: '8' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Remove Ibuprofen' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Add medication' }));
+  fireEvent.click(screen.getByRole('button', { name: /Sumatriptan/ }));
+  const sumatriptanEffect = screen.getByRole('radiogroup', { name: 'Effect · Sumatriptan' });
+  fireEvent.click(within(sumatriptanEffect).getByRole('radio', { name: 'Strongly improved' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+  await waitFor(() => expect(screen.queryByText('Edit migraine')).not.toBeInTheDocument());
+  expect(await db.attacks.get(attack.id)).toMatchObject({
+    endedAt: startedAt + 3 * HOUR_MS,
+    painAtStart: 4,
+    painMax: 8,
+  });
+  const intakes = await listIntakes();
+  expect(intakes).toHaveLength(1);
+  expect(intakes[0]).toMatchObject({
+    attackId: attack.id,
+    takenAt: startedAt,
+    effectiveness: 'strong',
+  });
+});
+
+test('editing rejects an end before the start and deletes after confirmation', async () => {
+  const day = new Date();
+  day.setDate(day.getDate() - 1);
+  const startedAt = day.setHours(8, 0, 0, 0);
+  const attack = await startAttack(startedAt);
+  await db.attacks.update(attack.id, { endedAt: startedAt + HOUR_MS });
+  await renderWithI18n(<HomeScreen />);
+
+  fireEvent.click(await screen.findByRole('button', { name: formatDate(day, 'en') }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Edit' }));
+  fireEvent.change(screen.getByLabelText('End'), {
+    target: { value: toInputValue(startedAt - HOUR_MS) },
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('The end has to be after the start.');
+
+  fireEvent.click(screen.getByRole('button', { name: 'Delete migraine' }));
+  expect(await listAttacks()).toHaveLength(1);
+  fireEvent.click(screen.getByRole('button', { name: 'Really delete?' }));
+  await waitFor(async () => expect(await listAttacks()).toHaveLength(0));
 });

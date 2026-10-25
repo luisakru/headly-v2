@@ -11,10 +11,18 @@ type DayDetailsProps = {
   intakes: MedicationIntake[];
   medications: Medication[];
   now: number;
+  onEditAttack?: (attack: Attack) => void;
 };
 
 /** The selected day's attacks, one card each with the medication taken for it. */
-export function DayDetails({ day, attacks, intakes, medications, now }: DayDetailsProps) {
+export function DayDetails({
+  day,
+  attacks,
+  intakes,
+  medications,
+  now,
+  onEditAttack,
+}: DayDetailsProps) {
   const { t, language } = useI18n();
   const dayKey = toDayKey(day);
   const dayAttacks = attacksOnDay(attacks, dayKey, now);
@@ -45,7 +53,16 @@ export function DayDetails({ day, attacks, intakes, medications, now }: DayDetai
         <Card className={styles.empty}>{t.dayDetail.noEntry}</Card>
       )}
       {dayAttacks.map((attack) => (
-        <Card key={attack.id}>
+        <Card
+          key={attack.id}
+          className={onEditAttack ? styles.editable : undefined}
+          onClick={onEditAttack && (() => onEditAttack(attack))}
+        >
+          {onEditAttack && (
+            <button type="button" className={styles.editButton}>
+              {t.dayDetail.edit}
+            </button>
+          )}
           <dl className={styles.rows}>
             <Row label={t.dayDetail.start} value={formatMoment(attack.startedAt)} />
             <Row
