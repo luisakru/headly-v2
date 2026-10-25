@@ -5,6 +5,7 @@ import {
   endAttack,
   getActiveAttack,
   listAttacks,
+  recordPainLevel,
   startAttack,
   updateAttack,
 } from './attackRepository';
@@ -48,6 +49,12 @@ describe('attackRepository', () => {
       new DomainError('overlap'),
     );
     expect((await db.attacks.get(second.id))?.startedAt).toBe(at(2026, 3, 6, 9));
+  });
+
+  test('records pain taps against the stored values', async () => {
+    const attack = await startAttack(at(2026, 3, 5, 9));
+    await Promise.all([recordPainLevel(attack.id, 6), recordPainLevel(attack.id, 4)]);
+    expect(await db.attacks.get(attack.id)).toMatchObject({ painAtStart: 6, painMax: 6 });
   });
 
   test('rejects editing a missing attack', async () => {

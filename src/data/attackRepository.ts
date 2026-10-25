@@ -1,4 +1,4 @@
-import { validateAttack, type AttackValidationError } from '../domain/attacks';
+import { applyPainTap, validateAttack, type AttackValidationError } from '../domain/attacks';
 import type { Attack } from '../domain/types';
 import { db, DomainError, newRecordFields } from './db';
 
@@ -38,6 +38,15 @@ export async function updateAttack(id: string, changes: Partial<AttackFields>): 
     await assertValid(updated);
     await db.attacks.put(updated);
     return updated;
+  });
+}
+
+/** Applies a pain tap to the stored attack, so quick successive taps never use stale values. */
+export function recordPainLevel(id: string, painLevel: number): Promise<Attack> {
+  return db.transaction('rw', db.attacks, async () => {
+    const current = await db.attacks.get(id);
+    if (!current) throw new DomainError('notFound');
+    return updateAttack(id, applyPainTap(current, painLevel));
   });
 }
 
