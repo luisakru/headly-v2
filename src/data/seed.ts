@@ -160,13 +160,11 @@ export function generateSeedData(now = Date.now(), seed = 42): SeedData {
 
     if (startedAt >= nextFreeTime && random.next() < attackChance) {
       const endedAt = Math.min(startedAt + random.int(4, 24) * HOUR_MS, now - HOUR_MS);
-      const painAtStart = random.int(3, 7);
       const attack: Attack = {
         ...record(startedAt),
         startedAt,
         endedAt,
-        painAtStart,
-        painMax: Math.min(10, painAtStart + random.int(0, 3)),
+        painLevel: Math.min(10, random.int(3, 7) + random.int(0, 3)),
       };
       attacks.push(attack);
       nextFreeTime = endedAt + (isOveruseMonth ? 2 : 12) * HOUR_MS;

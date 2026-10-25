@@ -10,7 +10,7 @@ It must be usable during an acute migraine. That means low contrast, large touch
 
 **MVP scope:**
 
-- Start and end an attack, with pain at start and maximum pain (1–10)
+- Start and end an attack, with one pain level (0–10) that can be updated
 - Log medication intake in one tap, then rate its effectiveness later
 - Manage saved medications and prevention measures (with optional end date)
 - Calendar with day details and editing
@@ -65,8 +65,7 @@ Every domain concept has exactly one English code name. German appears only as l
 | Migräneattacke | `Attack` | One episode with a start and optional end |
 | Migränetag | `migraineDay` | A calendar day touched by any attack |
 | Aktive Migräne | `activeAttack` | The attack with no `endedAt`; at most one |
-| Schmerzintensität | `painLevel` | Integer 1–10 |
-| Start-Intensität / Max. Intensität | `painAtStart` / `painMax` | Fields on `Attack` |
+| Schmerzintensität | `painLevel` | Integer 0–10 on `Attack`, kept up to date |
 | Medikament | `Medication` | A saved medication the user can pick |
 | Medikament genommen | `MedicationIntake` | One intake event |
 | Medikamententag | `medicationDay` | A day with at least one intake |
@@ -90,8 +89,7 @@ type Attack = {
   id: string;
   startedAt: number;
   endedAt?: number;          // undefined = active
-  painAtStart?: number;      // 1–10
-  painMax?: number;          // 1–10, >= painAtStart
+  painLevel?: number;        // 0–10, 0 = no pain
   notes?: string;
   createdAt: number;
   updatedAt: number;
@@ -171,7 +169,7 @@ Warm earth tones on a light background: calm, playful, never bright white or har
 | `--color-warning-text` | #8B3A1A | Overuse warning text, active-attack label |
 | `--color-positive` | #6B8B4A | Improving trend arrows |
 
-**Typography:** DM Sans (400, 500) for UI text; DM Serif Display italic for screen titles, big numbers and the wordmark. Both are self-hosted woff2 files in `public/fonts/`, never loaded from Google.
+**Typography:** DM Sans (400, 500) for UI text; DM Serif Display (upright, no italic anywhere) for screen titles, big numbers and the wordmark. Both are self-hosted woff2 files in `public/fonts/`, never loaded from Google.
 
 **Shape and spacing:** 4 px spacing scale; card radius 14 px; button radius 18 px; calendar cell radius 8 px; screen side padding 18 px.
 
@@ -188,7 +186,7 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 - Greeting and current month with "N migraine days this month"
 - Pill showing active preventions, comma-separated ("Amitriptyline, Low carb"); hidden if none
 - Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
-- Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack. Tapping an attack card (or its "Edit" button) opens the edit sheet; tapping the day again hides the cards
+- Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack. Tapping an attack card opens the edit sheet; tapping the day again hides the cards
 - One insight card, the most relevant current insight
 - Prompt cards above the buttons when due: rate an intake, attack still running, backup reminder
 
@@ -198,28 +196,29 @@ Shown on the Home tab while an attack is active.
 
 - "Migraine active" label with the pulsing dot
 - Elapsed time, large, and start time; tapping the start time edits it
-- Pain scale 1–10 as ten tappable pips with "barely noticeable" and "unbearable" labels. The first tap sets `painAtStart` and `painMax`; later taps set `painMax`, never below `painAtStart`
+- Pain scale 0–10 as eleven tappable pips with "no pain" and "unbearable" labels. Each tap sets `painLevel`
 - "Medication" button: opens a sheet listing saved medications; one tap logs the intake at now, linked to this attack. Empty state links to adding a medication
 - List of intakes during this attack with rating status
 - Outlined "End migraine" button: ends at now, with "Ended earlier?" to pick a time
+- "Delete migraine" link next to "Ended earlier?": asks "Really delete?" before deleting
 
 ### Calendar
 
 - Month title with previous and next arrow buttons; horizontal swipe also changes month. No swipe hint text
 - Subtitle "N migraine days"
 - Grid Monday to Sunday. Cell colors: neutral = no entry; `--color-primary-soft` = migraine day; `--color-primary` = migraine day with medication. A medication day without migraine shows a small dot
-- **Today = small dot at the bottom of the cell. Selected day = 1.5 px border in `--color-text`** (light border on dark cells)
+- **Today = small dot at the bottom of the cell. Selected day = 2 px ring in `--color-text` just outside the cell**
 - Legend row: migraine, with medication, today, selected
-- Tapping a day selects it and shows a detail card below: date, duration, max pain, medication pill, effectiveness, and an "Edit" link. Days with no entry show "No entry on this day"; no selection shows "Tap a day for details"
+- Tapping a day selects it and shows a detail card below: date, then one card per attack (start, end, duration, pain, the medication taken for that attack with its effectiveness). Tapping a card opens the edit sheet; there is no separate "Edit" link. Days with no entry show "No entry on this day"; no selection shows "Tap a day for details"
 - Default selection on open: today
 
 ### Edit sheet
 
 A bottom sheet over the dimmed calendar (and over Home when opened from the 4-week grid). Changes apply only on "Save".
 
-- Fields: start, end (date + time, native pickers), max pain (pips), medications taken (list with add and remove), effectiveness per intake (four chips)
+- Fields: start, end (date + time, native pickers), pain level (pips), medications taken (list with add and remove), effectiveness per intake (four chips)
 - "Save" (primary) and "Delete" (muted destructive, with confirmation)
-- Validation: end after start, no overlap with another attack, `painMax` at least `painAtStart` (choosing a max pain below the start pain lowers the start pain too)
+- Validation: end after start, no overlap with another attack
 - A medication added here is logged at the attack's start time
 
 ### Statistics
@@ -231,7 +230,7 @@ Layout, one element per row, in this order:
 3. Custom only: "from" and "to" month selectors on one row. No min or max range; any span from one month to all data
 4. Toggle chips: Migraine and Medication, both on by default
 5. Grouped bar chart, one group per month: migraine days and medication days in their two colors. Above roughly 12 months, labels thin out and bars narrow so it still fits without scrolling
-6. Four stat cards: average migraine days per month, effectiveness rate, average max pain, total medication days
+6. Four stat cards: average migraine days per month, effectiveness rate, average pain, total medication days
 7. Overuse warning banner when triggered
 8. Insights (up to three cards)
 9. Preventions overlapping the range, each with its before/after effect or "Not enough data"

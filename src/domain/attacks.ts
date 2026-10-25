@@ -2,14 +2,9 @@ import { PAIN_LEVEL_MAX, PAIN_LEVEL_MIN } from './constants';
 import type { Attack } from './types';
 
 export type AttackValidationError =
-  | 'startInFuture'
-  | 'endBeforeStart'
-  | 'invalidPainLevel'
-  | 'painMaxBelowStart'
-  | 'overlap'
-  | 'activeAttackExists';
+  'startInFuture' | 'endBeforeStart' | 'invalidPainLevel' | 'overlap' | 'activeAttackExists';
 
-type AttackTimes = Pick<Attack, 'id' | 'startedAt' | 'endedAt' | 'painAtStart' | 'painMax'>;
+type AttackTimes = Pick<Attack, 'id' | 'startedAt' | 'endedAt' | 'painLevel'>;
 
 export function findActiveAttack(attacks: Attack[]): Attack | undefined {
   return attacks.find((attack) => attack.endedAt === undefined);
@@ -45,32 +40,11 @@ export function validateAttack(
   if (candidate.endedAt !== undefined && candidate.endedAt <= candidate.startedAt) {
     return 'endBeforeStart';
   }
-  if (!isValidPainLevel(candidate.painAtStart) || !isValidPainLevel(candidate.painMax)) {
-    return 'invalidPainLevel';
-  }
-  if (
-    candidate.painAtStart !== undefined &&
-    candidate.painMax !== undefined &&
-    candidate.painMax < candidate.painAtStart
-  ) {
-    return 'painMaxBelowStart';
-  }
+  if (!isValidPainLevel(candidate.painLevel)) return 'invalidPainLevel';
   if (candidate.endedAt === undefined) {
     const active = findActiveAttack(existing);
     if (active && active.id !== candidate.id) return 'activeAttackExists';
   }
   if (findOverlappingAttack(candidate, existing)) return 'overlap';
   return undefined;
-}
-
-/** First tap sets the start pain; later taps set the maximum, never below the start pain. */
-export function applyPainTap(
-  attack: Pick<Attack, 'painAtStart' | 'painMax'>,
-  level: number,
-): Pick<Attack, 'painAtStart' | 'painMax'> {
-  if (attack.painAtStart === undefined) return { painAtStart: level, painMax: level };
-  return {
-    painAtStart: attack.painAtStart,
-    painMax: Math.max(attack.painAtStart, level),
-  };
 }

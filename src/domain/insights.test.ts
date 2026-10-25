@@ -26,12 +26,12 @@ function monthlyAttacks(
   firstMonth: number,
   months: number,
   perMonth: number,
-  painMax?: number,
+  painLevel?: number,
 ): Attack[] {
   return Array.from({ length: months }).flatMap((_, m) =>
     attacksOnDays(
       Array.from({ length: perMonth }, (_, i) => [2026, firstMonth + m, 1 + i * 2]),
-    ).map((attack) => ({ ...attack, painMax })),
+    ).map((attack) => ({ ...attack, painLevel })),
   );
 }
 

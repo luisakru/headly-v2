@@ -9,7 +9,7 @@ import { countMonths, previousRange } from './dateRange';
 import { firstDataDay, preventionEffect, preventionOverlapsRange } from './prevention';
 import {
   averageMigraineDaysPerMonth,
-  averagePainMax,
+  averagePain,
   countAttacksStartedIn,
   effectivenessSummary,
 } from './stats';
@@ -81,8 +81,8 @@ function effectivenessChanges(
 }
 
 function fewerButStronger({ attacks, range }: InsightInput, previous: TimeRange): Insight[] {
-  const painBefore = averagePainMax(attacks, previous);
-  const painAfter = averagePainMax(attacks, range);
+  const painBefore = averagePain(attacks, previous);
+  const painAfter = averagePain(attacks, range);
   if (painBefore === undefined || painAfter === undefined) return [];
   const fewer = countAttacksStartedIn(attacks, range) < countAttacksStartedIn(attacks, previous);
   const painIncrease = painAfter - painBefore;

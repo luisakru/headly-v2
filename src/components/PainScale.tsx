@@ -1,7 +1,7 @@
 import { useI18n } from '../i18n/context';
 import styles from './PainScale.module.css';
 
-const LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const LEVELS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 type PainScaleProps = {
   value?: number;

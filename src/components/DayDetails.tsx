@@ -55,14 +55,18 @@ export function DayDetails({
       {dayAttacks.map((attack) => (
         <Card
           key={attack.id}
-          className={onEditAttack ? styles.editable : undefined}
-          onClick={onEditAttack && (() => onEditAttack(attack))}
+          {...(onEditAttack && {
+            role: 'button',
+            tabIndex: 0,
+            className: styles.editable,
+            onClick: () => onEditAttack(attack),
+            onKeyDown: (event) => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              onEditAttack(attack);
+            },
+          })}
         >
-          {onEditAttack && (
-            <button type="button" className={styles.editButton}>
-              {t.dayDetail.edit}
-            </button>
-          )}
           <dl className={styles.rows}>
             <Row label={t.dayDetail.start} value={formatMoment(attack.startedAt)} />
             <Row
@@ -75,8 +79,8 @@ export function DayDetails({
                 durationParts((attack.endedAt ?? now) - attack.startedAt),
               )}
             />
-            {attack.painMax !== undefined && (
-              <Row label={t.dayDetail.maxPain} value={t.dayDetail.painOutOfTen(attack.painMax)} />
+            {attack.painLevel !== undefined && (
+              <Row label={t.dayDetail.pain} value={t.dayDetail.painOutOfTen(attack.painLevel)} />
             )}
           </dl>
           {intakeRows(intakes.filter((intake) => intake.attackId === attack.id))}

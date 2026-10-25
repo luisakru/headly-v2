@@ -7,7 +7,7 @@ test('reports the tapped pain level and marks the current one', async () => {
   await renderWithI18n(<PainScale value={7} onChange={onChange} />);
 
   expect(screen.getByRole('radio', { name: '7' })).toBeChecked();
-  fireEvent.click(screen.getByRole('radio', { name: '3' }));
-  expect(onChange).toHaveBeenCalledWith(3);
-  expect(screen.getByText('barely noticeable')).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('radio', { name: '0' }));
+  expect(onChange).toHaveBeenCalledWith(0);
+  expect(screen.getByText('no pain')).toBeInTheDocument();
 });

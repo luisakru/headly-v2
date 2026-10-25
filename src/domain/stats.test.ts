@@ -1,7 +1,7 @@
 import { at, attacksOnDays, makeAttack, makeIntake, makeMedication } from '../test/factories';
 import {
   averageMigraineDaysPerMonth,
-  averagePainMax,
+  averagePain,
   effectivenessSummary,
   monthlyCounts,
   overuseMonths,
@@ -68,15 +68,15 @@ describe('effectivenessSummary', () => {
   });
 });
 
-test('averagePainMax uses rated attacks that started in the range', () => {
+test('averagePain uses rated attacks that started in the range', () => {
   const attacks = [
-    makeAttack({ startedAt: at(2026, 1, 2), endedAt: at(2026, 1, 2, 5), painMax: 6 }),
-    makeAttack({ startedAt: at(2026, 1, 9), endedAt: at(2026, 1, 9, 5), painMax: 9 }),
+    makeAttack({ startedAt: at(2026, 1, 2), endedAt: at(2026, 1, 2, 5), painLevel: 6 }),
+    makeAttack({ startedAt: at(2026, 1, 9), endedAt: at(2026, 1, 9, 5), painLevel: 9 }),
     makeAttack({ startedAt: at(2026, 1, 12), endedAt: at(2026, 1, 12, 5) }),
-    makeAttack({ startedAt: at(2025, 12, 5), endedAt: at(2025, 12, 5, 5), painMax: 2 }),
+    makeAttack({ startedAt: at(2025, 12, 5), endedAt: at(2025, 12, 5, 5), painLevel: 2 }),
   ];
-  expect(averagePainMax(attacks, range)).toBe(7.5);
-  expect(averagePainMax([], range)).toBeUndefined();
+  expect(averagePain(attacks, range)).toBe(7.5);
+  expect(averagePain([], range)).toBeUndefined();
 });
 
 describe('overuseMonths', () => {

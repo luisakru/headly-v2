@@ -27,12 +27,9 @@ test('logs a full attack: start, pain, medication, end', async () => {
   expect(await screen.findByText('Migraine active')).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('radio', { name: '6' }));
-  await waitFor(async () => expect((await getActiveAttack())?.painAtStart).toBe(6));
-  fireEvent.click(screen.getByRole('radio', { name: '8' }));
-  await waitFor(async () => expect((await getActiveAttack())?.painMax).toBe(8));
-  fireEvent.click(screen.getByRole('radio', { name: '7' }));
-  await waitFor(async () => expect((await getActiveAttack())?.painMax).toBe(7));
-  expect((await getActiveAttack())?.painAtStart).toBe(6);
+  await waitFor(async () => expect((await getActiveAttack())?.painLevel).toBe(6));
+  fireEvent.click(screen.getByRole('radio', { name: '0' }));
+  await waitFor(async () => expect((await getActiveAttack())?.painLevel).toBe(0));
 
   fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
   fireEvent.click(await screen.findByRole('button', { name: /Sumatriptan/ }));
@@ -83,9 +80,9 @@ test('tapping a day shows each attack in its own card with its medication', asyn
   const ibuprofen = await createMedication({ name: 'Ibuprofen', isTriptan: false });
   const sumatriptan = await createMedication({ name: 'Sumatriptan', isTriptan: true });
   const first = await startAttack(morning);
-  await db.attacks.update(first.id, { endedAt: morning + 2 * HOUR_MS, painAtStart: 4, painMax: 6 });
+  await db.attacks.update(first.id, { endedAt: morning + 2 * HOUR_MS, painLevel: 6 });
   const second = await startAttack(evening);
-  await db.attacks.update(second.id, { endedAt: evening + HOUR_MS, painAtStart: 7, painMax: 8 });
+  await db.attacks.update(second.id, { endedAt: evening + HOUR_MS, painLevel: 8 });
   await logIntake(ibuprofen.id, { takenAt: morning + HOUR_MS, attackId: first.id });
   await logIntake(sumatriptan.id, { takenAt: evening, attackId: second.id });
   await renderWithI18n(<HomeScreen />);
@@ -109,14 +106,13 @@ test('editing an attack from the day overview saves times, pain and medication',
   const attack = await startAttack(startedAt);
   await db.attacks.update(attack.id, {
     endedAt: startedAt + 2 * HOUR_MS,
-    painAtStart: 4,
-    painMax: 6,
+    painLevel: 6,
   });
   await logIntake(ibuprofen.id, { takenAt: startedAt + HOUR_MS, attackId: attack.id });
   await renderWithI18n(<HomeScreen />);
 
   fireEvent.click(await screen.findByRole('button', { name: formatDate(day, 'en') }));
-  fireEvent.click(await screen.findByRole('button', { name: 'Edit' }));
+  fireEvent.click(await screen.findByRole('button', { name: /Duration/ }));
   fireEvent.change(screen.getByLabelText('End'), {
     target: { value: toInputValue(startedAt + 3 * HOUR_MS) },
   });
@@ -131,8 +127,7 @@ test('editing an attack from the day overview saves times, pain and medication',
   await waitFor(() => expect(screen.queryByText('Edit migraine')).not.toBeInTheDocument());
   expect(await db.attacks.get(attack.id)).toMatchObject({
     endedAt: startedAt + 3 * HOUR_MS,
-    painAtStart: 4,
-    painMax: 8,
+    painLevel: 8,
   });
   const intakes = await listIntakes();
   expect(intakes).toHaveLength(1);
@@ -152,7 +147,7 @@ test('editing rejects an end before the start and deletes after confirmation', a
   await renderWithI18n(<HomeScreen />);
 
   fireEvent.click(await screen.findByRole('button', { name: formatDate(day, 'en') }));
-  fireEvent.click(await screen.findByRole('button', { name: 'Edit' }));
+  fireEvent.click(await screen.findByRole('button', { name: /Duration/ }));
   fireEvent.change(screen.getByLabelText('End'), {
     target: { value: toInputValue(startedAt - HOUR_MS) },
   });
@@ -163,4 +158,16 @@ test('editing rejects an end before the start and deletes after confirmation', a
   expect(await listAttacks()).toHaveLength(1);
   fireEvent.click(screen.getByRole('button', { name: 'Really delete?' }));
   await waitFor(async () => expect(await listAttacks()).toHaveLength(0));
+});
+
+test('deletes the active attack after confirmation', async () => {
+  await startAttack();
+  await renderWithI18n(<HomeScreen />);
+
+  fireEvent.click(await screen.findByRole('button', { name: 'Delete migraine' }));
+  expect(await listAttacks()).toHaveLength(1);
+  fireEvent.click(screen.getByRole('button', { name: 'Really delete?' }));
+
+  expect(await screen.findByRole('button', { name: 'Start migraine' })).toBeInTheDocument();
+  expect(await listAttacks()).toHaveLength(0);
 });

@@ -21,6 +21,20 @@ export class HeadlyDatabase extends Dexie {
       preventions: 'id, startDate',
       settings: 'id',
     });
+    // Start and maximum pain became one pain level that the user keeps up to date.
+    this.version(2)
+      .stores({})
+      .upgrade((tx) =>
+        tx
+          .table('attacks')
+          .toCollection()
+          .modify((attack: Attack & { painAtStart?: number; painMax?: number }) => {
+            const painLevel = attack.painMax ?? attack.painAtStart;
+            if (painLevel !== undefined) attack.painLevel = painLevel;
+            delete attack.painAtStart;
+            delete attack.painMax;
+          }),
+      );
   }
 }
 

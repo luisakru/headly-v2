@@ -62,11 +62,11 @@ export function effectivenessSummary(
   };
 }
 
-/** Average maximum pain of attacks that started in the range and have a rating. */
-export function averagePainMax(attacks: Attack[], range: TimeRange): number | undefined {
+/** Average pain of attacks that started in the range and have a rating. */
+export function averagePain(attacks: Attack[], range: TimeRange): number | undefined {
   const levels = attacks
-    .filter((attack) => isInRange(attack.startedAt, range) && attack.painMax !== undefined)
-    .map((attack) => attack.painMax!);
+    .filter((attack) => isInRange(attack.startedAt, range) && attack.painLevel !== undefined)
+    .map((attack) => attack.painLevel!);
   return levels.length > 0
     ? levels.reduce((sum, level) => sum + level, 0) / levels.length
     : undefined;

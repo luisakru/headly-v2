@@ -1,5 +1,5 @@
 import { at, makeAttack } from '../test/factories';
-import { applyPainTap, validateAttack } from './attacks';
+import { validateAttack } from './attacks';
 
 const now = at(2026, 3, 10, 12);
 const existing = [makeAttack({ startedAt: at(2026, 3, 5, 10), endedAt: at(2026, 3, 5, 20) })];
@@ -53,42 +53,13 @@ describe('validateAttack', () => {
     );
   });
 
-  test('rejects painMax below painAtStart', () => {
+  test('rejects pain levels outside 0–10', () => {
     const candidate = {
       id: 'new',
       startedAt: at(2026, 3, 6),
       endedAt: at(2026, 3, 7),
-      painAtStart: 6,
-      painMax: 4,
-    };
-    expect(validateAttack(candidate, existing, now)).toBe('painMaxBelowStart');
-  });
-
-  test('rejects pain levels outside 1–10', () => {
-    const candidate = {
-      id: 'new',
-      startedAt: at(2026, 3, 6),
-      endedAt: at(2026, 3, 7),
-      painMax: 11,
+      painLevel: 11,
     };
     expect(validateAttack(candidate, existing, now)).toBe('invalidPainLevel');
-  });
-});
-
-describe('applyPainTap', () => {
-  test('first tap sets start and maximum', () => {
-    expect(applyPainTap({}, 5)).toEqual({ painAtStart: 5, painMax: 5 });
-  });
-
-  test('a higher tap raises the maximum only', () => {
-    expect(applyPainTap({ painAtStart: 5, painMax: 5 }, 8)).toEqual({ painAtStart: 5, painMax: 8 });
-  });
-
-  test('a lower tap lowers the maximum', () => {
-    expect(applyPainTap({ painAtStart: 5, painMax: 8 }, 6)).toEqual({ painAtStart: 5, painMax: 6 });
-  });
-
-  test('a tap below the start pain keeps the maximum at the start pain', () => {
-    expect(applyPainTap({ painAtStart: 5, painMax: 8 }, 3)).toEqual({ painAtStart: 5, painMax: 5 });
   });
 });

@@ -1,7 +1,7 @@
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 
-export const PAIN_LEVEL_MIN = 1;
+export const PAIN_LEVEL_MIN = 0;
 export const PAIN_LEVEL_MAX = 10;
 
 export const OVERUSE_TRIPTAN_DAYS_PER_MONTH = 10;

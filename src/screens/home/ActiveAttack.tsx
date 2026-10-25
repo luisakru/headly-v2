@@ -6,7 +6,7 @@ import { Card } from '../../components/Card';
 import { EffectivenessChips } from '../../components/EffectivenessChips';
 import { PlusIcon, TrashIcon } from '../../components/icons';
 import { PainScale } from '../../components/PainScale';
-import { endAttack, recordPainLevel, updateAttack } from '../../data/attackRepository';
+import { deleteAttack, endAttack, updateAttack } from '../../data/attackRepository';
 import { deleteIntake, rateIntake } from '../../data/intakeRepository';
 import { durationParts } from '../../domain/days';
 import { activeAttackPrompt } from '../../domain/prompts';
@@ -26,6 +26,7 @@ type ActiveAttackProps = HomeData & { attack: Attack; now: number };
 export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttackProps) {
   const { t, language } = useI18n();
   const [sheet, setSheet] = useState<Sheet>();
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const closeSheet = () => setSheet(undefined);
   const attackIntakes = intakes.filter((intake) => intake.attackId === attack.id);
   const medicationName = (intake: MedicationIntake) =>
@@ -50,8 +51,8 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
       <section className={styles.section}>
         <h2 className={styles.sectionLabel}>{t.activeAttack.painNow}</h2>
         <PainScale
-          value={attack.painMax}
-          onChange={(level) => void recordPainLevel(attack.id, level)}
+          value={attack.painLevel}
+          onChange={(painLevel) => void updateAttack(attack.id, { painLevel })}
         />
       </section>
 
@@ -81,9 +82,20 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
         <Button large variant="outline" onClick={() => void endAttack(attack.id)}>
           {t.activeAttack.endMigraine}
         </Button>
-        <button type="button" className={styles.link} onClick={() => setSheet('endTime')}>
-          {t.activeAttack.endedEarlier}
-        </button>
+        <div className={styles.linkRow}>
+          <button type="button" className={styles.link} onClick={() => setSheet('endTime')}>
+            {t.activeAttack.endedEarlier}
+          </button>
+          <button
+            type="button"
+            className={styles.link}
+            onClick={() =>
+              confirmingDelete ? void deleteAttack(attack.id) : setConfirmingDelete(true)
+            }
+          >
+            {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
+          </button>
+        </div>
       </div>
 
       {sheet === 'medication' && (

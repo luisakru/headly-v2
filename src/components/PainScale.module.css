@@ -1,6 +1,6 @@
 .pips {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(11, 1fr);
 }
 
 /* The whole cell is the touch target; the visible dot sits centered inside it. */
@@ -25,7 +25,6 @@
   background: var(--color-surface);
   color: var(--color-text-secondary);
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: 16px;
 }
 

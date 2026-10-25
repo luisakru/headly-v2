@@ -1,7 +1,6 @@
 .screenTitle {
   margin: 0 0 var(--space-6);
   font-family: var(--font-serif);
-  font-style: italic;
   font-weight: 400;
   font-size: 40px;
   line-height: 1.1;

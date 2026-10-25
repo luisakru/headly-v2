@@ -35,7 +35,7 @@ export function EditAttackSheet({ attack, intakes, medications, onClose }: EditA
   const endId = useId();
   const [start, setStart] = useState(() => toInputValue(attack.startedAt));
   const [end, setEnd] = useState(() => (attack.endedAt ? toInputValue(attack.endedAt) : ''));
-  const [painMax, setPainMax] = useState(attack.painMax);
+  const [painLevel, setPainLevel] = useState(attack.painLevel);
   const [draftIntakes, setDraftIntakes] = useState<DraftIntake[]>(() =>
     intakes
       .filter((intake) => intake.attackId === attack.id)
@@ -65,12 +65,7 @@ export function EditAttackSheet({ attack, intakes, medications, onClose }: EditA
       await updateAttack(attack.id, {
         startedAt,
         endedAt,
-        painMax,
-        // Lowering the maximum below the start pain corrects the start pain as well.
-        painAtStart:
-          painMax === undefined
-            ? attack.painAtStart
-            : Math.min(attack.painAtStart ?? painMax, painMax),
+        painLevel,
       });
     } catch (caught) {
       setError(errorMessage(caught, t.errors.attack));
@@ -119,8 +114,8 @@ export function EditAttackSheet({ attack, intakes, medications, onClose }: EditA
           }}
         />
 
-        <span className={styles.fieldLabel}>{t.editAttack.maxPain}</span>
-        <PainScale value={painMax} onChange={setPainMax} />
+        <span className={styles.fieldLabel}>{t.editAttack.painLevel}</span>
+        <PainScale value={painLevel} onChange={setPainLevel} />
 
         <span className={styles.fieldLabel}>{t.editAttack.medications}</span>
         {draftIntakes.map((intake) => {

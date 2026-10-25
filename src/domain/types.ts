@@ -2,8 +2,7 @@ export type Attack = {
   id: string;
   startedAt: number;
   endedAt?: number;
-  painAtStart?: number;
-  painMax?: number;
+  painLevel?: number;
   notes?: string;
   createdAt: number;
   updatedAt: number;
