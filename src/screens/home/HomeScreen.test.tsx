@@ -74,20 +74,27 @@ test('asks to rate an intake older than two hours', async () => {
   await waitFor(() => expect(screen.queryByText('Did Ibuprofen help?')).not.toBeInTheDocument());
 });
 
-test('tapping a day shows its attacks', async () => {
-  const startedAt = new Date();
-  startedAt.setDate(startedAt.getDate() - 1);
-  startedAt.setHours(10, 0, 0, 0);
-  const attack = await startAttack(startedAt.getTime());
-  await db.attacks.update(attack.id, {
-    endedAt: startedAt.getTime() + 2 * HOUR_MS,
-    painAtStart: 4,
-    painMax: 6,
-  });
+test('tapping a day shows each attack in its own card with its medication', async () => {
+  const day = new Date();
+  day.setDate(day.getDate() - 1);
+  const morning = day.setHours(8, 0, 0, 0);
+  const evening = day.setHours(18, 0, 0, 0);
+  const ibuprofen = await createMedication({ name: 'Ibuprofen', isTriptan: false });
+  const sumatriptan = await createMedication({ name: 'Sumatriptan', isTriptan: true });
+  const first = await startAttack(morning);
+  await db.attacks.update(first.id, { endedAt: morning + 2 * HOUR_MS, painAtStart: 4, painMax: 6 });
+  const second = await startAttack(evening);
+  await db.attacks.update(second.id, { endedAt: evening + HOUR_MS, painAtStart: 7, painMax: 8 });
+  await logIntake(ibuprofen.id, { takenAt: morning + HOUR_MS, attackId: first.id });
+  await logIntake(sumatriptan.id, { takenAt: evening, attackId: second.id });
   await renderWithI18n(<HomeScreen />);
 
-  fireEvent.click(await screen.findByRole('button', { name: formatDate(startedAt, 'en') }));
+  fireEvent.click(await screen.findByRole('button', { name: formatDate(day, 'en') }));
 
-  expect(await screen.findByText('2h 0m')).toBeInTheDocument();
-  expect(screen.getByText('6/10')).toBeInTheDocument();
+  const firstCard = (await screen.findByText('6/10')).closest('dl')!.parentElement!;
+  const secondCard = screen.getByText('8/10').closest('dl')!.parentElement!;
+  expect(firstCard).not.toBe(secondCard);
+  expect(firstCard).toHaveTextContent('Ibuprofen');
+  expect(firstCard).not.toHaveTextContent('Sumatriptan');
+  expect(secondCard).toHaveTextContent('Sumatriptan');
 });

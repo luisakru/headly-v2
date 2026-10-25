@@ -188,7 +188,7 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 - Greeting and current month with "N migraine days this month"
 - Pill showing active preventions, comma-separated ("Amitriptyline, Low carb"); hidden if none
 - Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
-- Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the same detail card as the calendar below the grid (without the "Edit" link); tapping it again hides the card
+- Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack (no "Edit" link yet); tapping it again hides the card
 - One insight card, the most relevant current insight
 - Prompt cards above the buttons when due: rate an intake, attack still running, backup reminder
 

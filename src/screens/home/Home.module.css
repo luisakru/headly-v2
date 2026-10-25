@@ -59,6 +59,8 @@
 
 .link {
   align-self: center;
+  /* The 48 px touch target already adds space above the text, so cancel the list gap. */
+  margin-top: calc(-1 * var(--space-3));
   padding: 0 var(--space-4);
   text-decoration: underline;
   text-underline-offset: 3px;

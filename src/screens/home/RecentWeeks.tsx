@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DayDetailCard } from '../../components/DayDetailCard';
+import { DayDetails } from '../../components/DayDetails';
 import { dayKind, recentWeekDays } from '../../domain/calendar';
 import { medicationDays, migraineDays, toDayKey } from '../../domain/days';
 import type { Attack, Medication, MedicationIntake } from '../../domain/types';
@@ -69,7 +69,7 @@ export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksP
         </span>
       </div>
       {selectedDay && (
-        <DayDetailCard
+        <DayDetails
           day={selectedDay}
           attacks={attacks}
           intakes={intakes}
