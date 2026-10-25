@@ -1,6 +1,11 @@
 import { addDays } from 'date-fns';
 import { at, makeAttack, makeIntake, makeMedication, makePrevention } from '../test/factories';
-import { isActivePrevention, preventionEffect, preventionOverlapsRange } from './prevention';
+import {
+  isActivePrevention,
+  preventionEffect,
+  preventionOverlapsRange,
+  validatePrevention,
+} from './prevention';
 
 const med = makeMedication();
 
@@ -87,4 +92,17 @@ test('preventionOverlapsRange', () => {
       range,
     ),
   ).toBe(false);
+});
+
+describe('validatePrevention', () => {
+  test('accepts no end date or an end on or after the start', () => {
+    expect(validatePrevention({ startDate: '2026-04-01' })).toBeUndefined();
+    expect(validatePrevention({ startDate: '2026-04-01', endDate: '2026-04-01' })).toBeUndefined();
+  });
+
+  test('rejects an end before the start', () => {
+    expect(validatePrevention({ startDate: '2026-04-01', endDate: '2026-03-31' })).toBe(
+      'endBeforeStart',
+    );
+  });
 });

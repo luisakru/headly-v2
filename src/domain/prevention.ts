@@ -9,6 +9,16 @@ export type PreventionEffect = {
   medicationDaysPer30: { before: number; after: number };
 };
 
+export type PreventionValidationError = 'endBeforeStart';
+
+export function validatePrevention({
+  startDate,
+  endDate,
+}: Pick<Prevention, 'startDate' | 'endDate'>): PreventionValidationError | undefined {
+  if (endDate !== undefined && endDate < startDate) return 'endBeforeStart';
+  return undefined;
+}
+
 export function isActivePrevention(prevention: Prevention, now: number): boolean {
   return prevention.endDate === undefined || prevention.endDate > toDayKey(now);
 }
