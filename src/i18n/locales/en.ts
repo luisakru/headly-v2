@@ -1,3 +1,4 @@
+import type { ImportSummary as BackupCounts } from '../../data/backup';
 import type { DurationParts } from '../../domain/days';
 
 export const en = {
@@ -110,6 +111,9 @@ export const en = {
       activeAttackExists: 'A migraine is already active.',
       notFound: 'This migraine no longer exists.',
     },
+    prevention: {
+      endBeforeStart: 'The end date cannot be before the start date.',
+    },
   },
   insights: {
     migraineDaysDropped: (before: string, after: string) =>
@@ -171,7 +175,100 @@ export const en = {
   },
   profile: {
     title: 'Profile',
+    backToProfile: 'Profile',
+    medications: 'Medications',
+    manageMedications: 'Manage medications',
+    medicationCount: (n: number) => (n === 1 ? '1 medication' : `${n} medications`),
+    newMedication: 'New medication',
+    editMedication: 'Edit medication',
+    name: 'Name',
+    dose: 'Dose (optional)',
+    isTriptan: 'Triptan',
+    archive: 'Archive',
+    restore: 'Restore',
+    archived: 'Archived',
+    preventions: 'Prevention',
+    managePreventions: 'Manage prevention',
+    preventionCount: (total: number, active: number) =>
+      `${total === 1 ? '1 prevention' : `${total} preventions`} · ${active} active`,
+    newPrevention: 'New prevention',
+    editPrevention: 'Edit prevention',
+    preventionType: 'Type',
+    preventionTypes: {
+      medication: 'Medication',
+      lifestyle: 'Lifestyle',
+    },
+    startDate: 'Start date',
+    endDate: 'End date (optional)',
+    activePreventions: 'Active',
+    pastPreventions: 'Past',
+    since: (date: string) => `since ${date}`,
+    active: 'active',
+    save: 'Save',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    confirmDelete: 'Really delete?',
+    data: 'Data',
+    exportData: 'Export data',
+    lastBackup: (days: number | undefined) =>
+      days === undefined
+        ? 'No backup yet'
+        : days === 0
+          ? 'Last backup: today'
+          : days === 1
+            ? 'Last backup: 1 day ago'
+            : `Last backup: ${days} days ago`,
+    importData: 'Import data',
+    importHint: 'Restore a backup',
+    backupReminder: 'Backup reminder',
+    backupReminderHint: 'On Home, after 30 days',
+    deleteAll: 'Delete all data',
+    deleteAllHint: 'Cannot be undone',
+    app: 'App',
     language: 'Language',
+    privacy: 'Privacy policy',
+    imprint: 'Imprint',
+    about: 'About Headly',
+    version: (version: string) => `Version ${version}`,
+    aboutText:
+      'Headly is a calm migraine tracker. All data stays in your browser on this device: no account, no server, no tracking.',
+    disclaimer: 'Headly is not a medical device and does not replace medical advice.',
+    comingSoon: 'Coming soon',
+    pdfExport: 'PDF export',
+    pdfExportHint: 'For your doctor',
+    notifications: 'Notifications',
+    notificationsHint: 'Reminders and checks',
+  },
+  backup: {
+    importTitle: 'Import backup',
+    fileContains: (counts: string) => `This backup contains ${counts}.`,
+    counts: ({ attacks, medications, medicationIntakes, preventions }: BackupCounts) =>
+      [
+        attacks === 1 ? '1 migraine' : `${attacks} migraines`,
+        medications === 1 ? '1 medication' : `${medications} medications`,
+        medicationIntakes === 1 ? '1 intake' : `${medicationIntakes} intakes`,
+        preventions === 1 ? '1 prevention' : `${preventions} preventions`,
+      ].join(', '),
+    merge: 'Merge',
+    mergeHint: 'Adds new entries and updates entries that changed.',
+    replace: 'Replace all',
+    replaceHint: 'Deletes all current entries first.',
+    confirmReplace: 'Really replace everything?',
+    imported: (counts: string) => `Imported ${counts}.`,
+    done: 'Done',
+    errors: {
+      invalidFile: 'This file is not a Headly backup or is damaged. Nothing was changed.',
+      newerVersion:
+        'This backup is from a newer version of Headly. Update the app first. Nothing was changed.',
+    },
+    reminder: 'Your data only lives on this phone. Save a backup?',
+    backUpNow: 'Back up now',
+    later: 'Later',
+    deleteAllTitle: 'Delete all data',
+    deleteAllText:
+      'All migraines, medications, intakes and preventions will be deleted from this device. Export a backup first if you want to keep them.',
+    deleteAll: 'Delete all data',
+    confirmDeleteAll: 'Really delete everything?',
   },
   painScale: {
     label: 'Pain level',

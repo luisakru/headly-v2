@@ -14,6 +14,7 @@
     "noUncheckedIndexedAccess": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
     "noEmit": true

@@ -1,3 +1,4 @@
+import type { ImportSummary as BackupCounts } from '../../data/backup';
 import type { DurationParts } from '../../domain/days';
 import type { Dictionary } from './en';
 
@@ -111,6 +112,9 @@ export const de: Dictionary = {
       activeAttackExists: 'Es ist bereits eine Migräne aktiv.',
       notFound: 'Diese Migräne gibt es nicht mehr.',
     },
+    prevention: {
+      endBeforeStart: 'Das Ende darf nicht vor dem Beginn liegen.',
+    },
   },
   insights: {
     migraineDaysDropped: (before: string, after: string) =>
@@ -172,7 +176,101 @@ export const de: Dictionary = {
   },
   profile: {
     title: 'Profil',
+    backToProfile: 'Profil',
+    medications: 'Medikamente',
+    manageMedications: 'Medikamente verwalten',
+    medicationCount: (n: number) => (n === 1 ? '1 Medikament' : `${n} Medikamente`),
+    newMedication: 'Neues Medikament',
+    editMedication: 'Medikament bearbeiten',
+    name: 'Name',
+    dose: 'Dosis (optional)',
+    isTriptan: 'Triptan',
+    archive: 'Archivieren',
+    restore: 'Wiederherstellen',
+    archived: 'Archiviert',
+    preventions: 'Prophylaxe',
+    managePreventions: 'Prophylaxe verwalten',
+    preventionCount: (total: number, active: number) =>
+      `${total === 1 ? '1 Prophylaxe' : `${total} Prophylaxen`} · ${active} aktiv`,
+    newPrevention: 'Neue Prophylaxe',
+    editPrevention: 'Prophylaxe bearbeiten',
+    preventionType: 'Art',
+    preventionTypes: {
+      medication: 'Medikament',
+      lifestyle: 'Lebensstil',
+    },
+    startDate: 'Beginn',
+    endDate: 'Ende (optional)',
+    activePreventions: 'Aktiv',
+    pastPreventions: 'Beendet',
+    since: (date: string) => `seit ${date}`,
+    active: 'aktiv',
+    save: 'Speichern',
+    cancel: 'Abbrechen',
+    delete: 'Löschen',
+    confirmDelete: 'Wirklich löschen?',
+    data: 'Daten',
+    exportData: 'Daten exportieren',
+    lastBackup: (days: number | undefined) =>
+      days === undefined
+        ? 'Noch keine Sicherung'
+        : days === 0
+          ? 'Letzte Sicherung: heute'
+          : days === 1
+            ? 'Letzte Sicherung: vor 1 Tag'
+            : `Letzte Sicherung: vor ${days} Tagen`,
+    importData: 'Daten importieren',
+    importHint: 'Sicherung wiederherstellen',
+    backupReminder: 'Sicherungs-Erinnerung',
+    backupReminderHint: 'Auf der Startseite, nach 30 Tagen',
+    deleteAll: 'Alle Daten löschen',
+    deleteAllHint: 'Nicht rückgängig machbar',
+    app: 'App',
     language: 'Sprache',
+    privacy: 'Datenschutz',
+    imprint: 'Impressum',
+    about: 'Über Headly',
+    version: (version: string) => `Version ${version}`,
+    aboutText:
+      'Headly ist ein ruhiger Migräne-Tracker. Alle Daten bleiben in deinem Browser auf diesem Gerät: kein Konto, kein Server, kein Tracking.',
+    disclaimer: 'Headly ist kein Medizinprodukt und ersetzt keine ärztliche Beratung.',
+    comingSoon: 'Demnächst',
+    pdfExport: 'PDF-Export',
+    pdfExportHint: 'Für das Arztgespräch',
+    notifications: 'Benachrichtigungen',
+    notificationsHint: 'Erinnerungen und Checks',
+  },
+  backup: {
+    importTitle: 'Sicherung importieren',
+    fileContains: (counts: string) => `Diese Sicherung enthält ${counts}.`,
+    counts: ({ attacks, medications, medicationIntakes, preventions }: BackupCounts) =>
+      [
+        attacks === 1 ? '1 Migräne' : `${attacks} Migränen`,
+        medications === 1 ? '1 Medikament' : `${medications} Medikamente`,
+        medicationIntakes === 1 ? '1 Einnahme' : `${medicationIntakes} Einnahmen`,
+        preventions === 1 ? '1 Prophylaxe' : `${preventions} Prophylaxen`,
+      ].join(', '),
+    merge: 'Zusammenführen',
+    mergeHint: 'Fügt neue Einträge hinzu und aktualisiert geänderte.',
+    replace: 'Alles ersetzen',
+    replaceHint: 'Löscht vorher alle aktuellen Einträge.',
+    confirmReplace: 'Wirklich alles ersetzen?',
+    imported: (counts: string) => `Importiert: ${counts}.`,
+    done: 'Fertig',
+    errors: {
+      invalidFile:
+        'Diese Datei ist keine Headly-Sicherung oder beschädigt. Es wurde nichts geändert.',
+      newerVersion:
+        'Diese Sicherung stammt aus einer neueren Headly-Version. Bitte zuerst die App aktualisieren. Es wurde nichts geändert.',
+    },
+    reminder: 'Deine Daten liegen nur auf diesem Handy. Jetzt sichern?',
+    backUpNow: 'Jetzt sichern',
+    later: 'Später',
+    deleteAllTitle: 'Alle Daten löschen',
+    deleteAllText:
+      'Alle Migränen, Medikamente, Einnahmen und Prophylaxen werden von diesem Gerät gelöscht. Exportiere vorher eine Sicherung, wenn du sie behalten willst.',
+    deleteAll: 'Alle Daten löschen',
+    confirmDeleteAll: 'Wirklich alles löschen?',
   },
   painScale: {
     label: 'Schmerzintensität',

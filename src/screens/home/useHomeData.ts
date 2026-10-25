@@ -4,7 +4,14 @@ import { listAttacks } from '../../data/attackRepository';
 import { listIntakes } from '../../data/intakeRepository';
 import { listMedications } from '../../data/medicationRepository';
 import { listPreventions } from '../../data/preventionRepository';
-import type { Attack, Medication, MedicationIntake, Prevention } from '../../domain/types';
+import { getSettings } from '../../data/settingsRepository';
+import type {
+  Attack,
+  Medication,
+  MedicationIntake,
+  Prevention,
+  Settings,
+} from '../../domain/types';
 
 export type HomeData = {
   attacks: Attack[];
@@ -24,6 +31,10 @@ export function useHomeData(): HomeData | undefined {
     ]);
     return { attacks, intakes, medications, preventions };
   });
+}
+
+export function useSettings(): Settings | undefined {
+  return useLiveQuery(getSettings);
 }
 
 const TICK_MS = 15_000;

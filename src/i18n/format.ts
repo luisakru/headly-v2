@@ -50,3 +50,11 @@ export function formatMonthYearShort(time: number, language: Language): string {
     .format(time)
     .replace('.', '');
 }
+
+export function formatDateShort(time: number, language: Language): string {
+  return new Intl.DateTimeFormat(language, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(time);
+}

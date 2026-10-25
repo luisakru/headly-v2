@@ -16,7 +16,7 @@ export function TabBar() {
   return (
     <nav aria-label={t.tabs.label} className={styles.tabBar}>
       {TABS.map(({ to, key, Icon }) => (
-        <NavLink key={to} to={to} end className={styles.tab} aria-label={t.tabs[key]}>
+        <NavLink key={to} to={to} end={to === '/'} className={styles.tab} aria-label={t.tabs[key]}>
           {({ isActive }) => <Icon filled={isActive} />}
         </NavLink>
       ))}

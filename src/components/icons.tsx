@@ -93,3 +93,70 @@ export function ChevronRightIcon() {
     </svg>
   );
 }
+
+export function MedicationIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <rect x="3.5" y="7" width="17" height="13" rx="2.5" />
+      <path d="M9 7V5h6v2M12 10.5v6M9 13.5h6" />
+    </svg>
+  );
+}
+
+export function PreventionIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M12 3.5 19 6v5.5c0 4.2-3 7.6-7 9-4-1.4-7-4.8-7-9V6z" />
+    </svg>
+  );
+}
+
+export function DownloadIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" />
+    </svg>
+  );
+}
+
+export function UploadIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 19.5h14" />
+    </svg>
+  );
+}
+
+export function BellIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5h4" />
+    </svg>
+  );
+}
+
+export function DocumentIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M6 3.5h8l4 4v13H6zM14 3.5v4h4M9 12.5h6M9 16h6" />
+    </svg>
+  );
+}
+
+export function LockIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <rect x="5" y="10.5" width="14" height="10" rx="2" />
+      <path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" />
+    </svg>
+  );
+}
+
+export function InfoIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 11v5.5M12 7.5v.5" />
+    </svg>
+  );
+}
