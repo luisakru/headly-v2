@@ -198,9 +198,8 @@ Shown on the Home tab while an attack is active.
 
 - "Migraine active" label with the pulsing dot
 - Elapsed time, large, and start time; tapping the start time edits it
-- Pain scale 1–10 as ten tappable pips with "barely noticeable" and "unbearable" labels. The first tap sets `painAtStart`; later taps raise `painMax` if higher
+- Pain scale 1–10 as ten tappable pips with "barely noticeable" and "unbearable" labels. The first tap sets `painAtStart` and `painMax`; later taps set `painMax`, never below `painAtStart`
 - "Medication" button: opens a sheet listing saved medications; one tap logs the intake at now, linked to this attack. Empty state links to adding a medication
-- The "Medication" and "End migraine" buttons appear only after the first pain tap
 - List of intakes during this attack with rating status
 - Outlined "End migraine" button: ends at now, with "Ended earlier?" to pick a time
 

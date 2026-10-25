@@ -84,7 +84,11 @@ describe('applyPainTap', () => {
     expect(applyPainTap({ painAtStart: 5, painMax: 5 }, 8)).toEqual({ painAtStart: 5, painMax: 8 });
   });
 
-  test('a lower tap changes nothing', () => {
-    expect(applyPainTap({ painAtStart: 5, painMax: 8 }, 3)).toEqual({ painAtStart: 5, painMax: 8 });
+  test('a lower tap lowers the maximum', () => {
+    expect(applyPainTap({ painAtStart: 5, painMax: 8 }, 6)).toEqual({ painAtStart: 5, painMax: 6 });
+  });
+
+  test('a tap below the start pain keeps the maximum at the start pain', () => {
+    expect(applyPainTap({ painAtStart: 5, painMax: 8 }, 3)).toEqual({ painAtStart: 5, painMax: 5 });
   });
 });

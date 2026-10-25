@@ -23,12 +23,13 @@ test('logs a full attack: start, pain, medication, end', async () => {
 
   fireEvent.click(await screen.findByRole('button', { name: 'Start migraine' }));
   expect(await screen.findByText('Migraine active')).toBeInTheDocument();
-  expect(screen.queryByRole('button', { name: 'Log medication' })).not.toBeInTheDocument();
-  expect(screen.queryByRole('button', { name: 'End migraine' })).not.toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('radio', { name: '6' }));
-  fireEvent.click(screen.getByRole('radio', { name: '4' }));
-  await waitFor(async () => expect((await getActiveAttack())?.painMax).toBe(6));
+  await waitFor(async () => expect((await getActiveAttack())?.painAtStart).toBe(6));
+  fireEvent.click(screen.getByRole('radio', { name: '8' }));
+  await waitFor(async () => expect((await getActiveAttack())?.painMax).toBe(8));
+  fireEvent.click(screen.getByRole('radio', { name: '7' }));
+  await waitFor(async () => expect((await getActiveAttack())?.painMax).toBe(7));
   expect((await getActiveAttack())?.painAtStart).toBe(6);
 
   fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
@@ -47,8 +48,7 @@ test('logs a full attack: start, pain, medication, end', async () => {
 
 test('tapping a logged medication again undoes the intake', async () => {
   await createMedication({ name: 'Ibuprofen', isTriptan: false });
-  const attack = await startAttack();
-  await db.attacks.update(attack.id, { painAtStart: 5, painMax: 5 });
+  await startAttack();
   await renderWithI18n(<HomeScreen />);
 
   fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));

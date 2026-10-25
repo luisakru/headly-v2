@@ -63,7 +63,7 @@ export function validateAttack(
   return undefined;
 }
 
-/** First tap sets the start pain; later taps only raise the maximum. */
+/** First tap sets the start pain; later taps set the maximum, never below the start pain. */
 export function applyPainTap(
   attack: Pick<Attack, 'painAtStart' | 'painMax'>,
   level: number,
@@ -71,6 +71,6 @@ export function applyPainTap(
   if (attack.painAtStart === undefined) return { painAtStart: level, painMax: level };
   return {
     painAtStart: attack.painAtStart,
-    painMax: Math.max(attack.painMax ?? attack.painAtStart, level),
+    painMax: Math.max(attack.painAtStart, level),
   };
 }

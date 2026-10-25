@@ -76,20 +76,16 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
       <div className={styles.actions}>
         <AttackPromptCard attack={attack} now={now} onEndEarlier={() => setSheet('endTime')} />
         <RatingPromptCard intakes={intakes} medications={medications} now={now} />
-        {attack.painAtStart !== undefined && (
-          <>
-            <Button large variant="secondary" onClick={() => setSheet('medication')}>
-              <PlusIcon />
-              {t.activeAttack.logMedication}
-            </Button>
-            <Button large variant="outline" onClick={() => void endAttack(attack.id)}>
-              {t.activeAttack.endMigraine}
-            </Button>
-            <button type="button" className={styles.link} onClick={() => setSheet('endTime')}>
-              {t.activeAttack.endedEarlier}
-            </button>
-          </>
-        )}
+        <Button large variant="secondary" onClick={() => setSheet('medication')}>
+          <PlusIcon />
+          {t.activeAttack.logMedication}
+        </Button>
+        <Button large variant="outline" onClick={() => void endAttack(attack.id)}>
+          {t.activeAttack.endMigraine}
+        </Button>
+        <button type="button" className={styles.link} onClick={() => setSheet('endTime')}>
+          {t.activeAttack.endedEarlier}
+        </button>
       </div>
 
       {sheet === 'medication' && (
