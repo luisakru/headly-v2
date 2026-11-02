@@ -113,6 +113,7 @@ export function CalendarScreen() {
             medications={medications}
             now={now}
             onEditAttack={(attack) => setEditing({ attack })}
+            hideEmpty
           />
           {toDayKey(selectedDay) <= toDayKey(now) && (
             <button type="button" className={styles.textButton} onClick={() => setEditing({})}>

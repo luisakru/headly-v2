@@ -12,6 +12,8 @@ type DayDetailsProps = {
   medications: Medication[];
   now: number;
   onEditAttack?: (attack: Attack) => void;
+  /** Render nothing instead of the date and "no entry" on an empty day. */
+  hideEmpty?: boolean;
 };
 
 /** The selected day's attacks, one card each with the medication taken for it. */
@@ -22,6 +24,7 @@ export function DayDetails({
   medications,
   now,
   onEditAttack,
+  hideEmpty,
 }: DayDetailsProps) {
   const { t, language } = useI18n();
   const dayKey = toDayKey(day);
@@ -46,12 +49,13 @@ export function DayDetails({
       </dl>
     );
 
+  const isEmpty = dayAttacks.length === 0 && unlinkedIntakes.length === 0;
+  if (isEmpty && hideEmpty) return null;
+
   return (
     <div className={styles.details} aria-live="polite">
       <h3 className={styles.date}>{formatDate(day, language)}</h3>
-      {dayAttacks.length === 0 && unlinkedIntakes.length === 0 && (
-        <Card className={styles.empty}>{t.dayDetail.noEntry}</Card>
-      )}
+      {isEmpty && <Card className={styles.empty}>{t.dayDetail.noEntry}</Card>}
       {dayAttacks.map((attack) => (
         <Card
           key={attack.id}

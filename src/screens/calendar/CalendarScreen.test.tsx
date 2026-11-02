@@ -28,7 +28,8 @@ test('selects today on open and toggles the selection', async () => {
 
   const today = await screen.findByRole('button', { name: formatDate(new Date(), 'en') });
   expect(today).toHaveAttribute('aria-pressed', 'true');
-  expect(screen.getByText('No entry on this day')).toBeInTheDocument();
+  expect(screen.queryByText('No entry on this day')).not.toBeInTheDocument();
+  expect(screen.getByText('Add migraine')).toBeInTheDocument();
 
   fireEvent.click(today);
   expect(screen.getByText('Tap a day for details')).toBeInTheDocument();
