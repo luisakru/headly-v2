@@ -23,9 +23,13 @@ const GROUP_FILL = 0.7;
 const MAX_BAR_WIDTH = 24;
 const BAR_GAP = 2;
 const DOT_RADIUS = 3;
-// About half of the widest label ("März 26"), so edge labels stay inside the chart.
-const LABEL_HALF_WIDTH = 20;
+// Keeps the outer bars and their labels off the page edges.
+const PLOT_PADDING = 8;
+// Rough width of one label character at 11 px, to drop labels that would be cut off.
+const LABEL_CHAR_WIDTH = 6.4;
 const PAIN_SCALE = { max: 10, ticks: [0, 5, 10] };
+// Only pages this close to the visible one are drawn; years of weeks would be too slow.
+const RENDERED_NEIGHBOURS = 2;
 
 type Series = { key: 'migraineDays' | 'medicationDays'; className?: string };
 
@@ -84,6 +88,7 @@ export function StatsChart({
         ? formatWeekday(new Date(bucket.range.start), language)
         : String(new Date(bucket.range.start).getDate());
     if (size === 'week') return formatDayMonth(bucket.range.start, language);
+    if (size === 'year') return String(new Date(bucket.range.start).getFullYear());
     return formatMonthShort(bucket.range.start, language);
   };
 
@@ -107,7 +112,9 @@ export function StatsChart({
     return [
       size === 'week'
         ? formatDayRange(bucket.range, language)
-        : formatMonthYearShort(bucket.range.start, language),
+        : size === 'year'
+          ? String(new Date(bucket.range.start).getFullYear())
+          : formatMonthYearShort(bucket.range.start, language),
       ...(showMigraine ? [t.stats.migraineDayCount(bucket.migraineDays)] : []),
       ...(showMedication ? [t.stats.medicationDayCount(bucket.medicationDays)] : []),
     ].join(' · ');
@@ -170,7 +177,7 @@ export function StatsChart({
   };
 
   const renderPage = (buckets: ChartBucket[], pageIndex: number) => {
-    const groupWidth = PLOT_WIDTH / buckets.length;
+    const groupWidth = (PLOT_WIDTH - 2 * PLOT_PADDING) / buckets.length;
     const barCount = size === 'day' ? 1 : Math.max(1, series.length);
     const barWidth = Math.min(
       MAX_BAR_WIDTH,
@@ -195,7 +202,14 @@ export function StatsChart({
           />
         ))}
         {buckets.map((bucket, index) => {
-          const center = groupWidth * (index + 0.5);
+          const center = PLOT_PADDING + groupWidth * (index + 0.5);
+          const label = bucketLabel(bucket, buckets.length);
+          const labelHalfWidth = (label.length * LABEL_CHAR_WIDTH) / 2;
+          // Counted from the newest bucket, so the current period keeps its label.
+          const showLabel =
+            (buckets.length - 1 - index) % step === 0 &&
+            center - labelHalfWidth >= 0 &&
+            center + labelHalfWidth <= PLOT_WIDTH;
           return (
             <g
               key={bucket.range.start}
@@ -210,7 +224,7 @@ export function StatsChart({
             >
               <rect
                 className={styles.bucketHitArea}
-                x={groupWidth * index}
+                x={PLOT_PADDING + groupWidth * index}
                 y={0}
                 width={groupWidth}
                 height={HEIGHT}
@@ -218,14 +232,9 @@ export function StatsChart({
               {size === 'day'
                 ? renderDay(bucket, center, barWidth)
                 : renderGroup(bucket, center, barWidth)}
-              {index % step === 0 && (
-                <text
-                  className={styles.axisLabel}
-                  x={Math.min(Math.max(center, LABEL_HALF_WIDTH), PLOT_WIDTH - LABEL_HALF_WIDTH)}
-                  y={HEIGHT - 4}
-                  textAnchor="middle"
-                >
-                  {bucketLabel(bucket, buckets.length)}
+              {showLabel && (
+                <text className={styles.axisLabel} x={center} y={HEIGHT - 4} textAnchor="middle">
+                  {label}
                 </text>
               )}
             </g>
@@ -259,7 +268,17 @@ export function StatsChart({
           ))}
         </svg>
         <div ref={scrollRef} className={styles.chartScroll} onScroll={handleScroll}>
-          {pages.map(renderPage)}
+          {pages.map((buckets, index) =>
+            Math.abs(index - visiblePage) <= RENDERED_NEIGHBOURS ? (
+              renderPage(buckets, index)
+            ) : (
+              <div
+                key={buckets[0]!.range.start}
+                className={styles.chartPage}
+                style={{ aspectRatio: `${PLOT_WIDTH} / ${HEIGHT}` }}
+              />
+            ),
+          )}
         </div>
       </div>
       {selectedBucket && <p className={styles.chartDetail}>{detail(selectedBucket)}</p>}

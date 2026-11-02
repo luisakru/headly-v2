@@ -232,7 +232,7 @@ Layout, one element per row, in this order:
 4. Chart with all data, one page per period, swiped sideways (snapping), starting at the page with today. The visible period is named above the chart
    - 1W (calendar week, Monday first) and 1M (calendar month): one bar per day, height = highest pain level (0–10), a dot at the baseline for an unrated migraine day, a medication dot above
    - 3M: 13 weeks ending with the current week, grouped bars per week (migraine days, medication days)
-   - 6M, 1Y, 2Y: that many months ending with the current month, grouped bars per month. All: one page from the first month with data
+   - 6M, 1Y, 2Y: that many months ending with the current month, grouped bars per month. All: one page from the first month with data, or one bar per year from the first year once the data spans 36 months or more. Only the visible page and its neighbours are drawn
    - Tapping a bar shows its period and values below the chart
 5. Four stat cards for the visible page: average migraine days per 30 days (counted only up to today), effectiveness rate, average pain, total medication days
 6. Overuse warning banner when triggered in a month the visible page touches

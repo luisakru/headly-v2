@@ -1,5 +1,5 @@
 import { addDays, isSameMonth, parseISO } from 'date-fns';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Card } from '../../components/Card';
 import { InsightCard } from '../../components/InsightCard';
 import { ScreenTitle } from '../../components/ScreenTitle';
@@ -53,13 +53,18 @@ export function StatsScreen() {
   const [pageIndex, setPageIndex] = useState<number>();
   const [showMigraine, setShowMigraine] = useState(true);
   const [showMedication, setShowMedication] = useState(true);
+  const chart = useMemo(() => {
+    if (!data) return undefined;
+    const firstDay = firstDataDay(data.attacks, data.intakes);
+    const size = bucketSize(preset, now, firstDay);
+    const pages = chartPages(preset, now, firstDay);
+    const buckets = chartBuckets(pages, size, data.attacks, data.intakes, now);
+    return { firstDay, size, pages, buckets };
+  }, [data, preset, now]);
 
-  if (!data) return null;
+  if (!data || !chart) return null;
   const { attacks, intakes, medications, preventions } = data;
-
-  const firstDay = firstDataDay(attacks, intakes);
-  const size = bucketSize(preset);
-  const pages = chartPages(preset, now, firstDay);
+  const { firstDay, size, pages, buckets } = chart;
   // Cards and lists follow the page visible in the chart.
   const range = pages[pageIndex ?? pages.length - 1] ?? pages[pages.length - 1]!;
   const effectiveness = effectivenessSummary(intakes, range);
@@ -87,11 +92,14 @@ export function StatsScreen() {
     setPageIndex(undefined);
   };
   const lastDay = addDays(range.end, -1).getTime();
-  const period = isSameMonth(range.start, lastDay)
-    ? formatMonthYear(range.start, language)
-    : size === 'month'
-      ? `${formatMonthYearShort(range.start, language)} – ${formatMonthYearShort(lastDay, language)}`
-      : formatDayRange(range, language);
+  const period =
+    preset === '1M' || (size === 'month' && isSameMonth(range.start, lastDay))
+      ? formatMonthYear(range.start, language)
+      : size === 'year'
+        ? `${new Date(range.start).getFullYear()} – ${new Date(lastDay).getFullYear()}`
+        : size === 'month'
+          ? `${formatMonthYearShort(range.start, language)} – ${formatMonthYearShort(lastDay, language)}`
+          : formatDayRange(range, language);
 
   const preventionPeriod = (prevention: Prevention) => {
     const start = formatMonthYearShort(parseISO(prevention.startDate).getTime(), language);
@@ -135,7 +143,7 @@ export function StatsScreen() {
         </p>
         <StatsChart
           key={preset}
-          pages={pages.map((page) => chartBuckets(page, size, attacks, intakes, now))}
+          pages={buckets}
           size={size}
           showMigraine={showMigraine}
           showMedication={showMedication}

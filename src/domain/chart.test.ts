@@ -1,5 +1,5 @@
 import { at, makeAttack, makeIntake, makeMedication } from '../test/factories';
-import { chartBuckets, chartPages, chartScale, labelStep } from './chart';
+import { bucketSize, chartBuckets, chartPages, chartScale, labelStep } from './chart';
 
 test('an empty chart still has one interval', () => {
   expect(chartScale(0)).toEqual({ max: 1, ticks: [0, 1] });
@@ -79,7 +79,7 @@ describe('chartBuckets', () => {
 
   test('day buckets carry the highest pain of the day', () => {
     const week = { start: at(2026, 10, 26), end: at(2026, 11, 2) };
-    const buckets = chartBuckets(week, 'day', attacks, intakes, now);
+    const [buckets = []] = chartBuckets([week], 'day', attacks, intakes, now);
     expect(buckets).toHaveLength(7);
     expect(buckets[1]).toMatchObject({ migraineDays: 1, medicationDays: 0, pain: 7 });
     expect(buckets[3]).toMatchObject({ migraineDays: 1, medicationDays: 1 });
@@ -90,11 +90,33 @@ describe('chartBuckets', () => {
   test('week and month buckets count days', () => {
     const page = { start: at(2026, 10, 26), end: at(2026, 11, 9) };
     expect(
-      chartBuckets(page, 'week', attacks, intakes, now).map((bucket) => bucket.migraineDays),
+      chartBuckets([page], 'week', attacks, intakes, now)[0]?.map((bucket) => bucket.migraineDays),
     ).toEqual([2, 0]);
     const months = { start: at(2026, 10, 1), end: at(2026, 12, 1) };
     expect(
-      chartBuckets(months, 'month', attacks, intakes, now).map((bucket) => bucket.medicationDays),
+      chartBuckets([months], 'month', attacks, intakes, now)[0]?.map(
+        (bucket) => bucket.medicationDays,
+      ),
     ).toEqual([1, 0]);
+  });
+
+  test('builds one bucket list per page', () => {
+    const weeks = chartPages('1W', now, at(2026, 10, 20));
+    expect(chartBuckets(weeks, 'day', attacks, intakes, now)).toHaveLength(3);
+  });
+});
+
+describe('All with many years', () => {
+  const now = at(2026, 11, 2, 12);
+
+  test('uses months up to three years and years beyond', () => {
+    expect(bucketSize('all', now, at(2024, 1, 1))).toBe('month');
+    expect(bucketSize('all', now, at(2018, 1, 3))).toBe('year');
+  });
+
+  test('a year page starts with the first year', () => {
+    expect(chartPages('all', now, at(2018, 1, 3))).toEqual([
+      { start: at(2018, 1, 1), end: at(2027, 1, 1) },
+    ]);
   });
 });
