@@ -6,7 +6,7 @@ import {
   INSIGHT_MIN_RATED_INTAKES,
   PREVENTION_WINDOW_RELIABLE_DAYS,
 } from './constants';
-import { countMonths, previousRange } from './dateRange';
+import { previousRange } from './dateRange';
 import {
   firstDataDay,
   preventionEffect,
@@ -39,9 +39,10 @@ export type Insight =
   | {
       kind: 'medicationEffectivenessChange';
       medicationName: string;
-      months: number;
       before: number;
       after: number;
+      previousRange: TimeRange;
+      range: TimeRange;
     }
   | { kind: 'fewerButStrongerAttacks'; painIncrease: number };
 
@@ -101,9 +102,10 @@ function effectivenessChanges(
       {
         kind: 'medicationEffectivenessChange',
         medicationName: medication.name,
-        months: countMonths(range),
         before: before.rate!,
         after: after.rate!,
+        previousRange: previous,
+        range,
       },
     ];
   });

@@ -3,7 +3,6 @@ import {
   averageMigraineDaysPerMonth,
   averagePain,
   effectivenessSummary,
-  monthlyCounts,
   overuseMonths,
   totalMedicationDays,
 } from './stats';
@@ -11,7 +10,7 @@ import {
 const range = { start: at(2026, 1, 1), end: at(2026, 3, 1) };
 const now = at(2026, 3, 15);
 
-test('monthlyCounts counts migraine and medication days per month', () => {
+test('averages migraine days per 30 days and counts medication days', () => {
   const attacks = [
     ...attacksOnDays([
       [2026, 1, 3],
@@ -26,11 +25,8 @@ test('monthlyCounts counts migraine and medication days per month', () => {
     makeIntake({ medicationId: med.id, takenAt: at(2026, 1, 3, 18) }),
     makeIntake({ medicationId: med.id, takenAt: at(2026, 2, 20, 9) }),
   ];
-  expect(monthlyCounts(attacks, intakes, range, now)).toEqual([
-    { month: '2026-01', migraineDays: 3, medicationDays: 1 },
-    { month: '2026-02', migraineDays: 2, medicationDays: 1 },
-  ]);
-  expect(averageMigraineDaysPerMonth(attacks, range, now)).toBe(2.5);
+  // 5 migraine days in 59 days.
+  expect(averageMigraineDaysPerMonth(attacks, range, now)).toBeCloseTo((5 / 59) * 30);
   expect(totalMedicationDays(intakes, range)).toBe(2);
 });
 
@@ -104,4 +100,11 @@ describe('overuseMonths', () => {
   test('does not flag 14 medication days', () => {
     expect(overuseMonths(daily(other.id, 2, 14), [triptan, other], range)).toEqual([]);
   });
+});
+
+test('averageMigraineDaysPerMonth counts only up to today', () => {
+  const attacks = attacksOnDays([[2026, 3, 2]]);
+  const march = { start: at(2026, 3, 1), end: at(2026, 4, 1) };
+  // 1 migraine day in the 15 days up to and including 15 March.
+  expect(averageMigraineDaysPerMonth(attacks, march, now)).toBe(2);
 });

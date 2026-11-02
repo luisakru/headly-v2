@@ -1,9 +1,7 @@
 import type { Insight } from '../domain/insights';
 import type { PreventionEffect } from '../domain/prevention';
-import type { Language, TimeRange } from '../domain/types';
-import { addDays } from 'date-fns';
-import { countMonths } from '../domain/dateRange';
-import { formatDateShort, formatMonthYear, formatNumber, formatPercent } from './format';
+import type { Language } from '../domain/types';
+import { formatDayRange, formatNumber, formatPercent } from './format';
 import type { Dictionary } from './locales/en';
 
 export function formatInsight(insight: Insight, t: Dictionary, language: Language): string {
@@ -27,23 +25,22 @@ export function formatInsight(insight: Insight, t: Dictionary, language: Languag
       );
     }
     case 'medicationEffectivenessChange': {
-      const { medicationName, months, before, after } = insight;
+      const { medicationName, before, after } = insight;
       return after < before
-        ? templates.medicationHelpedLess(medicationName, months, percent(before), percent(after))
-        : templates.medicationHelpedMore(medicationName, months, percent(before), percent(after));
+        ? templates.medicationHelpedLess(medicationName, percent(before), percent(after))
+        : templates.medicationHelpedMore(medicationName, percent(before), percent(after));
     }
     case 'fewerButStrongerAttacks':
       return templates.fewerButStronger(number(insight.painIncrease));
   }
 }
 
-const lastDay = (range: TimeRange) => addDays(range.end, -1).getTime();
-
 /** Both compared windows of a prevention effect as date ranges. */
 export function formatPreventionWindows(effect: PreventionEffect, language: Language) {
-  const days = (range: TimeRange) =>
-    `${formatDateShort(range.start, language)} – ${formatDateShort(lastDay(range), language)}`;
-  return { before: days(effect.before), after: days(effect.after) };
+  return {
+    before: formatDayRange(effect.before, language),
+    after: formatDayRange(effect.after, language),
+  };
 }
 
 /** How an insight was calculated, for insights that need explaining. */
@@ -53,13 +50,16 @@ export function formatInsightDetail(
   language: Language,
 ): string | undefined {
   switch (insight.kind) {
-    case 'migraineDaysChange': {
-      const months = (range: TimeRange) =>
-        countMonths(range) === 1
-          ? formatMonthYear(range.start, language)
-          : `${formatMonthYear(range.start, language)} – ${formatMonthYear(lastDay(range), language)}`;
-      return t.insights.migraineDaysDetail(months(insight.previousRange), months(insight.range));
-    }
+    case 'migraineDaysChange':
+      return t.insights.migraineDaysDetail(
+        formatDayRange(insight.previousRange, language),
+        formatDayRange(insight.range, language),
+      );
+    case 'medicationEffectivenessChange':
+      return t.insights.effectivenessDetail(
+        formatDayRange(insight.previousRange, language),
+        formatDayRange(insight.range, language),
+      );
     case 'preventionMedicationDaysChange': {
       const { before, after } = formatPreventionWindows(insight.effect, language);
       return t.insights.preventionDetail(insight.effect.windowDays, before, after);

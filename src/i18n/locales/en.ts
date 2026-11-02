@@ -121,15 +121,17 @@ export const en = {
     migraineDaysRose: (before: string, after: string) =>
       `Migraine days rose from ${before} to ${after} per month.`,
     migraineDaysDetail: (before: string, after: string) =>
-      `Compares ${after} with the same-length period before (${before}). Counted are days with a migraine, divided by the number of months. The current month counts as a whole month.`,
+      `Compares ${after} with the same-length period before (${before}). Counted are days with a migraine, scaled to 30 days.`,
     preventionMedicationDays: (name: string, before: string, after: string) =>
       `Since ${name}: ${after} instead of ${before} medication days per month.`,
     preventionDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
-    medicationHelpedLess: (name: string, months: number, before: string, after: string) =>
-      `${name} has helped less over the last ${months} months (${before} to ${after}).`,
-    medicationHelpedMore: (name: string, months: number, before: string, after: string) =>
-      `${name} has helped more over the last ${months} months (${before} to ${after}).`,
+    medicationHelpedLess: (name: string, before: string, after: string) =>
+      `${name} has helped less recently (${before} to ${after}).`,
+    medicationHelpedMore: (name: string, before: string, after: string) =>
+      `${name} has helped more recently (${before} to ${after}).`,
+    effectivenessDetail: (before: string, after: string) =>
+      `Compares ${after} with the same-length period before (${before}). Counted is the share of rated intakes that helped strongly or slightly.`,
     fewerButStronger: (points: string) =>
       `Fewer attacks, but on average ${points} points stronger.`,
   },
@@ -146,14 +148,15 @@ export const en = {
     title: 'Statistics',
     range: {
       label: 'Time range',
+      '1W': '1W',
       '1M': '1M',
       '3M': '3M',
       '6M': '6M',
       '1Y': '1Y',
-      custom: 'Custom',
+      '2Y': '2Y',
+      all: 'All',
     },
-    from: 'From',
-    to: 'To',
+    painAxis: 'Intensity (0–10)',
     series: {
       migraine: 'Migraine',
       medication: 'Medication',

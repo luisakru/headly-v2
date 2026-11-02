@@ -11,7 +11,7 @@ import type { Language } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import styles from './ComponentsScreen.module.css';
 
-const RANGE_PRESETS: DateRangePreset[] = ['1M', '3M', '6M', '1Y', 'custom'];
+const RANGE_PRESETS: DateRangePreset[] = ['1W', '1M', '3M', '6M', '1Y', '2Y', 'all'];
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (

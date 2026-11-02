@@ -1,6 +1,6 @@
 import { validateAttack } from '../domain/attacks';
 import { generateInsights } from '../domain/insights';
-import { resolveDateRange } from '../domain/dateRange';
+import { lookbackRange } from '../domain/dateRange';
 import { at } from '../test/factories';
 import { generateSeedData } from './seed';
 
@@ -31,7 +31,7 @@ test('produces insights for the default range', () => {
   const insights = generateInsights({
     ...data,
     intakes: data.medicationIntakes,
-    range: resolveDateRange({ preset: '3M' }, now),
+    range: lookbackRange('3M', now, undefined),
     now,
   });
   expect(insights.length).toBeGreaterThan(0);

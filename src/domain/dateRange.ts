@@ -1,39 +1,46 @@
-import { addMonths, differenceInCalendarMonths, format, startOfMonth } from 'date-fns';
+import {
+  addDays,
+  addMonths,
+  differenceInCalendarDays,
+  format,
+  startOfDay,
+  startOfMonth,
+} from 'date-fns';
 import type { TimeRange } from './types';
 
-export type DateRangePreset = '1M' | '3M' | '6M' | '1Y' | 'custom';
+export type DateRangePreset = '1W' | '1M' | '3M' | '6M' | '1Y' | '2Y' | 'all';
 
-export type DateRange =
-  | { preset: Exclude<DateRangePreset, 'custom'> }
-  /** Months as YYYY-MM, both inclusive. */
-  | { preset: 'custom'; fromMonth: string; toMonth: string };
-
-const PRESET_MONTHS: Record<Exclude<DateRangePreset, 'custom'>, number> = {
+export const PRESET_MONTHS: Record<Exclude<DateRangePreset, '1W' | 'all'>, number> = {
   '1M': 1,
   '3M': 3,
   '6M': 6,
   '1Y': 12,
+  '2Y': 24,
 };
-
-function parseMonth(month: string): Date {
-  const [year, monthIndex] = month.split('-').map(Number);
-  return new Date(year!, monthIndex! - 1, 1);
-}
 
 export function toMonthKey(time: number | Date): string {
   return format(time, 'yyyy-MM');
 }
 
-/** Presets cover whole calendar months, ending with the current month. */
-export function resolveDateRange(range: DateRange, now: number): TimeRange {
-  if (range.preset === 'custom') {
-    const from = parseMonth(range.fromMonth);
-    const to = parseMonth(range.toMonth);
-    const [first, last] = from <= to ? [from, to] : [to, from];
-    return { start: first.getTime(), end: addMonths(last, 1).getTime() };
-  }
-  const end = addMonths(startOfMonth(now), 1);
-  return { start: addMonths(end, -PRESET_MONTHS[range.preset]).getTime(), end: end.getTime() };
+/** The end of today, so ranges "up to today" include it. */
+export function endOfToday(now: number): number {
+  return addDays(startOfDay(now), 1).getTime();
+}
+
+/** The preset's length counted back from today, e.g. the last 3 months. */
+export function lookbackRange(
+  preset: DateRangePreset,
+  now: number,
+  firstDay: number | undefined,
+): TimeRange {
+  const end = endOfToday(now);
+  const start =
+    preset === '1W'
+      ? addDays(end, -7)
+      : preset === 'all'
+        ? startOfDay(firstDay ?? now)
+        : addMonths(end, -PRESET_MONTHS[preset]);
+  return { start: start.valueOf(), end };
 }
 
 export function monthsInRange(range: TimeRange): TimeRange[] {
@@ -48,12 +55,8 @@ export function monthsInRange(range: TimeRange): TimeRange[] {
   return months;
 }
 
-export function countMonths(range: TimeRange): number {
-  return differenceInCalendarMonths(range.end - 1, range.start) + 1;
-}
-
-/** The range of the same number of months directly before. */
+/** The range of the same number of days directly before. */
 export function previousRange(range: TimeRange): TimeRange {
-  const start = addMonths(range.start, -countMonths(range));
-  return { start: start.getTime(), end: range.start };
+  const days = differenceInCalendarDays(range.end, range.start);
+  return { start: addDays(range.start, -days).getTime(), end: range.start };
 }

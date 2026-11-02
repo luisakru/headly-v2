@@ -122,15 +122,17 @@ export const de: Dictionary = {
     migraineDaysRose: (before: string, after: string) =>
       `Die Migränetage sind von ${before} auf ${after} pro Monat gestiegen.`,
     migraineDaysDetail: (before: string, after: string) =>
-      `Verglichen wird ${after} mit dem gleich langen Zeitraum davor (${before}). Gezählt werden Tage mit Migräne, geteilt durch die Anzahl der Monate. Der laufende Monat zählt als ganzer Monat.`,
+      `Verglichen wird ${after} mit dem gleich langen Zeitraum davor (${before}). Gezählt werden Tage mit Migräne, umgerechnet auf 30 Tage.`,
     preventionMedicationDays: (name: string, before: string, after: string) =>
       `Seit ${name}: ${after} statt ${before} Medikamententage pro Monat.`,
     preventionDetail: (days: number, before: string, after: string) =>
       `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
-    medicationHelpedLess: (name: string, months: number, before: string, after: string) =>
-      `${name} hat in den letzten ${months} Monaten weniger geholfen (${before} auf ${after}).`,
-    medicationHelpedMore: (name: string, months: number, before: string, after: string) =>
-      `${name} hat in den letzten ${months} Monaten besser geholfen (${before} auf ${after}).`,
+    medicationHelpedLess: (name: string, before: string, after: string) =>
+      `${name} hat zuletzt weniger geholfen (${before} auf ${after}).`,
+    medicationHelpedMore: (name: string, before: string, after: string) =>
+      `${name} hat zuletzt besser geholfen (${before} auf ${after}).`,
+    effectivenessDetail: (before: string, after: string) =>
+      `Verglichen wird ${after} mit dem gleich langen Zeitraum davor (${before}). Gezählt wird der Anteil der bewerteten Einnahmen, die stark oder etwas geholfen haben.`,
     fewerButStronger: (points: string) =>
       `Weniger Attacken, aber im Schnitt ${points} Punkte stärker.`,
   },
@@ -147,14 +149,15 @@ export const de: Dictionary = {
     title: 'Statistik',
     range: {
       label: 'Zeitraum',
+      '1W': '1W',
       '1M': '1M',
       '3M': '3M',
       '6M': '6M',
       '1Y': '1J',
-      custom: 'Eigene',
+      '2Y': '2J',
+      all: 'Alle',
     },
-    from: 'Von',
-    to: 'Bis',
+    painAxis: 'Intensität (0–10)',
     series: {
       migraine: 'Migräne',
       medication: 'Medikament',

@@ -2,7 +2,8 @@ import { addMonths, startOfMonth } from 'date-fns';
 import { Button } from '../../components/Button';
 import { InsightCard } from '../../components/InsightCard';
 import { startAttack } from '../../data/attackRepository';
-import { resolveDateRange } from '../../domain/dateRange';
+import { lookbackRange } from '../../domain/dateRange';
+import { firstDataDay } from '../../domain/prevention';
 import { countDaysInRange, migraineDays } from '../../domain/days';
 import { generateInsights } from '../../domain/insights';
 import { useI18n } from '../../i18n/context';
@@ -30,7 +31,7 @@ export function IdleHome({
     intakes,
     medications,
     preventions,
-    range: resolveDateRange({ preset: '3M' }, now),
+    range: lookbackRange('3M', now, firstDataDay(attacks, intakes)),
     now,
   })[0];
 

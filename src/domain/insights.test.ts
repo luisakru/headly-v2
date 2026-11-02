@@ -9,9 +9,9 @@ import {
 import { generateInsights, type InsightInput } from './insights';
 import type { Attack, Effectiveness } from './types';
 
-// Current range: Apr–Jun 2026. Previous range: Jan–Mar 2026.
-const range = { start: at(2026, 4, 1), end: at(2026, 7, 1) };
-const now = at(2026, 6, 30, 12);
+// Current range: 1 Apr – 29 Jun 2026 (90 days). Previous range: Jan–Mar 2026 (90 days).
+const range = { start: at(2026, 4, 1), end: at(2026, 6, 30) };
+const now = at(2026, 6, 29, 12);
 const empty: InsightInput = {
   attacks: [],
   intakes: [],
@@ -162,10 +162,9 @@ describe('medicationEffectivenessChange', () => {
         ['strong', 'strong', 'strong', 'none', 'none'],
       ),
     ).find((i) => i.kind === 'medicationEffectivenessChange');
-    expect(insight).toEqual({
+    expect(insight).toMatchObject({
       kind: 'medicationEffectivenessChange',
       medicationName: 'Sumatriptan',
-      months: 3,
       before: 1,
       after: 0.6,
     });

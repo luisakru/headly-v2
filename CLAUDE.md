@@ -48,7 +48,7 @@ Every domain concept has exactly one English code name. German appears only as l
 | Aktive Prophylaxe                          | `activePrevention`                        | No end date, or end date in the future      |
 | Wirkbeginn                                 | `effectiveFrom`                           | Optional date on `Prevention`               |
 | Erkenntnis                                 | `Insight`                                 | Generated plain-language sentence           |
-| Zeitraum                                   | `DateRange`                               | Presets `1M`, `3M`, `6M`, `1Y`, `custom`    |
+| Zeitraum                                   | `DateRangePreset`                         | `1W`, `1M`, `3M`, `6M`, `1Y`, `2Y`, `all`   |
 | Sicherung / Export                         | `backup` / `export`                       | JSON file                                   |
 | Bearbeiten / Löschen                       | `edit` / `delete`                         |                                             |
 | Startseite / Kalender / Statistik / Profil | `home` / `calendar` / `stats` / `profile` | Routes and folders                          |

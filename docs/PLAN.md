@@ -75,7 +75,7 @@ Every domain concept has exactly one English code name. German appears only as l
 | Prophylaxe | `Prevention` | Type `'medication' \| 'lifestyle'` |
 | Aktive Prophylaxe | `activePrevention` | No end date, or end date in the future |
 | Erkenntnis | `Insight` | Generated plain-language sentence |
-| Zeitraum | `DateRange` | Presets `1M`, `3M`, `6M`, `1Y`, `custom` |
+| Zeitraum | `DateRangePreset` | `1W`, `1M`, `3M`, `6M`, `1Y`, `2Y`, `all` |
 | Sicherung / Export | `backup` / `export` | JSON file |
 | Bearbeiten / Löschen | `edit` / `delete` |  |
 | Startseite / Kalender / Statistik / Profil | `home` / `calendar` / `stats` / `profile` | Routes and folders |
@@ -227,16 +227,19 @@ A bottom sheet over the dimmed calendar (and over Home when opened from the 4-we
 Layout, one element per row, in this order:
 
 1. Title "Statistics"
-2. Segmented control: 1M, 3M, 6M, 1Y, Custom. Default 3M
-3. Custom only: "from" and "to" month selectors on one row. No min or max range; any span from one month to all data
-4. Toggle chips: Migraine and Medication, both on by default
-5. Grouped bar chart, one group per month: migraine days and medication days in their two colors. Shows at most 12 months at once; longer ranges scroll sideways, starting at the most recent month
-6. Four stat cards: average migraine days per month, effectiveness rate, average pain, total medication days
-7. Overuse warning banner when triggered
-8. Insights (up to three cards)
-9. Preventions overlapping the range, each with its before/after effect or "Not enough data"
+2. Segmented control: 1W, 1M, 3M, 6M, 1Y, 2Y, All. Default 3M. It sets how much the chart shows at once, not which data exists
+3. Toggle chips: Migraine and Medication, both on by default
+4. Chart with all data, one page per period, swiped sideways (snapping), starting at the page with today. The visible period is named above the chart
+   - 1W (calendar week, Monday first) and 1M (calendar month): one bar per day, height = highest pain level (0–10), a dot at the baseline for an unrated migraine day, a medication dot above
+   - 3M: 13 weeks ending with the current week, grouped bars per week (migraine days, medication days)
+   - 6M, 1Y, 2Y: that many months ending with the current month, grouped bars per month. All: one page from the first month with data
+   - Tapping a bar shows its period and values below the chart
+5. Four stat cards for the visible page: average migraine days per 30 days (counted only up to today), effectiveness rate, average pain, total medication days
+6. Overuse warning banner when triggered in a month the visible page touches
+7. Insights (up to three cards), comparing the preset's length up to today (e.g. the last 3 months) with the same number of days before
+8. Preventions overlapping the visible page, each with its before/after effect or the reason it is missing
 
-**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less over the last 4 months (91% to 78%)." Each template has a German and English version and only appears when its data condition is met.
+**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%)." Each template has a German and English version and only appears when its data condition is met.
 
 ### Profile
 

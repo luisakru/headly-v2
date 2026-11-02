@@ -1,4 +1,5 @@
-import type { Language } from '../domain/types';
+import { addDays } from 'date-fns';
+import type { Language, TimeRange } from '../domain/types';
 
 export function formatTime(time: number, language: Language): string {
   return new Intl.DateTimeFormat(language, { hour: 'numeric', minute: '2-digit' }).format(time);
@@ -57,4 +58,14 @@ export function formatDateShort(time: number, language: Language): string {
     month: 'short',
     year: 'numeric',
   }).format(time);
+}
+
+export function formatDayMonth(time: number, language: Language): string {
+  return new Intl.DateTimeFormat(language, { day: 'numeric', month: 'short' }).format(time);
+}
+
+/** First to last day of a range whose end is exclusive. */
+export function formatDayRange(range: TimeRange, language: Language): string {
+  const lastDay = addDays(range.end, -1).getTime();
+  return `${formatDateShort(range.start, language)} – ${formatDateShort(lastDay, language)}`;
 }

@@ -5,7 +5,6 @@ import { db } from '../../data/db';
 import { logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
 import { createPrevention } from '../../data/preventionRepository';
-import { toMonthKey } from '../../domain/dateRange';
 import { toDayKey } from '../../domain/days';
 import { formatMonthYear } from '../../i18n/format';
 import { renderWithI18n } from '../../test/renderWithI18n';
@@ -25,7 +24,7 @@ beforeEach(async () => {
   await Promise.all(db.tables.map((table) => table.clear()));
 });
 
-test('shows stat cards for the default 3 month range', async () => {
+test('shows stat cards for the visible 13 weeks of the default 3M range', async () => {
   const medication = await createMedication({ name: 'Ibuprofen', isTriptan: false });
   const attack = await createAttack({
     startedAt: lastMonth(3),
@@ -37,7 +36,10 @@ test('shows stat cards for the default 3 month range', async () => {
   await renderWithI18n(<StatsScreen />);
 
   expect(await screen.findByRole('radio', { name: '3M' })).toHaveAttribute('aria-checked', 'true');
-  expect(screen.getByText('Avg. migraine days / month').previousSibling).toHaveTextContent('0.3');
+  // 1 migraine day in the 84–91 days of the page up to today.
+  expect(screen.getByText('Avg. migraine days / month').previousSibling?.textContent).toMatch(
+    /^0\.[34]$/,
+  );
   expect(screen.getByText('Avg. pain').previousSibling).toHaveTextContent('6');
   expect(screen.getByText('Medication days').previousSibling).toHaveTextContent('1');
   expect(screen.getByText('Effectiveness').previousSibling).toHaveTextContent('–');
@@ -56,17 +58,18 @@ test('warns about medication overuse', async () => {
   expect(await screen.findByRole('alert')).toHaveTextContent(formatMonthYear(lastMonth(1), 'en'));
 });
 
-test('custom range shows month pickers and changes the numbers', async () => {
+test('All covers the data since the first entry', async () => {
   const twoYearsAgo = addMonths(new Date(), -24).getTime();
-  await createAttack({ startedAt: twoYearsAgo, endedAt: twoYearsAgo + HOUR_MS });
+  // A four-day attack, so the average over two years is still visible.
+  await createAttack({ startedAt: twoYearsAgo, endedAt: twoYearsAgo + 72 * HOUR_MS });
 
   await renderWithI18n(<StatsScreen />);
-  fireEvent.click(await screen.findByRole('radio', { name: 'Custom' }));
-  expect(screen.getByText('Avg. migraine days / month').previousSibling).toHaveTextContent('0');
+  const average = () => screen.getByText('Avg. migraine days / month').previousSibling?.textContent;
+  expect(await screen.findByRole('radio', { name: '3M' })).toHaveAttribute('aria-checked', 'true');
+  expect(average()).toBe('0');
 
-  fireEvent.change(screen.getByLabelText('From'), { target: { value: toMonthKey(twoYearsAgo) } });
-  fireEvent.change(screen.getByLabelText('To'), { target: { value: toMonthKey(twoYearsAgo) } });
-  expect(screen.getByText('Avg. migraine days / month').previousSibling).toHaveTextContent('1');
+  fireEvent.click(screen.getByRole('radio', { name: 'All' }));
+  expect(average()).not.toBe('0');
 });
 
 test('lists preventions in the range with their effect', async () => {

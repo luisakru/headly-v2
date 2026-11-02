@@ -22,11 +22,11 @@ test.each([
     {
       kind: 'medicationEffectivenessChange',
       medicationName: 'Sumatriptan',
-      months: 4,
       before: 0.91,
       after: 0.78,
+      ...ranges,
     },
-    'Sumatriptan has helped less over the last 4 months (91% to 78%).',
+    'Sumatriptan has helped less recently (91% to 78%).',
   ],
   [
     { kind: 'fewerButStrongerAttacks', painIncrease: 1.25 },
@@ -73,7 +73,7 @@ test('explains the migraine days change with both periods', () => {
   expect(
     formatInsightDetail({ kind: 'migraineDaysChange', before: 6, after: 4, ...ranges }, de, 'de'),
   ).toContain(
-    'Verglichen wird August 2026 – Oktober 2026 mit dem gleich langen Zeitraum davor (Mai 2026 – Juli 2026).',
+    'Verglichen wird 1. Aug. 2026 – 31. Okt. 2026 mit dem gleich langen Zeitraum davor (1. Mai 2026 – 31. Juli 2026).',
   );
 });
 

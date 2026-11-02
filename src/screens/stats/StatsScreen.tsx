@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns';
+import { addDays, isSameMonth, parseISO } from 'date-fns';
 import { useState } from 'react';
 import { Card } from '../../components/Card';
 import { InsightCard } from '../../components/InsightCard';
@@ -9,14 +9,11 @@ import {
   OVERUSE_MEDICATION_DAYS_PER_MONTH,
   OVERUSE_TRIPTAN_DAYS_PER_MONTH,
 } from '../../domain/constants';
-import {
-  resolveDateRange,
-  toMonthKey,
-  type DateRange,
-  type DateRangePreset,
-} from '../../domain/dateRange';
+import { bucketSize, chartBuckets, chartPages } from '../../domain/chart';
+import { lookbackRange, type DateRangePreset } from '../../domain/dateRange';
 import { generateInsights } from '../../domain/insights';
 import {
+  firstDataDay,
   isActivePrevention,
   preventionEffect,
   preventionEffectGap,
@@ -26,24 +23,24 @@ import {
   averageMigraineDaysPerMonth,
   averagePain,
   effectivenessSummary,
-  monthlyCounts,
   overuseMonths,
   totalMedicationDays,
 } from '../../domain/stats';
 import type { Prevention } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import {
+  formatDayRange,
   formatMonthYear,
   formatMonthYearShort,
   formatNumber,
   formatPercent,
 } from '../../i18n/format';
 import { useHomeData, useNow } from '../home/useHomeData';
-import { MonthChart } from './MonthChart';
+import { StatsChart } from './StatsChart';
 import { PreventionItem } from './PreventionItem';
 import styles from './Stats.module.css';
 
-const PRESETS: DateRangePreset[] = ['1M', '3M', '6M', '1Y', 'custom'];
+const PRESETS: DateRangePreset[] = ['1W', '1M', '3M', '6M', '1Y', '2Y', 'all'];
 const MAX_INSIGHTS = 3;
 const NO_VALUE = '–';
 
@@ -52,18 +49,19 @@ export function StatsScreen() {
   const data = useHomeData();
   const now = useNow();
   const [preset, setPreset] = useState<DateRangePreset>('3M');
-  const [customMonths, setCustomMonths] = useState(() => {
-    const defaultRange = resolveDateRange({ preset: '3M' }, Date.now());
-    return { fromMonth: toMonthKey(defaultRange.start), toMonth: toMonthKey(Date.now()) };
-  });
+  // Undefined = the page with today.
+  const [pageIndex, setPageIndex] = useState<number>();
   const [showMigraine, setShowMigraine] = useState(true);
   const [showMedication, setShowMedication] = useState(true);
 
   if (!data) return null;
   const { attacks, intakes, medications, preventions } = data;
 
-  const dateRange: DateRange = preset === 'custom' ? { preset, ...customMonths } : { preset };
-  const range = resolveDateRange(dateRange, now);
+  const firstDay = firstDataDay(attacks, intakes);
+  const size = bucketSize(preset);
+  const pages = chartPages(preset, now, firstDay);
+  // Cards and lists follow the page visible in the chart.
+  const range = pages[pageIndex ?? pages.length - 1] ?? pages[pages.length - 1]!;
   const effectiveness = effectivenessSummary(intakes, range);
   const pain = averagePain(attacks, range);
   const overuse = overuseMonths(intakes, medications, range);
@@ -72,7 +70,7 @@ export function StatsScreen() {
     intakes,
     medications,
     preventions,
-    range,
+    range: lookbackRange(preset, now, firstDay),
     now,
   })
     // Preventions are covered by their own section below.
@@ -84,10 +82,16 @@ export function StatsScreen() {
 
   const monthLabel = (month: string) =>
     formatMonthYear(parseISO(`${month}-01`).getTime(), language);
-  const setCustomMonth = (key: 'fromMonth' | 'toMonth', value: string) => {
-    // Clearing the native picker gives an empty value; keep the last month instead.
-    if (value) setCustomMonths((current) => ({ ...current, [key]: value }));
+  const changePreset = (value: DateRangePreset) => {
+    setPreset(value);
+    setPageIndex(undefined);
   };
+  const lastDay = addDays(range.end, -1).getTime();
+  const period = isSameMonth(range.start, lastDay)
+    ? formatMonthYear(range.start, language)
+    : size === 'month'
+      ? `${formatMonthYearShort(range.start, language)} – ${formatMonthYearShort(lastDay, language)}`
+      : formatDayRange(range, language);
 
   const preventionPeriod = (prevention: Prevention) => {
     const start = formatMonthYearShort(parseISO(prevention.startDate).getTime(), language);
@@ -105,29 +109,9 @@ export function StatsScreen() {
           label={t.stats.range.label}
           options={PRESETS.map((value) => ({ value, label: t.stats.range[value] }))}
           value={preset}
-          onChange={setPreset}
+          onChange={changePreset}
+          compact
         />
-
-        {preset === 'custom' && (
-          <div className={styles.monthPickers}>
-            <label className={styles.monthPicker}>
-              {t.stats.from}
-              <input
-                type="month"
-                value={customMonths.fromMonth}
-                onChange={(event) => setCustomMonth('fromMonth', event.target.value)}
-              />
-            </label>
-            <label className={styles.monthPicker}>
-              {t.stats.to}
-              <input
-                type="month"
-                value={customMonths.toMonth}
-                onChange={(event) => setCustomMonth('toMonth', event.target.value)}
-              />
-            </label>
-          </div>
-        )}
 
         <div className={styles.chips}>
           <ToggleChip
@@ -146,10 +130,16 @@ export function StatsScreen() {
       </div>
 
       <Card className={styles.section}>
-        <MonthChart
-          months={monthlyCounts(attacks, intakes, range, now)}
+        <p className={styles.period}>
+          {size === 'day' ? `${period} · ${t.stats.painAxis}` : period}
+        </p>
+        <StatsChart
+          key={preset}
+          pages={pages.map((page) => chartBuckets(page, size, attacks, intakes, now))}
+          size={size}
           showMigraine={showMigraine}
           showMedication={showMedication}
+          onPageChange={setPageIndex}
         />
       </Card>
 
