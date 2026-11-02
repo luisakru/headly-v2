@@ -47,8 +47,25 @@
 }
 
 .chart {
+  display: flex;
+  align-items: flex-start;
+}
+
+.chartAxis {
   display: block;
-  width: 100%;
+  flex-shrink: 0;
+  height: auto;
+}
+
+.chartScroll {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.chartPlot {
+  display: block;
   height: auto;
 }
 

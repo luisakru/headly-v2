@@ -230,7 +230,7 @@ Layout, one element per row, in this order:
 2. Segmented control: 1M, 3M, 6M, 1Y, Custom. Default 3M
 3. Custom only: "from" and "to" month selectors on one row. No min or max range; any span from one month to all data
 4. Toggle chips: Migraine and Medication, both on by default
-5. Grouped bar chart, one group per month: migraine days and medication days in their two colors. Above roughly 12 months, labels thin out and bars narrow so it still fits without scrolling
+5. Grouped bar chart, one group per month: migraine days and medication days in their two colors. Shows at most 12 months at once; longer ranges scroll sideways, starting at the most recent month
 6. Four stat cards: average migraine days per month, effectiveness rate, average pain, total medication days
 7. Overuse warning banner when triggered
 8. Insights (up to three cards)
