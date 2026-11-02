@@ -162,9 +162,8 @@
 }
 
 .insight {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  line-height: 1.35;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 .preventions {
