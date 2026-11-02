@@ -1,4 +1,5 @@
 import type { Insight } from '../domain/insights';
+import type { PreventionEffect } from '../domain/prevention';
 import type { Language, TimeRange } from '../domain/types';
 import { addDays } from 'date-fns';
 import { countMonths } from '../domain/dateRange';
@@ -36,13 +37,21 @@ export function formatInsight(insight: Insight, t: Dictionary, language: Languag
   }
 }
 
+const lastDay = (range: TimeRange) => addDays(range.end, -1).getTime();
+
+/** Both compared windows of a prevention effect as date ranges. */
+export function formatPreventionWindows(effect: PreventionEffect, language: Language) {
+  const days = (range: TimeRange) =>
+    `${formatDateShort(range.start, language)} – ${formatDateShort(lastDay(range), language)}`;
+  return { before: days(effect.before), after: days(effect.after) };
+}
+
 /** How an insight was calculated, for insights that need explaining. */
 export function formatInsightDetail(
   insight: Insight,
   t: Dictionary,
   language: Language,
 ): string | undefined {
-  const lastDay = (range: TimeRange) => addDays(range.end, -1).getTime();
   switch (insight.kind) {
     case 'migraineDaysChange': {
       const months = (range: TimeRange) =>
@@ -52,10 +61,8 @@ export function formatInsightDetail(
       return t.insights.migraineDaysDetail(months(insight.previousRange), months(insight.range));
     }
     case 'preventionMedicationDaysChange': {
-      const { windowDays, before, after } = insight.effect;
-      const days = (range: TimeRange) =>
-        `${formatDateShort(range.start, language)} – ${formatDateShort(lastDay(range), language)}`;
-      return t.insights.preventionDetail(windowDays, days(before), days(after));
+      const { before, after } = formatPreventionWindows(insight.effect, language);
+      return t.insights.preventionDetail(insight.effect.windowDays, before, after);
     }
     default:
       return undefined;

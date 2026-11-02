@@ -39,6 +39,7 @@ import {
 } from '../../i18n/format';
 import { useHomeData, useNow } from '../home/useHomeData';
 import { MonthChart } from './MonthChart';
+import { PreventionItem } from './PreventionItem';
 import styles from './Stats.module.css';
 
 const PRESETS: DateRangePreset[] = ['1M', '3M', '6M', '1Y', 'custom'];
@@ -72,7 +73,10 @@ export function StatsScreen() {
     preventions,
     range,
     now,
-  }).slice(0, MAX_INSIGHTS);
+  })
+    // Preventions are covered by their own section below.
+    .filter((insight) => insight.kind !== 'preventionMedicationDaysChange')
+    .slice(0, MAX_INSIGHTS);
   const preventionsInRange = preventions
     .filter((prevention) => preventionOverlapsRange(prevention, range))
     .sort((a, b) => b.startDate.localeCompare(a.startDate));
@@ -89,12 +93,6 @@ export function StatsScreen() {
     return prevention.endDate
       ? `${start} – ${formatMonthYearShort(parseISO(prevention.endDate).getTime(), language)}`
       : t.stats.since(start);
-  };
-  const preventionEffectText = (prevention: Prevention) => {
-    const effect = preventionEffect(prevention, attacks, intakes, now);
-    if (!effect) return t.stats.notEnoughData;
-    const { before, after } = effect.migraineDaysPer30;
-    return t.stats.preventionEffect(formatNumber(before, language), formatNumber(after, language));
   };
 
   return (
@@ -210,25 +208,15 @@ export function StatsScreen() {
         <section className={styles.list}>
           <h2 className={styles.sectionLabel}>{t.stats.preventions}</h2>
           <Card className={styles.preventions}>
-            {preventionsInRange.map((prevention) => {
-              const active = isActivePrevention(prevention, now);
-              return (
-                <div key={prevention.id} className={styles.prevention}>
-                  <span className={styles.dot} data-active={active} />
-                  <div>
-                    <p className={styles.preventionName}>
-                      {[prevention.name, prevention.dose].filter(Boolean).join(' ')}
-                    </p>
-                    <p className={styles.preventionMeta}>
-                      {active
-                        ? `${preventionPeriod(prevention)} · ${t.stats.active}`
-                        : preventionPeriod(prevention)}
-                    </p>
-                    <p className={styles.preventionMeta}>{preventionEffectText(prevention)}</p>
-                  </div>
-                </div>
-              );
-            })}
+            {preventionsInRange.map((prevention) => (
+              <PreventionItem
+                key={prevention.id}
+                prevention={prevention}
+                period={preventionPeriod(prevention)}
+                active={isActivePrevention(prevention, now)}
+                effect={preventionEffect(prevention, attacks, intakes, now)}
+              />
+            ))}
           </Card>
         </section>
       )}

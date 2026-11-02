@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card } from './Card';
-import { InfoIcon } from './icons';
+import { InfoButton } from './InfoButton';
 import type { Insight } from '../domain/insights';
 import { useI18n } from '../i18n/context';
 import { formatInsight, formatInsightDetail } from '../i18n/insights';
@@ -16,15 +16,11 @@ export function InsightCard({ insight }: { insight: Insight }) {
       <div className={styles.insightRow}>
         <p className={styles.insightText}>{formatInsight(insight, t, language)}</p>
         {detail && (
-          <button
-            type="button"
-            className={styles.infoButton}
-            aria-label={t.stats.howCalculated}
-            aria-expanded={showDetail}
+          <InfoButton
+            label={t.stats.howCalculated}
+            expanded={showDetail}
             onClick={() => setShowDetail(!showDetail)}
-          >
-            <InfoIcon />
-          </button>
+          />
         )}
       </div>
       {showDetail && <p className={styles.insightDetail}>{detail}</p>}

@@ -175,8 +175,12 @@ export const de: Dictionary = {
     preventions: 'Prophylaxe im Zeitraum',
     since: (month: string) => `seit ${month}`,
     active: 'aktiv',
-    preventionEffect: (before: string, after: string) =>
-      `Migränetage pro 30 Tage: ${before} → ${after}`,
+    preventionMigraineDays: (before: string, after: string) =>
+      `Migränetage pro Monat: ${before} → ${after}`,
+    preventionMedicationDays: (before: string, after: string) =>
+      `Medikamententage pro Monat: ${before} → ${after}`,
+    preventionEffectDetail: (days: number, before: string, after: string) =>
+      `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
     notEnoughData: 'Nicht genug Daten',
   },
   profile: {
