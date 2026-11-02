@@ -157,6 +157,8 @@ export const en = {
       medication: 'Medication',
     },
     chartLabel: 'Migraine days and medication days per month',
+    migraineDayCount: (n: number) => (n === 1 ? '1 migraine day' : `${n} migraine days`),
+    medicationDayCount: (n: number) => (n === 1 ? '1 medication day' : `${n} medication days`),
     averageMigraineDays: 'Avg. migraine days / month',
     effectivenessRate: 'Effectiveness',
     unrated: (n: number) => `${n} not rated`,

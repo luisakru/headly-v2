@@ -158,6 +158,8 @@ export const de: Dictionary = {
       medication: 'Medikament',
     },
     chartLabel: 'Migränetage und Medikamententage pro Monat',
+    migraineDayCount: (n: number) => (n === 1 ? '1 Migränetag' : `${n} Migränetage`),
+    medicationDayCount: (n: number) => (n === 1 ? '1 Medikamententag' : `${n} Medikamententage`),
     averageMigraineDays: 'Ø Migränetage / Monat',
     effectivenessRate: 'Ø Wirksamkeit',
     unrated: (n: number) => `${n} nicht bewertet`,
