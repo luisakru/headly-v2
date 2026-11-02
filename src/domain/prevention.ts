@@ -1,5 +1,9 @@
 import { addDays, differenceInCalendarDays, parseISO, startOfDay } from 'date-fns';
-import { PREVENTION_WINDOW_MAX_DAYS, PREVENTION_WINDOW_MIN_DAYS } from './constants';
+import {
+  PREVENTION_TREND_BLOCK_DAYS,
+  PREVENTION_WINDOW_MAX_DAYS,
+  PREVENTION_WINDOW_MIN_DAYS,
+} from './constants';
 import { countDaysInRange, medicationDays, migraineDays, toDayKey } from './days';
 import type { Attack, MedicationIntake, Prevention, TimeRange } from './types';
 
@@ -40,11 +44,19 @@ export function firstDataDay(attacks: Attack[], intakes: MedicationIntake[]): nu
   return times.length > 0 ? startOfDay(Math.min(...times)).getTime() : undefined;
 }
 
+export type PreventionTrend = {
+  /** Migraine days per 30 days in up to 90 days before the start, if there are 14 or more. */
+  baseline?: { range: TimeRange; migraineDaysPer30: number };
+  /** Migraine days in each full 30-day block from `effectiveFrom`, oldest first. */
+  blocks: { range: TimeRange; migraineDays: number }[];
+};
+
 export type PreventionEffectGap =
   | { reason: 'noData' }
   | { reason: 'effectiveAfterEnd' }
   | { reason: 'shortBefore'; days: number }
-  | { reason: 'shortAfter'; days: number };
+  | { reason: 'shortAfter'; days: number }
+  | { reason: 'shortAfterEffective'; days: number };
 
 /** Days of data before the start and from `effectiveFrom` up to the end or today. */
 function availableDays(
@@ -121,6 +133,40 @@ export function preventionEffectGap(
   if (available.before < PREVENTION_WINDOW_MIN_DAYS)
     return { reason: 'shortBefore', days: Math.max(0, available.before) };
   if (available.after < PREVENTION_WINDOW_MIN_DAYS)
-    return { reason: 'shortAfter', days: Math.max(0, available.after) };
+    return {
+      reason: prevention.effectiveFrom ? 'shortAfterEffective' : 'shortAfter',
+      days: Math.max(0, available.after),
+    };
   return undefined;
+}
+
+/** How migraine days developed block by block since the prevention is expected to work. */
+export function preventionTrend(
+  prevention: Prevention,
+  attacks: Attack[],
+  intakes: MedicationIntake[],
+  now: number,
+): PreventionTrend | undefined {
+  const available = availableDays(prevention, attacks, intakes, now);
+  if (!available) return undefined;
+  const migraine = migraineDays(attacks, now);
+  const blockCount = Math.max(0, Math.floor(available.after / PREVENTION_TREND_BLOCK_DAYS));
+  const blocks = Array.from({ length: blockCount }, (_, index) => {
+    const start = addDays(available.effectiveFrom, index * PREVENTION_TREND_BLOCK_DAYS);
+    const range = {
+      start: start.getTime(),
+      end: addDays(start, PREVENTION_TREND_BLOCK_DAYS).getTime(),
+    };
+    return { range, migraineDays: countDaysInRange(migraine, range) };
+  });
+  const baselineDays = Math.min(PREVENTION_WINDOW_MAX_DAYS, available.before);
+  if (baselineDays < PREVENTION_WINDOW_MIN_DAYS) return { blocks };
+  const range = {
+    start: addDays(available.start, -baselineDays).getTime(),
+    end: available.start.getTime(),
+  };
+  return {
+    blocks,
+    baseline: { range, migraineDaysPer30: (countDaysInRange(migraine, range) / baselineDays) * 30 },
+  };
 }

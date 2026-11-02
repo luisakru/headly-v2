@@ -82,3 +82,22 @@ test('other insights have no detail', () => {
     formatInsightDetail({ kind: 'fewerButStrongerAttacks', painIncrease: 1 }, en, 'en'),
   ).toBeUndefined();
 });
+
+test('formats a prevention whose effect wears off', () => {
+  expect(
+    formatInsight(
+      {
+        kind: 'preventionEffectChange',
+        preventionName: 'Aquipta',
+        early: 3.4,
+        recent: 5.6,
+        ...{ earlyRange: ranges.previousRange, recentRange: ranges.range },
+        baseline: { range: ranges.previousRange, migraineDaysPer30: 7.3 },
+      },
+      de,
+      'de',
+    ),
+  ).toBe(
+    'Aquipta wirkt schwächer als am Anfang: zuerst 3,4, zuletzt 5,6 Migränetage pro Monat (vorher 7,3).',
+  );
+});

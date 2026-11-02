@@ -4,6 +4,7 @@ import {
   isActivePrevention,
   preventionEffect,
   preventionEffectGap,
+  preventionTrend,
   preventionOverlapsRange,
   validatePrevention,
 } from './prevention';
@@ -110,6 +111,14 @@ describe('preventionEffectGap', () => {
     });
   });
 
+  test('names the expected effect when it shortens the comparison', () => {
+    const delayed = makePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-04-05' });
+    expect(preventionEffectGap(delayed, attacks, [], at(2026, 4, 12))).toEqual({
+      reason: 'shortAfterEffective',
+      days: 7,
+    });
+  });
+
   test('flags an expected effect after the end', () => {
     const odd = makePrevention({
       startDate: '2026-04-01',
@@ -170,5 +179,31 @@ describe('validatePrevention', () => {
     expect(
       validatePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-04-01' }),
     ).toBeUndefined();
+  });
+});
+
+describe('preventionTrend', () => {
+  const prevention = makePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-05-01' });
+
+  test('counts migraine days per full 30-day block from the expected effect', () => {
+    // Before the start: every 5 days. From 1 May: every 3 days, then every 10 days from 31 May.
+    const attacks = [
+      ...attacksEvery(at(2026, 1, 1), 5, 18),
+      ...attacksEvery(at(2026, 5, 1), 3, 10),
+      ...attacksEvery(at(2026, 5, 31), 10, 6),
+    ];
+    const trend = preventionTrend(prevention, attacks, [], at(2026, 7, 15));
+    expect(trend?.baseline?.migraineDaysPer30).toBe(6);
+    expect(trend?.blocks).toEqual([
+      { range: { start: at(2026, 5, 1), end: at(2026, 5, 31) }, migraineDays: 10 },
+      { range: { start: at(2026, 5, 31), end: at(2026, 6, 30) }, migraineDays: 3 },
+    ]);
+  });
+
+  test('has no baseline with less than 14 days before the start', () => {
+    const attacks = attacksEvery(at(2026, 3, 25), 5, 20);
+    const trend = preventionTrend(prevention, attacks, [], at(2026, 7, 15));
+    expect(trend?.baseline).toBeUndefined();
+    expect(trend?.blocks).toHaveLength(2);
   });
 });

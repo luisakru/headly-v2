@@ -4,14 +4,18 @@ import {
   INSIGHT_MIN_PAIN_INCREASE,
   INSIGHT_MIN_PREVENTION_CHANGE,
   INSIGHT_MIN_RATED_INTAKES,
+  PREVENTION_CHANGE_BLOCKS,
   PREVENTION_WINDOW_RELIABLE_DAYS,
 } from './constants';
 import { previousRange } from './dateRange';
 import {
   firstDataDay,
+  isActivePrevention,
   preventionEffect,
   preventionOverlapsRange,
+  preventionTrend,
   type PreventionEffect,
+  type PreventionTrend,
 } from './prevention';
 import {
   averageMigraineDaysPerMonth,
@@ -43,6 +47,16 @@ export type Insight =
       after: number;
       previousRange: TimeRange;
       range: TimeRange;
+    }
+  | {
+      kind: 'preventionEffectChange';
+      preventionName: string;
+      /** Migraine days per 30 days in the first and the latest 90 days. */
+      early: number;
+      recent: number;
+      earlyRange: TimeRange;
+      recentRange: TimeRange;
+      baseline?: { range: TimeRange; migraineDaysPer30: number };
     }
   | { kind: 'fewerButStrongerAttacks'; painIncrease: number };
 
@@ -82,6 +96,38 @@ function preventionChanges({ attacks, intakes, preventions, range, now }: Insigh
           preventionName: prevention.name,
           change,
           effect,
+        },
+      ];
+    });
+}
+
+/** Active preventions whose effect is now clearly weaker or stronger than at the start. */
+function preventionEffectChanges({ attacks, intakes, preventions, now }: InsightInput): Insight[] {
+  return preventions
+    .filter((prevention) => isActivePrevention(prevention, now))
+    .flatMap((prevention): Insight[] => {
+      const trend = preventionTrend(prevention, attacks, intakes, now);
+      if (!trend || trend.blocks.length < 2 * PREVENTION_CHANGE_BLOCKS) return [];
+      const average = (blocks: PreventionTrend['blocks']) =>
+        blocks.reduce((sum, block) => sum + block.migraineDays, 0) / blocks.length;
+      const span = (blocks: PreventionTrend['blocks']) => ({
+        start: blocks[0]!.range.start,
+        end: blocks[blocks.length - 1]!.range.end,
+      });
+      const earlyBlocks = trend.blocks.slice(0, PREVENTION_CHANGE_BLOCKS);
+      const recentBlocks = trend.blocks.slice(-PREVENTION_CHANGE_BLOCKS);
+      const early = average(earlyBlocks);
+      const recent = average(recentBlocks);
+      if (Math.abs(recent - early) < INSIGHT_MIN_MIGRAINE_DAYS_CHANGE) return [];
+      return [
+        {
+          kind: 'preventionEffectChange',
+          preventionName: prevention.name,
+          early,
+          recent,
+          earlyRange: span(earlyBlocks),
+          recentRange: span(recentBlocks),
+          ...(trend.baseline && { baseline: trend.baseline }),
         },
       ];
     });
@@ -129,6 +175,7 @@ export function generateInsights(input: InsightInput): Insight[] {
   return [
     ...(hasPrevious ? migraineDaysChange(input, previous) : []),
     ...preventionChanges(input),
+    ...preventionEffectChanges(input),
     ...(hasPrevious ? effectivenessChanges(input, previous) : []),
     ...(hasPrevious ? fewerButStronger(input, previous) : []),
   ];

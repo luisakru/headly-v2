@@ -184,3 +184,56 @@ describe('medicationEffectivenessChange', () => {
     );
   });
 });
+
+describe('preventionEffectChange', () => {
+  // Active since 1 Jan 2026, expected to work from the start.
+  const prevention = makePrevention({ name: 'Aquipta', startDate: '2026-01-01' });
+  const now = at(2026, 7, 15, 12);
+  const daysFrom = (start: number, count: number) =>
+    Array.from({ length: count }, (_, i) =>
+      makeAttack({
+        startedAt: start + i * 86_400_000 * 2,
+        endedAt: start + i * 86_400_000 * 2 + 3600_000,
+      }),
+    );
+
+  test('appears when the latest 90 days differ from the first 90 days', () => {
+    // First 90 days: 3 per 30 days. Latest 90 days: 6 per 30 days.
+    const attacks = [
+      ...daysFrom(at(2025, 12, 1, 10), 6),
+      ...daysFrom(at(2026, 1, 1, 10), 3),
+      ...daysFrom(at(2026, 1, 31, 10), 3),
+      ...daysFrom(at(2026, 3, 2, 10), 3),
+      ...daysFrom(at(2026, 4, 1, 10), 6),
+      ...daysFrom(at(2026, 5, 1, 10), 6),
+      ...daysFrom(at(2026, 5, 31, 10), 6),
+    ];
+    const insight = generateInsights({ ...empty, attacks, preventions: [prevention], now }).find(
+      (i) => i.kind === 'preventionEffectChange',
+    );
+    expect(insight).toMatchObject({
+      kind: 'preventionEffectChange',
+      preventionName: 'Aquipta',
+      early: 3,
+      recent: 6,
+      earlyRange: { start: at(2026, 1, 1), end: at(2026, 4, 1) },
+      recentRange: { start: at(2026, 4, 1), end: at(2026, 6, 30) },
+    });
+  });
+
+  test('needs six full blocks and an active prevention', () => {
+    const attacks = daysFrom(at(2026, 1, 1, 10), 20);
+    const early = generateInsights({
+      ...empty,
+      attacks,
+      preventions: [prevention],
+      now: at(2026, 6, 1),
+    });
+    expect(early.map((i) => i.kind)).not.toContain('preventionEffectChange');
+    const ended = makePrevention({ startDate: '2026-01-01', endDate: '2026-07-01' });
+    const kinds = generateInsights({ ...empty, attacks, preventions: [ended], now }).map(
+      (i) => i.kind,
+    );
+    expect(kinds).not.toContain('preventionEffectChange');
+  });
+});

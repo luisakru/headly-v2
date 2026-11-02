@@ -237,9 +237,9 @@ Layout, one element per row, in this order:
 5. Four stat cards for the visible page: average migraine days per 30 days (counted only up to today), effectiveness rate, average pain, total medication days
 6. Overuse warning banner when triggered in a month the visible page touches
 7. Insights (up to three cards), comparing the preset's length up to today (e.g. the last 3 months) with the same number of days before
-8. Preventions overlapping the visible page, each with its before/after effect or the reason it is missing
+8. Preventions overlapping the visible page, each with its before/after effect or the reason it is missing, plus a course line: migraine days before the start, then per full 30-day block from `effectiveFrom` (latest six)
 
-**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%)." Each template has a German and English version and only appears when its data condition is met.
+**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%).", "Aquipta works less well than at first: 3.4 at first, 5.6 migraine days per month lately (before: 7.3)." (active preventions with six full 30-day blocks; first vs. latest 90 days differ by at least one day) Each template has a German and English version and only appears when its data condition is met.
 
 ### Profile
 

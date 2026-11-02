@@ -30,6 +30,13 @@ export function formatInsight(insight: Insight, t: Dictionary, language: Languag
         ? templates.medicationHelpedLess(medicationName, percent(before), percent(after))
         : templates.medicationHelpedMore(medicationName, percent(before), percent(after));
     }
+    case 'preventionEffectChange': {
+      const { preventionName, early, recent, baseline } = insight;
+      const before = baseline && number(baseline.migraineDaysPer30);
+      return recent > early
+        ? templates.preventionWeaker(preventionName, number(early), number(recent), before)
+        : templates.preventionStronger(preventionName, number(early), number(recent), before);
+    }
     case 'fewerButStrongerAttacks':
       return templates.fewerButStronger(number(insight.painIncrease));
   }
@@ -64,6 +71,12 @@ export function formatInsightDetail(
       const { before, after } = formatPreventionWindows(insight.effect, language);
       return t.insights.preventionDetail(insight.effect.windowDays, before, after);
     }
+    case 'preventionEffectChange':
+      return t.insights.preventionChangeDetail(
+        formatDayRange(insight.earlyRange, language),
+        formatDayRange(insight.recentRange, language),
+        insight.baseline && formatDayRange(insight.baseline.range, language),
+      );
     default:
       return undefined;
   }

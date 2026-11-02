@@ -4,12 +4,18 @@ import {
   PREVENTION_WINDOW_MIN_DAYS,
   PREVENTION_WINDOW_RELIABLE_DAYS,
 } from '../../domain/constants';
-import type { PreventionEffect, PreventionEffectGap } from '../../domain/prevention';
+import type {
+  PreventionEffect,
+  PreventionEffectGap,
+  PreventionTrend,
+} from '../../domain/prevention';
 import type { Prevention } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatNumber } from '../../i18n/format';
 import { formatPreventionWindows } from '../../i18n/insights';
 import styles from './Stats.module.css';
+
+const MAX_TREND_BLOCKS = 6;
 
 type PreventionItemProps = {
   prevention: Prevention;
@@ -17,13 +23,31 @@ type PreventionItemProps = {
   active: boolean;
   effect?: PreventionEffect;
   gap?: PreventionEffectGap;
+  trend?: PreventionTrend;
 };
 
-export function PreventionItem({ prevention, period, active, effect, gap }: PreventionItemProps) {
+export function PreventionItem({
+  prevention,
+  period,
+  active,
+  effect,
+  gap,
+  trend,
+}: PreventionItemProps) {
   const { t, language } = useI18n();
   const [showDetail, setShowDetail] = useState(false);
   const number = (value: number) => formatNumber(value, language);
   const windows = effect && formatPreventionWindows(effect, language);
+  const showTrend = trend !== undefined && trend.blocks.length >= 2;
+  const trendText =
+    showTrend &&
+    t.stats.preventionTrend(
+      [
+        ...(trend.baseline ? [t.stats.trendBefore(number(trend.baseline.migraineDaysPer30))] : []),
+        ...(trend.blocks.length > MAX_TREND_BLOCKS ? ['…'] : []),
+        ...trend.blocks.slice(-MAX_TREND_BLOCKS).map((block) => number(block.migraineDays)),
+      ].join(' · '),
+    );
   const gapText = (gap: PreventionEffectGap) => {
     switch (gap.reason) {
       case 'noData':
@@ -31,6 +55,7 @@ export function PreventionItem({ prevention, period, active, effect, gap }: Prev
         return t.stats.effectGap[gap.reason];
       case 'shortBefore':
       case 'shortAfter':
+      case 'shortAfterEffective':
         return t.stats.effectGap[gap.reason](gap.days, PREVENTION_WINDOW_MIN_DAYS);
     }
   };
@@ -64,13 +89,19 @@ export function PreventionItem({ prevention, period, active, effect, gap }: Prev
         {effect && effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS && (
           <p className={styles.preventionMeta}>{t.stats.shortComparison(effect.windowDays)}</p>
         )}
-        {showDetail && windows && (
+        {trendText && <p className={styles.preventionMeta}>{trendText}</p>}
+        {showDetail && (
           <p className={styles.preventionDetail}>
-            {t.stats.preventionEffectDetail(effect.windowDays, windows.before, windows.after)}
+            {[
+              ...(windows
+                ? [t.stats.preventionEffectDetail(effect.windowDays, windows.before, windows.after)]
+                : []),
+              ...(showTrend ? [t.stats.trendDetail] : []),
+            ].join(' ')}
           </p>
         )}
       </div>
-      {effect && (
+      {(effect || showTrend) && (
         <span className={styles.preventionInfo}>
           <InfoButton
             label={t.stats.howCalculated}

@@ -124,6 +124,12 @@ export const en = {
       `Compares ${after} with the same-length period before (${before}). Counted are days with a migraine, scaled to 30 days.`,
     preventionMedicationDays: (name: string, before: string, after: string) =>
       `Since ${name}: ${after} instead of ${before} medication days per month.`,
+    preventionWeaker: (name: string, early: string, recent: string, before?: string) =>
+      `${name} works less well than at first: ${early} at first, ${recent} migraine days per month lately${before ? ` (before: ${before})` : ''}.`,
+    preventionStronger: (name: string, early: string, recent: string, before?: string) =>
+      `${name} works better than at first: ${early} at first, ${recent} migraine days per month lately${before ? ` (before: ${before})` : ''}.`,
+    preventionChangeDetail: (early: string, recent: string, before?: string) =>
+      `Compares the first 90 days from when it is expected to work (${early}) with the latest 90 days (${recent}). Counted are days with a migraine, scaled to 30 days.${before ? ` "Before" is up to 90 days before the start (${before}).` : ''}`,
     preventionDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
     medicationHelpedLess: (name: string, before: string, after: string) =>
@@ -183,6 +189,10 @@ export const en = {
       `Medication days per month: ${before} → ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
+    preventionTrend: (values: string) => `Course: ${values}`,
+    trendBefore: (value: string) => `before ${value}`,
+    trendDetail:
+      'The course shows migraine days in each 30 days from when it is expected to work, the latest last.',
     shortComparison: (days: number) => `Only ${days} days compared, not very meaningful`,
     effectGap: {
       noData: 'No data yet',
@@ -193,6 +203,8 @@ export const en = {
           : `Only ${days} days recorded before the start, at least ${min} needed.`,
       shortAfter: (days: number, min: number) =>
         `Only ${days} days to compare after the start, at least ${min} needed.`,
+      shortAfterEffective: (days: number, min: number) =>
+        `Only ${days} days to compare from when it is expected to work, at least ${min} needed.`,
     },
   },
   profile: {

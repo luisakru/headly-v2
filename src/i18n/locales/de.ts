@@ -125,6 +125,12 @@ export const de: Dictionary = {
       `Verglichen wird ${after} mit dem gleich langen Zeitraum davor (${before}). Gezählt werden Tage mit Migräne, umgerechnet auf 30 Tage.`,
     preventionMedicationDays: (name: string, before: string, after: string) =>
       `Seit ${name}: ${after} statt ${before} Medikamententage pro Monat.`,
+    preventionWeaker: (name: string, early: string, recent: string, before?: string) =>
+      `${name} wirkt schwächer als am Anfang: zuerst ${early}, zuletzt ${recent} Migränetage pro Monat${before ? ` (vorher ${before})` : ''}.`,
+    preventionStronger: (name: string, early: string, recent: string, before?: string) =>
+      `${name} wirkt besser als am Anfang: zuerst ${early}, zuletzt ${recent} Migränetage pro Monat${before ? ` (vorher ${before})` : ''}.`,
+    preventionChangeDetail: (early: string, recent: string, before?: string) =>
+      `Verglichen werden die ersten 90 Tage ab dem Wirkbeginn (${early}) mit den letzten 90 Tagen (${recent}). Gezählt werden Tage mit Migräne, umgerechnet auf 30 Tage.${before ? ` „Vorher" sind die bis zu 90 Tage vor dem Beginn (${before}).` : ''}`,
     preventionDetail: (days: number, before: string, after: string) =>
       `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
     medicationHelpedLess: (name: string, before: string, after: string) =>
@@ -184,6 +190,10 @@ export const de: Dictionary = {
       `Medikamententage pro Monat: ${before} → ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
+    preventionTrend: (values: string) => `Verlauf: ${values}`,
+    trendBefore: (value: string) => `vorher ${value}`,
+    trendDetail:
+      'Der Verlauf zeigt die Migränetage je 30 Tage ab dem Wirkbeginn, die neuesten zuletzt.',
     shortComparison: (days: number) => `Nur ${days} Tage verglichen, wenig aussagekräftig`,
     effectGap: {
       noData: 'Noch keine Daten',
@@ -194,6 +204,8 @@ export const de: Dictionary = {
           : `Nur ${days} Tage vor dem Beginn erfasst, mindestens ${min} nötig.`,
       shortAfter: (days: number, min: number) =>
         `Nur ${days} Tage zum Vergleich nach dem Beginn, mindestens ${min} nötig.`,
+      shortAfterEffective: (days: number, min: number) =>
+        `Nur ${days} Tage zum Vergleich ab dem Wirkbeginn, mindestens ${min} nötig.`,
     },
   },
   profile: {
