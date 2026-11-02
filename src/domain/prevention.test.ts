@@ -3,6 +3,7 @@ import { at, makeAttack, makeIntake, makeMedication, makePrevention } from '../t
 import {
   isActivePrevention,
   preventionEffect,
+  preventionEffectGap,
   preventionOverlapsRange,
   validatePrevention,
 } from './prevention';
@@ -44,14 +45,19 @@ describe('preventionEffect', () => {
     expect(effect?.windowDays).toBe(40);
   });
 
-  test('is undefined with less than 30 days before the start', () => {
+  test('compares short windows down to 14 days', () => {
     const attacks = attacksEvery(at(2026, 3, 10), 5, 20);
+    expect(preventionEffect(prevention, attacks, [], at(2026, 9, 1))?.windowDays).toBe(22);
+  });
+
+  test('is undefined with less than 14 days before the start', () => {
+    const attacks = attacksEvery(at(2026, 3, 20), 5, 20);
     expect(preventionEffect(prevention, attacks, [], at(2026, 9, 1))).toBeUndefined();
   });
 
-  test('is undefined with less than 30 days after the start', () => {
+  test('is undefined with less than 14 days after the start', () => {
     const attacks = attacksEvery(at(2026, 1, 1), 5, 20);
-    expect(preventionEffect(prevention, attacks, [], at(2026, 4, 20))).toBeUndefined();
+    expect(preventionEffect(prevention, attacks, [], at(2026, 4, 10))).toBeUndefined();
   });
 
   test('stops the after window at the end date', () => {
@@ -78,10 +84,41 @@ describe('preventionEffect', () => {
     expect(effect?.migraineDaysPer30).toEqual({ before: 6, after: 3 });
   });
 
-  test('is undefined with less than 30 days after the expected effect', () => {
+  test('is undefined with less than 14 days after the expected effect', () => {
     const delayed = makePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-06-01' });
     const attacks = attacksEvery(at(2026, 1, 1), 5, 20);
-    expect(preventionEffect(delayed, attacks, [], at(2026, 6, 20))).toBeUndefined();
+    expect(preventionEffect(delayed, attacks, [], at(2026, 6, 10))).toBeUndefined();
+  });
+});
+
+describe('preventionEffectGap', () => {
+  const prevention = makePrevention({ startDate: '2026-04-01' });
+  const attacks = attacksEvery(at(2026, 1, 1), 5, 20);
+
+  test('is undefined when there is an effect', () => {
+    expect(preventionEffectGap(prevention, attacks, [], at(2026, 9, 1))).toBeUndefined();
+  });
+
+  test('names the missing data', () => {
+    expect(preventionEffectGap(prevention, [], [], at(2026, 9, 1))).toEqual({ reason: 'noData' });
+    expect(
+      preventionEffectGap(prevention, attacksEvery(at(2026, 3, 25), 1, 3), [], at(2026, 9, 1)),
+    ).toEqual({ reason: 'shortBefore', days: 7 });
+    expect(preventionEffectGap(prevention, attacks, [], at(2026, 4, 10))).toEqual({
+      reason: 'shortAfter',
+      days: 9,
+    });
+  });
+
+  test('flags an expected effect after the end', () => {
+    const odd = makePrevention({
+      startDate: '2026-04-01',
+      effectiveFrom: '2026-06-01',
+      endDate: '2026-05-01',
+    });
+    expect(preventionEffectGap(odd, attacks, [], at(2026, 9, 1))).toEqual({
+      reason: 'effectiveAfterEnd',
+    });
   });
 });
 

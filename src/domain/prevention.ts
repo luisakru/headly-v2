@@ -40,9 +40,37 @@ export function firstDataDay(attacks: Attack[], intakes: MedicationIntake[]): nu
   return times.length > 0 ? startOfDay(Math.min(...times)).getTime() : undefined;
 }
 
+export type PreventionEffectGap =
+  | { reason: 'noData' }
+  | { reason: 'effectiveAfterEnd' }
+  | { reason: 'shortBefore'; days: number }
+  | { reason: 'shortAfter'; days: number };
+
+/** Days of data before the start and from `effectiveFrom` up to the end or today. */
+function availableDays(
+  prevention: Prevention,
+  attacks: Attack[],
+  intakes: MedicationIntake[],
+  now: number,
+) {
+  const dataStart = firstDataDay(attacks, intakes);
+  if (dataStart === undefined) return undefined;
+  const start = parseISO(prevention.startDate);
+  const effectiveFrom = parseISO(prevention.effectiveFrom ?? prevention.startDate);
+  const afterLimit = prevention.endDate
+    ? Math.min(addDays(parseISO(prevention.endDate), 1).getTime(), startOfDay(now).getTime())
+    : startOfDay(now).getTime();
+  return {
+    start,
+    effectiveFrom,
+    before: differenceInCalendarDays(start, dataStart),
+    after: differenceInCalendarDays(afterLimit, effectiveFrom),
+  };
+}
+
 /**
  * Compares a window before the start date with an equal window from `effectiveFrom`
- * (up to 90 days each). Undefined if either window has less than 30 days of data.
+ * (up to 90 days each). Undefined if either window has less than 14 days of data.
  */
 export function preventionEffect(
   prevention: Prevention,
@@ -50,19 +78,10 @@ export function preventionEffect(
   intakes: MedicationIntake[],
   now: number,
 ): PreventionEffect | undefined {
-  const dataStart = firstDataDay(attacks, intakes);
-  if (dataStart === undefined) return undefined;
-
-  const start = parseISO(prevention.startDate);
-  const effectiveFrom = parseISO(prevention.effectiveFrom ?? prevention.startDate);
-  const afterLimit = prevention.endDate
-    ? Math.min(addDays(parseISO(prevention.endDate), 1).getTime(), startOfDay(now).getTime())
-    : startOfDay(now).getTime();
-  const windowDays = Math.min(
-    PREVENTION_WINDOW_MAX_DAYS,
-    differenceInCalendarDays(start, dataStart),
-    differenceInCalendarDays(afterLimit, effectiveFrom),
-  );
+  const available = availableDays(prevention, attacks, intakes, now);
+  if (!available) return undefined;
+  const { start, effectiveFrom } = available;
+  const windowDays = Math.min(PREVENTION_WINDOW_MAX_DAYS, available.before, available.after);
   if (windowDays < PREVENTION_WINDOW_MIN_DAYS) return undefined;
 
   const before = { start: addDays(start, -windowDays).getTime(), end: start.getTime() };
@@ -82,4 +101,26 @@ export function preventionEffect(
     migraineDaysPer30: { before: per30(migraine, before), after: per30(migraine, after) },
     medicationDaysPer30: { before: per30(medication, before), after: per30(medication, after) },
   };
+}
+
+/** Why `preventionEffect` has no result; undefined when it has one. */
+export function preventionEffectGap(
+  prevention: Prevention,
+  attacks: Attack[],
+  intakes: MedicationIntake[],
+  now: number,
+): PreventionEffectGap | undefined {
+  const available = availableDays(prevention, attacks, intakes, now);
+  if (!available) return { reason: 'noData' };
+  if (
+    prevention.endDate &&
+    prevention.effectiveFrom &&
+    prevention.effectiveFrom > prevention.endDate
+  )
+    return { reason: 'effectiveAfterEnd' };
+  if (available.before < PREVENTION_WINDOW_MIN_DAYS)
+    return { reason: 'shortBefore', days: Math.max(0, available.before) };
+  if (available.after < PREVENTION_WINDOW_MIN_DAYS)
+    return { reason: 'shortAfter', days: Math.max(0, available.after) };
+  return undefined;
 }

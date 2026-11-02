@@ -180,7 +180,17 @@ export const en = {
       `Medication days per month: ${before} → ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
-    notEnoughData: 'Not enough data',
+    shortComparison: (days: number) => `Only ${days} days compared, not very meaningful`,
+    effectGap: {
+      noData: 'No data yet',
+      effectiveAfterEnd: 'The expected effect date is after the end date.',
+      shortBefore: (days: number, min: number) =>
+        days === 0
+          ? 'No data recorded before the start.'
+          : `Only ${days} days recorded before the start, at least ${min} needed.`,
+      shortAfter: (days: number, min: number) =>
+        `Only ${days} days to compare after the start, at least ${min} needed.`,
+    },
   },
   profile: {
     title: 'Profile',

@@ -19,6 +19,7 @@ import { generateInsights } from '../../domain/insights';
 import {
   isActivePrevention,
   preventionEffect,
+  preventionEffectGap,
   preventionOverlapsRange,
 } from '../../domain/prevention';
 import {
@@ -215,6 +216,7 @@ export function StatsScreen() {
                 period={preventionPeriod(prevention)}
                 active={isActivePrevention(prevention, now)}
                 effect={preventionEffect(prevention, attacks, intakes, now)}
+                gap={preventionEffectGap(prevention, attacks, intakes, now)}
               />
             ))}
           </Card>

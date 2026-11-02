@@ -4,6 +4,7 @@ import {
   INSIGHT_MIN_PAIN_INCREASE,
   INSIGHT_MIN_PREVENTION_CHANGE,
   INSIGHT_MIN_RATED_INTAKES,
+  PREVENTION_WINDOW_RELIABLE_DAYS,
 } from './constants';
 import { countMonths, previousRange } from './dateRange';
 import {
@@ -65,7 +66,12 @@ function preventionChanges({ attacks, intakes, preventions, range, now }: Insigh
     .filter((prevention) => preventionOverlapsRange(prevention, range))
     .flatMap((prevention): Insight[] => {
       const effect = preventionEffect(prevention, attacks, intakes, now);
-      if (!effect || effect.medicationDaysPer30.before === 0) return [];
+      if (
+        !effect ||
+        effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS ||
+        effect.medicationDaysPer30.before === 0
+      )
+        return [];
       const { before, after } = effect.medicationDaysPer30;
       const change = (after - before) / before;
       if (Math.abs(change) < INSIGHT_MIN_PREVENTION_CHANGE) return [];

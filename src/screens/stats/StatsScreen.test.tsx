@@ -81,5 +81,5 @@ test('lists preventions in the range with their effect', async () => {
 
   expect(await screen.findByText('Amitriptyline 10 mg')).toBeInTheDocument();
   expect(screen.getByText(/· active$/)).toBeInTheDocument();
-  expect(screen.getByText('Not enough data')).toBeInTheDocument();
+  expect(screen.getByText('No data yet')).toBeInTheDocument();
 });

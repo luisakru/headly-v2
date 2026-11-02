@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { InfoButton } from '../../components/InfoButton';
-import type { PreventionEffect } from '../../domain/prevention';
+import {
+  PREVENTION_WINDOW_MIN_DAYS,
+  PREVENTION_WINDOW_RELIABLE_DAYS,
+} from '../../domain/constants';
+import type { PreventionEffect, PreventionEffectGap } from '../../domain/prevention';
 import type { Prevention } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatNumber } from '../../i18n/format';
@@ -12,13 +16,24 @@ type PreventionItemProps = {
   period: string;
   active: boolean;
   effect?: PreventionEffect;
+  gap?: PreventionEffectGap;
 };
 
-export function PreventionItem({ prevention, period, active, effect }: PreventionItemProps) {
+export function PreventionItem({ prevention, period, active, effect, gap }: PreventionItemProps) {
   const { t, language } = useI18n();
   const [showDetail, setShowDetail] = useState(false);
   const number = (value: number) => formatNumber(value, language);
   const windows = effect && formatPreventionWindows(effect, language);
+  const gapText = (gap: PreventionEffectGap) => {
+    switch (gap.reason) {
+      case 'noData':
+      case 'effectiveAfterEnd':
+        return t.stats.effectGap[gap.reason];
+      case 'shortBefore':
+      case 'shortAfter':
+        return t.stats.effectGap[gap.reason](gap.days, PREVENTION_WINDOW_MIN_DAYS);
+    }
+  };
 
   return (
     <div className={styles.prevention}>
@@ -44,7 +59,10 @@ export function PreventionItem({ prevention, period, active, effect }: Preventio
             </p>
           </>
         ) : (
-          <p className={styles.preventionMeta}>{t.stats.notEnoughData}</p>
+          gap && <p className={styles.preventionMeta}>{gapText(gap)}</p>
+        )}
+        {effect && effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS && (
+          <p className={styles.preventionMeta}>{t.stats.shortComparison(effect.windowDays)}</p>
         )}
         {showDetail && windows && (
           <p className={styles.preventionDetail}>

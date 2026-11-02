@@ -13,7 +13,9 @@ export const PROMPT_HOURS_START = 8;
 export const PROMPT_HOURS_END = 22;
 
 export const PREVENTION_WINDOW_MAX_DAYS = 90;
-export const PREVENTION_WINDOW_MIN_DAYS = 30;
+export const PREVENTION_WINDOW_MIN_DAYS = 14;
+/** Shorter comparisons are shown but marked as not very meaningful. */
+export const PREVENTION_WINDOW_RELIABLE_DAYS = 30;
 
 export const BACKUP_REMINDER_AFTER_MS = 30 * DAY_MS;
 export const BACKUP_REMINDER_MIN_RECORDS = 5;

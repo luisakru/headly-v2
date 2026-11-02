@@ -181,7 +181,17 @@ export const de: Dictionary = {
       `Medikamententage pro Monat: ${before} → ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
-    notEnoughData: 'Nicht genug Daten',
+    shortComparison: (days: number) => `Nur ${days} Tage verglichen, wenig aussagekräftig`,
+    effectGap: {
+      noData: 'Noch keine Daten',
+      effectiveAfterEnd: 'Der Wirkbeginn liegt nach dem Ende.',
+      shortBefore: (days: number, min: number) =>
+        days === 0
+          ? 'Vor dem Beginn sind keine Daten erfasst.'
+          : `Nur ${days} Tage vor dem Beginn erfasst, mindestens ${min} nötig.`,
+      shortAfter: (days: number, min: number) =>
+        `Nur ${days} Tage zum Vergleich nach dem Beginn, mindestens ${min} nötig.`,
+    },
   },
   profile: {
     title: 'Profil',

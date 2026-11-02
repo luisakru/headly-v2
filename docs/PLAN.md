@@ -146,7 +146,7 @@ type Settings = {
 - **Medication day:** a day with at least one intake. **Triptan day:** a day with at least one intake of a medication where `isTriptan` is true.
 - **Effectiveness rate:** intakes rated `strong` or `slight` divided by all rated intakes in the range. Unrated intakes are excluded and the count of unrated is shown.
 - **Overuse warning:** show when any calendar month in range has 10 or more triptan days, or 15 or more medication days. The thresholds live in one constants file.
-- **Prevention effect:** compare average migraine days per 30 days in a window before `startDate` with the same-length window from `effectiveFrom` (or `startDate` if unset; max 90 days each). Many preventions take 2–3 months to work, and guidelines assess them after about 3 months against a baseline of at least 28 days. Show nothing if either window has less than 30 days of data.
+- **Prevention effect:** compare average migraine days per 30 days in a window before `startDate` with the same-length window from `effectiveFrom` (or `startDate` if unset; max 90 days each). Many preventions take 2–3 months to work, and guidelines assess them after about 3 months against a baseline of at least 28 days. Below 14 days in either window, show the concrete reason instead of values; between 14 and 29 days, show the values with a "not very meaningful" note.
 - **Rating prompt:** an intake older than 2 hours without a rating shows an in-app card asking "Did it help?" with the four options.
 - **Attack still running?** If an active attack is older than 6 hours, show an in-app card asking whether it is still going, between 08:00 and 22:00 only. If it is still active the next morning, ask "Was yesterday still a migraine day?" and offer to end it at a chosen time.
 
