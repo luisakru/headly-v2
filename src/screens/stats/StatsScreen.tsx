@@ -1,6 +1,7 @@
 import { parseISO } from 'date-fns';
 import { useState } from 'react';
 import { Card } from '../../components/Card';
+import { InsightCard } from '../../components/InsightCard';
 import { ScreenTitle } from '../../components/ScreenTitle';
 import { SegmentedControl } from '../../components/SegmentedControl';
 import { ToggleChip } from '../../components/ToggleChip';
@@ -36,7 +37,6 @@ import {
   formatNumber,
   formatPercent,
 } from '../../i18n/format';
-import { formatInsight } from '../../i18n/insights';
 import { useHomeData, useNow } from '../home/useHomeData';
 import { MonthChart } from './MonthChart';
 import styles from './Stats.module.css';
@@ -201,9 +201,7 @@ export function StatsScreen() {
         <section className={styles.list}>
           <h2 className={styles.sectionLabel}>{t.stats.insights}</h2>
           {insights.map((insight, index) => (
-            <Card key={index} className={styles.insight}>
-              {formatInsight(insight, t, language)}
-            </Card>
+            <InsightCard key={index} insight={insight} />
           ))}
         </section>
       )}

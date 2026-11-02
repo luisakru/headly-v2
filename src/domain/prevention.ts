@@ -5,17 +5,22 @@ import type { Attack, MedicationIntake, Prevention, TimeRange } from './types';
 
 export type PreventionEffect = {
   windowDays: number;
+  before: TimeRange;
+  after: TimeRange;
   migraineDaysPer30: { before: number; after: number };
   medicationDaysPer30: { before: number; after: number };
 };
 
-export type PreventionValidationError = 'endBeforeStart';
+export type PreventionValidationError = 'endBeforeStart' | 'effectiveBeforeStart';
 
 export function validatePrevention({
   startDate,
+  effectiveFrom,
   endDate,
-}: Pick<Prevention, 'startDate' | 'endDate'>): PreventionValidationError | undefined {
+}: Pick<Prevention, 'startDate' | 'effectiveFrom' | 'endDate'>):
+  PreventionValidationError | undefined {
   if (endDate !== undefined && endDate < startDate) return 'endBeforeStart';
+  if (effectiveFrom !== undefined && effectiveFrom < startDate) return 'effectiveBeforeStart';
   return undefined;
 }
 
@@ -36,8 +41,8 @@ export function firstDataDay(attacks: Attack[], intakes: MedicationIntake[]): nu
 }
 
 /**
- * Compares equal windows before and after the start date (up to 90 days each).
- * Undefined if either window has less than 30 days of data.
+ * Compares a window before the start date with an equal window from `effectiveFrom`
+ * (up to 90 days each). Undefined if either window has less than 30 days of data.
  */
 export function preventionEffect(
   prevention: Prevention,
@@ -49,18 +54,22 @@ export function preventionEffect(
   if (dataStart === undefined) return undefined;
 
   const start = parseISO(prevention.startDate);
+  const effectiveFrom = parseISO(prevention.effectiveFrom ?? prevention.startDate);
   const afterLimit = prevention.endDate
     ? Math.min(addDays(parseISO(prevention.endDate), 1).getTime(), startOfDay(now).getTime())
     : startOfDay(now).getTime();
   const windowDays = Math.min(
     PREVENTION_WINDOW_MAX_DAYS,
     differenceInCalendarDays(start, dataStart),
-    differenceInCalendarDays(afterLimit, start),
+    differenceInCalendarDays(afterLimit, effectiveFrom),
   );
   if (windowDays < PREVENTION_WINDOW_MIN_DAYS) return undefined;
 
   const before = { start: addDays(start, -windowDays).getTime(), end: start.getTime() };
-  const after = { start: start.getTime(), end: addDays(start, windowDays).getTime() };
+  const after = {
+    start: effectiveFrom.getTime(),
+    end: addDays(effectiveFrom, windowDays).getTime(),
+  };
   const migraine = migraineDays(attacks, now);
   const medication = medicationDays(intakes);
   const per30 = (days: Set<string>, range: TimeRange) =>
@@ -68,6 +77,8 @@ export function preventionEffect(
 
   return {
     windowDays,
+    before,
+    after,
     migraineDaysPer30: { before: per30(migraine, before), after: per30(migraine, after) },
     medicationDaysPer30: { before: per30(medication, before), after: per30(medication, after) },
   };

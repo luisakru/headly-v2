@@ -70,6 +70,7 @@ const backupSchema = z.object({
         type: z.enum(['medication', 'lifestyle']),
         dose: z.string().optional(),
         startDate: z.string().regex(ISO_DATE),
+        effectiveFrom: z.string().regex(ISO_DATE).optional(),
         endDate: z.string().regex(ISO_DATE).optional(),
       }),
     ),

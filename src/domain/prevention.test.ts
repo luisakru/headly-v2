@@ -63,6 +63,26 @@ describe('preventionEffect', () => {
   test('is undefined without any data', () => {
     expect(preventionEffect(prevention, [], [], at(2026, 9, 1))).toBeUndefined();
   });
+
+  test('starts the after window when the prevention is expected to work', () => {
+    const delayed = makePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-06-01' });
+    // Before the start: one attack every 5 days. From June: one every 10 days.
+    const attacks = [
+      ...attacksEvery(at(2026, 1, 1), 5, 18),
+      ...attacksEvery(at(2026, 4, 1), 2, 30),
+      ...attacksEvery(at(2026, 6, 1), 10, 9),
+    ];
+    const effect = preventionEffect(delayed, attacks, [], at(2026, 10, 1));
+    expect(effect?.windowDays).toBe(90);
+    expect(effect?.after).toEqual({ start: at(2026, 6, 1), end: at(2026, 8, 30) });
+    expect(effect?.migraineDaysPer30).toEqual({ before: 6, after: 3 });
+  });
+
+  test('is undefined with less than 30 days after the expected effect', () => {
+    const delayed = makePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-06-01' });
+    const attacks = attacksEvery(at(2026, 1, 1), 5, 20);
+    expect(preventionEffect(delayed, attacks, [], at(2026, 6, 20))).toBeUndefined();
+  });
 });
 
 test('isActivePrevention', () => {
@@ -104,5 +124,14 @@ describe('validatePrevention', () => {
     expect(validatePrevention({ startDate: '2026-04-01', endDate: '2026-03-31' })).toBe(
       'endBeforeStart',
     );
+  });
+
+  test('rejects an expected effect before the start', () => {
+    expect(validatePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-03-31' })).toBe(
+      'effectiveBeforeStart',
+    );
+    expect(
+      validatePrevention({ startDate: '2026-04-01', effectiveFrom: '2026-04-01' }),
+    ).toBeUndefined();
   });
 });

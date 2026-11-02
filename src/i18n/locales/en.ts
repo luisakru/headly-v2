@@ -21,7 +21,6 @@ export const en = {
     title: 'Hello',
     migraineDaysThisMonth: (n: number) =>
       n === 1 ? '1 migraine day this month' : `${n} migraine days this month`,
-    activePreventions: 'Active prevention',
     startMigraine: 'Start migraine',
     lastFourWeeks: 'Last 4 weeks',
     insight: 'Insight',
@@ -113,6 +112,7 @@ export const en = {
     },
     prevention: {
       endBeforeStart: 'The end date cannot be before the start date.',
+      effectiveBeforeStart: 'It cannot start working before the start date.',
     },
   },
   insights: {
@@ -120,10 +120,10 @@ export const en = {
       `Migraine days dropped from ${before} to ${after} per month.`,
     migraineDaysRose: (before: string, after: string) =>
       `Migraine days rose from ${before} to ${after} per month.`,
-    preventionFewerMedicationDays: (name: string, percent: string) =>
-      `Since starting ${name}: ${percent} fewer medication days.`,
-    preventionMoreMedicationDays: (name: string, percent: string) =>
-      `Since starting ${name}: ${percent} more medication days.`,
+    preventionMedicationDays: (name: string, before: string, after: string) =>
+      `Since ${name}: ${after} instead of ${before} medication days per month.`,
+    preventionDetail: (days: number, before: string, after: string) =>
+      `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
     medicationHelpedLess: (name: string, months: number, before: string, after: string) =>
       `${name} has helped less over the last ${months} months (${before} to ${after}).`,
     medicationHelpedMore: (name: string, months: number, before: string, after: string) =>
@@ -157,6 +157,7 @@ export const en = {
       medication: 'Medication',
     },
     chartLabel: 'Migraine days and medication days per month',
+    howCalculated: 'How this is calculated',
     migraineDayCount: (n: number) => (n === 1 ? '1 migraine day' : `${n} migraine days`),
     medicationDayCount: (n: number) => (n === 1 ? '1 medication day' : `${n} medication days`),
     averageMigraineDays: 'Avg. migraine days / month',
@@ -201,6 +202,9 @@ export const en = {
       lifestyle: 'Lifestyle',
     },
     startDate: 'Start date',
+    effectiveFrom: 'Expected to work from (optional)',
+    effectiveFromHint:
+      'Many preventions take 2–3 months to work. Without a date, the start date counts.',
     endDate: 'End date (optional)',
     activePreventions: 'Active',
     pastPreventions: 'Past',

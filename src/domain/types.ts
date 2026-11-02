@@ -39,6 +39,8 @@ export type Prevention = {
   dose?: string;
   /** ISO date, YYYY-MM-DD */
   startDate: string;
+  /** ISO date, YYYY-MM-DD. When the prevention is expected to work; defaults to `startDate`. */
+  effectiveFrom?: string;
   /** ISO date, YYYY-MM-DD */
   endDate?: string;
   createdAt: number;

@@ -1,6 +1,7 @@
 import type { Insight } from '../domain/insights';
-import type { Language } from '../domain/types';
-import { formatNumber, formatPercent } from './format';
+import type { Language, TimeRange } from '../domain/types';
+import { addDays } from 'date-fns';
+import { formatDateShort, formatNumber, formatPercent } from './format';
 import type { Dictionary } from './locales/en';
 
 export function formatInsight(insight: Insight, t: Dictionary, language: Language): string {
@@ -16,10 +17,12 @@ export function formatInsight(insight: Insight, t: Dictionary, language: Languag
         : templates.migraineDaysRose(number(before), number(after));
     }
     case 'preventionMedicationDaysChange': {
-      const { preventionName, change } = insight;
-      return change < 0
-        ? templates.preventionFewerMedicationDays(preventionName, percent(-change))
-        : templates.preventionMoreMedicationDays(preventionName, percent(change));
+      const { before, after } = insight.effect.medicationDaysPer30;
+      return templates.preventionMedicationDays(
+        insight.preventionName,
+        number(before),
+        number(after),
+      );
     }
     case 'medicationEffectivenessChange': {
       const { medicationName, months, before, after } = insight;
@@ -30,4 +33,17 @@ export function formatInsight(insight: Insight, t: Dictionary, language: Languag
     case 'fewerButStrongerAttacks':
       return templates.fewerButStronger(number(insight.painIncrease));
   }
+}
+
+/** How an insight was calculated, for insights that need explaining. */
+export function formatInsightDetail(
+  insight: Insight,
+  t: Dictionary,
+  language: Language,
+): string | undefined {
+  if (insight.kind !== 'preventionMedicationDaysChange') return undefined;
+  const { windowDays, before, after } = insight.effect;
+  const period = (range: TimeRange) =>
+    `${formatDateShort(range.start, language)} – ${formatDateShort(addDays(range.end, -1).getTime(), language)}`;
+  return t.insights.preventionDetail(windowDays, period(before), period(after));
 }

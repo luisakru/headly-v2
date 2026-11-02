@@ -106,15 +106,21 @@ function PreventionForm({ prevention, now, onDone }: PreventionFormProps) {
   const nameId = useId();
   const doseId = useId();
   const startId = useId();
+  const effectiveId = useId();
   const endId = useId();
   const [name, setName] = useState(prevention?.name ?? '');
   const [type, setType] = useState<PreventionType>(prevention?.type ?? 'medication');
   const [dose, setDose] = useState(prevention?.dose ?? '');
   const [startDate, setStartDate] = useState(prevention?.startDate ?? toDayKey(now));
+  const [effectiveFrom, setEffectiveFrom] = useState(prevention?.effectiveFrom ?? '');
   const [endDate, setEndDate] = useState(prevention?.endDate ?? '');
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
-  const error = validatePrevention({ startDate, endDate: endDate || undefined });
+  const error = validatePrevention({
+    startDate,
+    effectiveFrom: effectiveFrom || undefined,
+    endDate: endDate || undefined,
+  });
 
   const save = async (event: FormEvent) => {
     event.preventDefault();
@@ -123,6 +129,7 @@ function PreventionForm({ prevention, now, onDone }: PreventionFormProps) {
       type,
       dose: dose.trim() || undefined,
       startDate,
+      effectiveFrom: effectiveFrom || undefined,
       endDate: endDate || undefined,
     };
     if (prevention) await updatePrevention(prevention.id, fields);
@@ -171,6 +178,18 @@ function PreventionForm({ prevention, now, onDone }: PreventionFormProps) {
         className={styles.input}
         value={startDate}
         onChange={(event) => setStartDate(event.target.value)}
+      />
+      <label htmlFor={effectiveId} className={styles.fieldLabel}>
+        {t.profile.effectiveFrom}
+      </label>
+      <p className={styles.fieldHint}>{t.profile.effectiveFromHint}</p>
+      <input
+        id={effectiveId}
+        type="date"
+        className={styles.input}
+        value={effectiveFrom}
+        min={startDate}
+        onChange={(event) => setEffectiveFrom(event.target.value)}
       />
       <label htmlFor={endId} className={styles.fieldLabel}>
         {t.profile.endDate}

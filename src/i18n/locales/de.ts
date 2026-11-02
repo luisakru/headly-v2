@@ -22,7 +22,6 @@ export const de: Dictionary = {
     title: 'Guten Tag',
     migraineDaysThisMonth: (n: number) =>
       n === 1 ? '1 Migränetag in diesem Monat' : `${n} Migränetage in diesem Monat`,
-    activePreventions: 'Aktive Prophylaxe',
     startMigraine: 'Migräne starten',
     lastFourWeeks: 'Letzte 4 Wochen',
     insight: 'Erkenntnis',
@@ -114,6 +113,7 @@ export const de: Dictionary = {
     },
     prevention: {
       endBeforeStart: 'Das Ende darf nicht vor dem Beginn liegen.',
+      effectiveBeforeStart: 'Der Wirkbeginn darf nicht vor dem Beginn liegen.',
     },
   },
   insights: {
@@ -121,10 +121,10 @@ export const de: Dictionary = {
       `Die Migränetage sind von ${before} auf ${after} pro Monat gesunken.`,
     migraineDaysRose: (before: string, after: string) =>
       `Die Migränetage sind von ${before} auf ${after} pro Monat gestiegen.`,
-    preventionFewerMedicationDays: (name: string, percent: string) =>
-      `Seit Beginn von ${name}: ${percent} weniger Medikamententage.`,
-    preventionMoreMedicationDays: (name: string, percent: string) =>
-      `Seit Beginn von ${name}: ${percent} mehr Medikamententage.`,
+    preventionMedicationDays: (name: string, before: string, after: string) =>
+      `Seit ${name}: ${after} statt ${before} Medikamententage pro Monat.`,
+    preventionDetail: (days: number, before: string, after: string) =>
+      `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
     medicationHelpedLess: (name: string, months: number, before: string, after: string) =>
       `${name} hat in den letzten ${months} Monaten weniger geholfen (${before} auf ${after}).`,
     medicationHelpedMore: (name: string, months: number, before: string, after: string) =>
@@ -158,6 +158,7 @@ export const de: Dictionary = {
       medication: 'Medikament',
     },
     chartLabel: 'Migränetage und Medikamententage pro Monat',
+    howCalculated: 'So wird gerechnet',
     migraineDayCount: (n: number) => (n === 1 ? '1 Migränetag' : `${n} Migränetage`),
     medicationDayCount: (n: number) => (n === 1 ? '1 Medikamententag' : `${n} Medikamententage`),
     averageMigraineDays: 'Ø Migränetage / Monat',
@@ -202,6 +203,9 @@ export const de: Dictionary = {
       lifestyle: 'Lebensstil',
     },
     startDate: 'Beginn',
+    effectiveFrom: 'Wirkt voraussichtlich ab (optional)',
+    effectiveFromHint:
+      'Viele Prophylaxen wirken erst nach 2–3 Monaten. Ohne Datum zählt der Beginn.',
     endDate: 'Ende (optional)',
     activePreventions: 'Aktiv',
     pastPreventions: 'Beendet',

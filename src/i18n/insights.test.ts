@@ -1,4 +1,6 @@
-import { formatInsight } from './insights';
+import type { Insight } from '../domain/insights';
+import { at } from '../test/factories';
+import { formatInsight, formatInsightDetail } from './insights';
 import { de } from './locales/de';
 import { en } from './locales/en';
 
@@ -10,10 +12,6 @@ test.each([
   [
     { kind: 'migraineDaysChange', before: 2, after: 3.5 },
     'Migraine days rose from 2 to 3.5 per month.',
-  ],
-  [
-    { kind: 'preventionMedicationDaysChange', preventionName: 'Amitriptyline', change: -0.38 },
-    'Since starting Amitriptyline: 38% fewer medication days.',
   ],
   [
     {
@@ -37,4 +35,37 @@ test('formats numbers the German way', () => {
   expect(formatInsight({ kind: 'migraineDaysChange', before: 6, after: 4.5 }, de, 'de')).toBe(
     'Die Migränetage sind von 6 auf 4,5 pro Monat gesunken.',
   );
+});
+
+describe('preventionMedicationDaysChange', () => {
+  const insight: Insight = {
+    kind: 'preventionMedicationDaysChange',
+    preventionName: 'Amitriptyline',
+    change: -0.5,
+    effect: {
+      windowDays: 90,
+      before: { start: at(2026, 1, 1), end: at(2026, 4, 1) },
+      after: { start: at(2026, 6, 1), end: at(2026, 8, 30) },
+      migraineDaysPer30: { before: 6, after: 4 },
+      medicationDaysPer30: { before: 5, after: 2.5 },
+    },
+  };
+
+  test('states both values', () => {
+    expect(formatInsight(insight, de, 'de')).toBe(
+      'Seit Amitriptyline: 2,5 statt 5 Medikamententage pro Monat.',
+    );
+  });
+
+  test('explains both windows', () => {
+    expect(formatInsightDetail(insight, en, 'en')).toContain(
+      'the 90 days before the start (Jan 1, 2026 – Mar 31, 2026) with 90 days from when it is expected to work (Jun 1, 2026 – Aug 29, 2026)',
+    );
+  });
+});
+
+test('other insights have no detail', () => {
+  expect(
+    formatInsightDetail({ kind: 'migraineDaysChange', before: 6, after: 4 }, en, 'en'),
+  ).toBeUndefined();
 });

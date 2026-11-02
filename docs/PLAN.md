@@ -123,6 +123,7 @@ type Prevention = {
   type: 'medication' | 'lifestyle';
   dose?: string;
   startDate: string;         // ISO date, YYYY-MM-DD
+  effectiveFrom?: string;    // when it is expected to work; defaults to startDate
   endDate?: string;          // optional
   createdAt: number;
   updatedAt: number;
@@ -145,7 +146,7 @@ type Settings = {
 - **Medication day:** a day with at least one intake. **Triptan day:** a day with at least one intake of a medication where `isTriptan` is true.
 - **Effectiveness rate:** intakes rated `strong` or `slight` divided by all rated intakes in the range. Unrated intakes are excluded and the count of unrated is shown.
 - **Overuse warning:** show when any calendar month in range has 10 or more triptan days, or 15 or more medication days. The thresholds live in one constants file.
-- **Prevention effect:** compare average migraine days per 30 days in a window before `startDate` with the same-length window after it (max 90 days each). Show nothing if either window has less than 30 days of data.
+- **Prevention effect:** compare average migraine days per 30 days in a window before `startDate` with the same-length window from `effectiveFrom` (or `startDate` if unset; max 90 days each). Many preventions take 2–3 months to work, and guidelines assess them after about 3 months against a baseline of at least 28 days. Show nothing if either window has less than 30 days of data.
 - **Rating prompt:** an intake older than 2 hours without a rating shows an in-app card asking "Did it help?" with the four options.
 - **Attack still running?** If an active attack is older than 6 hours, show an in-app card asking whether it is still going, between 08:00 and 22:00 only. If it is still active the next morning, ask "Was yesterday still a migraine day?" and offer to end it at a chosen time.
 
@@ -185,7 +186,6 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 ### Home (no active attack)
 
 - Greeting and current month with "N migraine days this month"
-- Pill showing active preventions, comma-separated ("Amitriptyline, Low carb"); hidden if none
 - Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
 - Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack. Tapping an attack card opens the edit sheet; tapping the day again hides the cards
 - One insight card, the most relevant current insight
@@ -236,14 +236,14 @@ Layout, one element per row, in this order:
 8. Insights (up to three cards)
 9. Preventions overlapping the range, each with its before/after effect or "Not enough data"
 
-**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since starting Amitriptyline: 38% fewer medication days.", "Sumatriptan has helped less over the last 4 months (91% to 78%)." Each template has a German and English version and only appears when its data condition is met.
+**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less over the last 4 months (91% to 78%)." Each template has a German and English version and only appears when its data condition is met.
 
 ### Profile
 
 Grouped list in cards:
 
 - **Medications:** list, add, edit, archive. Fields: name, dose, "is a triptan"
-- **Preventions:** active and past lists, add and edit. Fields: name, type, dose, start date, optional end date
+- **Preventions:** active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
 - **Data:** export JSON, import JSON, backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
 - **App:** language (Deutsch / English), privacy policy, imprint, about with version
 - **Coming soon, greyed out with a "Soon" badge:** PDF export for doctor, notifications

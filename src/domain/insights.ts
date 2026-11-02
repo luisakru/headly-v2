@@ -6,7 +6,12 @@ import {
   INSIGHT_MIN_RATED_INTAKES,
 } from './constants';
 import { countMonths, previousRange } from './dateRange';
-import { firstDataDay, preventionEffect, preventionOverlapsRange } from './prevention';
+import {
+  firstDataDay,
+  preventionEffect,
+  preventionOverlapsRange,
+  type PreventionEffect,
+} from './prevention';
 import {
   averageMigraineDaysPerMonth,
   averagePain,
@@ -18,7 +23,12 @@ import type { Attack, Medication, MedicationIntake, Prevention, TimeRange } from
 /** Structured insight; the sentence is built from locale templates. */
 export type Insight =
   | { kind: 'migraineDaysChange'; before: number; after: number }
-  | { kind: 'preventionMedicationDaysChange'; preventionName: string; change: number }
+  | {
+      kind: 'preventionMedicationDaysChange';
+      preventionName: string;
+      change: number;
+      effect: PreventionEffect;
+    }
   | {
       kind: 'medicationEffectivenessChange';
       medicationName: string;
@@ -53,7 +63,14 @@ function preventionChanges({ attacks, intakes, preventions, range, now }: Insigh
       const { before, after } = effect.medicationDaysPer30;
       const change = (after - before) / before;
       if (Math.abs(change) < INSIGHT_MIN_PREVENTION_CHANGE) return [];
-      return [{ kind: 'preventionMedicationDaysChange', preventionName: prevention.name, change }];
+      return [
+        {
+          kind: 'preventionMedicationDaysChange',
+          preventionName: prevention.name,
+          change,
+          effect,
+        },
+      ];
     });
 }
 
