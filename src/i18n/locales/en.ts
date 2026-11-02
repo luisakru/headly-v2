@@ -184,9 +184,9 @@ export const en = {
     since: (month: string) => `since ${month}`,
     active: 'active',
     preventionMigraineDays: (before: string, after: string) =>
-      `Migraine days per month: ${before} → ${after}`,
+      `Migraine days / month: ${before} → ${after}`,
     preventionMedicationDays: (before: string, after: string) =>
-      `Medication days per month: ${before} → ${after}`,
+      `Medication days / month: ${before} → ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
     preventionTrend: (values: string) => `Course: ${values}`,
