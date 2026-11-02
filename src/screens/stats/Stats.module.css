@@ -21,6 +21,9 @@
 
 .monthPicker input {
   width: 100%;
+  /* iOS gives month inputs an intrinsic width that ignores width: 100%. */
+  min-width: 0;
+  appearance: none;
   min-height: var(--touch-target);
   padding: 0 var(--space-3);
   border: 1.5px solid var(--color-border);
@@ -29,6 +32,10 @@
   color: var(--color-text);
   font: inherit;
   font-size: 16px;
+}
+
+.monthPicker input::-webkit-date-and-time-value {
+  text-align: left;
 }
 
 .monthPicker input:focus-visible {
