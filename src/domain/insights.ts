@@ -22,7 +22,13 @@ import type { Attack, Medication, MedicationIntake, Prevention, TimeRange } from
 
 /** Structured insight; the sentence is built from locale templates. */
 export type Insight =
-  | { kind: 'migraineDaysChange'; before: number; after: number }
+  | {
+      kind: 'migraineDaysChange';
+      before: number;
+      after: number;
+      previousRange: TimeRange;
+      range: TimeRange;
+    }
   | {
       kind: 'preventionMedicationDaysChange';
       preventionName: string;
@@ -51,7 +57,7 @@ function migraineDaysChange({ attacks, range, now }: InsightInput, previous: Tim
   const before = averageMigraineDaysPerMonth(attacks, previous, now);
   const after = averageMigraineDaysPerMonth(attacks, range, now);
   if (Math.abs(after - before) < INSIGHT_MIN_MIGRAINE_DAYS_CHANGE) return [];
-  return [{ kind: 'migraineDaysChange', before, after }];
+  return [{ kind: 'migraineDaysChange', before, after, previousRange: previous, range }];
 }
 
 function preventionChanges({ attacks, intakes, preventions, range, now }: InsightInput): Insight[] {

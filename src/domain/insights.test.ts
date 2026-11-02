@@ -42,11 +42,9 @@ test('returns nothing without data', () => {
 describe('migraineDaysChange', () => {
   test('appears when migraine days per month changed by at least one', () => {
     const attacks = [...monthlyAttacks(1, 3, 6), ...monthlyAttacks(4, 3, 4)];
-    expect(generateInsights({ ...empty, attacks })).toContainEqual({
-      kind: 'migraineDaysChange',
-      before: 6,
-      after: 4,
-    });
+    expect(generateInsights({ ...empty, attacks })).toContainEqual(
+      expect.objectContaining({ kind: 'migraineDaysChange', before: 6, after: 4 }),
+    );
   });
 
   test('is hidden when the change is below one day', () => {

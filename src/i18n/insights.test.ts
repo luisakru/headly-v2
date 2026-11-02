@@ -4,13 +4,18 @@ import { formatInsight, formatInsightDetail } from './insights';
 import { de } from './locales/de';
 import { en } from './locales/en';
 
+const ranges = {
+  previousRange: { start: at(2026, 5, 1), end: at(2026, 8, 1) },
+  range: { start: at(2026, 8, 1), end: at(2026, 11, 1) },
+};
+
 test.each([
   [
-    { kind: 'migraineDaysChange', before: 6, after: 4 },
+    { kind: 'migraineDaysChange', before: 6, after: 4, ...ranges },
     'Migraine days dropped from 6 to 4 per month.',
   ],
   [
-    { kind: 'migraineDaysChange', before: 2, after: 3.5 },
+    { kind: 'migraineDaysChange', before: 2, after: 3.5, ...ranges },
     'Migraine days rose from 2 to 3.5 per month.',
   ],
   [
@@ -32,9 +37,9 @@ test.each([
 });
 
 test('formats numbers the German way', () => {
-  expect(formatInsight({ kind: 'migraineDaysChange', before: 6, after: 4.5 }, de, 'de')).toBe(
-    'Die Migränetage sind von 6 auf 4,5 pro Monat gesunken.',
-  );
+  expect(
+    formatInsight({ kind: 'migraineDaysChange', before: 6, after: 4.5, ...ranges }, de, 'de'),
+  ).toBe('Die Migränetage sind von 6 auf 4,5 pro Monat gesunken.');
 });
 
 describe('preventionMedicationDaysChange', () => {
@@ -64,8 +69,16 @@ describe('preventionMedicationDaysChange', () => {
   });
 });
 
+test('explains the migraine days change with both periods', () => {
+  expect(
+    formatInsightDetail({ kind: 'migraineDaysChange', before: 6, after: 4, ...ranges }, de, 'de'),
+  ).toContain(
+    'Verglichen wird August 2026 – Oktober 2026 mit dem gleich langen Zeitraum davor (Mai 2026 – Juli 2026).',
+  );
+});
+
 test('other insights have no detail', () => {
   expect(
-    formatInsightDetail({ kind: 'migraineDaysChange', before: 6, after: 4 }, en, 'en'),
+    formatInsightDetail({ kind: 'fewerButStrongerAttacks', painIncrease: 1 }, en, 'en'),
   ).toBeUndefined();
 });

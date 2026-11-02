@@ -120,6 +120,8 @@ export const en = {
       `Migraine days dropped from ${before} to ${after} per month.`,
     migraineDaysRose: (before: string, after: string) =>
       `Migraine days rose from ${before} to ${after} per month.`,
+    migraineDaysDetail: (before: string, after: string) =>
+      `Compares ${after} with the same-length period before (${before}). Counted are days with a migraine, divided by the number of months. The current month counts as a whole month.`,
     preventionMedicationDays: (name: string, before: string, after: string) =>
       `Since ${name}: ${after} instead of ${before} medication days per month.`,
     preventionDetail: (days: number, before: string, after: string) =>

@@ -1,7 +1,8 @@
 import type { Insight } from '../domain/insights';
 import type { Language, TimeRange } from '../domain/types';
 import { addDays } from 'date-fns';
-import { formatDateShort, formatNumber, formatPercent } from './format';
+import { countMonths } from '../domain/dateRange';
+import { formatDateShort, formatMonthYear, formatNumber, formatPercent } from './format';
 import type { Dictionary } from './locales/en';
 
 export function formatInsight(insight: Insight, t: Dictionary, language: Language): string {
@@ -41,9 +42,22 @@ export function formatInsightDetail(
   t: Dictionary,
   language: Language,
 ): string | undefined {
-  if (insight.kind !== 'preventionMedicationDaysChange') return undefined;
-  const { windowDays, before, after } = insight.effect;
-  const period = (range: TimeRange) =>
-    `${formatDateShort(range.start, language)} – ${formatDateShort(addDays(range.end, -1).getTime(), language)}`;
-  return t.insights.preventionDetail(windowDays, period(before), period(after));
+  const lastDay = (range: TimeRange) => addDays(range.end, -1).getTime();
+  switch (insight.kind) {
+    case 'migraineDaysChange': {
+      const months = (range: TimeRange) =>
+        countMonths(range) === 1
+          ? formatMonthYear(range.start, language)
+          : `${formatMonthYear(range.start, language)} – ${formatMonthYear(lastDay(range), language)}`;
+      return t.insights.migraineDaysDetail(months(insight.previousRange), months(insight.range));
+    }
+    case 'preventionMedicationDaysChange': {
+      const { windowDays, before, after } = insight.effect;
+      const days = (range: TimeRange) =>
+        `${formatDateShort(range.start, language)} – ${formatDateShort(lastDay(range), language)}`;
+      return t.insights.preventionDetail(windowDays, days(before), days(after));
+    }
+    default:
+      return undefined;
+  }
 }

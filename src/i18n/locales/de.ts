@@ -121,6 +121,8 @@ export const de: Dictionary = {
       `Die Migränetage sind von ${before} auf ${after} pro Monat gesunken.`,
     migraineDaysRose: (before: string, after: string) =>
       `Die Migränetage sind von ${before} auf ${after} pro Monat gestiegen.`,
+    migraineDaysDetail: (before: string, after: string) =>
+      `Verglichen wird ${after} mit dem gleich langen Zeitraum davor (${before}). Gezählt werden Tage mit Migräne, geteilt durch die Anzahl der Monate. Der laufende Monat zählt als ganzer Monat.`,
     preventionMedicationDays: (name: string, before: string, after: string) =>
       `Seit ${name}: ${after} statt ${before} Medikamententage pro Monat.`,
     preventionDetail: (days: number, before: string, after: string) =>
