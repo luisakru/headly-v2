@@ -283,7 +283,7 @@ export const de: Dictionary = {
             ? 'Letzte Sicherung: vor 1 Tag'
             : `Letzte Sicherung: vor ${days} Tagen`,
     exported: 'Sicherung gespeichert',
-    removeAppHint: 'Beim Entfernen vom Home-Bildschirm werden alle Daten gelöscht.',
+    removeAppHint: 'Beim Entfernen der App vom Home-Bildschirm werden alle Daten gelöscht.',
     importData: 'Daten importieren',
     importHint: 'Sicherung wiederherstellen',
     backupReminder: 'Sicherungs-Erinnerung',
@@ -345,6 +345,9 @@ export const de: Dictionary = {
     create: 'PDF erstellen',
     heading: 'Migränebericht',
     period: (range: string) => `Zeitraum: ${range}`,
+    month: 'Monat',
+    attacks: 'Migränen',
+    intakes: 'Medikamenten-Einnahmen',
     date: 'Datum',
     migraine: 'Migräne',
     yes: 'Ja',
