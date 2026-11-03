@@ -46,6 +46,15 @@ export function formatMonthShort(time: number, language: Language): string {
     .replace('.', '');
 }
 
+/** Month without the year for chart axes, e.g. "Nov" or "N". */
+export function formatMonthAxis(
+  time: number,
+  language: Language,
+  width: 'short' | 'narrow',
+): string {
+  return new Intl.DateTimeFormat(language, { month: width }).format(time).replace('.', '');
+}
+
 export function formatMonthYearShort(time: number, language: Language): string {
   return new Intl.DateTimeFormat(language, { month: 'short', year: 'numeric' })
     .format(time)

@@ -7,6 +7,7 @@ import {
   formatDate,
   formatDayMonth,
   formatDayRange,
+  formatMonthAxis,
   formatMonthShort,
   formatMonthYearShort,
   formatWeekday,
@@ -30,6 +31,9 @@ const PLOT_PADDING = 8;
 // Rough width of one label character at 11 px, to drop labels that would be cut off.
 const LABEL_CHAR_WIDTH = 6.4;
 const PAIN_SCALE = { max: 10, ticks: [0, 5, 10] };
+// Pages of up to a year label every month without the year; the period above names it.
+const MAX_MONTHS_WITHOUT_YEAR = 12;
+const MAX_SHORT_MONTHS = 6;
 // Only pages this close to the visible one are drawn; years of weeks would be too slow.
 const RENDERED_NEIGHBOURS = 2;
 
@@ -101,6 +105,12 @@ export function StatsChart({
         : String(new Date(bucket.range.start).getDate());
     if (size === 'week') return formatDayMonth(bucket.range.start, language);
     if (size === 'year') return String(new Date(bucket.range.start).getFullYear());
+    if (count <= MAX_MONTHS_WITHOUT_YEAR)
+      return formatMonthAxis(
+        bucket.range.start,
+        language,
+        count <= MAX_SHORT_MONTHS ? 'short' : 'narrow',
+      );
     return formatMonthShort(bucket.range.start, language);
   };
 
@@ -198,7 +208,8 @@ export function StatsChart({
       MAX_BAR_WIDTH,
       (groupWidth * GROUP_FILL - BAR_GAP * (barCount - 1)) / barCount,
     );
-    const step = labelStep(buckets.length);
+    const step =
+      size === 'month' && buckets.length <= MAX_MONTHS_WITHOUT_YEAR ? 1 : labelStep(buckets.length);
     return (
       <svg
         key={buckets[0]!.range.start}
@@ -221,10 +232,15 @@ export function StatsChart({
           const label = bucketLabel(bucket, buckets.length);
           const labelHalfWidth = (label.length * LABEL_CHAR_WIDTH) / 2;
           // Counted from the newest bucket, so the current period keeps its label.
-          const showLabel =
-            (buckets.length - 1 - index) % step === 0 &&
-            center - labelHalfWidth >= 0 &&
-            center + labelHalfWidth <= PLOT_WIDTH;
+          const showLabel = (buckets.length - 1 - index) % step === 0;
+          // Labels at the edges align with the edge instead of being cut off.
+          const labelAnchor =
+            center - labelHalfWidth < 0
+              ? 'start'
+              : center + labelHalfWidth > PLOT_WIDTH
+                ? 'end'
+                : 'middle';
+          const labelX = labelAnchor === 'start' ? 0 : labelAnchor === 'end' ? PLOT_WIDTH : center;
           return (
             <g
               key={bucket.range.start}
@@ -262,7 +278,12 @@ export function StatsChart({
                 ? renderDay(bucket, center, barWidth)
                 : renderGroup(bucket, center, barWidth)}
               {showLabel && (
-                <text className={styles.axisLabel} x={center} y={HEIGHT - 4} textAnchor="middle">
+                <text
+                  className={styles.axisLabel}
+                  x={labelX}
+                  y={HEIGHT - 4}
+                  textAnchor={labelAnchor}
+                >
                   {label}
                 </text>
               )}
