@@ -257,6 +257,7 @@ export const en = {
             ? 'Last backup: 1 day ago'
             : `Last backup: ${days} days ago`,
     exported: 'Backup saved',
+    removeAppHint: 'Removing the app from the home screen deletes all data.',
     importData: 'Import data',
     importHint: 'Restore a backup',
     backupReminder: 'Backup reminder',

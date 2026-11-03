@@ -141,6 +141,7 @@ export function ProfileScreen() {
           hidden
           onChange={(event) => void readFile(event)}
         />
+        <p className={styles.muted}>{t.profile.removeAppHint}</p>
       </section>
 
       <section className={styles.section}>

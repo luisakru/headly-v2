@@ -258,6 +258,7 @@ export const de: Dictionary = {
             ? 'Letzte Sicherung: vor 1 Tag'
             : `Letzte Sicherung: vor ${days} Tagen`,
     exported: 'Sicherung gespeichert',
+    removeAppHint: 'Beim Entfernen vom Home-Bildschirm werden alle Daten gelöscht.',
     importData: 'Daten importieren',
     importHint: 'Sicherung wiederherstellen',
     backupReminder: 'Sicherungs-Erinnerung',
