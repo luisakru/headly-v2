@@ -1,0 +1,211 @@
+{
+  "app": "headly",
+  "schemaVersion": 3,
+  "exportedAt": 1793703600000,
+  "data": {
+    "attacks": [
+      {
+        "id": "sample-3",
+        "createdAt": 1789882200000,
+        "updatedAt": 1789882200000,
+        "startedAt": 1789882200000,
+        "endedAt": 1789914600000,
+        "painLevel": 7
+      },
+      {
+        "id": "sample-5",
+        "createdAt": 1790254800000,
+        "updatedAt": 1790254800000,
+        "startedAt": 1790254800000,
+        "endedAt": 1790272800000,
+        "painLevel": 5
+      },
+      {
+        "id": "sample-7",
+        "createdAt": 1790484300000,
+        "updatedAt": 1790484300000,
+        "startedAt": 1790484300000,
+        "endedAt": 1790534700000,
+        "painLevel": 8
+      },
+      {
+        "id": "sample-9",
+        "createdAt": 1790871000000,
+        "updatedAt": 1790871000000,
+        "startedAt": 1790871000000,
+        "endedAt": 1790885400000,
+        "painLevel": 4
+      },
+      {
+        "id": "sample-11",
+        "createdAt": 1791180000000,
+        "updatedAt": 1791180000000,
+        "startedAt": 1791180000000,
+        "endedAt": 1791288000000,
+        "painLevel": 7
+      },
+      {
+        "id": "sample-13",
+        "createdAt": 1791544800000,
+        "updatedAt": 1791544800000,
+        "startedAt": 1791544800000,
+        "endedAt": 1791566400000,
+        "painLevel": 6
+      },
+      {
+        "id": "sample-15",
+        "createdAt": 1792134900000,
+        "updatedAt": 1792134900000,
+        "startedAt": 1792134900000,
+        "endedAt": 1792145700000,
+        "painLevel": 3
+      },
+      {
+        "id": "sample-16",
+        "createdAt": 1792683600000,
+        "updatedAt": 1792683600000,
+        "startedAt": 1792683600000,
+        "endedAt": 1792712400000,
+        "painLevel": 6
+      },
+      {
+        "id": "sample-18",
+        "createdAt": 1793253900000,
+        "updatedAt": 1793253900000,
+        "startedAt": 1793253900000,
+        "endedAt": 1793271900000,
+        "painLevel": 5
+      },
+      {
+        "id": "sample-20",
+        "createdAt": 1793633400000,
+        "updatedAt": 1793633400000,
+        "startedAt": 1793633400000,
+        "endedAt": 1793644200000,
+        "painLevel": 4
+      }
+    ],
+    "medications": [
+      {
+        "id": "sample-1",
+        "createdAt": 1789801200000,
+        "updatedAt": 1789801200000,
+        "name": "Sumatriptan",
+        "dose": "50 mg",
+        "isTriptan": true,
+        "archived": false
+      },
+      {
+        "id": "sample-2",
+        "createdAt": 1789801200000,
+        "updatedAt": 1789801200000,
+        "name": "Ibuprofen",
+        "dose": "400 mg",
+        "isTriptan": false,
+        "archived": false
+      }
+    ],
+    "medicationIntakes": [
+      {
+        "id": "sample-4",
+        "createdAt": 1789885800000,
+        "updatedAt": 1789885800000,
+        "medicationId": "sample-1",
+        "attackId": "sample-3",
+        "takenAt": 1789885800000,
+        "effectiveness": "strong"
+      },
+      {
+        "id": "sample-6",
+        "createdAt": 1790258400000,
+        "updatedAt": 1790258400000,
+        "medicationId": "sample-2",
+        "attackId": "sample-5",
+        "takenAt": 1790258400000,
+        "effectiveness": "slight"
+      },
+      {
+        "id": "sample-8",
+        "createdAt": 1790487900000,
+        "updatedAt": 1790487900000,
+        "medicationId": "sample-1",
+        "attackId": "sample-7",
+        "takenAt": 1790487900000,
+        "effectiveness": "strong"
+      },
+      {
+        "id": "sample-10",
+        "createdAt": 1790874600000,
+        "updatedAt": 1790874600000,
+        "medicationId": "sample-2",
+        "attackId": "sample-9",
+        "takenAt": 1790874600000,
+        "effectiveness": "none"
+      },
+      {
+        "id": "sample-12",
+        "createdAt": 1791183600000,
+        "updatedAt": 1791183600000,
+        "medicationId": "sample-1",
+        "attackId": "sample-11",
+        "takenAt": 1791183600000,
+        "effectiveness": "slight"
+      },
+      {
+        "id": "sample-14",
+        "createdAt": 1791548400000,
+        "updatedAt": 1791548400000,
+        "medicationId": "sample-1",
+        "attackId": "sample-13",
+        "takenAt": 1791548400000,
+        "effectiveness": "strong"
+      },
+      {
+        "id": "sample-17",
+        "createdAt": 1792687200000,
+        "updatedAt": 1792687200000,
+        "medicationId": "sample-1",
+        "attackId": "sample-16",
+        "takenAt": 1792687200000,
+        "effectiveness": "strong"
+      },
+      {
+        "id": "sample-19",
+        "createdAt": 1793257500000,
+        "updatedAt": 1793257500000,
+        "medicationId": "sample-2",
+        "attackId": "sample-18",
+        "takenAt": 1793257500000,
+        "effectiveness": "slight"
+      },
+      {
+        "id": "sample-21",
+        "createdAt": 1793637000000,
+        "updatedAt": 1793637000000,
+        "medicationId": "sample-1",
+        "attackId": "sample-20",
+        "takenAt": 1793637000000
+      }
+    ],
+    "preventions": [
+      {
+        "id": "sample-22",
+        "createdAt": 1791615600000,
+        "updatedAt": 1791615600000,
+        "name": "Magnesium",
+        "type": "lifestyle",
+        "dose": "400 mg",
+        "startDate": "2026-10-10"
+      }
+    ],
+    "lifeEvents": [
+      {
+        "id": "sample-23",
+        "createdAt": 1790838000000,
+        "updatedAt": 1790838000000,
+        "name": "Neuer Job",
+        "date": "2026-10-01"
+      }
+    ]
+  }
+}
