@@ -15,9 +15,9 @@ Headly speichert deine Einträge ausschließlich in deinem Browser auf diesem Ge
 
 ## 3. Hosting
 
-Die App wird als Web-App über [HOSTING-ANBIETER, Z. B. CLOUDFLARE PAGES ODER VERCEL] bereitgestellt. Beim Aufruf der App verarbeitet der Anbieter technisch notwendige Daten in seinen Server-Logs: IP-Adresse, Datum und Uhrzeit, angefragte Datei und Browser-Kennung (User-Agent). Deine Gesundheitseinträge sind davon nicht betroffen.
+Die App wird als Web-App über Cloudflare Pages bereitgestellt, einen Dienst der Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA. Beim Aufruf der App verarbeitet der Anbieter technisch notwendige Daten in seinen Server-Logs: IP-Adresse, Datum und Uhrzeit, angefragte Datei und Browser-Kennung (User-Agent). Deine Gesundheitseinträge sind davon nicht betroffen.
 
-Rechtsgrundlage ist unser berechtigtes Interesse an einer sicheren und zuverlässigen Bereitstellung der App (Art. 6 Abs. 1 lit. f DSGVO). Mit dem Anbieter besteht ein Vertrag zur Auftragsverarbeitung: [LINK ZU DEN DATENVERARBEITUNGSBEDINGUNGEN DES ANBIETERS].
+Rechtsgrundlage ist unser berechtigtes Interesse an einer sicheren und zuverlässigen Bereitstellung der App (Art. 6 Abs. 1 lit. f DSGVO). Mit dem Anbieter besteht ein Vertrag zur Auftragsverarbeitung: https://www.cloudflare.com/cloudflare-customer-dpa/. Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert, das ein angemessenes Datenschutzniveau für Übermittlungen in die USA sicherstellt.
 
 ## 4. Welche Daten werden gespeichert?
 

@@ -23,7 +23,8 @@ export function App() {
             <Route path="profile/imprint" element={<LegalPage page="imprint" />} />
             <Route path="profile/about" element={<AboutPage />} />
             <Route path="profile/report" element={<ReportPage />} />
-            <Route path="dev/components" element={<ComponentsScreen />} />
+            {/* Developer gallery; left out of the production build. */}
+            {import.meta.env.DEV && <Route path="dev/components" element={<ComponentsScreen />} />}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

@@ -15,9 +15,9 @@ Headly stores your entries only in your browser on this device. Your entries are
 
 ## 3. Hosting
 
-The app is served as a web app by [HOSTING PROVIDER, E.G. CLOUDFLARE PAGES OR VERCEL]. When you open the app, the provider processes technically necessary data in its server logs: IP address, date and time, requested file and browser identifier (user agent). Your health entries are not part of this.
+The app is served as a web app by Cloudflare Pages, a service of Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA. When you open the app, the provider processes technically necessary data in its server logs: IP address, date and time, requested file and browser identifier (user agent). Your health entries are not part of this.
 
-The legal basis is our legitimate interest in providing the app securely and reliably (Art. 6(1)(f) GDPR). A data processing agreement is in place with the provider: [LINK TO THE PROVIDER'S DATA PROCESSING TERMS].
+The legal basis is our legitimate interest in providing the app securely and reliably (Art. 6(1)(f) GDPR). A data processing agreement is in place with the provider: https://www.cloudflare.com/cloudflare-customer-dpa/. Cloudflare is certified under the EU-US Data Privacy Framework, which ensures an adequate level of data protection for transfers to the USA.
 
 ## 4. What data is stored?
 
