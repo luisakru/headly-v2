@@ -9,6 +9,10 @@
   No account. No server. No tracking.
 </p>
 
+<p align="center">
+  <img src="docs/media/demo.png" width="300" alt="Demo: starting a migraine, setting the pain level, logging medication, then the calendar, statistics with insights and prevention charts, and the PDF export" />
+</p>
+
 ---
 
 ## What it does
@@ -79,6 +83,12 @@ npm install
 npm run dev        # dev server
 npm test           # unit and component tests
 npm run build      # typecheck and production build
+```
+
+To try it on your iPhone, run the dev server on your local network and open the "Network" address Vite prints (for example `http://192.168.1.20:5173`) in Safari. The phone has to be on the same Wi-Fi:
+
+```bash
+npm run dev -- --host
 ```
 
 Also available: `npm run typecheck`, `npm run lint` and `npm run format`.
