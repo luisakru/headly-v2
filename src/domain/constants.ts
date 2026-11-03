@@ -19,6 +19,8 @@ export const PREVENTION_WINDOW_RELIABLE_DAYS = 30;
 export const PREVENTION_TREND_BLOCK_DAYS = 30;
 /** Blocks compared at the start and lately, i.e. 90 days each. */
 export const PREVENTION_CHANGE_BLOCKS = 3;
+/** Beyond this many 30-day blocks the prevention chart uses 60-day blocks. */
+export const PREVENTION_CHART_MAX_BLOCKS = 24;
 
 export const BACKUP_REMINDER_AFTER_MS = 30 * DAY_MS;
 export const BACKUP_REMINDER_MIN_RECORDS = 5;

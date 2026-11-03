@@ -4,6 +4,7 @@ import {
   isActivePrevention,
   preventionEffect,
   preventionEffectGap,
+  preventionChart,
   preventionTrend,
   preventionOverlapsRange,
   validatePrevention,
@@ -205,5 +206,57 @@ describe('preventionTrend', () => {
     const trend = preventionTrend(prevention, attacks, [], at(2026, 7, 15));
     expect(trend?.baseline).toBeUndefined();
     expect(trend?.blocks).toHaveLength(2);
+  });
+});
+
+describe('preventionChart', () => {
+  test('shows 90 days before, the build-up, the effect and 90 days after the end', () => {
+    const prevention = makePrevention({
+      startDate: '2026-04-01',
+      effectiveFrom: '2026-05-01',
+      endDate: '2026-06-29',
+    });
+    // Every 5 days from 1 Jan, i.e. 6 per 30 days.
+    const attacks = attacksEvery(at(2026, 1, 1), 5, 60);
+    const chart = preventionChart(prevention, attacks, [], at(2026, 11, 1));
+    expect(chart?.blocks.map((block) => block.phase)).toEqual([
+      'before',
+      'before',
+      'before',
+      'buildUp',
+      'effective',
+      'effective',
+      'after',
+      'after',
+      'after',
+    ]);
+    expect(chart?.blocks[0]?.range).toEqual({ start: at(2026, 1, 1), end: at(2026, 1, 31) });
+    expect(chart?.blocks[6]?.range.start).toBe(at(2026, 6, 30));
+    expect(chart?.baseline).toBe(6);
+  });
+
+  test('keeps a short prevention as one scaled block', () => {
+    const prevention = makePrevention({ startDate: '2026-04-01', endDate: '2026-04-10' });
+    // 5 migraine days in the 10 days of the prevention.
+    const attacks = [...attacksEvery(at(2026, 1, 1), 10, 9), ...attacksEvery(at(2026, 4, 1), 2, 5)];
+    const chart = preventionChart(prevention, attacks, [], at(2026, 4, 20));
+    const during = chart?.blocks.filter((block) => block.phase === 'effective');
+    expect(during).toEqual([
+      {
+        phase: 'effective',
+        range: { start: at(2026, 4, 1), end: at(2026, 4, 11) },
+        migraineDaysPer30: 15,
+      },
+    ]);
+    // Only 9 days after the end so far: too short for a block.
+    expect(chart?.blocks.some((block) => block.phase === 'after')).toBe(false);
+  });
+
+  test('uses 60-day blocks for long preventions', () => {
+    const prevention = makePrevention({ startDate: '2023-01-01' });
+    const attacks = attacksEvery(at(2022, 10, 1), 5, 300);
+    const chart = preventionChart(prevention, attacks, [], at(2026, 11, 1));
+    const first = chart!.blocks.find((block) => block.phase === 'effective')!;
+    expect(first.range).toEqual({ start: at(2023, 1, 1), end: at(2023, 3, 2) });
   });
 });

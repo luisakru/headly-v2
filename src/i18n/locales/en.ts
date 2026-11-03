@@ -189,10 +189,11 @@ export const en = {
       `Medication days / month: ${before} → ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
-    preventionTrend: (values: string) => `Course: ${values}`,
-    trendBefore: (value: string) => `before ${value}`,
-    trendDetail:
-      'The course shows migraine days in each 30 days from when it is expected to work, the latest last.',
+    preventionChartLabel: 'Migraine days per 30 days before, during and after the prevention',
+    chartMarkers: { start: 'Start', effective: 'Effect', end: 'End' },
+    migraineDaysPerMonth: (value: string) => `${value} migraine days / month`,
+    chartDetail:
+      'The chart shows migraine days per 30 days: faint before the start and after the end, strong during the prevention. The dashed line is the average before the start. Tap a bar to see its period.',
     shortComparison: (days: number) => `Only ${days} days compared, not very meaningful`,
     effectGap: {
       noData: 'No data yet',

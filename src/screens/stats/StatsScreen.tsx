@@ -17,8 +17,8 @@ import {
   isActivePrevention,
   preventionEffect,
   preventionEffectGap,
+  preventionChart,
   preventionOverlapsRange,
-  preventionTrend,
 } from '../../domain/prevention';
 import {
   averageMigraineDaysPerMonth,
@@ -216,7 +216,7 @@ export function StatsScreen() {
                 active={isActivePrevention(prevention, now)}
                 effect={preventionEffect(prevention, attacks, intakes, now)}
                 gap={preventionEffectGap(prevention, attacks, intakes, now)}
-                trend={preventionTrend(prevention, attacks, intakes, now)}
+                chart={preventionChart(prevention, attacks, intakes, now)}
               />
             ))}
           </Card>

@@ -190,10 +190,11 @@ export const de: Dictionary = {
       `Medikamententage / Monat: ${before} → ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
-    preventionTrend: (values: string) => `Verlauf: ${values}`,
-    trendBefore: (value: string) => `vorher ${value}`,
-    trendDetail:
-      'Der Verlauf zeigt die Migränetage je 30 Tage ab dem Wirkbeginn, die neuesten zuletzt.',
+    preventionChartLabel: 'Migränetage je 30 Tage vor, während und nach der Prophylaxe',
+    chartMarkers: { start: 'Beginn', effective: 'Wirkbeginn', end: 'Ende' },
+    migraineDaysPerMonth: (value: string) => `${value} Migränetage / Monat`,
+    chartDetail:
+      'Das Diagramm zeigt die Migränetage je 30 Tage: blass vor dem Beginn und nach dem Ende, kräftig während der Prophylaxe. Die gestrichelte Linie ist der Durchschnitt vor dem Beginn. Tippe auf einen Balken, um den Zeitraum zu sehen.',
     shortComparison: (days: number) => `Nur ${days} Tage verglichen, wenig aussagekräftig`,
     effectGap: {
       noData: 'Noch keine Daten',

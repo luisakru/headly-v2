@@ -5,17 +5,19 @@ import {
   PREVENTION_WINDOW_RELIABLE_DAYS,
 } from '../../domain/constants';
 import type {
+  PreventionChart as PreventionChartData,
   PreventionEffect,
   PreventionEffectGap,
-  PreventionTrend,
 } from '../../domain/prevention';
 import type { Prevention } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatNumber } from '../../i18n/format';
 import { formatPreventionWindows } from '../../i18n/insights';
+import { PreventionChart } from './PreventionChart';
 import styles from './Stats.module.css';
 
-const MAX_TREND_BLOCKS = 6;
+// Fewer blocks say little more than the numbers above.
+const MIN_CHART_BLOCKS = 3;
 
 type PreventionItemProps = {
   prevention: Prevention;
@@ -23,7 +25,7 @@ type PreventionItemProps = {
   active: boolean;
   effect?: PreventionEffect;
   gap?: PreventionEffectGap;
-  trend?: PreventionTrend;
+  chart?: PreventionChartData;
 };
 
 export function PreventionItem({
@@ -32,22 +34,16 @@ export function PreventionItem({
   active,
   effect,
   gap,
-  trend,
+  chart,
 }: PreventionItemProps) {
   const { t, language } = useI18n();
   const [showDetail, setShowDetail] = useState(false);
   const number = (value: number) => formatNumber(value, language);
   const windows = effect && formatPreventionWindows(effect, language);
-  const showTrend = trend !== undefined && trend.blocks.length >= 2;
-  const trendText =
-    showTrend &&
-    t.stats.preventionTrend(
-      [
-        ...(trend.baseline ? [t.stats.trendBefore(number(trend.baseline.migraineDaysPer30))] : []),
-        ...(trend.blocks.length > MAX_TREND_BLOCKS ? ['…'] : []),
-        ...trend.blocks.slice(-MAX_TREND_BLOCKS).map((block) => number(block.migraineDays)),
-      ].join(' · '),
-    );
+  const showChart =
+    chart !== undefined &&
+    chart.blocks.length >= MIN_CHART_BLOCKS &&
+    chart.blocks.some((block) => block.phase === 'buildUp' || block.phase === 'effective');
   const gapText = (gap: PreventionEffectGap) => {
     switch (gap.reason) {
       case 'noData':
@@ -89,19 +85,19 @@ export function PreventionItem({
         {effect && effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS && (
           <p className={styles.preventionMeta}>{t.stats.shortComparison(effect.windowDays)}</p>
         )}
-        {trendText && <p className={styles.preventionMeta}>{trendText}</p>}
+        {showChart && <PreventionChart chart={chart} />}
         {showDetail && (
           <p className={styles.preventionDetail}>
             {[
               ...(windows
                 ? [t.stats.preventionEffectDetail(effect.windowDays, windows.before, windows.after)]
                 : []),
-              ...(showTrend ? [t.stats.trendDetail] : []),
+              ...(showChart ? [t.stats.chartDetail] : []),
             ].join(' ')}
           </p>
         )}
       </div>
-      {(effect || showTrend) && (
+      {(effect || showChart) && (
         <span className={styles.preventionInfo}>
           <InfoButton
             label={t.stats.howCalculated}

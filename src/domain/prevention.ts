@@ -1,5 +1,6 @@
 import { addDays, differenceInCalendarDays, parseISO, startOfDay } from 'date-fns';
 import {
+  PREVENTION_CHART_MAX_BLOCKS,
   PREVENTION_TREND_BLOCK_DAYS,
   PREVENTION_WINDOW_MAX_DAYS,
   PREVENTION_WINDOW_MIN_DAYS,
@@ -169,4 +170,95 @@ export function preventionTrend(
     blocks,
     baseline: { range, migraineDaysPer30: (countDaysInRange(migraine, range) / baselineDays) * 30 },
   };
+}
+
+export type PreventionChartPhase = 'before' | 'buildUp' | 'effective' | 'after';
+
+export type PreventionChart = {
+  /** Oldest first; partial blocks are scaled to 30 days too. */
+  blocks: { phase: PreventionChartPhase; range: TimeRange; migraineDaysPer30: number }[];
+  /** Migraine days per 30 days across the blocks before the start. */
+  baseline?: number;
+};
+
+/**
+ * Splits `start`–`end` into blocks. A remainder shorter than 14 days is dropped,
+ * unless `keepShort` and there is no full block.
+ */
+function splitIntoBlocks(
+  start: Date,
+  end: Date,
+  blockDays: number,
+  { fromEnd = false, keepShort = false } = {},
+): TimeRange[] {
+  const days = differenceInCalendarDays(end, start);
+  if (days <= 0) return [];
+  const full = Math.floor(days / blockDays);
+  const rest = days % blockDays;
+  const keepRest = rest >= PREVENTION_WINDOW_MIN_DAYS || (keepShort && full === 0 && rest > 0);
+  const sizes = Array.from({ length: full }, () => blockDays);
+  if (keepRest) {
+    if (fromEnd) sizes.unshift(rest);
+    else sizes.push(rest);
+  }
+  let blockStart = fromEnd ? addDays(end, -sizes.reduce((sum, size) => sum + size, 0)) : start;
+  return sizes.map((size) => {
+    const blockEnd = addDays(blockStart, size);
+    const range = { start: blockStart.getTime(), end: blockEnd.getTime() };
+    blockStart = blockEnd;
+    return range;
+  });
+}
+
+/**
+ * Migraine days per 30 days in up to 90 days before the start, during the prevention
+ * (split at `effectiveFrom`) and, once ended, in up to 90 days after the end.
+ */
+export function preventionChart(
+  prevention: Prevention,
+  attacks: Attack[],
+  intakes: MedicationIntake[],
+  now: number,
+): PreventionChart | undefined {
+  const dataStart = firstDataDay(attacks, intakes);
+  if (dataStart === undefined) return undefined;
+  const today = startOfDay(now);
+  const start = parseISO(prevention.startDate);
+  const end = prevention.endDate ? addDays(parseISO(prevention.endDate), 1) : undefined;
+  const duringEnd = end && end < today ? end : today;
+  const effectiveFrom = new Date(
+    Math.min(parseISO(prevention.effectiveFrom ?? prevention.startDate).getTime(), +duringEnd),
+  );
+  const beforeStart = new Date(
+    Math.max(dataStart, addDays(start, -PREVENTION_WINDOW_MAX_DAYS).getTime()),
+  );
+  const afterEnd = end
+    ? new Date(Math.min(addDays(end, PREVENTION_WINDOW_MAX_DAYS).getTime(), +today))
+    : undefined;
+
+  const spanDays = differenceInCalendarDays(afterEnd ?? duringEnd, beforeStart);
+  const blockDays =
+    spanDays > PREVENTION_CHART_MAX_BLOCKS * PREVENTION_TREND_BLOCK_DAYS
+      ? 2 * PREVENTION_TREND_BLOCK_DAYS
+      : PREVENTION_TREND_BLOCK_DAYS;
+  const phases: [PreventionChartPhase, TimeRange[]][] = [
+    ['before', splitIntoBlocks(beforeStart, start, blockDays, { fromEnd: true })],
+    ['buildUp', splitIntoBlocks(start, effectiveFrom, blockDays, { keepShort: true })],
+    ['effective', splitIntoBlocks(effectiveFrom, duringEnd, blockDays, { keepShort: true })],
+    ['after', end && afterEnd ? splitIntoBlocks(end, afterEnd, blockDays) : []],
+  ];
+
+  const migraine = migraineDays(attacks, now);
+  const per30 = (range: TimeRange) =>
+    (countDaysInRange(migraine, range) / differenceInCalendarDays(range.end, range.start)) * 30;
+  const blocks = phases.flatMap(([phase, ranges]) =>
+    ranges.map((range) => ({ phase, range, migraineDaysPer30: per30(range) })),
+  );
+  const before = phases[0]![1];
+  return before.length > 0
+    ? {
+        blocks,
+        baseline: per30({ start: before[0]!.start, end: before[before.length - 1]!.end }),
+      }
+    : { blocks };
 }

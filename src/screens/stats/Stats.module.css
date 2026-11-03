@@ -86,6 +86,29 @@
   fill: var(--color-primary);
 }
 
+.preventionChart {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: var(--space-3);
+}
+
+.outsideBar {
+  fill: var(--color-border);
+}
+
+.chartMarker {
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+
+.baselineLine {
+  stroke: var(--color-text-secondary);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+
 .statCards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
