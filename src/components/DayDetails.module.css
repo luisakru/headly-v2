@@ -4,13 +4,6 @@
   gap: var(--space-2);
 }
 
-.date {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 19px;
-  font-weight: 400;
-}
-
 .editable {
   cursor: pointer;
 }
@@ -18,10 +11,6 @@
 .editable:focus-visible {
   outline: 2px solid var(--color-text);
   outline-offset: 2px;
-}
-
-.empty {
-  color: var(--color-text-secondary);
 }
 
 .cardTitle {
