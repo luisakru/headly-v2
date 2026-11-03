@@ -178,7 +178,7 @@ export const en = {
     howCalculated: 'How this is calculated',
     migraineDayCount: (n: number) => (n === 1 ? '1 migraine day' : `${n} migraine days`),
     medicationDayCount: (n: number) => (n === 1 ? '1 medication day' : `${n} medication days`),
-    averageMigraineDays: 'Avg. migraine days / month',
+    averageMigraineDays: 'Avg. migraine days/month',
     effectivenessRate: 'Effectiveness',
     unrated: (n: number) => `${n} not rated`,
     averagePain: 'Avg. pain',
@@ -191,22 +191,22 @@ export const en = {
     since: (month: string) => `since ${month}`,
     active: 'active',
     preventionMigraineDays: (before: string, after: string, arrow: string) =>
-      `Migraine days / month: ${before} ${arrow} ${after}`,
+      `Migraine days/month: ${before} ${arrow} ${after}`,
     preventionMedicationDays: (before: string, after: string, arrow: string) =>
-      `Medication days / month: ${before} ${arrow} ${after}`,
+      `Medication days/month: ${before} ${arrow} ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
-      `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
+      `${days} days before the start (${before}) vs. ${days} days from the expected effect (${after}), scaled to 30 days. Counts migraine days and days with medication. Set the expected effect under Profile → Prevention.`,
     preventionChartLabel: 'Migraine days per 30 days before, during and after the prevention',
     chartMarkers: { start: 'Start', effective: 'Effect', end: 'End', lifeEvent: 'Event' },
-    migraineDaysPerMonth: (value: string) => `${value} migraine days / month`,
+    migraineDaysPerMonth: (value: string) => `${value} migraine days/month`,
     chartDetail:
-      'The chart shows migraine days per 30 days: faint before the start and after the end, strong during the prevention. The dashed line is the average before the start. Tap a bar to see its period.',
+      'Migraine days per 30 days. Faint: before the start and after the end. Strong: during the prevention. Dashed: average before the start. Tap a bar to see its period.',
     lifeEvents: 'Life events in this period',
     lifeEventEffectDetail: (days: number, before: string, after: string) =>
-      `Compares the ${days} days before the event (${before}) with ${days} days from the event (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days.`,
+      `${days} days before the event (${before}) vs. ${days} days after (${after}), scaled to 30 days. Counts migraine days and days with medication.`,
     lifeEventChartLabel: 'Migraine days per 30 days before and after the event',
     lifeEventChartDetail:
-      'The chart shows migraine days per 30 days: faint before the event, strong after it. The dashed line is the average before the event. Tap a bar to see its period.',
+      'Migraine days per 30 days. Faint: before the event. Strong: after it. Dashed: average before the event. Tap a bar to see its period.',
     lifeEventGap: {
       shortBefore: (days: number, min: number) =>
         days === 0
@@ -215,7 +215,9 @@ export const en = {
       shortAfter: (days: number, min: number) =>
         `Only ${days} days since the event, at least ${min} needed.`,
     },
-    shortComparison: (days: number) => `Only ${days} days compared, not very meaningful`,
+    shortComparison: (days: number) => `Only ${days} days compared, so not very meaningful.`,
+    detailLabels: { comparison: 'Comparison', note: 'Note', chart: 'Chart' },
+    endReason: (reason: string) => `Reason for stopping: ${reason}`,
     effectGap: {
       noData: 'No data yet',
       effectiveAfterEnd: 'The expected effect date is after the end date.',
@@ -266,6 +268,7 @@ export const en = {
     effectiveFromHint:
       'Many preventions take 2–3 months to work. Without a date, the start date counts.',
     endDate: 'End date (optional)',
+    endReason: 'Reason for stopping (optional)',
     activePreventions: 'Active',
     pastPreventions: 'Past',
     since: (date: string) => `since ${date}`,

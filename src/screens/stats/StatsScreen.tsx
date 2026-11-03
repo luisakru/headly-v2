@@ -231,6 +231,7 @@ export function StatsScreen() {
                   kind="prevention"
                   title={[prevention.name, prevention.dose].filter(Boolean).join(' ')}
                   meta={active ? `${period} · ${t.stats.active}` : period}
+                  note={prevention.endReason && t.stats.endReason(prevention.endReason)}
                   active={active}
                   effect={preventionEffect(prevention, attacks, intakes, now)}
                   gap={preventionEffectGap(prevention, attacks, intakes, now)}

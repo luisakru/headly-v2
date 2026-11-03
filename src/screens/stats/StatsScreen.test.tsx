@@ -38,7 +38,7 @@ test('shows stat cards for the visible 13 weeks of the default 3M range', async 
 
   expect(await screen.findByRole('radio', { name: '3M' })).toHaveAttribute('aria-checked', 'true');
   // 1 migraine day in the 84–91 days of the page up to today.
-  expect(screen.getByText('Avg. migraine days / month').previousSibling?.textContent).toMatch(
+  expect(screen.getByText('Avg. migraine days/month').previousSibling?.textContent).toMatch(
     /^0\.[34]$/,
   );
   expect(screen.getByText('Avg. pain').previousSibling).toHaveTextContent('6');
@@ -65,7 +65,7 @@ test('All covers the data since the first entry', async () => {
   await createAttack({ startedAt: twoYearsAgo, endedAt: twoYearsAgo + 72 * HOUR_MS });
 
   await renderWithI18n(<StatsScreen />);
-  const average = () => screen.getByText('Avg. migraine days / month').previousSibling?.textContent;
+  const average = () => screen.getByText('Avg. migraine days/month').previousSibling?.textContent;
   expect(await screen.findByRole('radio', { name: '3M' })).toHaveAttribute('aria-checked', 'true');
   expect(average()).toBe('0');
 

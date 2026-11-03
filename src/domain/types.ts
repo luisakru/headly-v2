@@ -43,6 +43,8 @@ export type Prevention = {
   effectiveFrom?: string;
   /** ISO date, YYYY-MM-DD */
   endDate?: string;
+  /** Why the prevention was stopped. Only kept with an `endDate`. */
+  endReason?: string;
   createdAt: number;
   updatedAt: number;
 };

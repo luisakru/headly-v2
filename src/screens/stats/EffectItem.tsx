@@ -27,6 +27,7 @@ type EffectItemProps = {
   kind: 'prevention' | 'lifeEvent';
   title: string;
   meta: string;
+  note?: string;
   active: boolean;
   effect?: PreventionEffect;
   gap?: PreventionEffectGap;
@@ -34,7 +35,16 @@ type EffectItemProps = {
 };
 
 /** A prevention or life event with its before/after effect and chart. */
-export function EffectItem({ kind, title, meta, active, effect, gap, chart }: EffectItemProps) {
+export function EffectItem({
+  kind,
+  title,
+  meta,
+  note,
+  active,
+  effect,
+  gap,
+  chart,
+}: EffectItemProps) {
   const { t, language } = useI18n();
   const [showDetail, setShowDetail] = useState(false);
   const number = (value: number) => formatNumber(value, language);
@@ -65,6 +75,7 @@ export function EffectItem({ kind, title, meta, active, effect, gap, chart }: Ef
       <div className={styles.preventionText}>
         <p className={styles.preventionName}>{title}</p>
         <p className={styles.preventionMeta}>{meta}</p>
+        {note && <p className={styles.preventionMeta}>{note}</p>}
         {effect ? (
           <>
             <p className={styles.preventionMeta}>
@@ -95,9 +106,6 @@ export function EffectItem({ kind, title, meta, active, effect, gap, chart }: Ef
         ) : (
           gap && <p className={styles.preventionMeta}>{gapText(gap)}</p>
         )}
-        {effect && effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS && (
-          <p className={styles.preventionMeta}>{t.stats.shortComparison(effect.windowDays)}</p>
-        )}
         {showChart && (
           <PreventionChart
             chart={chart}
@@ -108,24 +116,32 @@ export function EffectItem({ kind, title, meta, active, effect, gap, chart }: Ef
           />
         )}
         {showDetail && (
-          <p className={styles.preventionDetail}>
-            {[
-              ...(windows
-                ? [
-                    (kind === 'lifeEvent'
-                      ? t.stats.lifeEventEffectDetail
-                      : t.stats.preventionEffectDetail)(
-                      effect.windowDays,
-                      windows.before,
-                      windows.after,
-                    ),
-                  ]
-                : []),
-              ...(showChart
-                ? [kind === 'lifeEvent' ? t.stats.lifeEventChartDetail : t.stats.chartDetail]
-                : []),
-            ].join(' ')}
-          </p>
+          <div className={styles.preventionDetail}>
+            {windows && (
+              <p>
+                <strong>{t.stats.detailLabels.comparison}:</strong>{' '}
+                {(kind === 'lifeEvent'
+                  ? t.stats.lifeEventEffectDetail
+                  : t.stats.preventionEffectDetail)(
+                  effect.windowDays,
+                  windows.before,
+                  windows.after,
+                )}
+              </p>
+            )}
+            {effect && effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS && (
+              <p>
+                <strong>{t.stats.detailLabels.note}:</strong>{' '}
+                {t.stats.shortComparison(effect.windowDays)}
+              </p>
+            )}
+            {showChart && (
+              <p>
+                <strong>{t.stats.detailLabels.chart}:</strong>{' '}
+                {kind === 'lifeEvent' ? t.stats.lifeEventChartDetail : t.stats.chartDetail}
+              </p>
+            )}
+          </div>
         )}
       </div>
       {(effect || showChart) && (

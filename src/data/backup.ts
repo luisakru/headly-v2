@@ -79,6 +79,7 @@ const backupSchema = z.object({
         startDate: z.string().regex(ISO_DATE),
         effectiveFrom: z.string().regex(ISO_DATE).optional(),
         endDate: z.string().regex(ISO_DATE).optional(),
+        endReason: z.string().optional(),
       }),
     ),
     // Added in version 3.

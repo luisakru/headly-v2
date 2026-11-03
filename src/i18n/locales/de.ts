@@ -181,7 +181,7 @@ export const de: Dictionary = {
     howCalculated: 'So wird gerechnet',
     migraineDayCount: (n: number) => (n === 1 ? '1 Migränetag' : `${n} Migränetage`),
     medicationDayCount: (n: number) => (n === 1 ? '1 Medikamententag' : `${n} Medikamententage`),
-    averageMigraineDays: 'Ø Migränetage / Monat',
+    averageMigraineDays: 'Ø Migränetage/Monat',
     effectivenessRate: 'Ø Wirksamkeit',
     unrated: (n: number) => `${n} nicht bewertet`,
     averagePain: 'Ø Intensität',
@@ -194,22 +194,22 @@ export const de: Dictionary = {
     since: (month: string) => `seit ${month}`,
     active: 'aktiv',
     preventionMigraineDays: (before: string, after: string, arrow: string) =>
-      `Migränetage / Monat: ${before} ${arrow} ${after}`,
+      `Migränetage/Monat: ${before} ${arrow} ${after}`,
     preventionMedicationDays: (before: string, after: string, arrow: string) =>
-      `Medikamententage / Monat: ${before} ${arrow} ${after}`,
+      `Medikamententage/Monat: ${before} ${arrow} ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
-      `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
+      `${days} Tage vor dem Beginn (${before}) gegen ${days} Tage ab Wirkbeginn (${after}), umgerechnet auf 30 Tage. Gezählt werden Migränetage und Tage mit Medikament. Den Wirkbeginn trägst du im Profil bei der Prophylaxe ein.`,
     preventionChartLabel: 'Migränetage je 30 Tage vor, während und nach der Prophylaxe',
     chartMarkers: { start: 'Beginn', effective: 'Wirkbeginn', end: 'Ende', lifeEvent: 'Ereignis' },
-    migraineDaysPerMonth: (value: string) => `${value} Migränetage / Monat`,
+    migraineDaysPerMonth: (value: string) => `${value} Migränetage/Monat`,
     chartDetail:
-      'Das Diagramm zeigt die Migränetage je 30 Tage: blass vor dem Beginn und nach dem Ende, kräftig während der Prophylaxe. Die gestrichelte Linie ist der Durchschnitt vor dem Beginn. Tippe auf einen Balken, um den Zeitraum zu sehen.',
+      'Migränetage je 30 Tage. Blass: vor dem Beginn und nach dem Ende. Kräftig: während der Prophylaxe. Gestrichelt: Durchschnitt vor dem Beginn. Tippe auf einen Balken für den Zeitraum.',
     lifeEvents: 'Ereignisse im Zeitraum',
     lifeEventEffectDetail: (days: number, before: string, after: string) =>
-      `Verglichen werden die ${days} Tage vor dem Ereignis (${before}) mit ${days} Tagen ab dem Ereignis (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage.`,
+      `${days} Tage vor dem Ereignis (${before}) gegen ${days} Tage danach (${after}), umgerechnet auf 30 Tage. Gezählt werden Migränetage und Tage mit Medikament.`,
     lifeEventChartLabel: 'Migränetage je 30 Tage vor und nach dem Ereignis',
     lifeEventChartDetail:
-      'Das Diagramm zeigt die Migränetage je 30 Tage: blass vor dem Ereignis, kräftig danach. Die gestrichelte Linie ist der Durchschnitt vor dem Ereignis. Tippe auf einen Balken, um den Zeitraum zu sehen.',
+      'Migränetage je 30 Tage. Blass: vor dem Ereignis. Kräftig: danach. Gestrichelt: Durchschnitt vor dem Ereignis. Tippe auf einen Balken für den Zeitraum.',
     lifeEventGap: {
       shortBefore: (days: number, min: number) =>
         days === 0
@@ -218,7 +218,9 @@ export const de: Dictionary = {
       shortAfter: (days: number, min: number) =>
         `Nur ${days} Tage seit dem Ereignis, mindestens ${min} nötig.`,
     },
-    shortComparison: (days: number) => `Nur ${days} Tage verglichen, wenig aussagekräftig`,
+    shortComparison: (days: number) => `Nur ${days} Tage verglichen, daher wenig aussagekräftig.`,
+    detailLabels: { comparison: 'Vergleich', note: 'Hinweis', chart: 'Diagramm' },
+    endReason: (reason: string) => `Grund für das Absetzen: ${reason}`,
     effectGap: {
       noData: 'Noch keine Daten',
       effectiveAfterEnd: 'Der Wirkbeginn liegt nach dem Ende.',
@@ -269,6 +271,7 @@ export const de: Dictionary = {
     effectiveFromHint:
       'Viele Prophylaxen wirken erst nach 2–3 Monaten. Ohne Datum zählt der Beginn.',
     endDate: 'Ende (optional)',
+    endReason: 'Grund für das Absetzen (optional)',
     activePreventions: 'Aktiv',
     pastPreventions: 'Beendet',
     since: (date: string) => `seit ${date}`,

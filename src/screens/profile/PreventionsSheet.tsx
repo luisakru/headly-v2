@@ -108,12 +108,14 @@ function PreventionForm({ prevention, now, onDone }: PreventionFormProps) {
   const startId = useId();
   const effectiveId = useId();
   const endId = useId();
+  const endReasonId = useId();
   const [name, setName] = useState(prevention?.name ?? '');
   const [type, setType] = useState<PreventionType>(prevention?.type ?? 'medication');
   const [dose, setDose] = useState(prevention?.dose ?? '');
   const [startDate, setStartDate] = useState(prevention?.startDate ?? toDayKey(now));
   const [effectiveFrom, setEffectiveFrom] = useState(prevention?.effectiveFrom ?? '');
   const [endDate, setEndDate] = useState(prevention?.endDate ?? '');
+  const [endReason, setEndReason] = useState(prevention?.endReason ?? '');
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   const error = validatePrevention({
@@ -131,6 +133,7 @@ function PreventionForm({ prevention, now, onDone }: PreventionFormProps) {
       startDate,
       effectiveFrom: effectiveFrom || undefined,
       endDate: endDate || undefined,
+      endReason: (endDate && endReason.trim()) || undefined,
     };
     if (prevention) await updatePrevention(prevention.id, fields);
     else await createPrevention(fields);
@@ -201,6 +204,20 @@ function PreventionForm({ prevention, now, onDone }: PreventionFormProps) {
         value={endDate}
         onChange={(event) => setEndDate(event.target.value)}
       />
+      {endDate && (
+        <>
+          <label htmlFor={endReasonId} className={styles.fieldLabel}>
+            {t.profile.endReason}
+          </label>
+          <input
+            id={endReasonId}
+            className={styles.input}
+            value={endReason}
+            onChange={(event) => setEndReason(event.target.value)}
+            autoComplete="off"
+          />
+        </>
+      )}
       {error && (
         <p role="alert" className={styles.error}>
           {t.errors.prevention[error]}

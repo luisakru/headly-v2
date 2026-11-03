@@ -72,6 +72,30 @@ test('adds a prevention and rejects an end before the start', async () => {
   ]);
 });
 
+test('saves a reason for stopping a prevention only with an end date', async () => {
+  await renderProfile();
+
+  fireEvent.click(await screen.findByRole('button', { name: /Manage prevention/ }));
+  fireEvent.click(screen.getByRole('button', { name: 'New prevention' }));
+  fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Metoprolol' } });
+  fireEvent.change(screen.getByLabelText('Start date'), { target: { value: '2026-01-01' } });
+  expect(screen.queryByLabelText('Reason for stopping (optional)')).not.toBeInTheDocument();
+
+  fireEvent.change(screen.getByLabelText('End date (optional)'), {
+    target: { value: '2026-03-01' },
+  });
+  fireEvent.change(screen.getByLabelText('Reason for stopping (optional)'), {
+    target: { value: 'Side effects' },
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+  await waitFor(async () =>
+    expect(await listPreventions()).toMatchObject([
+      { name: 'Metoprolol', endDate: '2026-03-01', endReason: 'Side effects' },
+    ]),
+  );
+});
+
 test('imports a backup file by replacing all data', async () => {
   await createMedication({ name: 'Ibuprofen', isTriptan: false });
   const backup = buildBackup(
