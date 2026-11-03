@@ -6,7 +6,7 @@ import {
   makeMedication,
   makePrevention,
 } from '../test/factories';
-import { generateInsights, type InsightInput } from './insights';
+import { generateInsights, insightTrend, type InsightInput } from './insights';
 import type { Attack, Effectiveness } from './types';
 
 // Current range: 1 Apr – 29 Jun 2026 (90 days). Previous range: Jan–Mar 2026 (90 days).
@@ -254,5 +254,41 @@ describe('lifeEventChange', () => {
     const attacks = [...monthlyAttacks(1, 3, 4), ...monthlyAttacks(4, 3, 7)];
     const kinds = generateInsights({ ...empty, attacks, lifeEvents: [old] }).map((i) => i.kind);
     expect(kinds).not.toContain('lifeEventChange');
+  });
+});
+
+describe('insightTrend', () => {
+  const range = { start: 0, end: 1 };
+
+  test('fewer migraine days are good, more are bad', () => {
+    const change = { kind: 'migraineDaysChange', previousRange: range, range } as const;
+    expect(insightTrend({ ...change, before: 6, after: 4 })).toEqual({
+      direction: 'down',
+      tone: 'good',
+    });
+    expect(insightTrend({ ...change, before: 4, after: 6 })).toEqual({
+      direction: 'up',
+      tone: 'bad',
+    });
+  });
+
+  test('higher effectiveness is good', () => {
+    expect(
+      insightTrend({
+        kind: 'medicationEffectivenessChange',
+        medicationName: 'Sumatriptan',
+        before: 0.6,
+        after: 0.9,
+        previousRange: range,
+        range,
+      }),
+    ).toEqual({ direction: 'up', tone: 'good' });
+  });
+
+  test('fewer but stronger attacks are mixed', () => {
+    expect(insightTrend({ kind: 'fewerButStrongerAttacks', painIncrease: 1 })).toEqual({
+      direction: 'mixed',
+      tone: 'mixed',
+    });
   });
 });

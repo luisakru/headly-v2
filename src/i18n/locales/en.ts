@@ -116,6 +116,7 @@ export const en = {
     },
   },
   insights: {
+    tone: { good: 'Good trend', bad: 'Bad trend', mixed: 'Mixed trend' },
     migraineDaysDropped: (before: string, after: string) =>
       `Migraine days dropped from ${before} to ${after} per month.`,
     migraineDaysRose: (before: string, after: string) =>

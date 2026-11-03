@@ -117,6 +117,11 @@ export const de: Dictionary = {
     },
   },
   insights: {
+    tone: {
+      good: 'Gute Entwicklung',
+      bad: 'Schlechte Entwicklung',
+      mixed: 'Gemischte Entwicklung',
+    },
     migraineDaysDropped: (before: string, after: string) =>
       `Die Migränetage sind von ${before} auf ${after} pro Monat gesunken.`,
     migraineDaysRose: (before: string, after: string) =>

@@ -70,6 +70,37 @@ export type Insight =
   | { kind: 'lifeEventChange'; lifeEventName: string; effect: PreventionEffect }
   | { kind: 'fewerButStrongerAttacks'; painIncrease: number };
 
+export type InsightTrend = {
+  direction: 'up' | 'down' | 'mixed';
+  /** Whether the change is good for the user; "up" can be either. */
+  tone: 'good' | 'bad' | 'mixed';
+};
+
+export function insightTrend(insight: Insight): InsightTrend {
+  // Fewer migraine or medication days are good; higher effectiveness is good.
+  const fewerIsGood = (before: number, after: number): InsightTrend =>
+    after < before ? { direction: 'down', tone: 'good' } : { direction: 'up', tone: 'bad' };
+  switch (insight.kind) {
+    case 'migraineDaysChange':
+      return fewerIsGood(insight.before, insight.after);
+    case 'preventionMedicationDaysChange':
+      return fewerIsGood(0, insight.change);
+    case 'medicationEffectivenessChange':
+      return insight.after > insight.before
+        ? { direction: 'up', tone: 'good' }
+        : { direction: 'down', tone: 'bad' };
+    case 'preventionEffectChange':
+      return fewerIsGood(insight.early, insight.recent);
+    case 'lifeEventChange':
+      return fewerIsGood(
+        insight.effect.migraineDaysPer30.before,
+        insight.effect.migraineDaysPer30.after,
+      );
+    case 'fewerButStrongerAttacks':
+      return { direction: 'mixed', tone: 'mixed' };
+  }
+}
+
 export type InsightInput = {
   attacks: Attack[];
   intakes: MedicationIntake[];

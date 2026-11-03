@@ -119,6 +119,20 @@ export function LifeEventIcon() {
   );
 }
 
+/** Trend arrow: rising, falling or sideways. */
+export function TrendIcon({ direction }: { direction: 'up' | 'down' | 'mixed' }) {
+  const path = {
+    up: 'M6 16.5 16.5 6M9 6h7.5v7.5',
+    down: 'M6 7.5 16.5 18M16.5 10.5V18H9',
+    mixed: 'M5 12h13.5M13.5 7l5 5-5 5',
+  }[direction];
+  return (
+    <svg {...svgProps} width={22} height={22} strokeWidth={2}>
+      <path d={path} />
+    </svg>
+  );
+}
+
 export function DownloadIcon() {
   return (
     <svg {...svgProps} width={24} height={24}>
