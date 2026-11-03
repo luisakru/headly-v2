@@ -19,7 +19,7 @@ It must be usable during an acute migraine. That means low contrast, large touch
 - JSON export and import, plus a gentle backup reminder
 - Installable to the iPhone home screen, works fully offline
 
-**Not in the MVP:** push notifications, PDF export, trigger analysis, weather, Apple Health, cycle tracking, any backend or account.
+**Not in the MVP:** push notifications, trigger analysis, weather, Apple Health, cycle tracking, any backend or account.
 
 **Reference material:** screenshots of the Headly v1 designs live in `docs/reference/`. They are the visual source of truth for layout and style; this document is the source of truth for behavior.
 
@@ -260,7 +260,8 @@ Grouped list in cards:
 - **Life events:** list, add, edit, delete. Fields: name, date
 - **Data:** export JSON, import JSON, backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
 - **App:** language (Deutsch / English), privacy policy, imprint, about with version
-- **Coming soon, greyed out with a "Soon" badge:** PDF export for doctor, notifications
+- **PDF export (Data card):** a report page for the doctor covering the current and previous 2 or 5 months (3 or 6 months; doctors rarely want more): overview (migraine days, per month, medication days, triptan days, average pain, effectiveness), overuse warning, monthly chart, preventions and life events with their before/after effect, and a table of all attacks and intakes. "Create PDF" opens the browser's print menu (no PDF library); print styles hide the controls and tab bar
+- **Coming soon, greyed out with a "Soon" badge:** notifications
 
 ## Native feel on iPhone
 
@@ -358,7 +359,6 @@ Eight phases, each one agent session ending in a working, testable state. Do not
 
 These are deliberately out of scope; the code should not block them, but should not prepare for them either.
 
-- PDF export for doctor visits (selected range, summary page, monthly table)
 - Web push reminders (6-hour check, morning check, rating prompt) for the installed app, iOS 16.4 and later
 - Optional encrypted sync or automatic backup
 - Notes and simple tags per attack

@@ -43,6 +43,14 @@ export function lookbackRange(
   return { start: start.valueOf(), end };
 }
 
+/** The current month and the `months - 1` before it, up to today. */
+export function reportRange(months: number, now: number): TimeRange {
+  return {
+    start: addMonths(startOfMonth(now), 1 - months).getTime(),
+    end: endOfToday(now),
+  };
+}
+
 export function monthsInRange(range: TimeRange): TimeRange[] {
   const months: TimeRange[] = [];
   for (

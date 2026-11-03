@@ -6,6 +6,7 @@ import { ComponentsScreen } from './screens/dev/ComponentsScreen';
 import { HomeScreen } from './screens/home/HomeScreen';
 import { AboutPage, LegalPage } from './screens/profile/ProfilePages';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
+import { ReportPage } from './screens/profile/ReportPage';
 import { StatsScreen } from './screens/stats/StatsScreen';
 
 export function App() {
@@ -21,6 +22,7 @@ export function App() {
             <Route path="profile/privacy" element={<LegalPage page="privacy" />} />
             <Route path="profile/imprint" element={<LegalPage page="imprint" />} />
             <Route path="profile/about" element={<AboutPage />} />
+            <Route path="profile/report" element={<ReportPage />} />
             <Route path="dev/components" element={<ComponentsScreen />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

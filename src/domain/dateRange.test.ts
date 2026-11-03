@@ -1,5 +1,5 @@
 import { at } from '../test/factories';
-import { lookbackRange, monthsInRange, previousRange } from './dateRange';
+import { lookbackRange, monthsInRange, previousRange, reportRange } from './dateRange';
 
 const now = at(2026, 3, 15, 12);
 
@@ -27,4 +27,8 @@ test('previousRange has the same number of days directly before', () => {
     start: at(2026, 2, 14),
     end: at(2026, 3, 1),
   });
+});
+
+test('reportRange covers whole months up to today', () => {
+  expect(reportRange(3, now)).toEqual({ start: at(2026, 1, 1), end: at(2026, 3, 16) });
 });

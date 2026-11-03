@@ -25,3 +25,9 @@
   outline-offset: -4px;
   border-radius: var(--radius-cell);
 }
+
+@media print {
+  .tabBar {
+    display: none;
+  }
+}

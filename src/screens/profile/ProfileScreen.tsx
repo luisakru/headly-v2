@@ -127,6 +127,12 @@ export function ProfileScreen() {
             }
           />
           <ProfileRow
+            icon={<DocumentIcon />}
+            title={t.profile.pdfExport}
+            subtitle={t.profile.pdfExportHint}
+            onClick={() => void navigate('/profile/report')}
+          />
+          <ProfileRow
             icon={<UploadIcon />}
             title={t.profile.importData}
             subtitle={t.profile.importHint}
@@ -192,12 +198,6 @@ export function ProfileScreen() {
       <section className={styles.section}>
         <h2 className={styles.sectionLabel}>{t.profile.comingSoon}</h2>
         <div className={styles.card}>
-          <ProfileRow
-            icon={<DocumentIcon />}
-            title={t.profile.pdfExport}
-            subtitle={t.profile.pdfExportHint}
-            soon
-          />
           <ProfileRow
             icon={<BellIcon />}
             title={t.profile.notifications}

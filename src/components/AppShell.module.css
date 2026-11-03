@@ -10,3 +10,16 @@
   overscroll-behavior: contain;
   padding: calc(env(safe-area-inset-top) + var(--space-8)) var(--screen-padding) var(--space-8);
 }
+
+/* Printing the report: one long page instead of a scrolling screen. */
+@media print {
+  .appShell {
+    display: block;
+    height: auto;
+  }
+
+  .content {
+    overflow: visible;
+    padding: 0;
+  }
+}
