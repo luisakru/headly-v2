@@ -9,10 +9,6 @@
   No account. No server. No tracking.
 </p>
 
-<p align="center">
-  <img src="docs/media/demo.png" width="300" alt="Demo: starting a migraine, setting the pain level, logging medication, then the calendar, statistics with insights and prevention charts, and the PDF export" />
-</p>
-
 ---
 
 ## What it does
