@@ -132,6 +132,10 @@ export const en = {
       `Compares the first 90 days from when it is expected to work (${early}) with the latest 90 days (${recent}). Counted are days with a migraine, scaled to 30 days.${before ? ` "Before" is up to 90 days before the start (${before}).` : ''}`,
     preventionDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
+    lifeEventMigraineDays: (name: string, before: string, after: string) =>
+      `Since “${name}”: ${after} instead of ${before} migraine days per month.`,
+    lifeEventDetail: (days: number, before: string, after: string) =>
+      `Compares the ${days} days before the event (${before}) with the ${days} days from the event (${after}). Counted are days with a migraine, scaled to 30 days.`,
     medicationHelpedLess: (name: string, before: string, after: string) =>
       `${name} has helped less recently (${before} to ${after}).`,
     medicationHelpedMore: (name: string, before: string, after: string) =>
@@ -190,10 +194,24 @@ export const en = {
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
     preventionChartLabel: 'Migraine days per 30 days before, during and after the prevention',
-    chartMarkers: { start: 'Start', effective: 'Effect', end: 'End' },
+    chartMarkers: { start: 'Start', effective: 'Effect', end: 'End', lifeEvent: 'Event' },
     migraineDaysPerMonth: (value: string) => `${value} migraine days / month`,
     chartDetail:
       'The chart shows migraine days per 30 days: faint before the start and after the end, strong during the prevention. The dashed line is the average before the start. Tap a bar to see its period.',
+    lifeEvents: 'Life events in this period',
+    lifeEventEffectDetail: (days: number, before: string, after: string) =>
+      `Compares the ${days} days before the event (${before}) with ${days} days from the event (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days.`,
+    lifeEventChartLabel: 'Migraine days per 30 days before and after the event',
+    lifeEventChartDetail:
+      'The chart shows migraine days per 30 days: faint before the event, strong after it. The dashed line is the average before the event. Tap a bar to see its period.',
+    lifeEventGap: {
+      shortBefore: (days: number, min: number) =>
+        days === 0
+          ? 'No data recorded before the event.'
+          : `Only ${days} days recorded before the event, at least ${min} needed.`,
+      shortAfter: (days: number, min: number) =>
+        `Only ${days} days since the event, at least ${min} needed.`,
+    },
     shortComparison: (days: number) => `Only ${days} days compared, not very meaningful`,
     effectGap: {
       noData: 'No data yet',
@@ -226,6 +244,13 @@ export const en = {
     managePreventions: 'Manage prevention',
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 prevention' : `${total} preventions`} · ${active} active`,
+    lifeEvents: 'Life events',
+    manageLifeEvents: 'Manage life events',
+    lifeEventCount: (n: number) => (n === 1 ? '1 life event' : `${n} life events`),
+    newLifeEvent: 'New life event',
+    editLifeEvent: 'Edit life event',
+    lifeEventHint: 'For example a new job, a move or stopping the pill',
+    lifeEventDate: 'Date',
     newPrevention: 'New prevention',
     editPrevention: 'Edit prevention',
     preventionType: 'Type',
@@ -282,12 +307,13 @@ export const en = {
   backup: {
     importTitle: 'Import backup',
     fileContains: (counts: string) => `This backup contains ${counts}.`,
-    counts: ({ attacks, medications, medicationIntakes, preventions }: BackupCounts) =>
+    counts: ({ attacks, medications, medicationIntakes, preventions, lifeEvents }: BackupCounts) =>
       [
         attacks === 1 ? '1 migraine' : `${attacks} migraines`,
         medications === 1 ? '1 medication' : `${medications} medications`,
         medicationIntakes === 1 ? '1 intake' : `${medicationIntakes} intakes`,
         preventions === 1 ? '1 prevention' : `${preventions} preventions`,
+        lifeEvents === 1 ? '1 life event' : `${lifeEvents} life events`,
       ].join(', '),
     merge: 'Merge',
     mergeHint: 'Adds new entries and updates entries that changed.',

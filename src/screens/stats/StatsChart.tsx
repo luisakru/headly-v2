@@ -1,5 +1,7 @@
+import { parseISO } from 'date-fns';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { chartScale, labelStep, type BucketSize, type ChartBucket } from '../../domain/chart';
+import type { LifeEvent } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import {
   formatDate,
@@ -37,6 +39,8 @@ type StatsChartProps = {
   /** Buckets per page, oldest page first. */
   pages: ChartBucket[][];
   size: BucketSize;
+  /** Drawn as thin vertical lines at their date. */
+  lifeEvents: LifeEvent[];
   showMigraine: boolean;
   showMedication: boolean;
   onPageChange: (index: number) => void;
@@ -45,6 +49,7 @@ type StatsChartProps = {
 export function StatsChart({
   pages,
   size,
+  lifeEvents,
   showMigraine,
   showMedication,
   onPageChange,
@@ -82,6 +87,13 @@ export function StatsChart({
   const scale = size === 'day' ? PAIN_SCALE : chartScale(maxValue);
   const y = (value: number) => PLOT_TOP + PLOT_HEIGHT - (value / scale.max) * PLOT_HEIGHT;
 
+  const eventTimes = lifeEvents.map((lifeEvent) => ({
+    name: lifeEvent.name,
+    time: parseISO(lifeEvent.date).getTime(),
+  }));
+  const eventsIn = (bucket: ChartBucket) =>
+    eventTimes.filter(({ time }) => time >= bucket.range.start && time < bucket.range.end);
+
   const bucketLabel = (bucket: ChartBucket, count: number) => {
     if (size === 'day')
       return count <= 7
@@ -92,7 +104,10 @@ export function StatsChart({
     return formatMonthShort(bucket.range.start, language);
   };
 
-  const detail = (bucket: ChartBucket) => {
+  const detail = (bucket: ChartBucket) =>
+    [bucketDetail(bucket), ...eventsIn(bucket).map(({ name }) => name)].join(' · ');
+
+  const bucketDetail = (bucket: ChartBucket) => {
     if (size === 'day') {
       const parts = [
         ...(showMigraine && bucket.migraineDays > 0
@@ -229,6 +244,20 @@ export function StatsChart({
                 width={groupWidth}
                 height={HEIGHT}
               />
+              {eventsIn(bucket).map(({ name, time }) => {
+                const share = (time - bucket.range.start) / (bucket.range.end - bucket.range.start);
+                const x = PLOT_PADDING + groupWidth * (index + share);
+                return (
+                  <line
+                    key={name + time}
+                    className={styles.chartMarker}
+                    x1={x}
+                    x2={x}
+                    y1={PLOT_TOP}
+                    y2={y(0)}
+                  />
+                );
+              })}
               {size === 'day'
                 ? renderDay(bucket, center, barWidth)
                 : renderGroup(bucket, center, barWidth)}

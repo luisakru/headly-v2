@@ -9,7 +9,6 @@ import type {
   PreventionEffect,
   PreventionEffectGap,
 } from '../../domain/prevention';
-import type { Prevention } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatNumber } from '../../i18n/format';
 import { formatPreventionWindows } from '../../i18n/insights';
@@ -19,23 +18,18 @@ import styles from './Stats.module.css';
 // Fewer blocks say little more than the numbers above.
 const MIN_CHART_BLOCKS = 3;
 
-type PreventionItemProps = {
-  prevention: Prevention;
-  period: string;
+type EffectItemProps = {
+  kind: 'prevention' | 'lifeEvent';
+  title: string;
+  meta: string;
   active: boolean;
   effect?: PreventionEffect;
   gap?: PreventionEffectGap;
   chart?: PreventionChartData;
 };
 
-export function PreventionItem({
-  prevention,
-  period,
-  active,
-  effect,
-  gap,
-  chart,
-}: PreventionItemProps) {
+/** A prevention or life event with its before/after effect and chart. */
+export function EffectItem({ kind, title, meta, active, effect, gap, chart }: EffectItemProps) {
   const { t, language } = useI18n();
   const [showDetail, setShowDetail] = useState(false);
   const number = (value: number) => formatNumber(value, language);
@@ -51,6 +45,10 @@ export function PreventionItem({
         return t.stats.effectGap[gap.reason];
       case 'shortBefore':
       case 'shortAfter':
+        return (kind === 'lifeEvent' ? t.stats.lifeEventGap : t.stats.effectGap)[gap.reason](
+          gap.days,
+          PREVENTION_WINDOW_MIN_DAYS,
+        );
       case 'shortAfterEffective':
         return t.stats.effectGap[gap.reason](gap.days, PREVENTION_WINDOW_MIN_DAYS);
     }
@@ -60,10 +58,8 @@ export function PreventionItem({
     <div className={styles.prevention}>
       <span className={styles.dot} data-active={active} />
       <div className={styles.preventionText}>
-        <p className={styles.preventionName}>
-          {[prevention.name, prevention.dose].filter(Boolean).join(' ')}
-        </p>
-        <p className={styles.preventionMeta}>{active ? `${period} · ${t.stats.active}` : period}</p>
+        <p className={styles.preventionName}>{title}</p>
+        <p className={styles.preventionMeta}>{meta}</p>
         {effect ? (
           <>
             <p className={styles.preventionMeta}>
@@ -85,14 +81,32 @@ export function PreventionItem({
         {effect && effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS && (
           <p className={styles.preventionMeta}>{t.stats.shortComparison(effect.windowDays)}</p>
         )}
-        {showChart && <PreventionChart chart={chart} />}
+        {showChart && (
+          <PreventionChart
+            chart={chart}
+            {...(kind === 'lifeEvent' && {
+              label: t.stats.lifeEventChartLabel,
+              startLabel: t.stats.chartMarkers.lifeEvent,
+            })}
+          />
+        )}
         {showDetail && (
           <p className={styles.preventionDetail}>
             {[
               ...(windows
-                ? [t.stats.preventionEffectDetail(effect.windowDays, windows.before, windows.after)]
+                ? [
+                    (kind === 'lifeEvent'
+                      ? t.stats.lifeEventEffectDetail
+                      : t.stats.preventionEffectDetail)(
+                      effect.windowDays,
+                      windows.before,
+                      windows.after,
+                    ),
+                  ]
                 : []),
-              ...(showChart ? [t.stats.chartDetail] : []),
+              ...(showChart
+                ? [kind === 'lifeEvent' ? t.stats.lifeEventChartDetail : t.stats.chartDetail]
+                : []),
             ].join(' ')}
           </p>
         )}

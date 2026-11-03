@@ -17,7 +17,14 @@ const LABEL_GAP = 6;
 
 type Marker = { x: number; label: string };
 
-export function PreventionChart({ chart }: { chart: PreventionChartData }) {
+type PreventionChartProps = {
+  chart: PreventionChartData;
+  label?: string;
+  /** Marker label where the strong bars begin; "Start" by default. */
+  startLabel?: string;
+};
+
+export function PreventionChart({ chart, label, startLabel }: PreventionChartProps) {
   const { t, language } = useI18n();
   const [selected, setSelected] = useState<number>();
   const { blocks, baseline } = chart;
@@ -31,13 +38,13 @@ export function PreventionChart({ chart }: { chart: PreventionChartData }) {
   blocks.forEach((block, index) => {
     const previous = blocks[index - 1]?.phase ?? 'before';
     if (block.phase === previous) return;
-    const label =
+    const markerLabel =
       block.phase === 'after'
         ? t.stats.chartMarkers.end
         : block.phase === 'effective' && previous === 'buildUp'
           ? t.stats.chartMarkers.effective
-          : t.stats.chartMarkers.start;
-    markers.push({ x: index * blockWidth, label });
+          : (startLabel ?? t.stats.chartMarkers.start);
+    markers.push({ x: index * blockWidth, label: markerLabel });
   });
   // A label that would overlap the one before moves to the next row.
   const rowEnds: number[] = [];
@@ -62,7 +69,7 @@ export function PreventionChart({ chart }: { chart: PreventionChartData }) {
         className={styles.preventionChart}
         viewBox={`0 0 ${WIDTH} ${height}`}
         role="img"
-        aria-label={t.stats.preventionChartLabel}
+        aria-label={label ?? t.stats.preventionChartLabel}
       >
         <line className={styles.gridLine} x1={0} x2={WIDTH} y1={y(0)} y2={y(0)} />
         {labelled.map((marker) => (

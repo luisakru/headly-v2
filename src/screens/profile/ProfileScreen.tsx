@@ -6,6 +6,7 @@ import {
   DocumentIcon,
   DownloadIcon,
   InfoIcon,
+  LifeEventIcon,
   LockIcon,
   MedicationIcon,
   PreventionIcon,
@@ -24,6 +25,7 @@ import { useI18n } from '../../i18n/context';
 import { useHomeData, useNow, useSettings } from '../home/useHomeData';
 import { DeleteAllSheet } from './DeleteAllSheet';
 import { ImportSheet } from './ImportSheet';
+import { LifeEventsSheet } from './LifeEventsSheet';
 import { MedicationsSheet } from './MedicationsSheet';
 import { PreventionsSheet } from './PreventionsSheet';
 import styles from './Profile.module.css';
@@ -31,7 +33,7 @@ import { ProfileRow } from './ProfileRow';
 
 const LANGUAGES: Language[] = ['de', 'en'];
 
-type OpenSheet = 'medications' | 'preventions' | 'deleteAll';
+type OpenSheet = 'medications' | 'preventions' | 'lifeEvents' | 'deleteAll';
 
 export function ProfileScreen() {
   const { t, language, setLanguage } = useI18n();
@@ -45,7 +47,7 @@ export function ProfileScreen() {
   const [exported, setExported] = useState(false);
 
   if (!data || !settings) return null;
-  const { attacks, intakes, medications, preventions } = data;
+  const { attacks, intakes, medications, preventions, lifeEvents } = data;
 
   const activeMedications = medications.filter((medication) => !medication.archived);
   const activePreventions = preventions.filter((prevention) => isActivePrevention(prevention, now));
@@ -96,6 +98,18 @@ export function ProfileScreen() {
       </section>
 
       <section className={styles.section}>
+        <h2 className={styles.sectionLabel}>{t.profile.lifeEvents}</h2>
+        <div className={styles.card}>
+          <ProfileRow
+            icon={<LifeEventIcon />}
+            title={t.profile.manageLifeEvents}
+            subtitle={t.profile.lifeEventCount(lifeEvents.length)}
+            onClick={() => setOpenSheet('lifeEvents')}
+          />
+        </div>
+      </section>
+
+      <section className={styles.section}>
         <h2 className={styles.sectionLabel}>{t.profile.data}</h2>
         <div className={styles.card}>
           <ProfileRow
@@ -108,6 +122,7 @@ export function ProfileScreen() {
                 medications,
                 medicationIntakes: intakes,
                 preventions,
+                lifeEvents,
               }).then(setExported)
             }
           />
@@ -198,6 +213,13 @@ export function ProfileScreen() {
       {openSheet === 'preventions' && (
         <PreventionsSheet
           preventions={preventions}
+          now={now}
+          onClose={() => setOpenSheet(undefined)}
+        />
+      )}
+      {openSheet === 'lifeEvents' && (
+        <LifeEventsSheet
+          lifeEvents={lifeEvents}
           now={now}
           onClose={() => setOpenSheet(undefined)}
         />

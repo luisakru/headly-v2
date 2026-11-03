@@ -31,6 +31,7 @@ test('produces insights for the default range', () => {
   const insights = generateInsights({
     ...data,
     intakes: data.medicationIntakes,
+    lifeEvents: [],
     range: lookbackRange('3M', now, undefined),
     now,
   });

@@ -51,6 +51,7 @@ const data: BackupData = {
       updatedAt: 1,
     },
   ],
+  lifeEvents: [{ id: 'e1', name: 'New job', date: '2026-05-01', createdAt: 1, updatedAt: 1 }],
 };
 
 const exported = () => JSON.stringify(buildBackup(data, now));
@@ -117,6 +118,12 @@ describe('parseBackup', () => {
   });
 });
 
+test('a version 2 backup has no life events yet', () => {
+  const { lifeEvents: _, ...v2Data } = data;
+  const v2 = { ...buildBackup(data, now), schemaVersion: 2, data: v2Data };
+  expect(parseBackup(JSON.stringify(v2)).data.lifeEvents).toEqual([]);
+});
+
 test('backupFileName contains the local date', () => {
   expect(backupFileName(now)).toBe('headly-backup-2026-10-25.json');
 });
@@ -135,7 +142,13 @@ describe('importBackup', () => {
   test('replace restores exactly the backup', async () => {
     await createMedication({ name: 'Ibuprofen', isTriptan: false });
     const summary = await importBackup(parseBackup(exported()), 'replace');
-    expect(summary).toEqual({ attacks: 1, medications: 1, medicationIntakes: 1, preventions: 1 });
+    expect(summary).toEqual({
+      attacks: 1,
+      medications: 1,
+      medicationIntakes: 1,
+      preventions: 1,
+      lifeEvents: 1,
+    });
     expect(await listMedications()).toEqual(data.medications);
     expect(await db.medicationIntakes.toArray()).toEqual(data.medicationIntakes);
   });
@@ -147,7 +160,13 @@ describe('importBackup', () => {
 
     const summary = await importBackup(parseBackup(exported()), 'merge');
 
-    expect(summary).toEqual({ attacks: 0, medications: 1, medicationIntakes: 1, preventions: 1 });
+    expect(summary).toEqual({
+      attacks: 0,
+      medications: 1,
+      medicationIntakes: 1,
+      preventions: 1,
+      lifeEvents: 1,
+    });
     expect((await listAttacks())[0]?.painLevel).toBe(3);
     expect((await listMedications()).map((m) => m.name)).toEqual(['Ibuprofen', 'Sumatriptan']);
     expect(await db.medications.get(ibuprofen.id)).toEqual(ibuprofen);

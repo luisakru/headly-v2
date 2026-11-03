@@ -133,6 +133,10 @@ export const de: Dictionary = {
       `Verglichen werden die ersten 90 Tage ab dem Wirkbeginn (${early}) mit den letzten 90 Tagen (${recent}). Gezählt werden Tage mit Migräne, umgerechnet auf 30 Tage.${before ? ` „Vorher" sind die bis zu 90 Tage vor dem Beginn (${before}).` : ''}`,
     preventionDetail: (days: number, before: string, after: string) =>
       `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
+    lifeEventMigraineDays: (name: string, before: string, after: string) =>
+      `Seit „${name}“: ${after} statt ${before} Migränetage pro Monat.`,
+    lifeEventDetail: (days: number, before: string, after: string) =>
+      `Verglichen werden die ${days} Tage vor dem Ereignis (${before}) mit den ${days} Tagen ab dem Ereignis (${after}). Gezählt werden Tage mit Migräne, umgerechnet auf 30 Tage.`,
     medicationHelpedLess: (name: string, before: string, after: string) =>
       `${name} hat zuletzt weniger geholfen (${before} auf ${after}).`,
     medicationHelpedMore: (name: string, before: string, after: string) =>
@@ -191,10 +195,24 @@ export const de: Dictionary = {
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Verglichen werden die ${days} Tage vor dem Beginn (${before}) mit ${days} Tagen ab dem erwarteten Wirkbeginn (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage. Den Wirkbeginn kannst du im Profil bei der Prophylaxe eintragen.`,
     preventionChartLabel: 'Migränetage je 30 Tage vor, während und nach der Prophylaxe',
-    chartMarkers: { start: 'Beginn', effective: 'Wirkbeginn', end: 'Ende' },
+    chartMarkers: { start: 'Beginn', effective: 'Wirkbeginn', end: 'Ende', lifeEvent: 'Ereignis' },
     migraineDaysPerMonth: (value: string) => `${value} Migränetage / Monat`,
     chartDetail:
       'Das Diagramm zeigt die Migränetage je 30 Tage: blass vor dem Beginn und nach dem Ende, kräftig während der Prophylaxe. Die gestrichelte Linie ist der Durchschnitt vor dem Beginn. Tippe auf einen Balken, um den Zeitraum zu sehen.',
+    lifeEvents: 'Ereignisse im Zeitraum',
+    lifeEventEffectDetail: (days: number, before: string, after: string) =>
+      `Verglichen werden die ${days} Tage vor dem Ereignis (${before}) mit ${days} Tagen ab dem Ereignis (${after}). Gezählt werden Tage mit Migräne und Tage mit mindestens einer Medikamenteneinnahme, umgerechnet auf 30 Tage.`,
+    lifeEventChartLabel: 'Migränetage je 30 Tage vor und nach dem Ereignis',
+    lifeEventChartDetail:
+      'Das Diagramm zeigt die Migränetage je 30 Tage: blass vor dem Ereignis, kräftig danach. Die gestrichelte Linie ist der Durchschnitt vor dem Ereignis. Tippe auf einen Balken, um den Zeitraum zu sehen.',
+    lifeEventGap: {
+      shortBefore: (days: number, min: number) =>
+        days === 0
+          ? 'Vor dem Ereignis sind keine Daten erfasst.'
+          : `Nur ${days} Tage vor dem Ereignis erfasst, mindestens ${min} nötig.`,
+      shortAfter: (days: number, min: number) =>
+        `Nur ${days} Tage seit dem Ereignis, mindestens ${min} nötig.`,
+    },
     shortComparison: (days: number) => `Nur ${days} Tage verglichen, wenig aussagekräftig`,
     effectGap: {
       noData: 'Noch keine Daten',
@@ -227,6 +245,13 @@ export const de: Dictionary = {
     managePreventions: 'Prophylaxe verwalten',
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 Prophylaxe' : `${total} Prophylaxen`} · ${active} aktiv`,
+    lifeEvents: 'Ereignisse',
+    manageLifeEvents: 'Ereignisse verwalten',
+    lifeEventCount: (n: number) => (n === 1 ? '1 Ereignis' : `${n} Ereignisse`),
+    newLifeEvent: 'Neues Ereignis',
+    editLifeEvent: 'Ereignis bearbeiten',
+    lifeEventHint: 'Zum Beispiel neuer Job, Umzug oder Pille abgesetzt',
+    lifeEventDate: 'Datum',
     newPrevention: 'Neue Prophylaxe',
     editPrevention: 'Prophylaxe bearbeiten',
     preventionType: 'Art',
@@ -283,12 +308,13 @@ export const de: Dictionary = {
   backup: {
     importTitle: 'Sicherung importieren',
     fileContains: (counts: string) => `Diese Sicherung enthält ${counts}.`,
-    counts: ({ attacks, medications, medicationIntakes, preventions }: BackupCounts) =>
+    counts: ({ attacks, medications, medicationIntakes, preventions, lifeEvents }: BackupCounts) =>
       [
         attacks === 1 ? '1 Migräne' : `${attacks} Migränen`,
         medications === 1 ? '1 Medikament' : `${medications} Medikamente`,
         medicationIntakes === 1 ? '1 Einnahme' : `${medicationIntakes} Einnahmen`,
         preventions === 1 ? '1 Prophylaxe' : `${preventions} Prophylaxen`,
+        lifeEvents === 1 ? '1 Ereignis' : `${lifeEvents} Ereignisse`,
       ].join(', '),
     merge: 'Zusammenführen',
     mergeHint: 'Fügt neue Einträge hinzu und aktualisiert geänderte.',

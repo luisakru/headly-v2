@@ -6,7 +6,14 @@ import {
   PREVENTION_WINDOW_MIN_DAYS,
 } from './constants';
 import { countDaysInRange, medicationDays, migraineDays, toDayKey } from './days';
-import type { Attack, MedicationIntake, Prevention, TimeRange } from './types';
+import type { Attack, LifeEvent, MedicationIntake, Prevention, TimeRange } from './types';
+
+/** What the effect comparison needs; a life event is a period that starts on its date. */
+export type EffectPeriod = Pick<Prevention, 'startDate' | 'effectiveFrom' | 'endDate'>;
+
+export function lifeEventPeriod(lifeEvent: LifeEvent): EffectPeriod {
+  return { startDate: lifeEvent.date };
+}
 
 export type PreventionEffect = {
   windowDays: number;
@@ -61,7 +68,7 @@ export type PreventionEffectGap =
 
 /** Days of data before the start and from `effectiveFrom` up to the end or today. */
 function availableDays(
-  prevention: Prevention,
+  prevention: EffectPeriod,
   attacks: Attack[],
   intakes: MedicationIntake[],
   now: number,
@@ -86,7 +93,7 @@ function availableDays(
  * (up to 90 days each). Undefined if either window has less than 14 days of data.
  */
 export function preventionEffect(
-  prevention: Prevention,
+  prevention: EffectPeriod,
   attacks: Attack[],
   intakes: MedicationIntake[],
   now: number,
@@ -118,7 +125,7 @@ export function preventionEffect(
 
 /** Why `preventionEffect` has no result; undefined when it has one. */
 export function preventionEffectGap(
-  prevention: Prevention,
+  prevention: EffectPeriod,
   attacks: Attack[],
   intakes: MedicationIntake[],
   now: number,
@@ -248,13 +255,48 @@ export function preventionChart(
     ['after', end && afterEnd ? splitIntoBlocks(end, afterEnd, blockDays) : []],
   ];
 
+  return chartFromPhases(phases, attacks, now);
+}
+
+/** Up to 90 days before and after a life event. */
+export function lifeEventChart(
+  lifeEvent: LifeEvent,
+  attacks: Attack[],
+  intakes: MedicationIntake[],
+  now: number,
+): PreventionChart | undefined {
+  const dataStart = firstDataDay(attacks, intakes);
+  if (dataStart === undefined) return undefined;
+  const date = parseISO(lifeEvent.date);
+  const beforeStart = new Date(
+    Math.max(dataStart, addDays(date, -PREVENTION_WINDOW_MAX_DAYS).getTime()),
+  );
+  const afterEnd = new Date(
+    Math.min(addDays(date, PREVENTION_WINDOW_MAX_DAYS).getTime(), startOfDay(now).getTime()),
+  );
+  const blockDays = PREVENTION_TREND_BLOCK_DAYS;
+  return chartFromPhases(
+    [
+      ['before', splitIntoBlocks(beforeStart, date, blockDays, { fromEnd: true })],
+      ['effective', splitIntoBlocks(date, afterEnd, blockDays, { keepShort: true })],
+    ],
+    attacks,
+    now,
+  );
+}
+
+function chartFromPhases(
+  phases: [PreventionChartPhase, TimeRange[]][],
+  attacks: Attack[],
+  now: number,
+): PreventionChart {
   const migraine = migraineDays(attacks, now);
   const per30 = (range: TimeRange) =>
     (countDaysInRange(migraine, range) / differenceInCalendarDays(range.end, range.start)) * 30;
   const blocks = phases.flatMap(([phase, ranges]) =>
     ranges.map((range) => ({ phase, range, migraineDaysPer30: per30(range) })),
   );
-  const before = phases[0]![1];
+  const before = phases.find(([phase]) => phase === 'before')?.[1] ?? [];
   return before.length > 0
     ? {
         blocks,

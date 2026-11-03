@@ -19,6 +19,7 @@ export function IdleHome({
   intakes,
   medications,
   preventions,
+  lifeEvents,
   now,
 }: HomeData & { now: number }) {
   const { t, language } = useI18n();
@@ -31,6 +32,7 @@ export function IdleHome({
     intakes,
     medications,
     preventions,
+    lifeEvents,
     range: lookbackRange('3M', now, firstDataDay(attacks, intakes)),
     now,
   })[0];
@@ -45,7 +47,10 @@ export function IdleHome({
 
       <div className={styles.actions}>
         <RatingPromptCard intakes={intakes} medications={medications} now={now} />
-        <BackupReminderCard data={{ attacks, intakes, medications, preventions }} now={now} />
+        <BackupReminderCard
+          data={{ attacks, intakes, medications, preventions, lifeEvents }}
+          now={now}
+        />
         <Button large onClick={() => void startAttack()}>
           {t.home.startMigraine}
         </Button>

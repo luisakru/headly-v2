@@ -47,6 +47,16 @@ export type Prevention = {
   updatedAt: number;
 };
 
+/** Something that happened in life and may affect migraine, like a new job. */
+export type LifeEvent = {
+  id: string;
+  name: string;
+  /** ISO date, YYYY-MM-DD */
+  date: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
 export type Language = 'de' | 'en';
 
 export type Settings = {

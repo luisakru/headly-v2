@@ -2,6 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { createAttack, listAttacks } from '../../data/attackRepository';
 import { buildBackup } from '../../data/backup';
 import { db } from '../../data/db';
+import { listLifeEvents } from '../../data/lifeEventRepository';
 import { createMedication, listMedications } from '../../data/medicationRepository';
 import { listPreventions } from '../../data/preventionRepository';
 import { getSettings } from '../../data/settingsRepository';
@@ -87,6 +88,7 @@ test('imports a backup file by replacing all data', async () => {
       medications: [],
       medicationIntakes: [],
       preventions: [],
+      lifeEvents: [],
     },
     Date.now(),
   );
@@ -100,7 +102,7 @@ test('imports a backup file by replacing all data', async () => {
 
   expect(
     await screen.findByText(
-      'This backup contains 1 migraine, 0 medications, 0 intakes, 0 preventions.',
+      'This backup contains 1 migraine, 0 medications, 0 intakes, 0 preventions, 0 life events.',
     ),
   ).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Replace all' }));
@@ -152,4 +154,18 @@ test('confirms a finished export', async () => {
 
   fireEvent.click(await screen.findByRole('button', { name: /Export data/ }));
   expect(await screen.findByText('Backup saved')).toBeInTheDocument();
+});
+
+test('adds a life event', async () => {
+  await renderProfile();
+
+  fireEvent.click(await screen.findByRole('button', { name: /Manage life events/ }));
+  fireEvent.click(screen.getByRole('button', { name: 'New life event' }));
+  fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'New job' } });
+  fireEvent.change(screen.getByLabelText('Date'), { target: { value: '2026-05-01' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+  await waitFor(async () =>
+    expect(await listLifeEvents()).toMatchObject([{ name: 'New job', date: '2026-05-01' }]),
+  );
 });

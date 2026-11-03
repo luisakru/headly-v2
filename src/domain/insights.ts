@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns';
 import {
   INSIGHT_MIN_EFFECTIVENESS_CHANGE,
   INSIGHT_MIN_MIGRAINE_DAYS_CHANGE,
@@ -11,6 +12,7 @@ import { previousRange } from './dateRange';
 import {
   firstDataDay,
   isActivePrevention,
+  lifeEventPeriod,
   preventionEffect,
   preventionOverlapsRange,
   preventionTrend,
@@ -23,7 +25,14 @@ import {
   countAttacksStartedIn,
   effectivenessSummary,
 } from './stats';
-import type { Attack, Medication, MedicationIntake, Prevention, TimeRange } from './types';
+import type {
+  Attack,
+  LifeEvent,
+  Medication,
+  MedicationIntake,
+  Prevention,
+  TimeRange,
+} from './types';
 
 /** Structured insight; the sentence is built from locale templates. */
 export type Insight =
@@ -58,6 +67,7 @@ export type Insight =
       recentRange: TimeRange;
       baseline?: { range: TimeRange; migraineDaysPer30: number };
     }
+  | { kind: 'lifeEventChange'; lifeEventName: string; effect: PreventionEffect }
   | { kind: 'fewerButStrongerAttacks'; painIncrease: number };
 
 export type InsightInput = {
@@ -65,6 +75,7 @@ export type InsightInput = {
   intakes: MedicationIntake[];
   medications: Medication[];
   preventions: Prevention[];
+  lifeEvents: LifeEvent[];
   range: TimeRange;
   now: number;
 };
@@ -133,6 +144,22 @@ function preventionEffectChanges({ attacks, intakes, preventions, now }: Insight
     });
 }
 
+/** Life events in the range after which migraine days clearly changed. */
+function lifeEventChanges({ attacks, intakes, lifeEvents, range, now }: InsightInput): Insight[] {
+  return lifeEvents
+    .filter((lifeEvent) => {
+      const date = parseISO(lifeEvent.date).getTime();
+      return date >= range.start && date < range.end;
+    })
+    .flatMap((lifeEvent): Insight[] => {
+      const effect = preventionEffect(lifeEventPeriod(lifeEvent), attacks, intakes, now);
+      if (!effect || effect.windowDays < PREVENTION_WINDOW_RELIABLE_DAYS) return [];
+      const { before, after } = effect.migraineDaysPer30;
+      if (Math.abs(after - before) < INSIGHT_MIN_MIGRAINE_DAYS_CHANGE) return [];
+      return [{ kind: 'lifeEventChange', lifeEventName: lifeEvent.name, effect }];
+    });
+}
+
 function effectivenessChanges(
   { intakes, medications, range }: InsightInput,
   previous: TimeRange,
@@ -176,6 +203,7 @@ export function generateInsights(input: InsightInput): Insight[] {
     ...(hasPrevious ? migraineDaysChange(input, previous) : []),
     ...preventionChanges(input),
     ...preventionEffectChanges(input),
+    ...lifeEventChanges(input),
     ...(hasPrevious ? effectivenessChanges(input, previous) : []),
     ...(hasPrevious ? fewerButStronger(input, previous) : []),
   ];

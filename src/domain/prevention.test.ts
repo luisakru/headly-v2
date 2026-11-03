@@ -4,6 +4,8 @@ import {
   isActivePrevention,
   preventionEffect,
   preventionEffectGap,
+  lifeEventChart,
+  lifeEventPeriod,
   preventionChart,
   preventionTrend,
   preventionOverlapsRange,
@@ -258,5 +260,29 @@ describe('preventionChart', () => {
     const chart = preventionChart(prevention, attacks, [], at(2026, 11, 1));
     const first = chart!.blocks.find((block) => block.phase === 'effective')!;
     expect(first.range).toEqual({ start: at(2023, 1, 1), end: at(2023, 3, 2) });
+  });
+});
+
+describe('life events', () => {
+  const lifeEvent = { id: 'e', name: 'New job', date: '2026-04-01', createdAt: 0, updatedAt: 0 };
+  // Every 5 days before the event (6 per 30 days), every 3 days after it (10 per 30 days).
+  const attacks = [...attacksEvery(at(2026, 1, 1), 5, 18), ...attacksEvery(at(2026, 4, 1), 3, 40)];
+
+  test('compare 90 days before with 90 days from the event', () => {
+    const effect = preventionEffect(lifeEventPeriod(lifeEvent), attacks, [], at(2026, 9, 1));
+    expect(effect?.migraineDaysPer30).toEqual({ before: 6, after: 10 });
+  });
+
+  test('chart up to 90 days before and after the event', () => {
+    const chart = lifeEventChart(lifeEvent, attacks, [], at(2026, 9, 1));
+    expect(chart?.blocks.map((block) => [block.phase, block.migraineDaysPer30])).toEqual([
+      ['before', 6],
+      ['before', 6],
+      ['before', 6],
+      ['effective', 10],
+      ['effective', 10],
+      ['effective', 10],
+    ]);
+    expect(chart?.baseline).toBe(6);
   });
 });

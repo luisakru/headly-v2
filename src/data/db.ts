@@ -1,5 +1,12 @@
 import { Dexie, type EntityTable } from 'dexie';
-import type { Attack, Medication, MedicationIntake, Prevention, Settings } from '../domain/types';
+import type {
+  Attack,
+  LifeEvent,
+  Medication,
+  MedicationIntake,
+  Prevention,
+  Settings,
+} from '../domain/types';
 
 export const SETTINGS_ID = 'settings';
 
@@ -10,6 +17,7 @@ export class HeadlyDatabase extends Dexie {
   medications!: EntityTable<Medication, 'id'>;
   medicationIntakes!: EntityTable<MedicationIntake, 'id'>;
   preventions!: EntityTable<Prevention, 'id'>;
+  lifeEvents!: EntityTable<LifeEvent, 'id'>;
   settings!: EntityTable<SettingsRecord, 'id'>;
 
   constructor() {
@@ -35,6 +43,7 @@ export class HeadlyDatabase extends Dexie {
             delete attack.painMax;
           }),
       );
+    this.version(3).stores({ lifeEvents: 'id, date' });
   }
 }
 

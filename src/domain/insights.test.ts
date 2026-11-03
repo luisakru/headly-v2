@@ -17,6 +17,7 @@ const empty: InsightInput = {
   intakes: [],
   medications: [],
   preventions: [],
+  lifeEvents: [],
   range,
   now,
 };
@@ -235,5 +236,23 @@ describe('preventionEffectChange', () => {
       (i) => i.kind,
     );
     expect(kinds).not.toContain('preventionEffectChange');
+  });
+});
+
+describe('lifeEventChange', () => {
+  const lifeEvent = { id: 'e', name: 'New job', date: '2026-04-01', createdAt: 0, updatedAt: 0 };
+
+  test('appears when migraine days changed by at least one after the event', () => {
+    const attacks = [...monthlyAttacks(1, 3, 4), ...monthlyAttacks(4, 3, 7)];
+    expect(generateInsights({ ...empty, attacks, lifeEvents: [lifeEvent] })).toContainEqual(
+      expect.objectContaining({ kind: 'lifeEventChange', lifeEventName: 'New job' }),
+    );
+  });
+
+  test('is hidden for an event outside the range', () => {
+    const old = { ...lifeEvent, date: '2026-01-15' };
+    const attacks = [...monthlyAttacks(1, 3, 4), ...monthlyAttacks(4, 3, 7)];
+    const kinds = generateInsights({ ...empty, attacks, lifeEvents: [old] }).map((i) => i.kind);
+    expect(kinds).not.toContain('lifeEventChange');
   });
 });

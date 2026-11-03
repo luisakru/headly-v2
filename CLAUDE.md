@@ -46,6 +46,7 @@ Every domain concept has exactly one English code name. German appears only as l
 | Wirksamkeitsquote                          | `effectivenessRate`                       | Share of rated intakes that helped          |
 | Prophylaxe                                 | `Prevention`                              | Type `'medication' \| 'lifestyle'`          |
 | Aktive Prophylaxe                          | `activePrevention`                        | No end date, or end date in the future      |
+| Lebensereignis                             | `LifeEvent`                               | Name and date, e.g. a new job               |
 | Wirkbeginn                                 | `effectiveFrom`                           | Optional date on `Prevention`               |
 | Erkenntnis                                 | `Insight`                                 | Generated plain-language sentence           |
 | Zeitraum                                   | `DateRangePreset`                         | `1W`, `1M`, `3M`, `6M`, `1Y`, `2Y`, `all`   |

@@ -3,6 +3,7 @@ import { addMonths, startOfMonth } from 'date-fns';
 import { createAttack } from '../../data/attackRepository';
 import { db } from '../../data/db';
 import { logIntake } from '../../data/intakeRepository';
+import { createLifeEvent } from '../../data/lifeEventRepository';
 import { createMedication } from '../../data/medicationRepository';
 import { createPrevention } from '../../data/preventionRepository';
 import { toDayKey } from '../../domain/days';
@@ -85,4 +86,13 @@ test('lists preventions in the range with their effect', async () => {
   expect(await screen.findByText('Amitriptyline 10 mg')).toBeInTheDocument();
   expect(screen.getByText(/· active$/)).toBeInTheDocument();
   expect(screen.getByText('No data yet')).toBeInTheDocument();
+});
+
+test('lists life events in the range', async () => {
+  await createLifeEvent({ name: 'New job', date: toDayKey(lastMonth(1)) });
+
+  await renderWithI18n(<StatsScreen />);
+
+  expect(await screen.findByText('Life events in this period')).toBeInTheDocument();
+  expect(screen.getByText('New job')).toBeInTheDocument();
 });

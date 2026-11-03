@@ -1,12 +1,14 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState } from 'react';
 import { listAttacks } from '../../data/attackRepository';
+import { listLifeEvents } from '../../data/lifeEventRepository';
 import { listIntakes } from '../../data/intakeRepository';
 import { listMedications } from '../../data/medicationRepository';
 import { listPreventions } from '../../data/preventionRepository';
 import { getSettings } from '../../data/settingsRepository';
 import type {
   Attack,
+  LifeEvent,
   Medication,
   MedicationIntake,
   Prevention,
@@ -19,17 +21,19 @@ export type HomeData = {
   /** Includes archived medications so older intakes keep their names. */
   medications: Medication[];
   preventions: Prevention[];
+  lifeEvents: LifeEvent[];
 };
 
 export function useHomeData(): HomeData | undefined {
   return useLiveQuery(async () => {
-    const [attacks, intakes, medications, preventions] = await Promise.all([
+    const [attacks, intakes, medications, preventions, lifeEvents] = await Promise.all([
       listAttacks(),
       listIntakes(),
       listMedications({ includeArchived: true }),
       listPreventions(),
+      listLifeEvents(),
     ]);
-    return { attacks, intakes, medications, preventions };
+    return { attacks, intakes, medications, preventions, lifeEvents };
   });
 }
 

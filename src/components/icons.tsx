@@ -111,6 +111,14 @@ export function PreventionIcon() {
   );
 }
 
+export function LifeEventIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M6 20.5V4M6 4.5h11l-2.5 4 2.5 4H6" />
+    </svg>
+  );
+}
+
 export function DownloadIcon() {
   return (
     <svg {...svgProps} width={24} height={24}>

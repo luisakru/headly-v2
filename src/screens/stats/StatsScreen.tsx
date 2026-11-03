@@ -15,6 +15,8 @@ import { generateInsights } from '../../domain/insights';
 import {
   firstDataDay,
   isActivePrevention,
+  lifeEventChart,
+  lifeEventPeriod,
   preventionEffect,
   preventionEffectGap,
   preventionChart,
@@ -30,6 +32,7 @@ import {
 import type { Prevention } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import {
+  formatDateShort,
   formatDayRange,
   formatMonthYear,
   formatMonthYearShort,
@@ -37,8 +40,8 @@ import {
   formatPercent,
 } from '../../i18n/format';
 import { useHomeData, useNow } from '../home/useHomeData';
+import { EffectItem } from './EffectItem';
 import { StatsChart } from './StatsChart';
-import { PreventionItem } from './PreventionItem';
 import styles from './Stats.module.css';
 
 const PRESETS: DateRangePreset[] = ['1W', '1M', '3M', '6M', '1Y', '2Y', 'all'];
@@ -64,7 +67,7 @@ export function StatsScreen() {
   }, [data, preset, now]);
 
   if (!data || !chart) return null;
-  const { attacks, intakes, medications, preventions } = data;
+  const { attacks, intakes, medications, preventions, lifeEvents } = data;
   const { firstDay, size, pages, buckets } = chart;
   // Cards and lists follow the page visible in the chart.
   const range = pages[pageIndex ?? pages.length - 1] ?? pages[pages.length - 1]!;
@@ -76,15 +79,25 @@ export function StatsScreen() {
     intakes,
     medications,
     preventions,
+    lifeEvents,
     range: lookbackRange(preset, now, firstDay),
     now,
   })
-    // Preventions are covered by their own section below.
-    .filter((insight) => insight.kind !== 'preventionMedicationDaysChange')
+    // Preventions and life events are covered by their own sections below.
+    .filter(
+      (insight) =>
+        insight.kind !== 'preventionMedicationDaysChange' && insight.kind !== 'lifeEventChange',
+    )
     .slice(0, MAX_INSIGHTS);
   const preventionsInRange = preventions
     .filter((prevention) => preventionOverlapsRange(prevention, range))
     .sort((a, b) => b.startDate.localeCompare(a.startDate));
+  const lifeEventsInRange = lifeEvents
+    .filter((lifeEvent) => {
+      const date = parseISO(lifeEvent.date).getTime();
+      return date >= range.start && date < range.end;
+    })
+    .sort((a, b) => b.date.localeCompare(a.date));
 
   const monthLabel = (month: string) =>
     formatMonthYear(parseISO(`${month}-01`).getTime(), language);
@@ -146,6 +159,7 @@ export function StatsScreen() {
           key={preset}
           pages={buckets}
           size={size}
+          lifeEvents={lifeEvents}
           showMigraine={showMigraine}
           showMedication={showMedication}
           onPageChange={setPageIndex}
@@ -208,17 +222,45 @@ export function StatsScreen() {
         <section className={styles.list}>
           <h2 className={styles.sectionLabel}>{t.stats.preventions}</h2>
           <Card className={styles.preventions}>
-            {preventionsInRange.map((prevention) => (
-              <PreventionItem
-                key={prevention.id}
-                prevention={prevention}
-                period={preventionPeriod(prevention)}
-                active={isActivePrevention(prevention, now)}
-                effect={preventionEffect(prevention, attacks, intakes, now)}
-                gap={preventionEffectGap(prevention, attacks, intakes, now)}
-                chart={preventionChart(prevention, attacks, intakes, now)}
-              />
-            ))}
+            {preventionsInRange.map((prevention) => {
+              const active = isActivePrevention(prevention, now);
+              const period = preventionPeriod(prevention);
+              return (
+                <EffectItem
+                  key={prevention.id}
+                  kind="prevention"
+                  title={[prevention.name, prevention.dose].filter(Boolean).join(' ')}
+                  meta={active ? `${period} · ${t.stats.active}` : period}
+                  active={active}
+                  effect={preventionEffect(prevention, attacks, intakes, now)}
+                  gap={preventionEffectGap(prevention, attacks, intakes, now)}
+                  chart={preventionChart(prevention, attacks, intakes, now)}
+                />
+              );
+            })}
+          </Card>
+        </section>
+      )}
+
+      {lifeEventsInRange.length > 0 && (
+        <section className={styles.list}>
+          <h2 className={styles.sectionLabel}>{t.stats.lifeEvents}</h2>
+          <Card className={styles.preventions}>
+            {lifeEventsInRange.map((lifeEvent) => {
+              const period = lifeEventPeriod(lifeEvent);
+              return (
+                <EffectItem
+                  key={lifeEvent.id}
+                  kind="lifeEvent"
+                  title={lifeEvent.name}
+                  meta={formatDateShort(parseISO(lifeEvent.date).getTime(), language)}
+                  active={false}
+                  effect={preventionEffect(period, attacks, intakes, now)}
+                  gap={preventionEffectGap(period, attacks, intakes, now)}
+                  chart={lifeEventChart(lifeEvent, attacks, intakes, now)}
+                />
+              );
+            })}
           </Card>
         </section>
       )}

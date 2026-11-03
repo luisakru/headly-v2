@@ -74,6 +74,7 @@ Every domain concept has exactly one English code name. German appears only as l
 | Wirksamkeitsquote | `effectivenessRate` | Share of rated intakes that helped |
 | Prophylaxe | `Prevention` | Type `'medication' \| 'lifestyle'` |
 | Aktive Prophylaxe | `activePrevention` | No end date, or end date in the future |
+| Lebensereignis | `LifeEvent` | Name and date, e.g. a new job |
 | Erkenntnis | `Insight` | Generated plain-language sentence |
 | Zeitraum | `DateRangePreset` | `1W`, `1M`, `3M`, `6M`, `1Y`, `2Y`, `all` |
 | Sicherung / Export | `backup` / `export` | JSON file |
@@ -125,6 +126,14 @@ type Prevention = {
   startDate: string;         // ISO date, YYYY-MM-DD
   effectiveFrom?: string;    // when it is expected to work; defaults to startDate
   endDate?: string;          // optional
+  createdAt: number;
+  updatedAt: number;
+};
+
+type LifeEvent = {
+  id: string;
+  name: string;              // e.g. "New job", "Stopped the pill"
+  date: string;              // ISO date, YYYY-MM-DD
   createdAt: number;
   updatedAt: number;
 };
@@ -238,8 +247,9 @@ Layout, one element per row, in this order:
 6. Overuse warning banner when triggered in a month the visible page touches
 7. Insights (up to three cards), comparing the preset's length up to today (e.g. the last 3 months) with the same number of days before
 8. Preventions overlapping the visible page, each with its before/after effect or the reason it is missing, plus a mini bar chart independent of the range filter: migraine days per 30 days in up to 90 days before the start, during the prevention (markers at start, `effectiveFrom` and end), and up to 90 days after the end; a dashed line marks the average before the start; 60-day blocks beyond 24 blocks; tapping a bar shows its period and value
+9. Life events on the visible page, each with the same before/after effect (90 days before vs. from the event) and a mini chart of up to 90 days before and after; the main chart marks each event with a thin vertical line, and tapping its bar names it
 
-**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%).", "Aquipta works less well than at first: 3.4 at first, 5.6 migraine days per month lately (before: 7.3)." (active preventions with six full 30-day blocks; first vs. latest 90 days differ by at least one day) Each template has a German and English version and only appears when its data condition is met.
+**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%).", "Aquipta works less well than at first: 3.4 at first, 5.6 migraine days per month lately (before: 7.3)." (active preventions with six full 30-day blocks; first vs. latest 90 days differ by at least one day), "Since “New job”: 7 instead of 2.4 migraine days per month." (life events in the range, at least 30 days compared, change of at least one day; Home only, Statistics shows life events in their own section) Each template has a German and English version and only appears when its data condition is met.
 
 ### Profile
 
@@ -247,6 +257,7 @@ Grouped list in cards:
 
 - **Medications:** list, add, edit, archive. Fields: name, dose, "is a triptan"
 - **Preventions:** active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
+- **Life events:** list, add, edit, delete. Fields: name, date
 - **Data:** export JSON, import JSON, backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
 - **App:** language (Deutsch / English), privacy policy, imprint, about with version
 - **Coming soon, greyed out with a "Soon" badge:** PDF export for doctor, notifications
@@ -293,7 +304,7 @@ Because data exists only on one phone, a regular JSON backup is the user's only 
 
 **Export:**
 
-- Produces `headly-backup-YYYY-MM-DD.json` with this envelope: `{ app: "headly", schemaVersion, exportedAt, data: { attacks, medications, medicationIntakes, preventions } }`
+- Produces `headly-backup-YYYY-MM-DD.json` with this envelope: `{ app: "headly", schemaVersion, exportedAt, data: { attacks, medications, medicationIntakes, preventions, lifeEvents } }` (`lifeEvents` since schema version 3; older backups import with none)
 - Shared through the Web Share API with a file, so iOS opens the share sheet. "Save to Files" then lets the user store it in iCloud Drive. Fallback on other browsers: a regular download
 - On success, set `lastBackupAt`
 

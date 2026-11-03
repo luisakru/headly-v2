@@ -1,18 +1,19 @@
 import { z } from 'zod';
 import { PAIN_LEVEL_MAX, PAIN_LEVEL_MIN } from '../domain/constants';
 import { toDayKey } from '../domain/days';
-import type { Attack, Medication, MedicationIntake, Prevention } from '../domain/types';
+import type { Attack, LifeEvent, Medication, MedicationIntake, Prevention } from '../domain/types';
 import { db, DomainError } from './db';
 import { updateSettings } from './settingsRepository';
 
 /** Matches the database version; bump both together and migrate older backups below. */
-export const BACKUP_SCHEMA_VERSION = 2;
+export const BACKUP_SCHEMA_VERSION = 3;
 
 export type BackupData = {
   attacks: Attack[];
   medications: Medication[];
   medicationIntakes: MedicationIntake[];
   preventions: Prevention[];
+  lifeEvents: LifeEvent[];
 };
 
 export type Backup = {
@@ -26,7 +27,13 @@ export type BackupError = 'invalidFile' | 'newerVersion';
 export type ImportMode = 'merge' | 'replace';
 export type ImportSummary = Record<keyof BackupData, number>;
 
-const TABLE_NAMES = ['attacks', 'medications', 'medicationIntakes', 'preventions'] as const;
+const TABLE_NAMES = [
+  'attacks',
+  'medications',
+  'medicationIntakes',
+  'preventions',
+  'lifeEvents',
+] as const;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const recordFields = { id: z.string().min(1), createdAt: z.number(), updatedAt: z.number() };
@@ -74,6 +81,10 @@ const backupSchema = z.object({
         endDate: z.string().regex(ISO_DATE).optional(),
       }),
     ),
+    // Added in version 3.
+    lifeEvents: z
+      .array(z.object({ ...recordFields, name: z.string(), date: z.string().regex(ISO_DATE) }))
+      .default([]),
   }),
 });
 
@@ -135,7 +146,13 @@ export function recordsToMerge<T extends { id: string; updatedAt: number }>(
 /** Writes all records of a backup at once; counts the records that were written. */
 export function importBackup(backup: Backup, mode: ImportMode): Promise<ImportSummary> {
   return db.transaction('rw', [...TABLE_NAMES], async () => {
-    const summary = { attacks: 0, medications: 0, medicationIntakes: 0, preventions: 0 };
+    const summary = {
+      attacks: 0,
+      medications: 0,
+      medicationIntakes: 0,
+      preventions: 0,
+      lifeEvents: 0,
+    };
     for (const name of TABLE_NAMES) {
       const table = db.table<BackupData[typeof name][number], string>(name);
       const incoming = backup.data[name];
