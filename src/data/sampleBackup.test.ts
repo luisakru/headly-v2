@@ -1,7 +1,7 @@
-import { readFileSync } from 'node:fs';
+import sampleBackup from '../../sample-data/headly-sample-backup.json?raw';
 import { parseBackup } from './backup';
 
 test('the sample backup in sample-data can be imported', () => {
-  const backup = parseBackup(readFileSync('sample-data/headly-sample-backup.json', 'utf8'));
+  const backup = parseBackup(sampleBackup);
   expect(backup.data.attacks).toHaveLength(10);
 });
