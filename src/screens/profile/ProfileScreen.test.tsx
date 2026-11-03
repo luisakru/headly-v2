@@ -144,3 +144,12 @@ test('toggles the backup reminder and switches the language', async () => {
   fireEvent.click(screen.getByRole('radio', { name: 'Deutsch' }));
   expect(await screen.findByRole('heading', { name: 'Profil' })).toBeInTheDocument();
 });
+
+test('confirms a finished export', async () => {
+  URL.createObjectURL = () => 'blob:backup';
+  URL.revokeObjectURL = () => {};
+  await renderProfile();
+
+  fireEvent.click(await screen.findByRole('button', { name: /Export data/ }));
+  expect(await screen.findByText('Backup saved')).toBeInTheDocument();
+});

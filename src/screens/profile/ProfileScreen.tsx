@@ -42,6 +42,7 @@ export function ProfileScreen() {
   const fileInput = useRef<HTMLInputElement>(null);
   const [openSheet, setOpenSheet] = useState<OpenSheet>();
   const [importResult, setImportResult] = useState<Backup | BackupError>();
+  const [exported, setExported] = useState(false);
 
   if (!data || !settings) return null;
   const { attacks, intakes, medications, preventions } = data;
@@ -100,9 +101,14 @@ export function ProfileScreen() {
           <ProfileRow
             icon={<DownloadIcon />}
             title={t.profile.exportData}
-            subtitle={t.profile.lastBackup(daysSinceBackup)}
+            subtitle={exported ? t.profile.exported : t.profile.lastBackup(daysSinceBackup)}
             onClick={() =>
-              void exportBackup({ attacks, medications, medicationIntakes: intakes, preventions })
+              void exportBackup({
+                attacks,
+                medications,
+                medicationIntakes: intakes,
+                preventions,
+              }).then(setExported)
             }
           />
           <ProfileRow

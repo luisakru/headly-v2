@@ -256,6 +256,7 @@ export const en = {
           : days === 1
             ? 'Last backup: 1 day ago'
             : `Last backup: ${days} days ago`,
+    exported: 'Backup saved',
     importData: 'Import data',
     importHint: 'Restore a backup',
     backupReminder: 'Backup reminder',

@@ -257,6 +257,7 @@ export const de: Dictionary = {
           : days === 1
             ? 'Letzte Sicherung: vor 1 Tag'
             : `Letzte Sicherung: vor ${days} Tagen`,
+    exported: 'Sicherung gespeichert',
     importData: 'Daten importieren',
     importHint: 'Sicherung wiederherstellen',
     backupReminder: 'Sicherungs-Erinnerung',
