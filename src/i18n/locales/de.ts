@@ -341,21 +341,16 @@ export const de: Dictionary = {
   report: {
     months: { '3M': '3 Monate', '6M': '6 Monate' },
     rangeLabel: 'Zeitraum',
-    hint: 'Öffnet das Drucken-Menü. Dort kannst du den Bericht als PDF sichern oder teilen.',
+    hint: 'Erstellt eine Tabelle mit einer Zeile pro Tag und öffnet das Drucken-Menü. Dort kannst du sie als PDF sichern oder teilen.',
     create: 'PDF erstellen',
     heading: 'Migränebericht',
     period: (range: string) => `Zeitraum: ${range}`,
-    createdOn: (date: string) => `Erstellt am ${date}`,
-    month: 'Monat',
-    migraineDays: 'Migränetage',
-    medicationDays: 'Medikamententage',
-    preventions: 'Prophylaxe',
-    none: 'Keine',
-    effectiveness: 'Wirksamkeit der Medikamente',
-    helped: (rate: string, helped: number, rated: number) =>
-      `${rate} geholfen (${helped} von ${rated} bewerteten Einnahmen)`,
-    notRated: 'nicht bewertet',
+    date: 'Datum',
+    migraine: 'Migräne',
+    yes: 'Ja',
+    helped: 'Geholfen',
   },
+
   painScale: {
     label: 'Schmerzintensität',
     low: 'kein Schmerz',

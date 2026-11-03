@@ -260,7 +260,7 @@ Grouped list in cards:
 - **Life events:** list, add, edit, delete. Fields: name, date
 - **Data:** export JSON, import JSON, backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
 - **App:** language (Deutsch / English), privacy policy, imprint, about with version
-- **PDF export (Data card):** a plain black-and-white report for the doctor covering the current and previous 2 or 5 months (3 or 6 months; doctors rarely want more): migraine days and medication days per month, preventions in the period, and how well each medication helped. "Create PDF" opens the browser's print menu (no PDF library); print styles hide the controls and tab bar
+- **PDF export (Data card):** choose 3 or 6 months (the current month and the ones before, up to today; doctors rarely want more), then "Create PDF" opens the browser's print menu (no PDF library). Nothing is previewed in the app; only the print shows a plain black-and-white table with one row per day: date, migraine, pain, medication, whether it helped
 - **Coming soon, greyed out with a "Soon" badge:** notifications
 
 ## Native feel on iPhone

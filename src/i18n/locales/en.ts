@@ -339,21 +339,16 @@ export const en = {
   report: {
     months: { '3M': '3 months', '6M': '6 months' },
     rangeLabel: 'Period',
-    hint: 'Opens the print menu. There you can save the report as a PDF or share it.',
+    hint: 'Creates a table with one row per day and opens the print menu. There you can save it as a PDF or share it.',
     create: 'Create PDF',
     heading: 'Migraine report',
     period: (range: string) => `Period: ${range}`,
-    createdOn: (date: string) => `Created on ${date}`,
-    month: 'Month',
-    migraineDays: 'Migraine days',
-    medicationDays: 'Medication days',
-    preventions: 'Prevention',
-    none: 'None',
-    effectiveness: 'How well the medication helped',
-    helped: (rate: string, helped: number, rated: number) =>
-      `${rate} helped (${helped} of ${rated} rated intakes)`,
-    notRated: 'not rated',
+    date: 'Date',
+    migraine: 'Migraine',
+    yes: 'Yes',
+    helped: 'Helped',
   },
+
   painScale: {
     label: 'Pain level',
     low: 'no pain',

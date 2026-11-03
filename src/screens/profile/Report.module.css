@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  margin-bottom: var(--space-8);
 }
 
 .hint {
@@ -12,39 +11,19 @@
   line-height: 1.4;
 }
 
-/* Plain black on white, so it prints well on any printer. */
+/* Only printed, plain black on white. */
 .report {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  padding: var(--space-5);
-  background: #fff;
-  color: #000;
-  font-size: 15px;
-  line-height: 1.4;
+  display: none;
 }
 
 .heading {
-  margin: 0 0 var(--space-1);
-  font-size: 22px;
+  margin: 0 0 4px;
+  font-size: 18px;
   font-weight: 600;
 }
 
 .meta {
-  margin: 0;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  break-inside: avoid;
-}
-
-.sectionLabel {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 600;
+  margin: 0 0 12px;
 }
 
 .table {
@@ -59,18 +38,17 @@
 
 .table th,
 .table td {
-  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  padding: 3px 8px 3px 0;
   border-bottom: 1px solid #000;
+  vertical-align: top;
 }
 
-.table .number {
-  padding-right: 0;
-  text-align: right;
+.table tr {
+  break-inside: avoid;
 }
 
-.list {
-  margin: 0;
-  padding-left: var(--space-5);
+.line {
+  display: block;
 }
 
 @media print {
@@ -79,6 +57,8 @@
   }
 
   .report {
-    padding: 0;
+    display: block;
+    color: #000;
+    font-size: 11pt;
   }
 }

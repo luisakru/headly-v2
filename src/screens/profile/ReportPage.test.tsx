@@ -14,7 +14,7 @@ beforeEach(async () => {
   await Promise.all(db.tables.map((table) => table.clear()));
 });
 
-test('shows migraine and medication days per month and prints', async () => {
+test('lists one row per day and prints', async () => {
   const medication = await createMedication({ name: 'Sumatriptan', isTriptan: true });
   const recent = addMonths(new Date(), -1).getTime();
   const old = addMonths(new Date(), -4).getTime();
@@ -31,12 +31,14 @@ test('shows migraine and medication days per month and prints', async () => {
   );
 
   expect(await screen.findByText('Migraine report')).toBeInTheDocument();
-  // Header and three months.
-  expect(screen.getAllByRole('row')).toHaveLength(4);
-  expect(screen.getByText(/Sumatriptan: 100% helped \(1 of 1/)).toBeInTheDocument();
+  expect(screen.getByText('Sumatriptan')).toBeInTheDocument();
+  expect(screen.getByText('Strongly improved')).toBeInTheDocument();
+  const rows = () => screen.getAllByRole('row').length;
+  const threeMonths = rows();
 
   fireEvent.click(screen.getByRole('radio', { name: '6 months' }));
-  expect(screen.getAllByRole('row')).toHaveLength(7);
+  // About three more months of days.
+  expect(rows() - threeMonths).toBeGreaterThan(88);
 
   fireEvent.click(screen.getByRole('button', { name: 'Create PDF' }));
   expect(print).toHaveBeenCalled();

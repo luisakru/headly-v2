@@ -1,30 +1,23 @@
-import { parseISO } from 'date-fns';
+import { addDays, eachDayOfInterval } from 'date-fns';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../../components/Button';
 import { ChevronLeftIcon } from '../../components/icons';
 import { ScreenTitle } from '../../components/ScreenTitle';
 import { SegmentedControl } from '../../components/SegmentedControl';
-import { monthsInRange, PRESET_MONTHS, reportRange } from '../../domain/dateRange';
-import { countDaysInRange, medicationDays, migraineDays } from '../../domain/days';
-import { preventionOverlapsRange } from '../../domain/prevention';
-import { effectivenessSummary } from '../../domain/stats';
+import { PRESET_MONTHS, reportRange } from '../../domain/dateRange';
+import { attacksOnDay, intakesOnDay, toDayKey } from '../../domain/days';
 import { useI18n } from '../../i18n/context';
-import {
-  formatDate,
-  formatDateShort,
-  formatDayRange,
-  formatMonthYear,
-  formatPercent,
-} from '../../i18n/format';
+import { formatDateShort, formatDayRange } from '../../i18n/format';
 import { useHomeData, useNow } from '../home/useHomeData';
 import profileStyles from './Profile.module.css';
 import styles from './Report.module.css';
 
 const PRESETS = ['3M', '6M'] as const;
 type ReportPreset = (typeof PRESETS)[number];
+const NO_VALUE = '–';
 
-/** A plain printable summary for the doctor; "Create PDF" opens the browser's print menu. */
+/** One row per day for the doctor, only rendered when printing; "Create PDF" opens the print menu. */
 export function ReportPage() {
   const { t, language } = useI18n();
   const data = useHomeData();
@@ -32,22 +25,10 @@ export function ReportPage() {
   const [preset, setPreset] = useState<ReportPreset>('3M');
 
   if (!data) return null;
-  const { attacks, intakes, medications, preventions } = data;
+  const { attacks, intakes, medications } = data;
   const range = reportRange(PRESET_MONTHS[preset], now);
-  const migraine = migraineDays(attacks, now);
-  const medication = medicationDays(intakes);
-  const day = (isoDate: string) => formatDateShort(parseISO(isoDate).getTime(), language);
-
-  const preventionsInRange = preventions
-    .filter((prevention) => preventionOverlapsRange(prevention, range))
-    .sort((a, b) => a.startDate.localeCompare(b.startDate));
-  const effectiveness = medications.flatMap((med) => {
-    const summary = effectivenessSummary(
-      intakes.filter((intake) => intake.medicationId === med.id),
-      range,
-    );
-    return summary.rated + summary.unrated > 0 ? [{ name: med.name, summary }] : [];
-  });
+  const days = eachDayOfInterval({ start: range.start, end: addDays(range.end, -1) });
+  const medicationName = (id: string) => medications.find((m) => m.id === id)?.name ?? '';
 
   return (
     <>
@@ -70,70 +51,56 @@ export function ReportPage() {
       </div>
 
       <article className={styles.report}>
-        <header>
-          <h1 className={styles.heading}>{t.report.heading}</h1>
-          <p className={styles.meta}>{t.report.period(formatDayRange(range, language))}</p>
-          <p className={styles.meta}>{t.report.createdOn(formatDate(now, language))}</p>
-        </header>
-
-        <section className={styles.section}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>{t.report.month}</th>
-                <th className={styles.number}>{t.report.migraineDays}</th>
-                <th className={styles.number}>{t.report.medicationDays}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {monthsInRange(range).map((month) => (
-                <tr key={month.start}>
-                  <td>{formatMonthYear(month.start, language)}</td>
-                  <td className={styles.number}>{countDaysInRange(migraine, month)}</td>
-                  <td className={styles.number}>{countDaysInRange(medication, month)}</td>
+        <h1 className={styles.heading}>{t.report.heading}</h1>
+        <p className={styles.meta}>{t.report.period(formatDayRange(range, language))}</p>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>{t.report.date}</th>
+              <th>{t.report.migraine}</th>
+              <th>{t.dayDetail.pain}</th>
+              <th>{t.dayDetail.medications}</th>
+              <th>{t.report.helped}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {days.map((day) => {
+              const dayKey = toDayKey(day);
+              const dayAttacks = attacksOnDay(attacks, dayKey, now);
+              const dayIntakes = intakesOnDay(intakes, dayKey);
+              const pains = dayAttacks.flatMap((attack) =>
+                attack.painLevel === undefined ? [] : [attack.painLevel],
+              );
+              return (
+                <tr key={dayKey}>
+                  <td>{formatDateShort(day.getTime(), language)}</td>
+                  <td>{dayAttacks.length > 0 ? t.report.yes : ''}</td>
+                  <td>
+                    {pains.length > 0
+                      ? t.dayDetail.painOutOfTen(Math.max(...pains))
+                      : dayAttacks.length > 0
+                        ? NO_VALUE
+                        : ''}
+                  </td>
+                  <td>
+                    {dayIntakes.map((intake) => (
+                      <span key={intake.id} className={styles.line}>
+                        {medicationName(intake.medicationId)}
+                      </span>
+                    ))}
+                  </td>
+                  <td>
+                    {dayIntakes.map((intake) => (
+                      <span key={intake.id} className={styles.line}>
+                        {intake.effectiveness ? t.effectiveness[intake.effectiveness] : NO_VALUE}
+                      </span>
+                    ))}
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-
-        <section className={styles.section}>
-          <h2 className={styles.sectionLabel}>{t.report.preventions}</h2>
-          {preventionsInRange.length === 0 ? (
-            <p className={styles.meta}>{t.report.none}</p>
-          ) : (
-            <ul className={styles.list}>
-              {preventionsInRange.map((prevention) => (
-                <li key={prevention.id}>
-                  {[prevention.name, prevention.dose].filter(Boolean).join(' ')}:{' '}
-                  {prevention.endDate
-                    ? `${day(prevention.startDate)} – ${day(prevention.endDate)}`
-                    : t.profile.since(day(prevention.startDate))}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-
-        {effectiveness.length > 0 && (
-          <section className={styles.section}>
-            <h2 className={styles.sectionLabel}>{t.report.effectiveness}</h2>
-            <ul className={styles.list}>
-              {effectiveness.map(({ name, summary }) => (
-                <li key={name}>
-                  {name}:{' '}
-                  {summary.rate === undefined
-                    ? t.report.notRated
-                    : t.report.helped(
-                        formatPercent(summary.rate, language),
-                        Math.round(summary.rate * summary.rated),
-                        summary.rated,
-                      )}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+              );
+            })}
+          </tbody>
+        </table>
       </article>
     </>
   );
