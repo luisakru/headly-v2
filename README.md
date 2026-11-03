@@ -43,13 +43,13 @@ Headly records a few facts about each migraine and turns them into trends you ca
 
 ```mermaid
 flowchart LR
-  UI["Screens & components<br/>(React, CSS Modules)"] -->|useLiveQuery| Data["Repositories<br/>(Dexie)"]
-  Data --> DB[("IndexedDB<br/>on the device")]
-  UI --> Domain["Domain logic<br/>(pure TypeScript)"]
-  UI --> I18n["i18n<br/>(typed dictionaries)"]
+  UI[Screens and components] -->|useLiveQuery| Data[Repositories with Dexie]
+  Data --> DB[(IndexedDB on the device)]
+  UI --> Domain[Pure domain logic]
+  UI --> I18n[Typed i18n dictionaries]
   Domain --> I18n
-  Backup["Backup<br/>(JSON + zod)"] --> DB
-  SW["Service worker<br/>(Workbox)"] -.->|caches the app shell| UI
+  Backup[JSON backup with zod] --> DB
+  SW[Service worker] -. caches the app shell .-> UI
 ```
 
 The app is a static single-page app. There is no backend; the only server is a static host that delivers the files once.
