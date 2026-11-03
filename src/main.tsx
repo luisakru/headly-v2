@@ -9,6 +9,9 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 );
 
+// Asks the browser not to evict the data when storage runs low.
+void navigator.storage?.persist?.();
+
 if (import.meta.env.DEV) {
   void import('./data/seed').then(({ seedDatabase }) => {
     Object.assign(window, { seedDemoData: seedDatabase });
