@@ -41,6 +41,7 @@ export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksP
           medications={medications}
           now={now}
           onEditAttack={setEditingAttack}
+          hideEmpty
         />
       )}
       {editingAttack && (
