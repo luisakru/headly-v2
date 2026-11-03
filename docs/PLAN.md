@@ -260,7 +260,7 @@ Grouped list in cards:
 - **Life events:** list, add, edit, delete. Fields: name, date
 - **Data:** export JSON, import JSON, backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
 - **App:** language (Deutsch / English), privacy policy, imprint, about with version
-- **PDF export (Data card):** a report page for the doctor covering the current and previous 2 or 5 months (3 or 6 months; doctors rarely want more): overview (migraine days, per month, medication days, triptan days, average pain, effectiveness), overuse warning, monthly chart, preventions and life events with their before/after effect, and a table of all attacks and intakes. "Create PDF" opens the browser's print menu (no PDF library); print styles hide the controls and tab bar
+- **PDF export (Data card):** a plain black-and-white report for the doctor covering the current and previous 2 or 5 months (3 or 6 months; doctors rarely want more): migraine days and medication days per month, preventions in the period, and how well each medication helped. "Create PDF" opens the browser's print menu (no PDF library); print styles hide the controls and tab bar
 - **Coming soon, greyed out with a "Soon" badge:** notifications
 
 ## Native feel on iPhone

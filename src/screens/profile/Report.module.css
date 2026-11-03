@@ -12,27 +12,26 @@
   line-height: 1.4;
 }
 
+/* Plain black on white, so it prints well on any printer. */
 .report {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  /* Keeps bar and warning colours when printing. */
-  print-color-adjust: exact;
-  -webkit-print-color-adjust: exact;
+  padding: var(--space-5);
+  background: #fff;
+  color: #000;
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 .heading {
   margin: 0 0 var(--space-1);
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-weight: 400;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .meta {
   margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  line-height: 1.4;
 }
 
 .section {
@@ -44,125 +43,42 @@
 
 .sectionLabel {
   margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.overview {
-  margin: 0;
-}
-
-.overviewRow {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--color-border);
   font-size: 15px;
-}
-
-.overviewRow dd {
-  margin: 0;
-  text-align: right;
-}
-
-.warning {
-  margin-top: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-card);
-  background: var(--color-warning-bg);
-  color: var(--color-warning-text);
-}
-
-.warningTitle {
-  margin: 0 0 var(--space-1);
-  font-weight: 500;
-}
-
-.warningText {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.legend {
-  display: flex;
-  gap: var(--space-4);
-  color: var(--color-text-secondary);
-  font-size: 13px;
-}
-
-.legendItem {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-}
-
-.migraineSwatch,
-.medicationSwatch {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  background: var(--color-primary-soft);
-}
-
-.medicationSwatch {
-  background: var(--color-primary);
-}
-
-.item {
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--color-border);
-  break-inside: avoid;
-}
-
-.itemName {
-  margin: 0;
-  font-size: 16px;
+  font-weight: 600;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 13px;
 }
 
 .table th {
-  color: var(--color-text-secondary);
-  font-weight: 500;
+  font-weight: 600;
   text-align: left;
 }
 
 .table th,
 .table td {
-  padding: var(--space-2) var(--space-1) var(--space-2) 0;
-  border-bottom: 1px solid var(--color-border);
-  vertical-align: top;
-  overflow-wrap: anywhere;
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  border-bottom: 1px solid #000;
 }
 
-.table tr {
-  break-inside: avoid;
+.table .number {
+  padding-right: 0;
+  text-align: right;
 }
 
-.dateColumn {
-  width: 30%;
-}
-
-.medicationColumn {
-  width: 38%;
-}
-
-.intake {
-  display: block;
+.list {
+  margin: 0;
+  padding-left: var(--space-5);
 }
 
 @media print {
   .controls {
     display: none;
+  }
+
+  .report {
+    padding: 0;
   }
 }

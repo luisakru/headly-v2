@@ -58,3 +58,9 @@ input::-webkit-date-and-time-value {
     transition: none !important;
   }
 }
+
+@media print {
+  body {
+    background: #fff;
+  }
+}
