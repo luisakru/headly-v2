@@ -1,3 +1,4 @@
+import { startOfDay } from 'date-fns';
 import { useState } from 'react';
 import { DayDetails } from '../../components/DayDetails';
 import { DayGrid, DayLegend } from '../../components/DayGrid';
@@ -7,7 +8,7 @@ import type { Attack, Medication, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import styles from './Home.module.css';
 
-const WEEKS = 4;
+export const RECENT_WEEKS = 4;
 
 type RecentWeeksProps = {
   attacks: Attack[];
@@ -18,14 +19,14 @@ type RecentWeeksProps = {
 
 export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksProps) {
   const { t } = useI18n();
-  const [selectedDay, setSelectedDay] = useState<Date>();
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>(() => startOfDay(now));
   const [editingAttack, setEditingAttack] = useState<Attack>();
 
   return (
     <section className={styles.section}>
       <h2 className={styles.sectionLabel}>{t.home.lastFourWeeks}</h2>
       <DayGrid
-        days={recentWeekDays(now, WEEKS)}
+        days={recentWeekDays(now, RECENT_WEEKS)}
         attacks={attacks}
         intakes={intakes}
         now={now}

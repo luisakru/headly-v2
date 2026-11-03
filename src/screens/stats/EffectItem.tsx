@@ -18,6 +18,11 @@ import styles from './Stats.module.css';
 // Fewer blocks say little more than the numbers above.
 const MIN_CHART_BLOCKS = 3;
 
+function trendArrow(before: string, after: string, beforeValue: number, afterValue: number) {
+  if (before === after) return '→';
+  return afterValue > beforeValue ? '↗' : '↘';
+}
+
 type EffectItemProps = {
   kind: 'prevention' | 'lifeEvent';
   title: string;
@@ -66,12 +71,24 @@ export function EffectItem({ kind, title, meta, active, effect, gap, chart }: Ef
               {t.stats.preventionMigraineDays(
                 number(effect.migraineDaysPer30.before),
                 number(effect.migraineDaysPer30.after),
+                trendArrow(
+                  number(effect.migraineDaysPer30.before),
+                  number(effect.migraineDaysPer30.after),
+                  effect.migraineDaysPer30.before,
+                  effect.migraineDaysPer30.after,
+                ),
               )}
             </p>
             <p className={styles.preventionMeta}>
               {t.stats.preventionMedicationDays(
                 number(effect.medicationDaysPer30.before),
                 number(effect.medicationDaysPer30.after),
+                trendArrow(
+                  number(effect.medicationDaysPer30.before),
+                  number(effect.medicationDaysPer30.after),
+                  effect.medicationDaysPer30.before,
+                  effect.medicationDaysPer30.after,
+                ),
               )}
             </p>
           </>

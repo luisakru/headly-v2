@@ -1,7 +1,8 @@
-import { addMonths, startOfMonth } from 'date-fns';
+import { addDays } from 'date-fns';
 import { Button } from '../../components/Button';
 import { InsightCard } from '../../components/InsightCard';
 import { startAttack } from '../../data/attackRepository';
+import { recentWeekDays } from '../../domain/calendar';
 import { lookbackRange } from '../../domain/dateRange';
 import { firstDataDay } from '../../domain/prevention';
 import { countDaysInRange, migraineDays } from '../../domain/days';
@@ -11,7 +12,7 @@ import { formatMonthYear } from '../../i18n/format';
 import { BackupReminderCard } from './BackupReminderCard';
 import styles from './Home.module.css';
 import { RatingPromptCard } from './RatingPromptCard';
-import { RecentWeeks } from './RecentWeeks';
+import { RECENT_WEEKS, RecentWeeks } from './RecentWeeks';
 import type { HomeData } from './useHomeData';
 
 export function IdleHome({
@@ -24,9 +25,13 @@ export function IdleHome({
 }: HomeData & { now: number }) {
   const { t, language } = useI18n();
 
-  const monthStart = startOfMonth(now);
-  const thisMonth = { start: monthStart.getTime(), end: addMonths(monthStart, 1).getTime() };
-  const migraineDaysThisMonth = countDaysInRange(migraineDays(attacks, now), thisMonth);
+  const recentDays = recentWeekDays(now, RECENT_WEEKS);
+  const recentStart = recentDays[0]!;
+  const recentRange = {
+    start: recentStart.getTime(),
+    end: addDays(recentStart, recentDays.length).getTime(),
+  };
+  const recentMigraineDays = countDaysInRange(migraineDays(attacks, now), recentRange);
   const insight = generateInsights({
     attacks,
     intakes,
@@ -42,7 +47,7 @@ export function IdleHome({
       <header className={styles.header}>
         <p className={styles.eyebrow}>{formatMonthYear(now, language)}</p>
         <h1 className={styles.greeting}>{t.home.title}</h1>
-        <p className={styles.subtitle}>{t.home.migraineDaysThisMonth(migraineDaysThisMonth)}</p>
+        <p className={styles.subtitle}>{t.home.migraineDaysLastFourWeeks(recentMigraineDays)}</p>
       </header>
 
       <div className={styles.actions}>

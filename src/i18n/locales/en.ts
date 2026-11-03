@@ -19,8 +19,10 @@ export const en = {
   },
   home: {
     title: 'Hello',
-    migraineDaysThisMonth: (n: number) =>
-      n === 1 ? '1 migraine day this month' : `${n} migraine days this month`,
+    migraineDaysLastFourWeeks: (n: number) =>
+      n === 1
+        ? '1 migraine day during the last 4 weeks'
+        : `${n} migraine days during the last 4 weeks`,
     startMigraine: 'Start migraine',
     lastFourWeeks: 'Last 4 weeks',
     insight: 'Insight',
@@ -188,10 +190,10 @@ export const en = {
     preventions: 'Prevention in this period',
     since: (month: string) => `since ${month}`,
     active: 'active',
-    preventionMigraineDays: (before: string, after: string) =>
-      `Migraine days / month: ${before} → ${after}`,
-    preventionMedicationDays: (before: string, after: string) =>
-      `Medication days / month: ${before} → ${after}`,
+    preventionMigraineDays: (before: string, after: string, arrow: string) =>
+      `Migraine days / month: ${before} ${arrow} ${after}`,
+    preventionMedicationDays: (before: string, after: string, arrow: string) =>
+      `Medication days / month: ${before} ${arrow} ${after}`,
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `Compares the ${days} days before the start (${before}) with ${days} days from when it is expected to work (${after}). Counted are days with a migraine and days with at least one medication intake, scaled to 30 days. You can set when it is expected to work under Profile → Prevention.`,
     preventionChartLabel: 'Migraine days per 30 days before, during and after the prevention',
