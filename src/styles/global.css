@@ -59,7 +59,14 @@ input::-webkit-date-and-time-value {
   }
 }
 
+/* The screen layout fixes html and body to the viewport, which would cut the print to one page. */
 @media print {
+  html,
+  body {
+    height: auto;
+    overflow: visible;
+  }
+
   body {
     background: #fff;
   }
