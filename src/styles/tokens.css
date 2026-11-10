@@ -5,8 +5,8 @@
   --color-surface: light-dark(#e8e0d4, #3c3836);
   --color-surface-muted: light-dark(#eae4d8, #32302f);
   --color-border: light-dark(#ddd5c8, #504945);
-  --color-primary: light-dark(#8b5e4a, #d79921);
-  --color-primary-soft: light-dark(#c4a088, #7c6438);
+  --color-primary: light-dark(#8b5e4a, #b98470);
+  --color-primary-soft: light-dark(#c4a088, #6b4a3e);
   --color-on-primary: light-dark(#f5efe8, #282828);
   --color-text: light-dark(#3a3028, #ebdbb2);
   --color-text-secondary: light-dark(#9c8e80, #bdae93);
@@ -15,7 +15,7 @@
   --color-warning-text: light-dark(#8b3a1a, #fe8019);
   --color-positive: light-dark(#6b8b4a, #b8bb26);
   --color-error: light-dark(#a9483a, #ea6962);
-  --color-mixed: light-dark(#b08a3c, #fabd2f);
+  --color-mixed: light-dark(#b08a3c, #e0a36f);
 
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'DM Serif Display', Georgia, serif;
