@@ -6,7 +6,12 @@ export function deviceLanguage(languageTag = navigator.language): Language {
 }
 
 export function defaultSettings(): Settings {
-  return { language: deviceLanguage(), backupReminderEnabled: true, installHintDismissed: false };
+  return {
+    language: deviceLanguage(),
+    theme: 'system',
+    backupReminderEnabled: true,
+    installHintDismissed: false,
+  };
 }
 
 export async function getSettings(): Promise<Settings> {

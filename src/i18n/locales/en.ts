@@ -6,6 +6,11 @@ export const en = {
     de: 'Deutsch',
     en: 'English',
   },
+  themes: {
+    system: 'System',
+    light: 'Light',
+    dark: 'Dark',
+  },
   common: {
     close: 'Close',
     soon: 'Soon',
@@ -297,6 +302,7 @@ export const en = {
     deleteAllHint: 'Cannot be undone',
     app: 'App',
     language: 'Language',
+    theme: 'Appearance',
     privacy: 'Privacy policy',
     imprint: 'Imprint',
     about: 'About Headly',

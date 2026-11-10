@@ -172,6 +172,7 @@ describe('settingsRepository', () => {
   test('returns defaults before anything is stored', async () => {
     expect(await getSettings()).toEqual({
       language: deviceLanguage(),
+      theme: 'system',
       backupReminderEnabled: true,
       installHintDismissed: false,
     });

@@ -20,7 +20,7 @@ import { exportBackup } from '../../data/backupFile';
 import { DomainError } from '../../data/db';
 import { updateSettings } from '../../data/settingsRepository';
 import { isActivePrevention } from '../../domain/prevention';
-import type { Language } from '../../domain/types';
+import type { Language, Theme } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { useHomeData, useNow, useSettings } from '../home/useHomeData';
 import { DeleteAllSheet } from './DeleteAllSheet';
@@ -32,6 +32,7 @@ import styles from './Profile.module.css';
 import { ProfileRow } from './ProfileRow';
 
 const LANGUAGES: Language[] = ['de', 'en'];
+const THEMES: Theme[] = ['system', 'light', 'dark'];
 
 type OpenSheet = 'medications' | 'preventions' | 'lifeEvents' | 'deleteAll';
 
@@ -190,6 +191,15 @@ export function ProfileScreen() {
               options={LANGUAGES.map((value) => ({ value, label: t.languages[value] }))}
               value={language}
               onChange={(value) => void setLanguage(value)}
+            />
+          </div>
+          <div className={styles.languageRow}>
+            <span className={styles.rowSubtitle}>{t.profile.theme}</span>
+            <SegmentedControl
+              label={t.profile.theme}
+              options={THEMES.map((value) => ({ value, label: t.themes[value] }))}
+              value={settings.theme}
+              onChange={(theme) => void updateSettings({ theme })}
             />
           </div>
         </div>

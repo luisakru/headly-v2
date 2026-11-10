@@ -45,6 +45,7 @@ describe('shouldShowBackupReminder', () => {
   const now = at(2026, 3, 5, 12);
   const settings: Settings = {
     language: 'en',
+    theme: 'system',
     backupReminderEnabled: true,
     installHintDismissed: false,
   };

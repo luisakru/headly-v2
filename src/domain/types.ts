@@ -61,8 +61,11 @@ export type LifeEvent = {
 
 export type Language = 'de' | 'en';
 
+export type Theme = 'system' | 'light' | 'dark';
+
 export type Settings = {
   language: Language;
+  theme: Theme;
   lastBackupAt?: number;
   backupReminderEnabled: boolean;
   backupReminderSnoozedUntil?: number;

@@ -7,6 +7,11 @@ export const de: Dictionary = {
     de: 'Deutsch',
     en: 'English',
   },
+  themes: {
+    system: 'System',
+    light: 'Hell',
+    dark: 'Dunkel',
+  },
   common: {
     close: 'Schließen',
     soon: 'Bald',
@@ -300,6 +305,7 @@ export const de: Dictionary = {
     deleteAllHint: 'Nicht rückgängig machbar',
     app: 'App',
     language: 'Sprache',
+    theme: 'Darstellung',
     privacy: 'Datenschutz',
     imprint: 'Impressum',
     about: 'Über Headly',
