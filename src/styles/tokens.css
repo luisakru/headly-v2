@@ -8,14 +8,14 @@
   --color-primary: light-dark(#8b5e4a, #b98470);
   --color-primary-soft: light-dark(#c4a088, #6b4a3e);
   --color-on-primary: light-dark(#f5efe8, #282828);
-  --color-text: light-dark(#3a3028, #ebdbb2);
+  --color-text: light-dark(#3a3028, #d5c4a1);
   --color-text-secondary: light-dark(#9c8e80, #bdae93);
   --color-text-muted: light-dark(#b4a898, #928374);
   --color-warning-bg: light-dark(#e8d5c8, #4a3528);
-  --color-warning-text: light-dark(#8b3a1a, #fe8019);
-  --color-positive: light-dark(#6b8b4a, #b8bb26);
-  --color-error: light-dark(#a9483a, #ea6962);
-  --color-mixed: light-dark(#b08a3c, #e0a36f);
+  --color-warning-text: light-dark(#8b3a1a, #c27560);
+  --color-positive: light-dark(#6b8b4a, #9aa56f);
+  --color-error: light-dark(#a9483a, #c46b5f);
+  --color-mixed: light-dark(#b08a3c, #c9a07a);
 
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'DM Serif Display', Georgia, serif;
