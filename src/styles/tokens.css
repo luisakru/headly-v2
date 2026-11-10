@@ -36,3 +36,25 @@
   --touch-target: 48px;
   --primary-action-height: 64px;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --color-bg: #282828;
+    --color-surface: #3c3836;
+    --color-surface-muted: #32302f;
+    --color-border: #504945;
+    --color-primary: #d79921;
+    --color-primary-soft: #7c6438;
+    --color-on-primary: #282828;
+    --color-text: #ebdbb2;
+    --color-text-secondary: #bdae93;
+    --color-text-muted: #928374;
+    --color-warning-bg: #4a3528;
+    --color-warning-text: #fe8019;
+    --color-positive: #b8bb26;
+    --color-error: #ea6962;
+    --color-mixed: #fabd2f;
+  }
+}
