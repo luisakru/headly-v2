@@ -60,7 +60,6 @@ export const de: Dictionary = {
     confirmDelete: 'Wirklich löschen?',
   },
   activeAttack: {
-    nextFrom: (time: string) => `nächste ab ${time}`,
     label: 'Migräne aktiv',
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}T ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
@@ -77,6 +76,7 @@ export const de: Dictionary = {
     deleteIntake: (name: string) => `${name} löschen`,
   },
   medicationSheet: {
+    notBefore: (time: string) => `ab ${time}`,
     title: 'Welches Medikament?',
     takenAt: 'Genommen um',
     empty: 'Noch keine Medikamente gespeichert.',

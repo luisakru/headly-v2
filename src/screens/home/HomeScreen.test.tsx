@@ -111,7 +111,7 @@ test('ticks symptoms of the active attack', async () => {
   expect(screen.queryByRole('button', { name: 'Sensitive to noise' })).not.toBeInTheDocument();
 });
 
-test('shows when a medication with a minimum gap may be taken again', async () => {
+test('shows in the medication sheet when a medication may be taken again', async () => {
   const medication = await createMedication({
     name: 'Sumatriptan',
     isTriptan: true,
@@ -121,5 +121,6 @@ test('shows when a medication with a minimum gap may be taken again', async () =
   await logIntake(medication.id, { takenAt: Date.now() - HOUR_MS, attackId: attack.id });
   await renderWithI18n(<HomeScreen />);
 
-  expect(await screen.findByText(/next from/)).toBeInTheDocument();
+  fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
+  expect(await screen.findByRole('button', { name: /Sumatriptan.*from \d/ })).toBeInTheDocument();
 });

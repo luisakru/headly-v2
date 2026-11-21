@@ -266,6 +266,22 @@
   font-size: 18px;
 }
 
+.medicationText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.notYet {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-warning-text);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
 .medicationDose {
   display: flex;
   align-items: center;

@@ -2,23 +2,27 @@ import { useId, useRef, useState, type FormEvent } from 'react';
 import { fromInputValue, toInputValue } from '../../components/attackForm';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
-import { CheckIcon, PlusIcon } from '../../components/icons';
+import { CheckIcon, ClockIcon, PlusIcon } from '../../components/icons';
 import { ToggleChip } from '../../components/ToggleChip';
 import { deleteIntake, logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
-import type { Medication } from '../../domain/types';
+import { nextIntakeAt } from '../../domain/nextIntake';
+import type { Medication, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
+import { formatTime } from '../../i18n/format';
 import styles from './Home.module.css';
 
 type MedicationSheetProps = {
   medications: Medication[];
+  /** Earlier intakes, to show when a medication with a minimum gap is allowed again. */
+  intakes: MedicationIntake[];
   attackId?: string;
   onClose: () => void;
 };
 
 /** One tap logs an intake at the chosen time, now by default; tapping the same row again undoes it. */
-export function MedicationSheet({ medications, attackId, onClose }: MedicationSheetProps) {
-  const { t } = useI18n();
+export function MedicationSheet({ medications, intakes, attackId, onClose }: MedicationSheetProps) {
+  const { t, language } = useI18n();
   const timeId = useId();
   const [time, setTime] = useState(() => toInputValue(Date.now()));
   const takenAt = fromInputValue(time);
@@ -62,6 +66,11 @@ export function MedicationSheet({ medications, attackId, onClose }: MedicationSh
           <ul className={styles.medicationList}>
             {pickable.map((medication) => {
               const logged = medication.id in loggedIntakeIds;
+              // Measured from the chosen time, so a back-dated intake shows the right answer.
+              const next =
+                logged || Number.isNaN(takenAt)
+                  ? undefined
+                  : nextIntakeAt(medication, intakes, takenAt);
               return (
                 <li key={medication.id}>
                   <button
@@ -71,7 +80,15 @@ export function MedicationSheet({ medications, attackId, onClose }: MedicationSh
                     className={styles.medicationRow}
                     onClick={() => void toggle(medication.id)}
                   >
-                    <span className={styles.medicationName}>{medication.name}</span>
+                    <span className={styles.medicationText}>
+                      <span className={styles.medicationName}>{medication.name}</span>
+                      {next && (
+                        <span className={styles.notYet}>
+                          <ClockIcon />
+                          {t.medicationSheet.notBefore(formatTime(next, language))}
+                        </span>
+                      )}
+                    </span>
                     <span className={styles.medicationDose}>
                       {medication.dose}
                       {logged && <CheckIcon />}

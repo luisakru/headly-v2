@@ -61,7 +61,6 @@ export const en = {
     confirmDelete: 'Really delete?',
   },
   activeAttack: {
-    nextFrom: (time: string) => `next from ${time}`,
     label: 'Migraine active',
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
@@ -78,6 +77,7 @@ export const en = {
     deleteIntake: (name: string) => `Delete ${name}`,
   },
   medicationSheet: {
+    notBefore: (time: string) => `from ${time}`,
     title: 'Which medication?',
     takenAt: 'Taken at',
     empty: 'No medications saved yet.',
