@@ -1,6 +1,6 @@
-# 📄 Schwerbehindertenausweis
+# 📄 Grad der Behinderung
 
-Schwere oder chronische Migräne kann als Behinderung anerkannt werden. Viele wissen das nicht. Das Wort klingt groß, kann dir aber im Alltag und im Job echten Schutz geben.
+Schwere oder chronische Migräne kann als Behinderung anerkannt werden, ab einem bestimmten Grad mit Schwerbehindertenausweis. Viele wissen das nicht. Das Wort klingt groß, kann dir aber im Alltag und im Job echten Schutz geben.
 
 ## Wie Migräne bewertet wird
 

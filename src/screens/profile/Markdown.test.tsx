@@ -19,3 +19,9 @@ test('renders bold text in lists and paragraphs', () => {
   expect(screen.getByText('this').tagName).toBe('STRONG');
   expect(container.textContent).not.toContain('**');
 });
+
+test('renders numbered lists', () => {
+  const { container } = render(<Markdown source={'1. Apply\n2. Add reports'} />);
+  expect(container.querySelectorAll('ol li')).toHaveLength(2);
+  expect(container.textContent).not.toContain('1.');
+});

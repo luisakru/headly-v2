@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 /**
  * Renders the small Markdown subset the legal and knowledge texts use: `#` and `##` headings,
- * `-` lists, `[text](https://…)` links, `**bold**` and paragraphs, where single line breaks are kept (addresses).
+ * `-` and `1.` lists, `[text](https://…)` links, `**bold**` and paragraphs, where single line breaks are kept (addresses).
  */
 export function Markdown({ source }: { source: string }) {
   const blocks = source.trim().split(/\n\s*\n/);
@@ -12,6 +12,15 @@ export function Markdown({ source }: { source: string }) {
         const lines = block.split('\n');
         if (block.startsWith('# ')) return <h1 key={index}>{block.slice(2)}</h1>;
         if (block.startsWith('## ')) return <h2 key={index}>{block.slice(3)}</h2>;
+        if (lines.every((line) => /^\d+\. /.test(line))) {
+          return (
+            <ol key={index}>
+              {lines.map((line) => (
+                <li key={line}>{inline(line.replace(/^\d+\. /, ''))}</li>
+              ))}
+            </ol>
+          );
+        }
         if (lines.every((line) => line.startsWith('- '))) {
           return (
             <ul key={index}>

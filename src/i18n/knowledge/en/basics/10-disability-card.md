@@ -1,6 +1,6 @@
-# 📄 Severe disability card
+# 📄 Degree of disability
 
-Severe or chronic migraine can be recognised as a disability in Germany. Many people don't know this. The word sounds big, but it can give you real protection in everyday life and at work.
+Severe or chronic migraine can be recognised as a disability in Germany, from a certain degree with a severe disability card. Many people don't know this. The word sounds big, but it can give you real protection in everyday life and at work.
 
 ## How migraine is assessed
 
