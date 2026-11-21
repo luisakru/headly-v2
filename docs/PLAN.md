@@ -266,6 +266,14 @@ Layout, one element per row, in this order:
 
 Shown full screen without the tab bar on first start (`introSeen` is false). Three short pages with emoji items, one line each: welcome (one tap to start, data only on this device and backups in Profile), add to Home Screen (iPhone and Android, hidden when already installed), data in other apps (an AI assistant can convert it with the prompt in Profile, and this shares health data; an extra "Open the guide" button finishes the intro and opens that page). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
 
+### When attacks start (Statistics)
+
+A "When it starts" section in Statistics, after the insights, only when something stands out in the selected range. No sentences, only two small charts: attack starts per weekday (seven bars, Monday first) and per part of the day (one split bar: night 0–6, morning 6–12, afternoon 12–18, evening 18–24). Notable bars are darker and their labels bold.
+
+- Needs at least 15 attacks in the range
+- A weekday stands out with at least twice the average starts and at least 4; the weekend stands out when Saturday and Sunday together have at least 1.5 times the expected starts
+- A part of the day stands out with at least half of all starts
+
 ### Profile
 
 Grouped list in cards:

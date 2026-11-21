@@ -179,6 +179,10 @@ export const de: Dictionary = {
     addMigraine: 'Migräne nachtragen',
   },
   stats: {
+    startPattern: {
+      title: 'Wann sie beginnt',
+      dayParts: { night: 'Nacht', morning: 'Morgen', afternoon: 'Nachmittag', evening: 'Abend' },
+    },
     title: 'Statistik',
     range: {
       label: 'Zeitraum',

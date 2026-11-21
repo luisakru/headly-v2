@@ -11,6 +11,7 @@ import {
 } from '../../domain/constants';
 import { bucketSize, chartBuckets, chartPages } from '../../domain/chart';
 import { lookbackRange, type DateRangePreset } from '../../domain/dateRange';
+import { startPattern } from '../../domain/startPattern';
 import { generateInsights } from '../../domain/insights';
 import {
   firstDataDay,
@@ -42,6 +43,7 @@ import {
 import { useHomeData, useNow } from '../home/useHomeData';
 import { EffectItem } from './EffectItem';
 import { StatsChart } from './StatsChart';
+import { StartPatternCharts } from './StartPatternCharts';
 import styles from './Stats.module.css';
 
 const PRESETS: DateRangePreset[] = ['1W', '1M', '3M', '6M', '1Y', '2Y', 'all'];
@@ -74,6 +76,8 @@ export function StatsScreen() {
   const effectiveness = effectivenessSummary(intakes, range);
   const pain = averagePain(attacks, range);
   const overuse = overuseMonths(intakes, medications, range);
+  const insightRange = lookbackRange(preset, now, firstDay);
+  const pattern = startPattern(attacks, insightRange);
   const insights = generateInsights({
     attacks,
     intakes,
@@ -82,7 +86,7 @@ export function StatsScreen() {
     lifeEvents,
     dayEventTypes,
     dayEvents,
-    range: lookbackRange(preset, now, firstDay),
+    range: insightRange,
     now,
   })
     // Preventions and life events are covered by their own sections below.
@@ -219,6 +223,8 @@ export function StatsScreen() {
           ))}
         </section>
       )}
+
+      {pattern && <StartPatternCharts pattern={pattern} now={now} />}
 
       {preventionsInRange.length > 0 && (
         <section className={styles.list}>

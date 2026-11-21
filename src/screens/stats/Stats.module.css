@@ -236,3 +236,85 @@
   color: var(--color-text);
   font-weight: 600;
 }
+
+/* When attacks start */
+
+.startCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.weekdayBars {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-2);
+  height: 132px;
+}
+
+.weekdayBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.weekdayBar i {
+  display: block;
+  width: 100%;
+  max-height: calc(100% - 44px);
+  border-radius: 6px 6px 2px 2px;
+  background: var(--color-primary-soft);
+}
+
+.weekdayBar i[data-notable] {
+  background: var(--color-primary);
+}
+
+.barCount,
+.barLabel,
+.dayPartLabels {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.barLabel[data-notable],
+.dayPartLabels [data-notable] {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.dayPartBar {
+  display: flex;
+  height: 32px;
+  overflow: hidden;
+  border-radius: var(--radius-cell);
+}
+
+.dayPartBar span {
+  display: grid;
+  place-items: center;
+  flex-basis: 0;
+  min-width: 24px;
+  border-right: 2px solid var(--color-surface);
+  background: var(--color-primary-soft);
+  color: var(--color-on-primary);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.dayPartBar span:last-child {
+  border-right: none;
+}
+
+.dayPartBar span[data-notable] {
+  background: var(--color-primary);
+}
+
+.dayPartLabels {
+  display: flex;
+  justify-content: space-between;
+}

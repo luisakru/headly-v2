@@ -177,6 +177,10 @@ export const en = {
     addMigraine: 'Add migraine',
   },
   stats: {
+    startPattern: {
+      title: 'When it starts',
+      dayParts: { night: 'Night', morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening' },
+    },
     title: 'Statistics',
     range: {
       label: 'Time range',
