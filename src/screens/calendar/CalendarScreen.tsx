@@ -109,6 +109,16 @@ export function CalendarScreen() {
 
       {selectedDay ? (
         <section className={styles.section}>
+          {toDayKey(selectedDay) <= toDayKey(now) && (
+            <>
+              <h2 className={styles.sectionLabel}>{t.dayEvents.label}</h2>
+              <DayEventChips
+                types={dayEventTypes}
+                events={dayEvents}
+                date={toDayKey(selectedDay)}
+              />
+            </>
+          )}
           <DayDetails
             day={selectedDay}
             attacks={attacks}
@@ -122,16 +132,6 @@ export function CalendarScreen() {
               <PlusIcon />
               {t.calendar.addMigraine}
             </Button>
-          )}
-          {toDayKey(selectedDay) <= toDayKey(now) && (
-            <>
-              <h2 className={styles.sectionLabel}>{t.dayEvents.label}</h2>
-              <DayEventChips
-                types={dayEventTypes}
-                events={dayEvents}
-                date={toDayKey(selectedDay)}
-              />
-            </>
           )}
         </section>
       ) : (
