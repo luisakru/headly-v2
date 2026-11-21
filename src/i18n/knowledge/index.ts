@@ -1,4 +1,7 @@
+import { differenceInCalendarDays } from 'date-fns';
 import type { Language } from '../../domain/types';
+import factsDe from './de/facts.json';
+import factsEn from './en/facts.json';
 
 export type KnowledgeGroup = 'basics' | 'lesserKnown';
 
@@ -38,4 +41,19 @@ export const knowledgeArticles: Record<Language, Article[]> = { de: [], en: [] }
 for (const path of Object.keys(files).sort()) {
   const { language, ...article } = parseArticle(path, files[path] ?? '');
   knowledgeArticles[language].push(article);
+}
+
+export type Fact = {
+  text: string;
+  /** Slug of the article the fact comes from. */
+  article: string;
+};
+
+export const knowledgeFacts: Record<Language, Fact[]> = { de: factsDe, en: factsEn };
+
+/** One fact per day, in a fixed order, so every fact comes once before any repeats. */
+export function factOfTheDay(facts: Fact[], now: number): Fact | undefined {
+  if (facts.length === 0) return undefined;
+  const day = differenceInCalendarDays(now, 0);
+  return facts[((day % facts.length) + facts.length) % facts.length];
 }

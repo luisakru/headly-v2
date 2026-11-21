@@ -16,6 +16,9 @@
   --color-positive: light-dark(#6b8b4a, #9aa56f);
   --color-error: light-dark(#a9483a, #c46b5f);
   --color-mixed: light-dark(#b08a3c, #c9a07a);
+  /* Headly, the app icon's head: muted so it never glows in the dark. */
+  --color-avatar: light-dark(#dcc7b0, #8f7563);
+  --color-avatar-ink: light-dark(#3a3028, #282828);
 
   --font-sans: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
 

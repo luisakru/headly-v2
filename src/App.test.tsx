@@ -10,7 +10,9 @@ beforeEach(async () => {
 
 test('navigates between tabs', async () => {
   render(<App />);
-  expect(await screen.findByRole('heading', { name: 'Hello' })).toBeInTheDocument();
+  expect(
+    await screen.findByRole('heading', { name: /^(Good morning|Hello|Good evening|Good night)$/ }),
+  ).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('link', { name: 'Statistics' }));
   expect(await screen.findByRole('heading', { name: 'Statistics' })).toBeInTheDocument();
@@ -39,7 +41,9 @@ test('shows the intro on first start and not again after finishing it', async ()
   expect(await screen.findByRole('button', { name: 'Open the guide' })).toBeInTheDocument();
   fireEvent.click(await screen.findByRole('button', { name: "Let's start" }));
 
-  expect(await screen.findByRole('heading', { name: 'Hello' })).toBeInTheDocument();
+  expect(
+    await screen.findByRole('heading', { name: /^(Good morning|Hello|Good evening|Good night)$/ }),
+  ).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'Statistics' })).toBeInTheDocument();
 });
 

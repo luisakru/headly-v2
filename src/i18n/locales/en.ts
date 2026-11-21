@@ -23,7 +23,14 @@ export const en = {
     profile: 'Profile',
   },
   home: {
-    title: 'Hello',
+    greeting: {
+      morning: 'Good morning',
+      day: 'Hello',
+      evening: 'Good evening',
+      night: 'Good night',
+    },
+    didYouKnow: 'Did you know?',
+    readMore: 'Read more',
     migraineDaysLastFourWeeks: (n: number) =>
       n === 1
         ? '1 migraine day during the last 4 weeks'

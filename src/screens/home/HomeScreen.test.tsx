@@ -5,6 +5,7 @@ import { listIntakes, logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
 import { getSettings } from '../../data/settingsRepository';
 import { renderWithI18n } from '../../test/renderWithI18n';
+import { MemoryRouter } from 'react-router-dom';
 import { HomeScreen } from './HomeScreen';
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -20,7 +21,11 @@ test('logs a full attack: start, pain, medication, end', async () => {
     dose: '50 mg',
     isTriptan: true,
   });
-  await renderWithI18n(<HomeScreen />);
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
 
   fireEvent.click(await screen.findByRole('button', { name: 'Start migraine' }));
   expect(await screen.findByText('Migraine active')).toBeInTheDocument();
@@ -49,7 +54,11 @@ test('logs a full attack: start, pain, medication, end', async () => {
 test('tapping a logged medication again undoes the intake', async () => {
   await createMedication({ name: 'Ibuprofen', isTriptan: false });
   await startAttack();
-  await renderWithI18n(<HomeScreen />);
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
 
   fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
   const row = await screen.findByRole('button', { name: /Ibuprofen/ });
@@ -63,7 +72,11 @@ test('tapping a logged medication again undoes the intake', async () => {
 test('asks to rate an intake older than two hours', async () => {
   const medication = await createMedication({ name: 'Ibuprofen', isTriptan: false });
   const intake = await logIntake(medication.id, { takenAt: Date.now() - 3 * HOUR_MS });
-  await renderWithI18n(<HomeScreen />);
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
 
   expect(await screen.findByText('Did Ibuprofen help?')).toBeInTheDocument();
   fireEvent.click(screen.getByRole('radio', { name: 'Slightly improved' }));
@@ -75,7 +88,11 @@ test('asks to rate an intake older than two hours', async () => {
 
 test('deletes the active attack after confirmation', async () => {
   await startAttack();
-  await renderWithI18n(<HomeScreen />);
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
 
   fireEvent.click(await screen.findByRole('button', { name: 'More actions' }));
   fireEvent.click(await screen.findByRole('button', { name: 'Delete migraine' }));
@@ -90,7 +107,11 @@ test('reminds to back up once there is enough data, and snoozes on later', async
   for (const name of ['A', 'B', 'C', 'D', 'E']) {
     await createMedication({ name, isTriptan: false });
   }
-  await renderWithI18n(<HomeScreen />);
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
 
   expect(await screen.findByText('Your data is stored only on this device.')).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Later' }));
@@ -103,7 +124,11 @@ test('reminds to back up once there is enough data, and snoozes on later', async
 
 test('ticks symptoms of the active attack', async () => {
   await startAttack();
-  await renderWithI18n(<HomeScreen />);
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
 
   fireEvent.click(await screen.findByRole('button', { name: /^Symptoms/ }));
   fireEvent.click(await screen.findByRole('button', { name: 'Aura' }));
@@ -119,7 +144,11 @@ test('shows in the medication sheet when a medication may be taken again', async
   });
   const attack = await startAttack(Date.now() - 2 * HOUR_MS);
   await logIntake(medication.id, { takenAt: Date.now() - HOUR_MS, attackId: attack.id });
-  await renderWithI18n(<HomeScreen />);
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
 
   fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
   expect(await screen.findByRole('button', { name: /Sumatriptan.*from \d/ })).toBeInTheDocument();

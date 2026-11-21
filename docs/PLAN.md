@@ -197,7 +197,8 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 
 Top to bottom, with the main action in thumb reach like on the active-attack screen:
 
-- Current month, greeting and "N migraine days in the last 4 weeks"
+- Current month, then Headly (the app icon's head as a small companion: sunglasses from 5 to 18 o'clock, a sleep mask in the evening and at night; never on the active-attack screen) next to a greeting by time of day (morning 5–11, day 11–18, evening 18–22, night) and "N migraine days in the last 4 weeks"
+- "Did you know?": one fact a day from `src/i18n/knowledge/<language>/facts.json`, each linked to its article ("Read more"). Facts rotate in a fixed order, so all come once before any repeats
 - "Today" row of event chips (only once at least one event exists)
 - Prompt cards when due: rate an intake; the backup reminder as a quiet banner in the warning tint
 - One insight card, the most relevant current insight

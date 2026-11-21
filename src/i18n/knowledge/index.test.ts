@@ -1,4 +1,4 @@
-import { knowledgeArticles, parseArticle } from '.';
+import { factOfTheDay, knowledgeArticles, knowledgeFacts, parseArticle } from '.';
 
 test('parses group, slug, emoji, title and body from an article file', () => {
   const article = parseArticle(
@@ -20,4 +20,23 @@ test('every article exists in both languages', () => {
     knowledgeArticles[language].map(({ group, slug, emoji }) => `${group}/${slug}/${emoji}`);
   expect(keys('de').length).toBeGreaterThan(0);
   expect(keys('de')).toEqual(keys('en'));
+});
+
+describe('facts', () => {
+  test('both languages have the same facts, each pointing to an existing article', () => {
+    expect(knowledgeFacts.de.map((fact) => fact.article)).toEqual(
+      knowledgeFacts.en.map((fact) => fact.article),
+    );
+    const slugs = new Set(knowledgeArticles.de.map((article) => article.slug));
+    for (const fact of knowledgeFacts.de) expect(slugs).toContain(fact.article);
+  });
+
+  test('shows every fact once before repeating', () => {
+    const facts = knowledgeFacts.de;
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const start = new Date(2026, 10, 21, 12).getTime();
+    const shown = facts.map((_, day) => factOfTheDay(facts, start + day * DAY_MS));
+    expect(new Set(shown).size).toBe(facts.length);
+    expect(factOfTheDay(facts, start + facts.length * DAY_MS)).toBe(shown[0]);
+  });
 });

@@ -24,7 +24,14 @@ export const de: Dictionary = {
     profile: 'Profil',
   },
   home: {
-    title: 'Guten Tag',
+    greeting: {
+      morning: 'Guten Morgen',
+      day: 'Guten Tag',
+      evening: 'Schönen Abend',
+      night: 'Gute Nacht',
+    },
+    didYouKnow: 'Wusstest du?',
+    readMore: 'Weiterlesen',
     migraineDaysLastFourWeeks: (n: number) =>
       n === 1 ? '1 Migränetag in den letzten 4 Wochen' : `${n} Migränetage in den letzten 4 Wochen`,
     startMigraine: 'Migräne starten',

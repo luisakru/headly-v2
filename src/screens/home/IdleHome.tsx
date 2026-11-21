@@ -1,5 +1,7 @@
 import { addDays } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
+import { Headly } from '../../components/Headly';
 import { DayEventChips } from '../../components/DayEventChips';
 import { InsightCard } from '../../components/InsightCard';
 import { startAttack } from '../../data/attackRepository';
@@ -8,7 +10,9 @@ import { lookbackRange } from '../../domain/dateRange';
 import { firstDataDay } from '../../domain/prevention';
 import { countDaysInRange, migraineDays, toDayKey } from '../../domain/days';
 import { generateInsights } from '../../domain/insights';
+import { timeOfDay } from '../../domain/timeOfDay';
 import { useI18n } from '../../i18n/context';
+import { factOfTheDay, knowledgeFacts } from '../../i18n/knowledge';
 import { formatMonthYear } from '../../i18n/format';
 import { BackupReminderCard } from './BackupReminderCard';
 import styles from './Home.module.css';
@@ -29,6 +33,9 @@ export function IdleHome({
   now,
 }: HomeData & { now: number }) {
   const { t, language } = useI18n();
+  const navigate = useNavigate();
+  const partOfDay = timeOfDay(now);
+  const fact = factOfTheDay(knowledgeFacts[language], now);
 
   const recentDays = recentWeekDays(now, RECENT_WEEKS);
   const recentStart = recentDays[0]!;
@@ -53,8 +60,15 @@ export function IdleHome({
     <div className={styles.home}>
       <header className={styles.header}>
         <p className={styles.eyebrow}>{formatMonthYear(now, language)}</p>
-        <h1 className={styles.greeting}>{t.home.title}</h1>
-        <p className={styles.subtitle}>{t.home.migraineDaysLastFourWeeks(recentMigraineDays)}</p>
+        <div className={styles.hello}>
+          <Headly look={partOfDay === 'morning' || partOfDay === 'day' ? 'day' : 'evening'} />
+          <div>
+            <h1 className={styles.greeting}>{t.home.greeting[partOfDay]}</h1>
+            <p className={styles.subtitle}>
+              {t.home.migraineDaysLastFourWeeks(recentMigraineDays)}
+            </p>
+          </div>
+        </div>
       </header>
 
       {dayEventTypes.length > 0 && (
@@ -78,6 +92,20 @@ export function IdleHome({
         }}
         now={now}
       />
+
+      {fact && (
+        <section className={styles.factCard}>
+          <h2 className={styles.sectionLabel}>{t.home.didYouKnow}</h2>
+          <p className={styles.factText}>{fact.text}</p>
+          <button
+            type="button"
+            className={styles.readMore}
+            onClick={() => void navigate(`/profile/knowledge/${fact.article}`)}
+          >
+            {t.home.readMore} ›
+          </button>
+        </section>
+      )}
 
       {insight && (
         <section className={styles.section}>
