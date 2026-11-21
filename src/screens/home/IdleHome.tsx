@@ -1,11 +1,12 @@
 import { addDays } from 'date-fns';
 import { Button } from '../../components/Button';
+import { DayEventChips } from '../../components/DayEventChips';
 import { InsightCard } from '../../components/InsightCard';
 import { startAttack } from '../../data/attackRepository';
 import { recentWeekDays } from '../../domain/calendar';
 import { lookbackRange } from '../../domain/dateRange';
 import { firstDataDay } from '../../domain/prevention';
-import { countDaysInRange, migraineDays } from '../../domain/days';
+import { countDaysInRange, migraineDays, toDayKey } from '../../domain/days';
 import { generateInsights } from '../../domain/insights';
 import { useI18n } from '../../i18n/context';
 import { formatMonthYear } from '../../i18n/format';
@@ -21,6 +22,8 @@ export function IdleHome({
   medications,
   preventions,
   lifeEvents,
+  dayEventTypes,
+  dayEvents,
   now,
 }: HomeData & { now: number }) {
   const { t, language } = useI18n();
@@ -38,6 +41,8 @@ export function IdleHome({
     medications,
     preventions,
     lifeEvents,
+    dayEventTypes,
+    dayEvents,
     range: lookbackRange('3M', now, firstDataDay(attacks, intakes)),
     now,
   })[0];
@@ -53,7 +58,15 @@ export function IdleHome({
       <div className={styles.actions}>
         <RatingPromptCard intakes={intakes} medications={medications} now={now} />
         <BackupReminderCard
-          data={{ attacks, intakes, medications, preventions, lifeEvents }}
+          data={{
+            attacks,
+            intakes,
+            medications,
+            preventions,
+            lifeEvents,
+            dayEventTypes,
+            dayEvents,
+          }}
           now={now}
         />
         <Button large onClick={() => void startAttack()}>
@@ -61,7 +74,20 @@ export function IdleHome({
         </Button>
       </div>
 
-      <RecentWeeks attacks={attacks} intakes={intakes} medications={medications} now={now} />
+      {dayEventTypes.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionLabel}>{t.dayEvents.today}</h2>
+          <DayEventChips types={dayEventTypes} events={dayEvents} date={toDayKey(now)} />
+        </section>
+      )}
+
+      <RecentWeeks
+        eventDays={new Set(dayEvents.map((event) => event.date))}
+        attacks={attacks}
+        intakes={intakes}
+        medications={medications}
+        now={now}
+      />
 
       {insight && (
         <section className={styles.section}>

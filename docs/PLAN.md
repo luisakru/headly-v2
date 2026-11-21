@@ -213,6 +213,16 @@ Shown on the Home tab while an attack is active.
 - Pinned above the tab bar, always in reach: outlined "Log medication" (opens the medication sheet with a "Taken at" field, prefilled with now; one tap logs the intake linked to this attack) and the filled "End migraine" (ends at now)
 - "More actions" sheet: "Ended earlier?" to pick a time, and "Delete migraine", which asks "Really delete?" before deleting
 
+### Small events
+
+Small, repeatable things the user logs per day, e.g. a flight, getting up early or the first day of a period (`DayEventType` with `kind` `'custom' | 'period'`, and one `DayEvent` per logged day). The list starts empty; adding one offers suggestions (Period, Flight, Up early, Little sleep, Alcohol, Stress) or an own name. Life events stay separate.
+
+- **Logging:** Home shows a "Today" row of toggle chips below "Start migraine", only once at least one event exists. The calendar shows the same chips under the selected day (today or earlier), always with a "+" chip to add a new event. Days with an event get a small mark in the corner of the day cell
+- **Profile → Small events:** list with counts; tap to rename or remove (removing also deletes its logged days, with confirmation)
+- Headly never asks about events after an attack: patterns need events logged on migraine-free days too
+- **Insight per custom event:** window = the event day and the next day; a hit is a migraine start in that window. Baseline = the same window on every other day since the first entry. Shown when the event happened at least 4 times, at least half were hits, and the hit rate is at least twice the baseline ("After “Flight” you had migraine the same or the next day 4 out of 5 times. On other days: 15 %."). After at least 8 times with a hit rate no more than 1.25× the baseline: "After “Flight” you did not have migraine more often than usual."
+- **Menstrual insight:** period days within 10 days count as one period. Window per ICHD-3 A1.1: day 1 ± 2, i.e. two days before to two days after the first day. Shown with at least 3 complete cycles, migraine in the window in at least two out of three, and a per-day migraine rate in the window at least twice the rate in the rest of the cycle. Text says it fits menstrually related migraine and to talk to a doctor
+
 ### Calendar
 
 - Month title with previous and next arrow buttons; horizontal swipe also changes month. No swipe hint text

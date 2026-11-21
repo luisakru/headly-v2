@@ -15,9 +15,10 @@ type RecentWeeksProps = {
   intakes: MedicationIntake[];
   medications: Medication[];
   now: number;
+  eventDays?: Set<string>;
 };
 
-export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksProps) {
+export function RecentWeeks({ attacks, intakes, medications, now, eventDays }: RecentWeeksProps) {
   const { t } = useI18n();
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(() => startOfDay(now));
   const [editingAttack, setEditingAttack] = useState<Attack>();
@@ -32,6 +33,7 @@ export function RecentWeeks({ attacks, intakes, medications, now }: RecentWeeksP
         now={now}
         selectedDay={selectedDay}
         onSelect={setSelectedDay}
+        eventDays={eventDays}
       />
       <DayLegend />
       {selectedDay && (

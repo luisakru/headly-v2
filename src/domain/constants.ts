@@ -31,3 +31,23 @@ export const INSIGHT_MIN_PAIN_INCREASE = 0.5;
 export const INSIGHT_MIN_PREVENTION_CHANGE = 0.1;
 export const INSIGHT_MIN_RATED_INTAKES = 5;
 export const INSIGHT_MIN_EFFECTIVENESS_CHANGE = 0.1;
+
+/** A small event needs this many occurrences before Headly says it is followed by migraine. */
+export const DAY_EVENT_MIN_COUNT = 4;
+export const DAY_EVENT_MIN_RATE = 0.5;
+/** How many times the usual rate counts as clearly more often. */
+export const DAY_EVENT_MIN_RATIO = 2;
+/** Saying an event is unrelated needs more occurrences than saying it is related. */
+export const DAY_EVENT_UNRELATED_MIN_COUNT = 8;
+export const DAY_EVENT_UNRELATED_MAX_RATIO = 1.25;
+/** Days needed to know the usual rate. */
+export const DAY_EVENT_MIN_BASELINE_DAYS = 14;
+
+/** ICHD-3 A1.1: day 1 ± 2 of menstruation, i.e. from two days before to two days after the first day. */
+export const MENSTRUAL_WINDOW_DAYS_BEFORE = 2;
+export const MENSTRUAL_WINDOW_DAYS_AFTER = 2;
+export const MENSTRUAL_MIN_CYCLES = 3;
+/** ICHD-3: in at least two out of three cycles. */
+export const MENSTRUAL_MIN_SHARE = 2 / 3;
+/** Period days within this many days of an earlier one belong to the same period. */
+export const PERIOD_MIN_GAP_DAYS = 10;

@@ -25,6 +25,7 @@ import type { Language, Theme } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { knowledgeArticles } from '../../i18n/knowledge';
 import { useHomeData, useNow, useSettings } from '../home/useHomeData';
+import { DayEventTypesSheet } from './DayEventTypesSheet';
 import { DeleteAllSheet } from './DeleteAllSheet';
 import { ImportSheet } from './ImportSheet';
 import { LifeEventsSheet } from './LifeEventsSheet';
@@ -36,7 +37,7 @@ import { ProfileRow } from './ProfileRow';
 const LANGUAGES: Language[] = ['de', 'en'];
 const THEMES: Theme[] = ['system', 'light', 'dark'];
 
-type OpenSheet = 'medications' | 'preventions' | 'lifeEvents' | 'deleteAll';
+type OpenSheet = 'medications' | 'preventions' | 'lifeEvents' | 'dayEventTypes' | 'deleteAll';
 
 export function ProfileScreen() {
   const { t, language, setLanguage } = useI18n();
@@ -50,7 +51,7 @@ export function ProfileScreen() {
   const [exported, setExported] = useState(false);
 
   if (!data || !settings) return null;
-  const { attacks, intakes, medications, preventions, lifeEvents } = data;
+  const { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents } = data;
 
   const activeMedications = medications.filter((medication) => !medication.archived);
   const activePreventions = preventions.filter((prevention) => isActivePrevention(prevention, now));
@@ -109,6 +110,12 @@ export function ProfileScreen() {
             subtitle={t.profile.lifeEventCount(lifeEvents.length)}
             onClick={() => setOpenSheet('lifeEvents')}
           />
+          <ProfileRow
+            icon={<LifeEventIcon />}
+            title={t.dayEvents.title}
+            subtitle={t.dayEvents.count(dayEventTypes.length)}
+            onClick={() => setOpenSheet('dayEventTypes')}
+          />
         </div>
       </section>
 
@@ -138,6 +145,8 @@ export function ProfileScreen() {
                 medicationIntakes: intakes,
                 preventions,
                 lifeEvents,
+                dayEventTypes,
+                dayEvents,
               }).then(setExported)
             }
           />
@@ -257,6 +266,13 @@ export function ProfileScreen() {
         <LifeEventsSheet
           lifeEvents={lifeEvents}
           now={now}
+          onClose={() => setOpenSheet(undefined)}
+        />
+      )}
+      {openSheet === 'dayEventTypes' && (
+        <DayEventTypesSheet
+          types={dayEventTypes}
+          events={dayEvents}
           onClose={() => setOpenSheet(undefined)}
         />
       )}

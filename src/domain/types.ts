@@ -59,6 +59,25 @@ export type LifeEvent = {
   updatedAt: number;
 };
 
+/** A small event the user defines, e.g. a flight; `period` marks the start of a period. */
+export type DayEventType = {
+  id: string;
+  name: string;
+  kind: 'custom' | 'period';
+  createdAt: number;
+  updatedAt: number;
+};
+
+/** One small event on one day. */
+export type DayEvent = {
+  id: string;
+  typeId: string;
+  /** ISO date, YYYY-MM-DD */
+  date: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
 export type Language = 'de' | 'en';
 
 export type Theme = 'system' | 'light' | 'dark';

@@ -31,7 +31,15 @@ export function ImportSheet({ result, onClose }: ImportSheetProps) {
     );
   }
 
-  const { attacks, medications, medicationIntakes, preventions, lifeEvents } = result.data;
+  const {
+    attacks,
+    medications,
+    medicationIntakes,
+    preventions,
+    lifeEvents,
+    dayEventTypes,
+    dayEvents,
+  } = result.data;
   const run = async (mode: 'merge' | 'replace') => setSummary(await importBackup(result, mode));
 
   return (
@@ -54,6 +62,8 @@ export function ImportSheet({ result, onClose }: ImportSheetProps) {
                   medicationIntakes: medicationIntakes.length,
                   preventions: preventions.length,
                   lifeEvents: lifeEvents.length,
+                  dayEventTypes: dayEventTypes.length,
+                  dayEvents: dayEvents.length,
                 }),
               )}
             </p>

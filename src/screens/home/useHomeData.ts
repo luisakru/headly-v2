@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState } from 'react';
 import { listAttacks } from '../../data/attackRepository';
+import { listDayEvents, listDayEventTypes } from '../../data/dayEventRepository';
 import { listLifeEvents } from '../../data/lifeEventRepository';
 import { listIntakes } from '../../data/intakeRepository';
 import { listMedications } from '../../data/medicationRepository';
@@ -8,6 +9,8 @@ import { listPreventions } from '../../data/preventionRepository';
 import { getSettings } from '../../data/settingsRepository';
 import type {
   Attack,
+  DayEvent,
+  DayEventType,
   LifeEvent,
   Medication,
   MedicationIntake,
@@ -22,18 +25,23 @@ export type HomeData = {
   medications: Medication[];
   preventions: Prevention[];
   lifeEvents: LifeEvent[];
+  dayEventTypes: DayEventType[];
+  dayEvents: DayEvent[];
 };
 
 export function useHomeData(): HomeData | undefined {
   return useLiveQuery(async () => {
-    const [attacks, intakes, medications, preventions, lifeEvents] = await Promise.all([
-      listAttacks(),
-      listIntakes(),
-      listMedications({ includeArchived: true }),
-      listPreventions(),
-      listLifeEvents(),
-    ]);
-    return { attacks, intakes, medications, preventions, lifeEvents };
+    const [attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents] =
+      await Promise.all([
+        listAttacks(),
+        listIntakes(),
+        listMedications({ includeArchived: true }),
+        listPreventions(),
+        listLifeEvents(),
+        listDayEventTypes(),
+        listDayEvents(),
+      ]);
+    return { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents };
   });
 }
 

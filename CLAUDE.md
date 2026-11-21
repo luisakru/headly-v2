@@ -47,6 +47,8 @@ Every domain concept has exactly one English code name. German appears only as l
 | Prophylaxe                                 | `Prevention`                              | Type `'medication' \| 'lifestyle'`          |
 | Aktive Prophylaxe                          | `activePrevention`                        | No end date, or end date in the future      |
 | Lebensereignis                             | `LifeEvent`                               | Name and date, e.g. a new job               |
+| Kleines Ereignis                           | `DayEvent`                                | One logged day, e.g. a flight               |
+| Ereignisart                                | `DayEventType`                            | `kind` `'custom' \| 'period'`               |
 | Wirkbeginn                                 | `effectiveFrom`                           | Optional date on `Prevention`               |
 | Erkenntnis                                 | `Insight`                                 | Generated plain-language sentence           |
 | Zeitraum                                   | `DateRangePreset`                         | `1W`, `1M`, `3M`, `6M`, `1Y`, `2Y`, `all`   |

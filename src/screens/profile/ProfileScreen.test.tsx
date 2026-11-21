@@ -113,6 +113,8 @@ test('imports a backup file by replacing all data', async () => {
       medicationIntakes: [],
       preventions: [],
       lifeEvents: [],
+      dayEventTypes: [],
+      dayEvents: [],
     },
     Date.now(),
   );
@@ -126,7 +128,7 @@ test('imports a backup file by replacing all data', async () => {
 
   expect(
     await screen.findByText(
-      'This backup contains 1 migraine, 0 medications, 0 intakes, 0 preventions, 0 life events.',
+      'This backup contains 1 migraine, 0 medications, 0 intakes, 0 preventions, 0 life events, 0 small events.',
     ),
   ).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Replace all' }));
@@ -183,7 +185,7 @@ test('confirms a finished export', async () => {
 test('adds a life event', async () => {
   await renderProfile();
 
-  fireEvent.click(await screen.findByRole('button', { name: /Manage life events/ }));
+  fireEvent.click(await screen.findByRole('button', { name: /^Life events/ }));
   fireEvent.click(screen.getByRole('button', { name: 'New life event' }));
   fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'New job' } });
   fireEvent.change(screen.getByLabelText('Date'), { target: { value: '2026-05-01' } });

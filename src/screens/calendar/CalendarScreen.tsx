@@ -2,6 +2,7 @@ import { addMonths, isSameMonth, startOfMonth } from 'date-fns';
 import { useRef, useState, type TouchEvent } from 'react';
 import { Card } from '../../components/Card';
 import { DayDetails } from '../../components/DayDetails';
+import { DayEventChips } from '../../components/DayEventChips';
 import { DayGrid, DayLegend } from '../../components/DayGrid';
 import { EditAttackSheet } from '../../components/EditAttackSheet';
 import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from '../../components/icons';
@@ -28,7 +29,7 @@ export function CalendarScreen() {
   const swipeStart = useRef<{ x: number; y: number }>(undefined);
 
   if (!data) return null;
-  const { attacks, intakes, medications } = data;
+  const { attacks, intakes, medications, dayEventTypes, dayEvents } = data;
 
   const monthRange = { start: month.getTime(), end: addMonths(month, 1).getTime() };
   const migraineDayCount = countDaysInRange(migraineDays(attacks, now), monthRange);
@@ -99,6 +100,7 @@ export function CalendarScreen() {
             now={now}
             selectedDay={selectedDay}
             onSelect={setSelectedDay}
+            eventDays={new Set(dayEvents.map((event) => event.date))}
           />
         </div>
         <DayLegend />
@@ -119,6 +121,16 @@ export function CalendarScreen() {
               <PlusIcon />
               {t.calendar.addMigraine}
             </button>
+          )}
+          {toDayKey(selectedDay) <= toDayKey(now) && (
+            <>
+              <h2 className={styles.sectionLabel}>{t.dayEvents.label}</h2>
+              <DayEventChips
+                types={dayEventTypes}
+                events={dayEvents}
+                date={toDayKey(selectedDay)}
+              />
+            </>
           )}
         </section>
       ) : (

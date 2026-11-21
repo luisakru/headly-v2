@@ -13,10 +13,20 @@ type DayGridProps = {
   now: number;
   selectedDay?: Date;
   onSelect: (day: Date | undefined) => void;
+  /** Days with a small event, marked in the corner. */
+  eventDays?: Set<string>;
 };
 
 /** Days colored by migraine and medication. Tapping the selected day again clears the selection. */
-export function DayGrid({ days, attacks, intakes, now, selectedDay, onSelect }: DayGridProps) {
+export function DayGrid({
+  days,
+  attacks,
+  intakes,
+  now,
+  selectedDay,
+  onSelect,
+  eventDays,
+}: DayGridProps) {
   const { language } = useI18n();
   const migraine = migraineDays(attacks, now);
   const medication = medicationDays(intakes);
@@ -52,6 +62,7 @@ export function DayGrid({ days, attacks, intakes, now, selectedDay, onSelect }: 
             onClick={() => onSelect(isSelected ? undefined : day)}
           >
             {day.getDate()}
+            {eventDays?.has(dayKey) && <span className={styles.eventMark} aria-hidden="true" />}
           </button>
         );
       })}

@@ -68,6 +68,16 @@
   background: var(--color-primary);
 }
 
+.eventMark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-text-secondary);
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;

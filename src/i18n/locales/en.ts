@@ -154,6 +154,16 @@ export const en = {
       `${name} has helped more recently (${before} to ${after}).`,
     effectivenessDetail: (before: string, after: string) =>
       `Compares ${after} with the same-length period before (${before}). Counted is the share of rated intakes that helped strongly or slightly.`,
+    dayEventRelated: (name: string, hits: number, count: number, baseline: string) =>
+      `After “${name}” you had migraine the same or the next day ${hits} out of ${count} times. On other days: ${baseline}.`,
+    dayEventUnrelated: (name: string) =>
+      `After “${name}” you did not have migraine more often than usual.`,
+    dayEventDetail: (name: string) =>
+      `Counted is whether a migraine started on the day of “${name}” or the day after, compared with all other days since your first entry. It shows a pattern, not a cause.`,
+    menstrualPattern: (hits: number, cycles: number) =>
+      `In ${hits} out of ${cycles} cycles you had migraine around the start of your period. This fits menstrually related migraine; talk to your doctor about it.`,
+    menstrualDetail:
+      'Checked are the two days before to two days after the first day of your period, as in the international headache classification (ICHD-3). The note appears from two out of three cycles, if migraine is clearly more common then than in the rest of the cycle.',
     fewerButStronger: (points: string) =>
       `Fewer attacks, but on average ${points} points stronger.`,
   },
@@ -326,6 +336,23 @@ Rules:
 - Leave out fields you do not know. Never write null and never invent data.
 - After the file, briefly list anything you could not convert.`,
   },
+  dayEvents: {
+    title: 'Small events',
+    today: 'Today',
+    label: 'Events',
+    add: 'Add an event',
+    newTitle: 'New event',
+    period: 'Period',
+    periodHint:
+      'For “Period”, tapping the first day is enough. Headly then checks for menstrual migraine.',
+    suggestions: ['Flight', 'Up early', 'Little sleep', 'Alcohol', 'Stress'],
+    ownName: 'Or your own',
+    addOwn: 'Add',
+    count: (n: number) => (n === 1 ? '1 event' : `${n} events`),
+    manageHint: 'Tap one to rename or remove it.',
+    rename: 'Name',
+    deleteWarning: 'Also removes every day it was logged on.',
+  },
   knowledge: {
     title: 'Knowledge',
     aboutMigraine: 'About migraine',
@@ -355,7 +382,7 @@ Rules:
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 prevention' : `${total} preventions`} · ${active} active`,
     lifeEvents: 'Life events',
-    manageLifeEvents: 'Manage life events',
+    manageLifeEvents: 'Life events',
     lifeEventCount: (n: number) => (n === 1 ? '1 life event' : `${n} life events`),
     newLifeEvent: 'New life event',
     editLifeEvent: 'Edit life event',
@@ -421,13 +448,21 @@ Rules:
   backup: {
     importTitle: 'Import backup',
     fileContains: (counts: string) => `This backup contains ${counts}.`,
-    counts: ({ attacks, medications, medicationIntakes, preventions, lifeEvents }: BackupCounts) =>
+    counts: ({
+      attacks,
+      medications,
+      medicationIntakes,
+      preventions,
+      lifeEvents,
+      dayEvents,
+    }: BackupCounts) =>
       [
         attacks === 1 ? '1 migraine' : `${attacks} migraines`,
         medications === 1 ? '1 medication' : `${medications} medications`,
         medicationIntakes === 1 ? '1 intake' : `${medicationIntakes} intakes`,
         preventions === 1 ? '1 prevention' : `${preventions} preventions`,
         lifeEvents === 1 ? '1 life event' : `${lifeEvents} life events`,
+        dayEvents === 1 ? '1 small event' : `${dayEvents} small events`,
       ].join(', '),
     merge: 'Merge',
     mergeHint: 'Adds new entries and updates entries that changed.',

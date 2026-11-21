@@ -1,6 +1,8 @@
 import { Dexie, type EntityTable } from 'dexie';
 import type {
   Attack,
+  DayEvent,
+  DayEventType,
   LifeEvent,
   Medication,
   MedicationIntake,
@@ -18,6 +20,8 @@ export class HeadlyDatabase extends Dexie {
   medicationIntakes!: EntityTable<MedicationIntake, 'id'>;
   preventions!: EntityTable<Prevention, 'id'>;
   lifeEvents!: EntityTable<LifeEvent, 'id'>;
+  dayEventTypes!: EntityTable<DayEventType, 'id'>;
+  dayEvents!: EntityTable<DayEvent, 'id'>;
   settings!: EntityTable<SettingsRecord, 'id'>;
 
   constructor() {
@@ -44,6 +48,7 @@ export class HeadlyDatabase extends Dexie {
           }),
       );
     this.version(3).stores({ lifeEvents: 'id, date' });
+    this.version(4).stores({ dayEventTypes: 'id', dayEvents: 'id, date, typeId' });
   }
 }
 

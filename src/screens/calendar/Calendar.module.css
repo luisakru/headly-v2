@@ -81,3 +81,12 @@
   outline: 2px solid var(--color-text);
   outline-offset: 2px;
 }
+
+.sectionLabel {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

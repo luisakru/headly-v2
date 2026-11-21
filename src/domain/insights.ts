@@ -9,6 +9,7 @@ import {
   PREVENTION_WINDOW_RELIABLE_DAYS,
 } from './constants';
 import { previousRange } from './dateRange';
+import { dayEventPatterns, menstrualPattern } from './dayEvents';
 import {
   firstDataDay,
   isActivePrevention,
@@ -27,6 +28,8 @@ import {
 } from './stats';
 import type {
   Attack,
+  DayEvent,
+  DayEventType,
   LifeEvent,
   Medication,
   MedicationIntake,
@@ -68,7 +71,16 @@ export type Insight =
       baseline?: { range: TimeRange; migraineDaysPer30: number };
     }
   | { kind: 'lifeEventChange'; lifeEventName: string; effect: PreventionEffect }
-  | { kind: 'fewerButStrongerAttacks'; painIncrease: number };
+  | { kind: 'fewerButStrongerAttacks'; painIncrease: number }
+  | {
+      kind: 'dayEventPattern';
+      eventName: string;
+      hits: number;
+      count: number;
+      baselineRate: number;
+      related: boolean;
+    }
+  | { kind: 'menstrualPattern'; hits: number; cycles: number };
 
 export type InsightTrend = {
   direction: 'up' | 'down' | 'mixed';
@@ -98,6 +110,12 @@ export function insightTrend(insight: Insight): InsightTrend {
       );
     case 'fewerButStrongerAttacks':
       return { direction: 'mixed', tone: 'mixed' };
+    case 'dayEventPattern':
+      return insight.related
+        ? { direction: 'up', tone: 'bad' }
+        : { direction: 'mixed', tone: 'good' };
+    case 'menstrualPattern':
+      return { direction: 'mixed', tone: 'mixed' };
   }
 }
 
@@ -107,6 +125,9 @@ export type InsightInput = {
   medications: Medication[];
   preventions: Prevention[];
   lifeEvents: LifeEvent[];
+  /** Small events look at all data, not only the range. */
+  dayEventTypes?: DayEventType[];
+  dayEvents?: DayEvent[];
   range: TimeRange;
   now: number;
 };
@@ -225,6 +246,29 @@ function fewerButStronger({ attacks, range }: InsightInput, previous: TimeRange)
   return [{ kind: 'fewerButStrongerAttacks', painIncrease }];
 }
 
+function dayEventInsights({
+  attacks,
+  dayEventTypes = [],
+  dayEvents = [],
+  now,
+}: InsightInput): Insight[] {
+  const periodTypeIds = new Set(
+    dayEventTypes.filter((type) => type.kind === 'period').map((type) => type.id),
+  );
+  const menstrual = menstrualPattern(
+    dayEvents.filter((event) => periodTypeIds.has(event.typeId)).map((event) => event.date),
+    attacks,
+    now,
+  );
+  return [
+    ...(menstrual ? [{ kind: 'menstrualPattern' as const, ...menstrual }] : []),
+    ...dayEventPatterns(dayEventTypes, dayEvents, attacks, now).map((pattern) => ({
+      kind: 'dayEventPattern' as const,
+      ...pattern,
+    })),
+  ];
+}
+
 /** All insights whose data condition is met, most relevant first. */
 export function generateInsights(input: InsightInput): Insight[] {
   const previous = previousRange(input.range);
@@ -235,6 +279,7 @@ export function generateInsights(input: InsightInput): Insight[] {
     ...preventionChanges(input),
     ...preventionEffectChanges(input),
     ...lifeEventChanges(input),
+    ...dayEventInsights(input),
     ...(hasPrevious ? effectivenessChanges(input, previous) : []),
     ...(hasPrevious ? fewerButStronger(input, previous) : []),
   ];

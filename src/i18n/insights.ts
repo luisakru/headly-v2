@@ -43,6 +43,17 @@ export function formatInsight(insight: Insight, t: Dictionary, language: Languag
     }
     case 'fewerButStrongerAttacks':
       return templates.fewerButStronger(number(insight.painIncrease));
+    case 'dayEventPattern':
+      return insight.related
+        ? templates.dayEventRelated(
+            insight.eventName,
+            insight.hits,
+            insight.count,
+            percent(insight.baselineRate),
+          )
+        : templates.dayEventUnrelated(insight.eventName);
+    case 'menstrualPattern':
+      return templates.menstrualPattern(insight.hits, insight.cycles);
   }
 }
 
@@ -85,6 +96,10 @@ export function formatInsightDetail(
         formatDayRange(insight.recentRange, language),
         insight.baseline && formatDayRange(insight.baseline.range, language),
       );
+    case 'dayEventPattern':
+      return t.insights.dayEventDetail(insight.eventName);
+    case 'menstrualPattern':
+      return t.insights.menstrualDetail;
     default:
       return undefined;
   }

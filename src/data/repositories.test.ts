@@ -10,6 +10,13 @@ import {
   updateAttack,
 } from './attackRepository';
 import { db, DomainError } from './db';
+import {
+  createDayEventType,
+  deleteDayEventType,
+  listDayEvents,
+  listDayEventTypes,
+  toggleDayEvent,
+} from './dayEventRepository';
 import { listIntakes, listIntakesForAttack, logIntake, rateIntake } from './intakeRepository';
 import { archiveMedication, createMedication, listMedications } from './medicationRepository';
 import { createPrevention, listPreventions, updatePrevention } from './preventionRepository';
@@ -202,4 +209,19 @@ test('seedDatabase replaces existing records with demo data', async () => {
   const data = await seedDatabase(at(2026, 10, 24, 12));
   expect(await db.attacks.count()).toBe(data.attacks.length);
   expect(await db.medicationIntakes.count()).toBe(data.medicationIntakes.length);
+});
+
+describe('dayEventRepository', () => {
+  test('toggles an event on a day and deletes a type with its days', async () => {
+    const flight = await createDayEventType({ name: 'Flight', kind: 'custom' });
+    await toggleDayEvent(flight.id, '2026-03-05');
+    expect((await listDayEvents()).map((event) => event.date)).toEqual(['2026-03-05']);
+    await toggleDayEvent(flight.id, '2026-03-05');
+    expect(await listDayEvents()).toEqual([]);
+
+    await toggleDayEvent(flight.id, '2026-03-06');
+    await deleteDayEventType(flight.id);
+    expect(await listDayEventTypes()).toEqual([]);
+    expect(await listDayEvents()).toEqual([]);
+  });
 });

@@ -1,12 +1,20 @@
 import { z } from 'zod';
 import { PAIN_LEVEL_MAX, PAIN_LEVEL_MIN } from '../domain/constants';
 import { toDayKey } from '../domain/days';
-import type { Attack, LifeEvent, Medication, MedicationIntake, Prevention } from '../domain/types';
+import type {
+  Attack,
+  DayEvent,
+  DayEventType,
+  LifeEvent,
+  Medication,
+  MedicationIntake,
+  Prevention,
+} from '../domain/types';
 import { db, DomainError } from './db';
 import { updateSettings } from './settingsRepository';
 
 /** Matches the database version; bump both together and migrate older backups below. */
-export const BACKUP_SCHEMA_VERSION = 3;
+export const BACKUP_SCHEMA_VERSION = 4;
 
 export type BackupData = {
   attacks: Attack[];
@@ -14,6 +22,8 @@ export type BackupData = {
   medicationIntakes: MedicationIntake[];
   preventions: Prevention[];
   lifeEvents: LifeEvent[];
+  dayEventTypes: DayEventType[];
+  dayEvents: DayEvent[];
 };
 
 export type Backup = {
@@ -33,6 +43,8 @@ const TABLE_NAMES = [
   'medicationIntakes',
   'preventions',
   'lifeEvents',
+  'dayEventTypes',
+  'dayEvents',
 ] as const;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -85,6 +97,13 @@ const backupSchema = z.object({
     // Added in version 3.
     lifeEvents: z
       .array(z.object({ ...recordFields, name: z.string(), date: z.string().regex(ISO_DATE) }))
+      .default([]),
+    // Added in version 4.
+    dayEventTypes: z
+      .array(z.object({ ...recordFields, name: z.string(), kind: z.enum(['custom', 'period']) }))
+      .default([]),
+    dayEvents: z
+      .array(z.object({ ...recordFields, typeId: z.string(), date: z.string().regex(ISO_DATE) }))
       .default([]),
   }),
 });
@@ -153,6 +172,8 @@ export function importBackup(backup: Backup, mode: ImportMode): Promise<ImportSu
       medicationIntakes: 0,
       preventions: 0,
       lifeEvents: 0,
+      dayEventTypes: 0,
+      dayEvents: 0,
     };
     for (const name of TABLE_NAMES) {
       const table = db.table<BackupData[typeof name][number], string>(name);

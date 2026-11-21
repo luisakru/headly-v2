@@ -157,6 +157,15 @@ export const de: Dictionary = {
       `${name} hat zuletzt besser geholfen (${before} auf ${after}).`,
     effectivenessDetail: (before: string, after: string) =>
       `Verglichen wird ${after} mit dem gleich langen Zeitraum davor (${before}). Gezählt wird der Anteil der bewerteten Einnahmen, die stark oder etwas geholfen haben.`,
+    dayEventRelated: (name: string, hits: number, count: number, baseline: string) =>
+      `Nach „${name}“ hattest du in ${hits} von ${count} Fällen am selben oder nächsten Tag Migräne. An anderen Tagen: ${baseline}.`,
+    dayEventUnrelated: (name: string) => `Nach „${name}“ hattest du nicht öfter Migräne als sonst.`,
+    dayEventDetail: (name: string) =>
+      `Gezählt wird, ob am Tag von „${name}“ oder am Tag danach eine Migräne begann, verglichen mit allen anderen Tagen seit deinem ersten Eintrag. Das zeigt ein Muster, keine Ursache.`,
+    menstrualPattern: (hits: number, cycles: number) =>
+      `In ${hits} von ${cycles} Zyklen hattest du Migräne rund um den Periodenbeginn. Das passt zu menstruationsbezogener Migräne, sprich mit deiner Ärztin darüber.`,
+    menstrualDetail:
+      'Geprüft werden die zwei Tage vor bis zwei Tage nach dem ersten Tag der Periode, wie in der internationalen Kopfschmerz-Klassifikation (ICHD-3). Der Hinweis erscheint ab zwei von drei Zyklen, wenn Migräne dann deutlich häufiger ist als im Rest des Zyklus.',
     fewerButStronger: (points: string) =>
       `Weniger Attacken, aber im Schnitt ${points} Punkte stärker.`,
   },
@@ -331,6 +340,23 @@ Regeln:
 - Lass Felder weg, die du nicht kennst. Schreib nie null und erfinde nichts.
 - Liste nach der Datei kurz auf, was du nicht umwandeln konntest.`,
   },
+  dayEvents: {
+    title: 'Kleine Ereignisse',
+    today: 'Heute',
+    label: 'Ereignisse',
+    add: 'Ereignis hinzufügen',
+    newTitle: 'Neues Ereignis',
+    period: 'Periode',
+    periodHint:
+      'Bei „Periode“ reicht ein Tipp am ersten Tag. Headly prüft dann auf menstruelle Migräne.',
+    suggestions: ['Flug', 'Früh aufgestanden', 'Wenig Schlaf', 'Alkohol', 'Stress'],
+    ownName: 'Oder ein eigenes',
+    addOwn: 'Hinzufügen',
+    count: (n: number) => (n === 1 ? '1 Ereignis' : `${n} Ereignisse`),
+    manageHint: 'Tippe auf eines, um es umzubenennen oder zu entfernen.',
+    rename: 'Name',
+    deleteWarning: 'Entfernt auch alle Tage, an denen es eingetragen ist.',
+  },
   knowledge: {
     title: 'Wissen',
     aboutMigraine: 'Über Migräne',
@@ -361,7 +387,7 @@ Regeln:
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 Prophylaxe' : `${total} Prophylaxen`} · ${active} aktiv`,
     lifeEvents: 'Ereignisse',
-    manageLifeEvents: 'Ereignisse verwalten',
+    manageLifeEvents: 'Lebensereignisse',
     lifeEventCount: (n: number) => (n === 1 ? '1 Ereignis' : `${n} Ereignisse`),
     newLifeEvent: 'Neues Ereignis',
     editLifeEvent: 'Ereignis bearbeiten',
@@ -427,13 +453,21 @@ Regeln:
   backup: {
     importTitle: 'Sicherung importieren',
     fileContains: (counts: string) => `Diese Sicherung enthält ${counts}.`,
-    counts: ({ attacks, medications, medicationIntakes, preventions, lifeEvents }: BackupCounts) =>
+    counts: ({
+      attacks,
+      medications,
+      medicationIntakes,
+      preventions,
+      lifeEvents,
+      dayEvents,
+    }: BackupCounts) =>
       [
         attacks === 1 ? '1 Migräne' : `${attacks} Migränen`,
         medications === 1 ? '1 Medikament' : `${medications} Medikamente`,
         medicationIntakes === 1 ? '1 Einnahme' : `${medicationIntakes} Einnahmen`,
         preventions === 1 ? '1 Prophylaxe' : `${preventions} Prophylaxen`,
         lifeEvents === 1 ? '1 Ereignis' : `${lifeEvents} Ereignisse`,
+        dayEvents === 1 ? '1 kleines Ereignis' : `${dayEvents} kleine Ereignisse`,
       ].join(', '),
     merge: 'Zusammenführen',
     mergeHint: 'Fügt neue Einträge hinzu und aktualisiert geänderte.',

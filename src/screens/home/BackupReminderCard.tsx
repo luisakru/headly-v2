@@ -10,9 +10,14 @@ import { useSettings, type HomeData } from './useHomeData';
 export function BackupReminderCard({ data, now }: { data: HomeData; now: number }) {
   const { t } = useI18n();
   const settings = useSettings();
-  const { attacks, intakes, medications, preventions, lifeEvents } = data;
+  const { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents } = data;
   const recordCount =
-    attacks.length + intakes.length + medications.length + preventions.length + lifeEvents.length;
+    attacks.length +
+    intakes.length +
+    medications.length +
+    preventions.length +
+    lifeEvents.length +
+    dayEvents.length;
   if (!settings || !shouldShowBackupReminder(settings, recordCount, false, now)) return null;
 
   return (
@@ -29,6 +34,8 @@ export function BackupReminderCard({ data, now }: { data: HomeData; now: number 
               medicationIntakes: intakes,
               preventions,
               lifeEvents,
+              dayEventTypes,
+              dayEvents,
             })
           }
         >

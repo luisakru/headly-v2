@@ -67,7 +67,7 @@ export function StatsScreen() {
   }, [data, preset, now]);
 
   if (!data || !chart) return null;
-  const { attacks, intakes, medications, preventions, lifeEvents } = data;
+  const { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents } = data;
   const { firstDay, size, pages, buckets } = chart;
   // Cards and lists follow the page visible in the chart.
   const range = pages[pageIndex ?? pages.length - 1] ?? pages[pages.length - 1]!;
@@ -80,6 +80,8 @@ export function StatsScreen() {
     medications,
     preventions,
     lifeEvents,
+    dayEventTypes,
+    dayEvents,
     range: lookbackRange(preset, now, firstDay),
     now,
   })
