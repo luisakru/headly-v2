@@ -11,7 +11,12 @@ import {
   type BackupData,
 } from './backup';
 import { db, DomainError } from './db';
+import { createDayEventType, toggleDayEvent } from './dayEventRepository';
+import { logIntake } from './intakeRepository';
+import { createLifeEvent } from './lifeEventRepository';
 import { createMedication, listMedications } from './medicationRepository';
+import { createPrevention } from './preventionRepository';
+import { createSymptom, listSymptoms, updateSymptom } from './symptomRepository';
 import { getSettings, updateSettings } from './settingsRepository';
 
 const now = at(2026, 10, 25, 12);
@@ -236,4 +241,49 @@ test('imports a file written by an assistant from the import prompt', () => {
   const backup = parseBackup(JSON.stringify(file));
   expect(backup.data.attacks[0]?.symptomIds).toEqual(['aura', 'nausea']);
   expect(backup.data.dayEvents).toHaveLength(1);
+});
+
+test('a full export and import keeps every kind of record, including symptoms, gaps and events', async () => {
+  await Promise.all(db.tables.map((table) => table.clear()));
+  const sumatriptan = await createMedication({
+    name: 'Sumatriptan',
+    isTriptan: true,
+    minIntervalHours: 2,
+  });
+  const attack = await createAttack({
+    startedAt: at(2026, 9, 1, 8),
+    endedAt: at(2026, 9, 1, 18),
+    painLevel: 6,
+    symptomIds: ['aura', 'own-symptom'],
+  });
+  await logIntake(sumatriptan.id, { takenAt: at(2026, 9, 1, 9), attackId: attack.id });
+  await createPrevention({ name: 'Aquipta', type: 'medication', startDate: '2026-06-01' });
+  await createLifeEvent({ name: 'New job', date: '2026-05-01' });
+  const period = await createDayEventType({ name: 'Period', kind: 'period' });
+  await toggleDayEvent(period.id, '2026-09-02');
+  const own = await createSymptom('Neck pain');
+  const [aura] = await listSymptoms();
+  await updateSymptom(aura!, { name: 'Flicker' });
+
+  const tables = async (): Promise<BackupData> => ({
+    attacks: await db.attacks.toArray(),
+    medications: await db.medications.toArray(),
+    medicationIntakes: await db.medicationIntakes.toArray(),
+    preventions: await db.preventions.toArray(),
+    lifeEvents: await db.lifeEvents.toArray(),
+    dayEventTypes: await db.dayEventTypes.toArray(),
+    dayEvents: await db.dayEvents.toArray(),
+    symptoms: await db.symptoms.toArray(),
+  });
+  const before = await tables();
+  const file = JSON.stringify(buildBackup(before, now));
+
+  await deleteAllData();
+  await db.symptoms.clear();
+  await importBackup(parseBackup(file), 'replace');
+
+  expect(await tables()).toEqual(before);
+  expect(before.symptoms.map((symptom) => symptom.id)).toEqual(
+    expect.arrayContaining(['aura', own.id]),
+  );
 });
