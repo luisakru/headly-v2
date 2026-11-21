@@ -197,8 +197,9 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 
 Top to bottom, with the main action in thumb reach like on the active-attack screen:
 
-- Current month, then Headly (a small cloud as companion: sunglasses from 5 to 18 o'clock, a sleep mask in the evening and at night; never on the active-attack screen) next to a greeting by time of day (morning 5–11, day 11–18, evening 18–22, night) and "N migraine days in the last 4 weeks"
-- "Did you know?": one fact a day from `src/i18n/knowledge/<language>/facts.json`, each linked to its article ("Read more"). Facts rotate in a fixed order, so all come once before any repeats
+- Current month, then Headly (a small, muted brain with a face: eyes open from 5 to 18 o'clock, closed and sleepy with "z z" in the evening and at night; never on the active-attack screen) with a speech bubble: greeting by time of day (morning 5–11, day 11–18, evening 18–22, night), "N migraine days in the last 4 weeks" and "Did you know?"
+- "Did you know?": one fact a day from `src/i18n/knowledge/<language>/facts.json`, each linked to its article ("Read more"). "×" hides it until the next day (stored on the device). Facts rotate in a fixed order, so all come once before any repeats
+- The app icon and launch images show the same brain on the brown background
 - "Today" row of event chips (only once at least one event exists)
 - Prompt cards when due: rate an intake; the backup reminder as a quiet banner in the warning tint
 - One insight card, the most relevant current insight

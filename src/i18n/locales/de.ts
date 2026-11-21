@@ -31,6 +31,7 @@ export const de: Dictionary = {
       night: 'Gute Nacht',
     },
     didYouKnow: 'Wusstest du?',
+    hideFact: 'Fakt für heute ausblenden',
     readMore: 'Weiterlesen',
     migraineDaysLastFourWeeks: (n: number) =>
       n === 1 ? '1 Migränetag in den letzten 4 Wochen' : `${n} Migränetage in den letzten 4 Wochen`,

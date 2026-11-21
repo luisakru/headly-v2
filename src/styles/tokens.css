@@ -16,9 +16,10 @@
   --color-positive: light-dark(#6b8b4a, #9aa56f);
   --color-error: light-dark(#a9483a, #c46b5f);
   --color-mixed: light-dark(#b08a3c, #c9a07a);
-  /* Headly, the cloud on Home: muted so it never glows in the dark. */
-  --color-avatar: light-dark(#dcc7b0, #8f7563);
-  --color-avatar-ink: light-dark(#3a3028, #282828);
+  /* Headly, the brain on Home: muted so it never glows in the dark. */
+  --color-avatar: light-dark(#dcb4a6, #8e6a5e);
+  --color-avatar-line: light-dark(#b98a7a, #6e5046);
+  --color-avatar-ink: light-dark(#5c3a2c, #232020);
 
   --font-sans: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
 

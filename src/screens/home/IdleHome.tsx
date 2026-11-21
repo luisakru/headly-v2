@@ -1,4 +1,5 @@
 import { addDays } from 'date-fns';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
 import { Headly } from '../../components/Headly';
@@ -20,6 +21,16 @@ import { RatingPromptCard } from './RatingPromptCard';
 import type { HomeData } from './useHomeData';
 
 const RECENT_WEEKS = 4;
+const DISMISSED_FACT_KEY = 'headly.dismissedFact';
+
+/** The day the fact was hidden; a new day brings a new fact. */
+function readDismissedFact(): string | null {
+  try {
+    return localStorage.getItem(DISMISSED_FACT_KEY);
+  } catch {
+    return null;
+  }
+}
 
 export function IdleHome({
   attacks,
@@ -36,6 +47,17 @@ export function IdleHome({
   const navigate = useNavigate();
   const partOfDay = timeOfDay(now);
   const fact = factOfTheDay(knowledgeFacts[language], now);
+  const today = toDayKey(now);
+  const [dismissedOn, setDismissedOn] = useState(readDismissedFact);
+  const factDismissed = dismissedOn === today;
+  const dismissFact = () => {
+    setDismissedOn(today);
+    try {
+      localStorage.setItem(DISMISSED_FACT_KEY, today);
+    } catch {
+      // Without storage the fact simply comes back after a reload.
+    }
+  };
 
   const recentDays = recentWeekDays(now, RECENT_WEEKS);
   const recentStart = recentDays[0]!;
@@ -62,11 +84,34 @@ export function IdleHome({
         <p className={styles.eyebrow}>{formatMonthYear(now, language)}</p>
         <div className={styles.hello}>
           <Headly look={partOfDay === 'morning' || partOfDay === 'day' ? 'day' : 'evening'} />
-          <div>
+          <div className={styles.bubble}>
             <h1 className={styles.greeting}>{t.home.greeting[partOfDay]}</h1>
             <p className={styles.subtitle}>
               {t.home.migraineDaysLastFourWeeks(recentMigraineDays)}
             </p>
+            {fact && !factDismissed && (
+              <>
+                <p className={styles.factText}>
+                  <span className={styles.factLabel}>{t.home.didYouKnow}</span>
+                  {fact.text}
+                </p>
+                <button
+                  type="button"
+                  className={styles.readMore}
+                  onClick={() => void navigate(`/profile/knowledge/${fact.article}`)}
+                >
+                  {t.home.readMore} ›
+                </button>
+                <button
+                  type="button"
+                  className={styles.closeFact}
+                  aria-label={t.home.hideFact}
+                  onClick={dismissFact}
+                >
+                  ×
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -92,20 +137,6 @@ export function IdleHome({
         }}
         now={now}
       />
-
-      {fact && (
-        <section className={styles.factCard}>
-          <h2 className={styles.sectionLabel}>{t.home.didYouKnow}</h2>
-          <p className={styles.factText}>{fact.text}</p>
-          <button
-            type="button"
-            className={styles.readMore}
-            onClick={() => void navigate(`/profile/knowledge/${fact.article}`)}
-          >
-            {t.home.readMore} ›
-          </button>
-        </section>
-      )}
 
       {insight && (
         <section className={styles.section}>

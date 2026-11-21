@@ -26,25 +26,78 @@
 
 .hello {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--space-3);
   margin-top: var(--space-2);
 }
 
-.factCard {
+.bubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-2);
-  padding: var(--space-4) var(--space-5) var(--space-1);
-  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-4) var(--space-1);
+  border-radius: 20px 20px 20px 6px;
   background: var(--color-surface);
+}
+
+.bubble::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  bottom: 14px;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--color-surface);
+  transform: rotate(45deg);
+}
+
+.bubble .greeting {
+  margin: 0 0 var(--space-1);
+  padding-right: var(--space-8);
+  font-size: 24px;
+}
+
+.bubble .subtitle {
+  margin-bottom: var(--space-3);
+  font-size: 15px;
 }
 
 .factText {
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.45;
+}
+
+.factLabel {
+  display: block;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.closeFact {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.closeFact:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: -4px;
 }
 
 .readMore {

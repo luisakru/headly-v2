@@ -6,6 +6,7 @@ import { createMedication } from '../../data/medicationRepository';
 import { getSettings } from '../../data/settingsRepository';
 import { renderWithI18n } from '../../test/renderWithI18n';
 import { MemoryRouter } from 'react-router-dom';
+import { toDayKey } from '../../domain/days';
 import { HomeScreen } from './HomeScreen';
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -152,4 +153,17 @@ test('shows in the medication sheet when a medication may be taken again', async
 
   fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));
   expect(await screen.findByRole('button', { name: /Sumatriptan.*from \d/ })).toBeInTheDocument();
+});
+
+test('hides the fact of the day until tomorrow', async () => {
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
+
+  expect(await screen.findByText('Did you know?')).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: "Hide today's fact" }));
+  expect(screen.queryByText('Did you know?')).not.toBeInTheDocument();
+  expect(localStorage.getItem('headly.dismissedFact')).toBe(toDayKey(Date.now()));
 });

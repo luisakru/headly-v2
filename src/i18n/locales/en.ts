@@ -30,6 +30,7 @@ export const en = {
       night: 'Good night',
     },
     didYouKnow: 'Did you know?',
+    hideFact: "Hide today's fact",
     readMore: 'Read more',
     migraineDaysLastFourWeeks: (n: number) =>
       n === 1
