@@ -85,10 +85,10 @@ export function MedicationSheet({ medications, attackId, onClose }: MedicationSh
         {adding ? (
           <NewMedicationForm onDone={() => setAdding(false)} />
         ) : (
-          <button type="button" className={styles.textButton} onClick={() => setAdding(true)}>
+          <Button variant="outline" onClick={() => setAdding(true)}>
             <PlusIcon />
             {t.medicationSheet.newMedication}
-          </button>
+          </Button>
         )}
         <Button variant="outline" onClick={onClose}>
           {t.medicationSheet.done}

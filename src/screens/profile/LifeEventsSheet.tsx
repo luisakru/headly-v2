@@ -53,10 +53,10 @@ export function LifeEventsSheet({ lifeEvents, now, onClose }: LifeEventsSheetPro
               ))}
             </ul>
           )}
-          <button type="button" className={styles.textButton} onClick={() => setEditing(null)}>
+          <Button variant="outline" onClick={() => setEditing(null)}>
             <PlusIcon />
             {t.profile.newLifeEvent}
-          </button>
+          </Button>
         </div>
       ) : (
         <LifeEventForm

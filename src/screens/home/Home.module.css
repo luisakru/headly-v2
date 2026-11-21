@@ -35,24 +35,6 @@
   margin-bottom: var(--space-8);
 }
 
-.textButton {
-  min-height: var(--touch-target);
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--color-primary);
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.textButton {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-weight: 500;
-  font-size: 18px;
-}
-
 .section {
   display: flex;
   flex-direction: column;
@@ -242,7 +224,7 @@
 .input {
   min-height: var(--touch-target);
   padding: 0 var(--space-3);
-  border: 1.5px solid var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-cell);
   background: var(--color-bg);
   color: var(--color-text);
@@ -294,7 +276,6 @@
 .moreButton:focus-visible,
 .bannerButton:focus-visible,
 .since:focus-visible,
-.textButton:focus-visible,
 .medicationRow:focus-visible,
 .input:focus-visible {
   outline: 2px solid var(--color-text);

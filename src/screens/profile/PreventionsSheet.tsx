@@ -79,10 +79,10 @@ export function PreventionsSheet({ preventions, now, onClose }: PreventionsSheet
         <div className={styles.sheetContent}>
           {renderGroup(t.profile.activePreventions, active, true)}
           {renderGroup(t.profile.pastPreventions, past, false)}
-          <button type="button" className={styles.textButton} onClick={() => setEditing(null)}>
+          <Button variant="outline" onClick={() => setEditing(null)}>
             <PlusIcon />
             {t.profile.newPrevention}
-          </button>
+          </Button>
         </div>
       ) : (
         <PreventionForm

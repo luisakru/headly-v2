@@ -1,5 +1,6 @@
 import { addMonths, isSameMonth, startOfMonth } from 'date-fns';
 import { useRef, useState, type TouchEvent } from 'react';
+import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { DayDetails } from '../../components/DayDetails';
 import { DayEventChips } from '../../components/DayEventChips';
@@ -117,10 +118,10 @@ export function CalendarScreen() {
             onEditAttack={(attack) => setEditing({ attack })}
           />
           {toDayKey(selectedDay) <= toDayKey(now) && (
-            <button type="button" className={styles.textButton} onClick={() => setEditing({})}>
+            <Button variant="outline" onClick={() => setEditing({})}>
               <PlusIcon />
               {t.calendar.addMigraine}
-            </button>
+            </Button>
           )}
           {toDayKey(selectedDay) <= toDayKey(now) && (
             <>

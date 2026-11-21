@@ -50,10 +50,10 @@ export function DayEventTypesSheet({ types, events, onClose }: DayEventTypesShee
               </ul>
             </>
           )}
-          <button type="button" className={styles.textButton} onClick={() => setAdding(true)}>
+          <Button variant="outline" onClick={() => setAdding(true)}>
             <PlusIcon />
             {t.dayEvents.newTitle}
-          </button>
+          </Button>
         </div>
       )}
     </BottomSheet>

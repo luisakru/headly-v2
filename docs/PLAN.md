@@ -183,7 +183,7 @@ Warm earth tones on a light background: calm, playful, never bright white or har
 
 **Typography:** one typeface, Atkinson Hyperlegible Next (made for low vision, so it stays legible during an attack). Hierarchy comes from size and weight only: 400 for text, 500 for names and buttons, 600 for titles and big numbers. No italic anywhere. Self-hosted woff2 files in `public/fonts/`, never loaded from Google.
 
-**Shape and spacing:** 4 px spacing scale; card radius 14 px; button radius 18 px; buttons come in two kinds only: primary is filled with `--color-primary`, secondary is an outline with a crisp 2 px `--color-primary` border and no fill; calendar cell radius 8 px; screen side padding 18 px.
+**Shape and spacing:** 4 px spacing scale; card radius 14 px; button radius 18 px; buttons come in two kinds only: primary is filled with `--color-primary`, secondary is an outline with a crisp 2 px `--color-primary` border and no fill; every "+ Add …" action is a secondary button; borders are whole pixels (2 px on chips, inputs and controls, never 1.5 px); a selected chip, segment or option has a `--color-text` border, `--color-surface` fill and weight 500; calendar cell radius 8 px; screen side padding 18 px.
 
 **Principles:** low contrast but readable (body text at least 4.5:1 against its background); one primary action per screen; no motion except the slow pulse on the "migraine active" dot, disabled under reduced motion; numbers before charts, trend arrows before graphs.
 

@@ -62,10 +62,10 @@ export function MedicationsSheet({ medications, onClose }: MedicationsSheetProps
       {editing === undefined ? (
         <div className={styles.sheetContent}>
           {renderList(current)}
-          <button type="button" className={styles.textButton} onClick={() => setEditing(null)}>
+          <Button variant="outline" onClick={() => setEditing(null)}>
             <PlusIcon />
             {t.profile.newMedication}
-          </button>
+          </Button>
           {archived.length > 0 && (
             <>
               <h3 className={styles.groupLabel}>{t.profile.archived}</h3>

@@ -54,10 +54,10 @@ export function SymptomsSheet({ symptoms, onClose }: { symptoms: Symptom[]; onCl
               </li>
             ))}
           </ul>
-          <button type="button" className={styles.textButton} onClick={() => setEditing(null)}>
+          <Button variant="outline" onClick={() => setEditing(null)}>
             <PlusIcon />
             {t.symptoms.newSymptom}
-          </button>
+          </Button>
         </div>
       ) : (
         <SymptomForm symptom={editing ?? undefined} onDone={() => setEditing(undefined)} />
