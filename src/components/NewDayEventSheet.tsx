@@ -25,7 +25,8 @@ export function NewDayEventSheet({ types, onClose, onCreated }: NewDayEventSheet
   ].filter((suggestion) => !taken.has(suggestion.name.toLowerCase()));
 
   const create = async (fields: Pick<DayEventType, 'name' | 'kind'>) => {
-    onCreated?.(await createDayEventType(fields));
+    const type = await createDayEventType(fields);
+    onCreated?.(type);
     onClose();
   };
 
