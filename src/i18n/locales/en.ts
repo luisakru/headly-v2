@@ -279,7 +279,6 @@ export const en = {
       {
         title: 'Add to Home Screen',
         text: 'Opens like an app, even offline.',
-        install: true,
         items: [
           ['⬆️', 'iPhone', 'In Safari, tap Share (behind ⋯ if hidden), then “Add to Home Screen”.'],
           ['🤖', 'Android', 'In Chrome, tap ⋮, then “Install app”.'],
@@ -297,7 +296,6 @@ export const en = {
     ] as {
       title: string;
       text: string;
-      install?: boolean;
       guide?: boolean;
       items: [string, string, string][];
     }[],

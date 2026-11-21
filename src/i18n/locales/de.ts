@@ -290,7 +290,6 @@ export const de: Dictionary = {
       {
         title: 'Zum Home-Bildschirm',
         text: 'Öffnet sich wie eine App, auch offline.',
-        install: true,
         items: [
           [
             '⬆️',

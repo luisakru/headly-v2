@@ -5,15 +5,11 @@ import { updateSettings } from '../../data/settingsRepository';
 import { useI18n } from '../../i18n/context';
 import styles from './Intro.module.css';
 
-const isInstalled = () =>
-  typeof window.matchMedia === 'function' &&
-  window.matchMedia('(display-mode: standalone)').matches;
-
 export function IntroScreen() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
-  const pages = t.intro.pages.filter((page) => !page.install || !isInstalled());
+  const pages = t.intro.pages;
   const page = pages[index];
   if (!page) return null;
   const isLast = index === pages.length - 1;
