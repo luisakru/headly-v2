@@ -90,7 +90,7 @@ export function MedicationSheet({ medications, attackId, onClose }: MedicationSh
             {t.medicationSheet.newMedication}
           </Button>
         )}
-        <Button variant="outline" onClick={onClose}>
+        <Button large onClick={onClose}>
           {t.medicationSheet.done}
         </Button>
       </div>
