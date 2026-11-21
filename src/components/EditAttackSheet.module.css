@@ -91,11 +91,6 @@
   color: var(--color-warning-text);
 }
 
-.muted {
-  color: var(--color-text-secondary);
-  font-size: 15px;
-}
-
 .textButton {
   display: flex;
   align-items: center;

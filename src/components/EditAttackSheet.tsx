@@ -2,7 +2,6 @@ import { useId, useState } from 'react';
 import { deleteAttack, saveAttackWithIntakes } from '../data/attackRepository';
 import type { Attack, Effectiveness, Medication, MedicationIntake } from '../domain/types';
 import { useI18n } from '../i18n/context';
-import { formatDateTime } from '../i18n/format';
 import { errorMessage, fromInputValue, toInputValue } from './attackForm';
 import { BottomSheet } from './BottomSheet';
 import { Button } from './Button';
@@ -18,7 +17,8 @@ type DraftIntake = {
   id?: string;
   key: string;
   medicationId: string;
-  takenAt?: number;
+  /** Value of the `datetime-local` input. */
+  takenAt: string;
   effectiveness?: Effectiveness;
 };
 
@@ -40,8 +40,9 @@ export function EditAttackSheet({
   medications,
   onClose,
 }: EditAttackSheetProps) {
-  const { t, language } = useI18n();
+  const { t } = useI18n();
   const startId = useId();
+  const intakeIdPrefix = useId();
   const endId = useId();
   const [start, setStart] = useState(() =>
     toInputValue(attack?.startedAt ?? defaultStartedAt ?? Date.now()),
@@ -56,7 +57,7 @@ export function EditAttackSheet({
         id,
         key: id,
         medicationId,
-        takenAt,
+        takenAt: toInputValue(takenAt),
         effectiveness,
       })),
   );
@@ -66,6 +67,7 @@ export function EditAttackSheet({
 
   const startedAt = fromInputValue(start);
   const endedAt = end ? fromInputValue(end) : undefined;
+  const intakeTimes = draftIntakes.map((intake) => fromInputValue(intake.takenAt));
   const medicationName = (id: string) => medications.find((m) => m.id === id)?.name ?? '';
 
   const updateDraft = (key: string, changes: Partial<DraftIntake>) =>
@@ -75,7 +77,11 @@ export function EditAttackSheet({
 
   const save = async () => {
     try {
-      await saveAttackWithIntakes(attack?.id, { startedAt, endedAt, painLevel }, draftIntakes);
+      await saveAttackWithIntakes(
+        attack?.id,
+        { startedAt, endedAt, painLevel },
+        draftIntakes.map((intake) => ({ ...intake, takenAt: fromInputValue(intake.takenAt) })),
+      );
     } catch (caught) {
       setError(errorMessage(caught, t.errors.attack));
       return;
@@ -125,18 +131,11 @@ export function EditAttackSheet({
         <span className={styles.fieldLabel}>{t.editAttack.medications}</span>
         {draftIntakes.map((intake) => {
           const name = medicationName(intake.medicationId);
+          const timeId = `${intakeIdPrefix}-${intake.key}`;
           return (
             <div key={intake.key} className={styles.editIntake}>
               <div className={styles.editIntakeHeader}>
-                <span className={styles.medicationName}>
-                  {name}
-                  {intake.takenAt !== undefined && (
-                    <span className={styles.muted}>
-                      {' '}
-                      · {formatDateTime(intake.takenAt, language)}
-                    </span>
-                  )}
-                </span>
+                <span className={styles.medicationName}>{name}</span>
                 <button
                   type="button"
                   className={styles.iconButton}
@@ -148,6 +147,16 @@ export function EditAttackSheet({
                   <TrashIcon />
                 </button>
               </div>
+              <label htmlFor={timeId} className={styles.fieldLabel}>
+                {t.editAttack.takenAt}
+              </label>
+              <input
+                id={timeId}
+                type="datetime-local"
+                className={styles.input}
+                value={intake.takenAt}
+                onChange={(event) => updateDraft(intake.key, { takenAt: event.target.value })}
+              />
               <EffectivenessChips
                 label={t.effectiveness.sheetTitle(name)}
                 value={intake.effectiveness}
@@ -168,7 +177,11 @@ export function EditAttackSheet({
                     onClick={() => {
                       setDraftIntakes((current) => [
                         ...current,
-                        { key: `new-${Date.now()}`, medicationId: medication.id },
+                        {
+                          key: `new-${Date.now()}`,
+                          medicationId: medication.id,
+                          takenAt: Number.isNaN(startedAt) ? toInputValue(Date.now()) : start,
+                        },
                       ]);
                       setPicking(false);
                     }}
@@ -193,7 +206,9 @@ export function EditAttackSheet({
         )}
         <Button
           large
-          disabled={Number.isNaN(startedAt) || Number.isNaN(endedAt)}
+          disabled={
+            Number.isNaN(startedAt) || Number.isNaN(endedAt) || intakeTimes.some(Number.isNaN)
+          }
           onClick={() => void save()}
         >
           {t.editAttack.save}

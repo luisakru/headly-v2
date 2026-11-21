@@ -58,12 +58,13 @@ export type IntakeDraft = {
   /** Undefined for an intake that does not exist yet. */
   id?: string;
   medicationId: string;
+  takenAt: number;
   effectiveness?: Effectiveness;
 };
 
 /**
  * Creates or updates an attack together with its intakes, all or nothing.
- * Intakes of the attack missing from `intakes` are deleted; new ones are logged at its start.
+ * Intakes of the attack missing from `intakes` are deleted.
  */
 export function saveAttackWithIntakes(
   id: string | undefined,
@@ -81,9 +82,8 @@ export function saveAttackWithIntakes(
     for (const draft of intakes) {
       const intakeId =
         draft.id ??
-        (await logIntake(draft.medicationId, { takenAt: attack.startedAt, attackId: attack.id }))
-          .id;
-      await updateIntake(intakeId, { effectiveness: draft.effectiveness });
+        (await logIntake(draft.medicationId, { takenAt: draft.takenAt, attackId: attack.id })).id;
+      await updateIntake(intakeId, { takenAt: draft.takenAt, effectiveness: draft.effectiveness });
     }
     return attack;
   });

@@ -80,16 +80,16 @@ describe('attackRepository', () => {
     expect(await listIntakes()).toEqual([unrelated]);
   });
 
-  test('creates a past attack with intakes logged at its start', async () => {
+  test('creates a past attack with intakes logged at their time', async () => {
     const attack = await saveAttackWithIntakes(
       undefined,
       { startedAt: at(2026, 3, 5, 9), endedAt: at(2026, 3, 5, 12), painLevel: 6 },
-      [{ medicationId: 'med', effectiveness: 'strong' }],
+      [{ medicationId: 'med', takenAt: at(2026, 3, 5, 10), effectiveness: 'strong' }],
     );
 
     expect(await listAttacks()).toEqual([attack]);
     const [intake] = await listIntakesForAttack(attack.id);
-    expect(intake).toMatchObject({ takenAt: at(2026, 3, 5, 9), effectiveness: 'strong' });
+    expect(intake).toMatchObject({ takenAt: at(2026, 3, 5, 10), effectiveness: 'strong' });
   });
 
   test('updates, removes and adds intakes when saving an attack', async () => {
@@ -101,14 +101,16 @@ describe('attackRepository', () => {
     await logIntake('removed', { takenAt: at(2026, 3, 5, 11), attackId: attack.id });
 
     await saveAttackWithIntakes(attack.id, { startedAt: at(2026, 3, 5, 8) }, [
-      { id: kept.id, medicationId: 'kept', effectiveness: 'none' },
-      { medicationId: 'added' },
+      { id: kept.id, medicationId: 'kept', takenAt: at(2026, 3, 5, 11), effectiveness: 'none' },
+      { medicationId: 'added', takenAt: at(2026, 3, 5, 8) },
     ]);
 
     const intakes = await listIntakesForAttack(attack.id);
-    expect(intakes.map((intake) => [intake.medicationId, intake.effectiveness])).toEqual([
-      ['added', undefined],
-      ['kept', 'none'],
+    expect(
+      intakes.map((intake) => [intake.medicationId, intake.takenAt, intake.effectiveness]),
+    ).toEqual([
+      ['added', at(2026, 3, 5, 8), undefined],
+      ['kept', at(2026, 3, 5, 11), 'none'],
     ]);
   });
 
@@ -122,7 +124,7 @@ describe('attackRepository', () => {
 
     await expect(
       saveAttackWithIntakes(second.id, { startedAt: at(2026, 3, 5, 11) }, [
-        { medicationId: 'added' },
+        { medicationId: 'added', takenAt: at(2026, 3, 5, 11) },
       ]),
     ).rejects.toEqual(new DomainError('overlap'));
     expect(await listIntakes()).toEqual([intake]);

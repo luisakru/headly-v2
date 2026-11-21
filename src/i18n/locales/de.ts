@@ -54,6 +54,7 @@ export const de: Dictionary = {
     painLevel: 'Schmerzintensität',
     medications: 'Medikamente',
     addMedication: 'Medikament hinzufügen',
+    takenAt: 'Genommen um',
     removeIntake: (name: string) => `${name} entfernen`,
     save: 'Speichern',
     delete: 'Migräne löschen',
@@ -75,6 +76,7 @@ export const de: Dictionary = {
   },
   medicationSheet: {
     title: 'Welches Medikament?',
+    takenAt: 'Genommen um',
     empty: 'Noch keine Medikamente gespeichert.',
     newMedication: 'Neues Medikament',
     name: 'Name',

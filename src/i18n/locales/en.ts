@@ -55,6 +55,7 @@ export const en = {
     painLevel: 'Pain level',
     medications: 'Medication',
     addMedication: 'Add medication',
+    takenAt: 'Taken at',
     removeIntake: (name: string) => `Remove ${name}`,
     save: 'Save',
     delete: 'Delete migraine',
@@ -76,6 +77,7 @@ export const en = {
   },
   medicationSheet: {
     title: 'Which medication?',
+    takenAt: 'Taken at',
     empty: 'No medications saved yet.',
     newMedication: 'New medication',
     name: 'Name',

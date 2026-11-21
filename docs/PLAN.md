@@ -207,7 +207,7 @@ Shown on the Home tab while an attack is active.
 - "Migraine active" label with the pulsing dot
 - Elapsed time, large, and start time; tapping the start time edits it
 - Pain scale 0–10 as eleven tappable pips with "no pain" and "unbearable" labels. Each tap sets `painLevel`
-- "Medication" button: opens a sheet listing saved medications; one tap logs the intake at now, linked to this attack. Empty state links to adding a medication
+- "Medication" button: opens a sheet listing saved medications; a "Taken at" date and time field at the top, prefilled with now; one tap logs the intake at that time, linked to this attack. Empty state links to adding a medication
 - List of intakes during this attack with rating status
 - Outlined "End migraine" button: ends at now, with "Ended earlier?" to pick a time
 - "Delete migraine" link next to "Ended earlier?": asks "Really delete?" before deleting
@@ -226,7 +226,7 @@ Shown on the Home tab while an attack is active.
 
 A bottom sheet over the dimmed calendar (and over Home when opened from the 4-week grid). Changes apply only on "Save".
 
-- Fields: start, end (date + time, native pickers), pain level (pips), medications taken (list with add and remove), effectiveness per intake (four chips)
+- Fields: start, end (date + time, native pickers), pain level (pips), medications taken (list with add and remove), time taken per intake (date + time, new ones prefilled with the start), effectiveness per intake (four chips)
 - "Save" (primary) and "Delete" (muted destructive, with confirmation)
 - Validation: end after start, no overlap with another attack
 - A medication added here is logged at the attack's start time

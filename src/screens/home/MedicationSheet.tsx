@@ -1,4 +1,5 @@
 import { useId, useRef, useState, type FormEvent } from 'react';
+import { fromInputValue, toInputValue } from '../../components/attackForm';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
 import { CheckIcon, PlusIcon } from '../../components/icons';
@@ -15,9 +16,12 @@ type MedicationSheetProps = {
   onClose: () => void;
 };
 
-/** One tap logs an intake at now; tapping the same row again undoes it. */
+/** One tap logs an intake at the chosen time, now by default; tapping the same row again undoes it. */
 export function MedicationSheet({ medications, attackId, onClose }: MedicationSheetProps) {
   const { t } = useI18n();
+  const timeId = useId();
+  const [time, setTime] = useState(() => toInputValue(Date.now()));
+  const takenAt = fromInputValue(time);
   const [loggedIntakeIds, setLoggedIntakeIds] = useState<Record<string, string>>({});
   const [adding, setAdding] = useState(false);
   const pendingIds = useRef(new Set<string>());
@@ -32,7 +36,7 @@ export function MedicationSheet({ medications, attackId, onClose }: MedicationSh
       await deleteIntake(intakeId);
       setLoggedIntakeIds(({ [medicationId]: _, ...rest }) => rest);
     } else {
-      const intake = await logIntake(medicationId, { attackId });
+      const intake = await logIntake(medicationId, { takenAt, attackId });
       setLoggedIntakeIds((current) => ({ ...current, [medicationId]: intake.id }));
     }
     pendingIds.current.delete(medicationId);
@@ -41,6 +45,16 @@ export function MedicationSheet({ medications, attackId, onClose }: MedicationSh
   return (
     <BottomSheet open onClose={onClose} title={t.medicationSheet.title}>
       <div className={styles.sheetContent}>
+        <label htmlFor={timeId} className={styles.fieldLabel}>
+          {t.medicationSheet.takenAt}
+        </label>
+        <input
+          id={timeId}
+          type="datetime-local"
+          className={styles.input}
+          value={time}
+          onChange={(event) => setTime(event.target.value)}
+        />
         {pickable.length === 0 && !adding && (
           <p className={styles.muted}>{t.medicationSheet.empty}</p>
         )}
@@ -53,6 +67,7 @@ export function MedicationSheet({ medications, attackId, onClose }: MedicationSh
                   <button
                     type="button"
                     aria-pressed={logged}
+                    disabled={!logged && Number.isNaN(takenAt)}
                     className={styles.medicationRow}
                     onClick={() => void toggle(medication.id)}
                   >
