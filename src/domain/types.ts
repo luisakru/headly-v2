@@ -89,6 +89,8 @@ export type Symptom = {
   /** Own name; for built-in symptoms only when renamed. */
   name?: string;
   enabled: boolean;
+  /** Set when a built-in symptom is deleted, so it does not come back. */
+  deleted?: boolean;
   createdAt: number;
   updatedAt: number;
 };

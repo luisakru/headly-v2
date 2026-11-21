@@ -15,12 +15,13 @@ export async function createSymptom(name: string): Promise<Symptom> {
 /** Stores a change; built-in symptoms are only stored once changed. */
 export async function updateSymptom(
   symptom: Symptom,
-  changes: Pick<Partial<Symptom>, 'name' | 'enabled'>,
+  changes: Pick<Partial<Symptom>, 'name' | 'enabled' | 'deleted'>,
 ) {
   await db.symptoms.put({ ...symptom, ...changes, updatedAt: Date.now() });
 }
 
-/** Own symptoms only; attacks keep the id and simply stop showing it. */
-export async function deleteSymptom(id: string) {
-  await db.symptoms.delete(id);
+/** Attacks keep the id and simply stop showing it; built-in symptoms are marked as deleted. */
+export async function deleteSymptom(symptom: Symptom) {
+  if (symptom.builtIn) await updateSymptom(symptom, { deleted: true });
+  else await db.symptoms.delete(symptom.id);
 }

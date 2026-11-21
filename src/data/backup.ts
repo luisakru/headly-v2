@@ -117,6 +117,7 @@ const backupSchema = z.object({
           builtIn: z.enum(['aura', 'nausea', 'vomiting', 'light', 'noise']).optional(),
           name: z.string().optional(),
           enabled: z.boolean(),
+          deleted: z.boolean().optional(),
         }),
       )
       .default([]),

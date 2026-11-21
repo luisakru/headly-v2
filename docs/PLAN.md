@@ -216,7 +216,7 @@ Shown on the Home tab while an attack is active.
 
 ### Symptoms
 
-Toggle chips per attack, important for the doctor (aura matters for oestrogen contraception, nausea for nasal spray instead of tablets). Built-in: Aura, Nausea, Vomiting, Sensitive to light (on) and Sensitive to noise (off); their names come from the locale until renamed, and they are only stored once changed. Own symptoms can be added, renamed and deleted. Profile → Symptoms: turn on or off, rename, add.
+Toggle chips per attack, important for the doctor (aura matters for oestrogen contraception, nausea for nasal spray instead of tablets). Built-in: Aura, Nausea, Vomiting, Sensitive to light (on) and Sensitive to noise (off); their names come from the locale until renamed, and they are only stored once changed. Own symptoms can be added, renamed and deleted. Profile → Symptoms: a list with a switch per symptom to show or hide it; tapping a name opens rename and delete (deleted built-in symptoms are stored as deleted so they do not come back). "+ Own symptom" adds one.
 
 - Ticked during an attack (Active attack) and in the edit sheet
 - No analysis in the app; the PDF report gets a "Symptoms" column and a line with how many attacks in the range had each symptom

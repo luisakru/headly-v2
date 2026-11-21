@@ -38,6 +38,43 @@
 }
 
 .row + .row,
+.symptomRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.symptomRow .itemRow {
+  flex: 1;
+  border-bottom: none;
+}
+
+.switchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.switchButton[aria-checked='true'] .switch {
+  background: var(--color-primary);
+}
+
+.switchButton[aria-checked='true'] .switch::after {
+  left: 22px;
+}
+
+.switchButton:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
 .languageRow {
   border-top: 1px solid var(--color-border);
   border-radius: 0;

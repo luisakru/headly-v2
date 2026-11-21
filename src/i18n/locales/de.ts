@@ -356,9 +356,8 @@ Regeln:
     auraHint: 'Sehstörungen oder Kribbeln vorher',
     done: 'Fertig',
     newSymptom: 'Eigenes Symptom',
-    shown: 'Anzeigen',
-    off: 'Aus',
-    manageHint: 'Schalte aus, was du nicht brauchst. Tippe auf eines, um es umzubenennen.',
+    manageHint:
+      'Schalte aus, was du nicht brauchst. Tippe auf einen Namen, um ihn umzubenennen oder zu löschen.',
     count: (shown: number) => (shown === 1 ? '1 angezeigt' : `${shown} angezeigt`),
     reportSummary: (items: string, total: number) => `Symptome bei ${total} Migränen: ${items}`,
     reportItem: (name: string, count: number) => `${name} ${count}`,

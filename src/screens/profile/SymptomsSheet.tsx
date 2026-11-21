@@ -2,7 +2,6 @@ import { useId, useState, type FormEvent } from 'react';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
 import { PlusIcon } from '../../components/icons';
-import { ToggleChip } from '../../components/ToggleChip';
 import { createSymptom, deleteSymptom, updateSymptom } from '../../data/symptomRepository';
 import type { Symptom } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
@@ -28,20 +27,29 @@ export function SymptomsSheet({ symptoms, onClose }: { symptoms: Symptom[]; onCl
           <p className={styles.muted}>{t.symptoms.manageHint}</p>
           <ul className={styles.list}>
             {symptoms.map((symptom) => (
-              <li key={symptom.id}>
+              <li key={symptom.id} className={styles.symptomRow}>
                 <button
                   type="button"
                   className={styles.itemRow}
+                  data-muted={!symptom.enabled || undefined}
                   onClick={() => setEditing(symptom)}
                 >
                   <span className={styles.rowText}>
                     <span className={styles.itemName}>{symptomName(symptom, t)}</span>
-                    {(!symptom.enabled || symptom.builtIn === 'aura') && (
-                      <span className={styles.itemMeta}>
-                        {symptom.enabled ? t.symptoms.auraHint : t.symptoms.off}
-                      </span>
+                    {symptom.builtIn === 'aura' && (
+                      <span className={styles.itemMeta}>{t.symptoms.auraHint}</span>
                     )}
                   </span>
+                </button>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={symptom.enabled}
+                  aria-label={symptomName(symptom, t)}
+                  className={styles.switchButton}
+                  onClick={() => void updateSymptom(symptom, { enabled: !symptom.enabled })}
+                >
+                  <span className={styles.switch} />
                 </button>
               </li>
             ))}
@@ -62,7 +70,6 @@ function SymptomForm({ symptom, onDone }: { symptom?: Symptom; onDone: () => voi
   const { t } = useI18n();
   const nameId = useId();
   const [name, setName] = useState(symptom ? symptomName(symptom, t) : '');
-  const [enabled, setEnabled] = useState(symptom?.enabled ?? true);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   const save = async (event: FormEvent) => {
@@ -73,7 +80,7 @@ function SymptomForm({ symptom, onDone }: { symptom?: Symptom; onDone: () => voi
       // A built-in symptom keeps following the language until it gets an own name.
       const ownName =
         symptom.builtIn && trimmed === t.symptoms.builtIn[symptom.builtIn] ? undefined : trimmed;
-      await updateSymptom(symptom, { name: ownName, enabled });
+      await updateSymptom(symptom, { name: ownName });
     }
     onDone();
   };
@@ -90,11 +97,6 @@ function SymptomForm({ symptom, onDone }: { symptom?: Symptom; onDone: () => voi
         onChange={(event) => setName(event.target.value)}
         autoComplete="off"
       />
-      {symptom && (
-        <div>
-          <ToggleChip label={t.symptoms.shown} pressed={enabled} onChange={setEnabled} />
-        </div>
-      )}
       <div className={styles.buttonRow}>
         <Button variant="outline" onClick={onDone}>
           {t.profile.cancel}
@@ -103,14 +105,12 @@ function SymptomForm({ symptom, onDone }: { symptom?: Symptom; onDone: () => voi
           {t.profile.save}
         </Button>
       </div>
-      {symptom && !symptom.builtIn && (
+      {symptom && (
         <Button
           variant="outline"
           className={styles.deleteButton}
           onClick={() =>
-            confirmingDelete
-              ? void deleteSymptom(symptom.id).then(onDone)
-              : setConfirmingDelete(true)
+            confirmingDelete ? void deleteSymptom(symptom).then(onDone) : setConfirmingDelete(true)
           }
         >
           {confirmingDelete ? t.profile.confirmDelete : t.profile.delete}

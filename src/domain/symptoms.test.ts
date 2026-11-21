@@ -19,6 +19,11 @@ test('keeps built-in defaults until changed and adds own symptoms after them', (
   expect(symptoms.find((s) => s.id === 'noise')?.enabled).toBe(false);
 });
 
+test('leaves out deleted built-in symptoms', () => {
+  const deletedAura: Symptom = { ...mergeSymptoms([])[0]!, deleted: true };
+  expect(mergeSymptoms([deletedAura]).map((s) => s.id)).not.toContain('aura');
+});
+
 test('counts attacks per symptom, most common first', () => {
   const attacks = [
     makeAttack({ startedAt: 1, symptomIds: ['aura', 'nausea'] }),

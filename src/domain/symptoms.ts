@@ -23,7 +23,7 @@ export function mergeSymptoms(stored: Symptom[]): Symptom[] {
   const own = stored
     .filter((symptom) => !symptom.builtIn)
     .sort((a, b) => a.createdAt - b.createdAt);
-  return [...builtIn, ...own];
+  return [...builtIn, ...own].filter((symptom) => !symptom.deleted);
 }
 
 /** How many of the attacks had each symptom, most common first; symptoms nobody had are left out. */
