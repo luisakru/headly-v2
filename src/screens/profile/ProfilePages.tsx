@@ -31,7 +31,7 @@ export function LegalPage({ page }: { page: LegalPageName }) {
   );
 }
 
-const GROUPS: KnowledgeGroup[] = ['basics', 'collection'];
+const GROUPS: KnowledgeGroup[] = ['basics', 'lesserKnown'];
 
 export function KnowledgePage() {
   const { t, language } = useI18n();

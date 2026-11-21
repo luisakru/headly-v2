@@ -249,7 +249,7 @@ export const de: Dictionary = {
       'Keine ärztliche Beratung. Sprich Änderungen an Medikamenten immer mit deiner Ärztin oder deinem Arzt ab.',
     groups: {
       basics: 'Grundlagen',
-      collection: 'Meine Sammlung',
+      lesserKnown: 'Weniger bekannt',
     },
   },
   profile: {

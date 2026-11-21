@@ -1,6 +1,6 @@
 import type { Language } from '../../domain/types';
 
-export type KnowledgeGroup = 'basics' | 'collection';
+export type KnowledgeGroup = 'basics' | 'lesserKnown';
 
 export type Article = {
   group: KnowledgeGroup;
