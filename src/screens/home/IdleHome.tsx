@@ -14,7 +14,7 @@ import { generateInsights } from '../../domain/insights';
 import { timeOfDay } from '../../domain/timeOfDay';
 import { useI18n } from '../../i18n/context';
 import { factOfTheDay, knowledgeFacts } from '../../i18n/knowledge';
-import { formatMonthYear } from '../../i18n/format';
+import { formatDate } from '../../i18n/format';
 import { BackupReminderCard } from './BackupReminderCard';
 import styles from './Home.module.css';
 import { RatingPromptCard } from './RatingPromptCard';
@@ -81,7 +81,7 @@ export function IdleHome({
   return (
     <div className={styles.home}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}>{formatMonthYear(now, language)}</p>
+        <p className={styles.eyebrow}>{formatDate(now, language)}</p>
         <div className={styles.hello}>
           <Headly look={partOfDay === 'morning' || partOfDay === 'day' ? 'day' : 'evening'} />
           <div className={styles.bubble}>
@@ -89,32 +89,31 @@ export function IdleHome({
             <p className={styles.subtitle}>
               {t.home.migraineDaysLastFourWeeks(recentMigraineDays)}
             </p>
-            {fact && !factDismissed && (
-              <>
-                <p className={styles.factText}>
-                  <span className={styles.factLabel}>{t.home.didYouKnow}</span>
-                  {fact.text}
-                </p>
-                <button
-                  type="button"
-                  className={styles.readMore}
-                  onClick={() => void navigate(`/profile/knowledge/${fact.article}`)}
-                >
-                  {t.home.readMore} ›
-                </button>
-                <button
-                  type="button"
-                  className={styles.closeFact}
-                  aria-label={t.home.hideFact}
-                  onClick={dismissFact}
-                >
-                  ×
-                </button>
-              </>
-            )}
           </div>
         </div>
       </header>
+
+      {fact && !factDismissed && (
+        <section className={styles.factCard}>
+          <h2 className={styles.sectionLabel}>{t.home.didYouKnow}</h2>
+          <p className={styles.factText}>{fact.text}</p>
+          <button
+            type="button"
+            className={styles.readMore}
+            onClick={() => void navigate(`/profile/knowledge/${fact.article}`)}
+          >
+            {t.home.readMore} ›
+          </button>
+          <button
+            type="button"
+            className={styles.closeFact}
+            aria-label={t.home.hideFact}
+            onClick={dismissFact}
+          >
+            ×
+          </button>
+        </section>
+      )}
 
       {dayEventTypes.length > 0 && (
         <section className={styles.section}>

@@ -57,7 +57,6 @@
 
 .bubble .greeting {
   margin: 0 0 var(--space-1);
-  padding-right: var(--space-8);
   font-size: 24px;
 }
 
@@ -66,19 +65,25 @@
   font-size: 15px;
 }
 
-.factText {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.45;
+.factCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5) var(--space-1);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
 }
 
-.factLabel {
-  display: block;
-  color: var(--color-text-secondary);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.factCard .sectionLabel {
+  padding-right: var(--space-8);
+}
+
+.factText {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
 }
 
 .closeFact {
