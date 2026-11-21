@@ -208,9 +208,9 @@ Shown on the Home tab while an attack is active.
 - "Migraine active" label with the pulsing dot; a "…" button on the right opens "More actions"
 - Elapsed time, large, and start time; tapping the start time edits it
 - Pain scale 0–10 as eleven tappable pips with "no pain" and "unbearable" labels. Each tap sets `painLevel`
-- Filled "Log medication" button: opens a sheet listing saved medications; a "Taken at" date and time field at the top, prefilled with now; one tap logs the intake at that time, linked to this attack. Empty state links to adding a medication
+- Outlined "Log medication" button: opens a sheet listing saved medications; a "Taken at" date and time field at the top, prefilled with now; one tap logs the intake at that time, linked to this attack. Empty state links to adding a medication
 - List of intakes during this attack with rating status
-- Outlined "End migraine" button: ends at now
+- Filled "End migraine" button: ends at now
 - "More actions" sheet: "Ended earlier?" to pick a time, and "Delete migraine", which asks "Really delete?" before deleting
 
 ### Calendar
