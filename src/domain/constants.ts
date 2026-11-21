@@ -52,7 +52,9 @@ export const MENSTRUAL_MIN_SHARE = 2 / 3;
 /** Period days within this many days of an earlier one belong to the same period. */
 export const PERIOD_MIN_GAP_DAYS = 10;
 
-/** Start patterns need this many attacks; with fewer, any peak is chance. */
+/** The start charts show from this many attacks in the range. */
+export const START_PATTERN_MIN_SHOWN = 5;
+/** Highlighting a peak needs this many attacks; with fewer, any peak is chance. */
 export const START_PATTERN_MIN_ATTACKS = 15;
 export const START_PATTERN_MIN_WEEKDAY_RATIO = 2;
 export const START_PATTERN_MIN_WEEKDAY_COUNT = 4;

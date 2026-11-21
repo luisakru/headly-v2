@@ -278,9 +278,9 @@ Shown full screen without the tab bar on first start (`introSeen` is false). Thr
 
 ### When attacks start (Statistics)
 
-A "When it starts" section in Statistics, after the insights, only when something stands out in the selected range. No sentences, only two small charts: attack starts per weekday (seven bars, Monday first) and per part of the day (one split bar: night 0–6, morning 6–12, afternoon 12–18, evening 18–24). Notable bars are darker and their labels bold.
+A "When it starts" section in Statistics, after the insights, from 5 attacks in the selected range. No sentences, only two small charts: attack starts per weekday (seven bars, Monday first) and per part of the day (one split bar: night 0–6, morning 6–12, afternoon 12–18, evening 18–24). Notable bars are darker and their labels bold.
 
-- Needs at least 15 attacks in the range
+- Highlighting needs at least 15 attacks in the range; with fewer, all bars look the same
 - A weekday stands out with at least twice the average starts and at least 4; the weekend stands out when Saturday and Sunday together have at least 1.5 times the expected starts
 - A part of the day stands out with at least half of all starts
 

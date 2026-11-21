@@ -1,6 +1,7 @@
 import {
   START_PATTERN_MIN_ATTACKS,
   START_PATTERN_MIN_DAY_PART_SHARE,
+  START_PATTERN_MIN_SHOWN,
   START_PATTERN_MIN_WEEKDAY_COUNT,
   START_PATTERN_MIN_WEEKDAY_RATIO,
   START_PATTERN_MIN_WEEKEND_RATIO,
@@ -17,17 +18,17 @@ export type StartPattern = {
   weekdays: number[];
   /** Attack starts per part of the day, in `DAY_PARTS` order. */
   dayParts: number[];
-  /** Indexes that stand out; empty when nothing does. */
+  /** Indexes that stand out; empty when nothing does or there are too few attacks to tell. */
   notableWeekdays: number[];
   notableDayParts: number[];
 };
 
-/** When attacks in the range start, if a weekday, the weekend or a part of the day stands out. */
+/** When attacks in the range start, with the weekdays and parts of the day that stand out. */
 export function startPattern(attacks: Attack[], range: TimeRange): StartPattern | undefined {
   const starts = attacks
     .map((attack) => new Date(attack.startedAt))
     .filter((date) => isInRange(date.getTime(), range));
-  if (starts.length < START_PATTERN_MIN_ATTACKS) return undefined;
+  if (starts.length < START_PATTERN_MIN_SHOWN) return undefined;
 
   const weekdays = Array<number>(7).fill(0);
   const dayParts = Array<number>(DAY_PARTS.length).fill(0);
@@ -37,6 +38,9 @@ export function startPattern(attacks: Attack[], range: TimeRange): StartPattern 
   }
 
   const total = starts.length;
+  if (total < START_PATTERN_MIN_ATTACKS) {
+    return { weekdays, dayParts, notableWeekdays: [], notableDayParts: [] };
+  }
   const notableWeekdays = weekdays.flatMap((count, index) =>
     count >= START_PATTERN_MIN_WEEKDAY_RATIO * (total / 7) &&
     count >= START_PATTERN_MIN_WEEKDAY_COUNT
@@ -51,6 +55,5 @@ export function startPattern(attacks: Attack[], range: TimeRange): StartPattern 
     count >= START_PATTERN_MIN_DAY_PART_SHARE * total ? [index] : [],
   );
 
-  if (notableWeekdays.length === 0 && notableDayParts.length === 0) return undefined;
   return { weekdays, dayParts, notableWeekdays, notableDayParts };
 }

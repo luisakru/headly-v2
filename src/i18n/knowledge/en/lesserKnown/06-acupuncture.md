@@ -1,16 +1,20 @@
-# 📍 Acupuncture
+# 📍 Acupuncture and TCM
 
-In acupuncture, fine needles are placed at specific points, usually in 6 to 12 sessions over a few weeks.
+Acupuncture is part of Traditional Chinese Medicine (TCM). Fine needles are placed at specific points, usually in 6 to 12 sessions over a few weeks. For many people, TCM is a natural path alongside or instead of pills, one that looks at the whole person and not only at the pain.
 
-A Cochrane review found that acupuncture can reduce the number of migraine days, similar to some preventive medications. However, sham acupuncture with needles in the "wrong" places works almost as well. So how much is due to the method itself remains open.
+## What the studies say
+
+A Cochrane review found that acupuncture can reduce the number of migraine days, similar to some preventive medications. Interestingly, needles at the "wrong" points work almost as well. So how exactly acupuncture works is still open. That it does something for many people, the studies do show.
+
+## What to keep in mind
 
 - Only with doctors or practitioners trained in acupuncture
-- In Germany, statutory health insurance usually does not cover it for migraine
-- It can trigger or worsen an attack, so watch yourself closely during that time
+- Statutory health insurance in Germany usually doesn't pay for it for migraine, but it is worth asking
+- Watch yourself closely during that time, your migraine can change. Headly shows you in black and white what happens: log the acupuncture as a prevention
 
 ## My experience
 
-For me, acupuncture made my migraine much worse. I still find the topic interesting because it seems to help others. What works for one person may not work for the next.
+I find acupuncture and TCM fascinating, especially as a complement or alternative to conventional medicine. And for me it really did have an effect, just sadly in the other direction: my migraine got noticeably worse during that time. To me, that mostly shows how much it sets in motion in the body. What helps one person can work quite differently for the next.
 
 ## Sources
 

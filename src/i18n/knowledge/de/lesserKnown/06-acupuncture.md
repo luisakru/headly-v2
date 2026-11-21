@@ -1,16 +1,20 @@
-# 📍 Akupunktur
+# 📍 Akupunktur und TCM
 
-Bei der Akupunktur werden feine Nadeln an bestimmten Punkten gesetzt, meist in 6 bis 12 Sitzungen über einige Wochen.
+Akupunktur gehört zur Traditionellen Chinesischen Medizin (TCM). Feine Nadeln werden an bestimmten Punkten gesetzt, meist in 6 bis 12 Sitzungen über einige Wochen. Für viele ist TCM ein natürlicher Weg neben oder statt Tabletten, der den ganzen Menschen in den Blick nimmt und nicht nur den Schmerz.
 
-Ein Cochrane-Review fand, dass Akupunktur die Zahl der Migränetage senken kann, ähnlich wie manche Medikamente zur Vorbeugung. Allerdings wirkt auch eine Schein-Akupunktur mit Nadeln an „falschen“ Stellen fast genauso gut. Wie viel an der Methode selbst liegt, ist deshalb offen.
+## Was die Studien sagen
+
+Ein Cochrane-Review fand, dass Akupunktur die Zahl der Migränetage senken kann, ähnlich wie manche Medikamente zur Vorbeugung. Interessant: Auch Nadeln an „falschen“ Stellen wirken fast genauso gut. Wie genau Akupunktur wirkt, ist also noch offen. Dass sie bei vielen etwas bewirkt, zeigen die Studien aber.
+
+## Worauf du achten solltest
 
 - Nur bei Ärztinnen oder Heilpraktikern mit Akupunktur-Ausbildung
-- Die gesetzliche Krankenkasse zahlt sie bei Migräne meist nicht
-- Kann eine Attacke auslösen oder verstärken, beobachte dich in der Zeit genau
+- Die gesetzliche Krankenkasse zahlt sie bei Migräne meist nicht, frag trotzdem nach
+- Beobachte dich in der Zeit genau, die Migräne kann sich auch verändern. Mit Headly siehst du schwarz auf weiß, was passiert: trag die Akupunktur als Prophylaxe ein
 
 ## Meine Erfahrung
 
-Bei mir hat Akupunktur die Migräne deutlich schlimmer gemacht. Ich finde das Thema trotzdem interessant, weil es anderen offenbar hilft. Was bei einer Person wirkt, muss bei der nächsten nicht wirken.
+Ich finde Akupunktur und TCM spannend, gerade als Ergänzung oder Alternative zur Schulmedizin. Und bei mir hat sie tatsächlich etwas bewirkt, nur leider in die andere Richtung: Meine Migräne wurde in der Zeit deutlich stärker. Für mich zeigt das vor allem, wie viel da im Körper in Bewegung kommt. Was bei der einen hilft, kann bei der nächsten ganz anders wirken.
 
 ## Quellen
 

@@ -8,12 +8,20 @@ const attackOn = (day: number, hour: number) => makeAttack({ startedAt: at(2026,
 const spread = (weeks: number, hours: number[]) =>
   Array.from({ length: weeks * 7 }, (_, i) => attackOn(2 + i, hours[i % hours.length]!));
 
-test('says nothing with fewer than 15 attacks', () => {
-  expect(startPattern(spread(2, [8]), range)).toBeUndefined();
+test('shows nothing with fewer than 5 attacks', () => {
+  expect(startPattern(spread(2, [8]).slice(0, 4), range)).toBeUndefined();
 });
 
-test('says nothing when starts are spread evenly', () => {
-  expect(startPattern(spread(3, [2, 8, 14, 20]), range)).toBeUndefined();
+test('shows counts but marks nothing with fewer than 15 attacks', () => {
+  const pattern = startPattern(spread(2, [8]), range);
+  expect(pattern?.dayParts).toEqual([0, 14, 0, 0]);
+  expect(pattern?.notableDayParts).toEqual([]);
+});
+
+test('marks nothing when starts are spread evenly', () => {
+  const pattern = startPattern(spread(3, [2, 8, 14, 20]), range);
+  expect(pattern?.notableWeekdays).toEqual([]);
+  expect(pattern?.notableDayParts).toEqual([]);
 });
 
 test('marks a part of the day with at least half of all starts', () => {
