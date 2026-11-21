@@ -13,7 +13,6 @@ export const en = {
   },
   common: {
     close: 'Close',
-    soon: 'Soon',
   },
   tabs: {
     label: 'Main navigation',
@@ -146,7 +145,7 @@ export const en = {
     lifeEventMigraineDays: (name: string, before: string, after: string) =>
       `Since “${name}”: ${after} instead of ${before} migraine days per month.`,
     lifeEventDetail: (days: number, before: string, after: string) =>
-      `Compares the ${days} days before the event (${before}) with the ${days} days from the event (${after}). Counted are days with a migraine, scaled to 30 days.`,
+      `Compares the ${days} days before the change (${before}) with the ${days} days from the change (${after}). Counted are days with a migraine, scaled to 30 days.`,
     medicationHelpedLess: (name: string, before: string, after: string) =>
       `${name} has helped less recently (${before} to ${after}).`,
     medicationHelpedMore: (name: string, before: string, after: string) =>
@@ -219,23 +218,23 @@ export const en = {
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `${days} days before the start (${before}) vs. ${days} days from the expected effect (${after}), scaled to 30 days. Counts migraine days and days with medication. Set the expected effect under Profile → Prevention.`,
     preventionChartLabel: 'Migraine days per 30 days before, during and after the prevention',
-    chartMarkers: { start: 'Start', effective: 'Effect', end: 'End', lifeEvent: 'Event' },
+    chartMarkers: { start: 'Start', effective: 'Effect', end: 'End', lifeEvent: 'Change' },
     migraineDaysPerMonth: (value: string) => `${value} migraine days/month`,
     chartDetail:
       'Migraine days per 30 days. Faint: before the start and after the end. Strong: during the prevention. Dashed: average before the start. Tap a bar to see its period.',
-    lifeEvents: 'Life events in this period',
+    lifeEvents: 'Life changes in this period',
     lifeEventEffectDetail: (days: number, before: string, after: string) =>
-      `${days} days before the event (${before}) vs. ${days} days after (${after}), scaled to 30 days. Counts migraine days and days with medication.`,
-    lifeEventChartLabel: 'Migraine days per 30 days before and after the event',
+      `${days} days before the change (${before}) vs. ${days} days after (${after}), scaled to 30 days. Counts migraine days and days with medication.`,
+    lifeEventChartLabel: 'Migraine days per 30 days before and after the change',
     lifeEventChartDetail:
-      'Migraine days per 30 days. Faint: before the event. Strong: after it. Dashed: average before the event. Tap a bar to see its period.',
+      'Migraine days per 30 days. Faint: before the change. Strong: after it. Dashed: average before the change. Tap a bar to see its period.',
     lifeEventGap: {
       shortBefore: (days: number, min: number) =>
         days === 0
-          ? 'No data recorded before the event.'
-          : `Only ${days} days recorded before the event, at least ${min} needed.`,
+          ? 'No data recorded before the change.'
+          : `Only ${days} days recorded before the change, at least ${min} needed.`,
       shortAfter: (days: number, min: number) =>
-        `Only ${days} days since the event, at least ${min} needed.`,
+        `Only ${days} days since the change, at least ${min} needed.`,
     },
     shortComparison: (days: number) => `Only ${days} days compared, so not very meaningful.`,
     detailLabels: { comparison: 'Comparison', note: 'Note', chart: 'Chart' },
@@ -357,7 +356,7 @@ Rules:
     reportItem: (name: string, count: number) => `${name} ${count}`,
   },
   dayEvents: {
-    title: 'Small events',
+    title: 'Events',
     today: 'Today',
     label: 'Events',
     add: 'Add an event',
@@ -375,7 +374,6 @@ Rules:
   },
   knowledge: {
     title: 'Knowledge',
-    aboutMigraine: 'About migraine',
     articleCount: (n: number) => (n === 1 ? '1 article' : `${n} articles`),
     disclaimer: 'Not medical advice. Always talk to your doctor before changing your medication.',
     groups: {
@@ -384,6 +382,10 @@ Rules:
     },
   },
   profile: {
+    tracking: 'What I track',
+    help: 'Help and info',
+    display: 'Display',
+    backupAndRestore: 'Back up and restore',
     title: 'Profile',
     backToProfile: 'Profile',
     medications: 'Medications',
@@ -401,11 +403,10 @@ Rules:
     managePreventions: 'Manage prevention',
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 prevention' : `${total} preventions`} · ${active} active`,
-    lifeEvents: 'Life events',
-    manageLifeEvents: 'Life events',
-    lifeEventCount: (n: number) => (n === 1 ? '1 life event' : `${n} life events`),
-    newLifeEvent: 'New life event',
-    editLifeEvent: 'Edit life event',
+    manageLifeEvents: 'Life changes',
+    lifeEventCount: (n: number) => (n === 1 ? '1 life change' : `${n} life changes`),
+    newLifeEvent: 'New life change',
+    editLifeEvent: 'Edit life change',
     lifeEventHint: 'For example a new job, a move or stopping the pill',
     lifeEventDate: 'Date',
     newPrevention: 'New prevention',
@@ -447,7 +448,6 @@ Rules:
     backupReminderHint: 'On Home, after 30 days',
     deleteAll: 'Delete all data',
     deleteAllHint: 'Cannot be undone',
-    app: 'App',
     intro: 'Introduction',
     introHint: 'How Headly works',
     language: 'Language',
@@ -459,11 +459,8 @@ Rules:
     aboutText:
       'Headly is a calm migraine tracker. All data stays in your browser on this device: no account, no server, no tracking.',
     disclaimer: 'Headly is not a medical device and does not replace medical advice.',
-    comingSoon: 'Coming soon',
     pdfExport: 'PDF export',
     pdfExportHint: 'For your doctor',
-    notifications: 'Notifications',
-    notificationsHint: 'Reminders and checks',
   },
   backup: {
     importTitle: 'Import backup',
@@ -481,8 +478,8 @@ Rules:
         medications === 1 ? '1 medication' : `${medications} medications`,
         medicationIntakes === 1 ? '1 intake' : `${medicationIntakes} intakes`,
         preventions === 1 ? '1 prevention' : `${preventions} preventions`,
-        lifeEvents === 1 ? '1 life event' : `${lifeEvents} life events`,
-        dayEvents === 1 ? '1 small event' : `${dayEvents} small events`,
+        lifeEvents === 1 ? '1 life change' : `${lifeEvents} life changes`,
+        dayEvents === 1 ? '1 event' : `${dayEvents} events`,
       ].join(', '),
     merge: 'Merge',
     mergeHint: 'Adds new entries and updates entries that changed.',

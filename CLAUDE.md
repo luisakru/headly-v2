@@ -32,27 +32,27 @@ Calm, minimal migraine tracker built as an offline-first React PWA. Full spec an
 
 Every domain concept has exactly one English code name. German appears only as locale values.
 
-| German UI term                             | Code name                                 | Notes                                       |
-| ------------------------------------------ | ----------------------------------------- | ------------------------------------------- |
-| Migräneattacke                             | `Attack`                                  | One episode with a start and optional end   |
-| Migränetag                                 | `migraineDay`                             | A calendar day touched by any attack        |
-| Aktive Migräne                             | `activeAttack`                            | The attack with no `endedAt`; at most one   |
-| Schmerzintensität                          | `painLevel`                               | Integer 0–10 on `Attack`, kept up to date   |
-| Medikament                                 | `Medication`                              | A saved medication the user can pick        |
-| Medikament genommen                        | `MedicationIntake`                        | One intake event                            |
-| Medikamententag                            | `medicationDay`                           | A day with at least one intake              |
-| Triptan                                    | `isTriptan`                               | Flag on `Medication`                        |
-| Wirksamkeit                                | `Effectiveness`                           | `'strong' \| 'slight' \| 'none' \| 'worse'` |
-| Wirksamkeitsquote                          | `effectivenessRate`                       | Share of rated intakes that helped          |
-| Prophylaxe                                 | `Prevention`                              | Type `'medication' \| 'lifestyle'`          |
-| Aktive Prophylaxe                          | `activePrevention`                        | No end date, or end date in the future      |
-| Lebensereignis                             | `LifeEvent`                               | Name and date, e.g. a new job               |
+| German UI term                             | Code name                                 | Notes                                                 |
+| ------------------------------------------ | ----------------------------------------- | ----------------------------------------------------- |
+| Migräneattacke                             | `Attack`                                  | One episode with a start and optional end             |
+| Migränetag                                 | `migraineDay`                             | A calendar day touched by any attack                  |
+| Aktive Migräne                             | `activeAttack`                            | The attack with no `endedAt`; at most one             |
+| Schmerzintensität                          | `painLevel`                               | Integer 0–10 on `Attack`, kept up to date             |
+| Medikament                                 | `Medication`                              | A saved medication the user can pick                  |
+| Medikament genommen                        | `MedicationIntake`                        | One intake event                                      |
+| Medikamententag                            | `medicationDay`                           | A day with at least one intake                        |
+| Triptan                                    | `isTriptan`                               | Flag on `Medication`                                  |
+| Wirksamkeit                                | `Effectiveness`                           | `'strong' \| 'slight' \| 'none' \| 'worse'`           |
+| Wirksamkeitsquote                          | `effectivenessRate`                       | Share of rated intakes that helped                    |
+| Prophylaxe                                 | `Prevention`                              | Type `'medication' \| 'lifestyle'`                    |
+| Aktive Prophylaxe                          | `activePrevention`                        | No end date, or end date in the future                |
+| Veränderung                                | `LifeEvent`                               | Name and date, e.g. a new job                         |
 | Symptom                                    | `Symptom`                                 | Built-in (`builtIn`) or own; `symptomIds` on `Attack` |
-| Kleines Ereignis                           | `DayEvent`                                | One logged day, e.g. a flight               |
-| Ereignisart                                | `DayEventType`                            | `kind` `'custom' \| 'period'`               |
-| Wirkbeginn                                 | `effectiveFrom`                           | Optional date on `Prevention`               |
-| Erkenntnis                                 | `Insight`                                 | Generated plain-language sentence           |
-| Zeitraum                                   | `DateRangePreset`                         | `1W`, `1M`, `3M`, `6M`, `1Y`, `2Y`, `all`   |
-| Sicherung / Export                         | `backup` / `export`                       | JSON file                                   |
-| Bearbeiten / Löschen                       | `edit` / `delete`                         |                                             |
-| Startseite / Kalender / Statistik / Profil | `home` / `calendar` / `stats` / `profile` | Routes and folders                          |
+| Ereignis                                   | `DayEvent`                                | One logged day, e.g. a flight                         |
+| Ereignisart                                | `DayEventType`                            | `kind` `'custom' \| 'period'`                         |
+| Wirkbeginn                                 | `effectiveFrom`                           | Optional date on `Prevention`                         |
+| Erkenntnis                                 | `Insight`                                 | Generated plain-language sentence                     |
+| Zeitraum                                   | `DateRangePreset`                         | `1W`, `1M`, `3M`, `6M`, `1Y`, `2Y`, `all`             |
+| Sicherung / Export                         | `backup` / `export`                       | JSON file                                             |
+| Bearbeiten / Löschen                       | `edit` / `delete`                         |                                                       |
+| Startseite / Kalender / Statistik / Profil | `home` / `calendar` / `stats` / `profile` | Routes and folders                                    |

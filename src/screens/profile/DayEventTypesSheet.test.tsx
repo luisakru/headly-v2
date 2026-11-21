@@ -16,7 +16,7 @@ test('adds a suggested small event from Profile', async () => {
     </MemoryRouter>,
   );
 
-  fireEvent.click(await screen.findByRole('button', { name: /^Small events/ }));
+  fireEvent.click(await screen.findByRole('button', { name: /^Events/ }));
   fireEvent.click(screen.getByRole('button', { name: 'New event' }));
   fireEvent.click(await screen.findByRole('button', { name: 'Flight' }));
 

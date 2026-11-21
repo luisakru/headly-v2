@@ -11,7 +11,7 @@ import { Markdown } from './Markdown';
 import styles from './Profile.module.css';
 import { ProfileRow } from './ProfileRow';
 
-function BackToProfile({ to = '/profile', label }: { to?: string; label?: string }) {
+export function BackToProfile({ to = '/profile', label }: { to?: string; label?: string }) {
   const { t } = useI18n();
   return (
     <Link to={to} className={styles.backLink}>
@@ -100,7 +100,7 @@ export function ImportGuidePage() {
 
   return (
     <>
-      <BackToProfile />
+      <BackToProfile to="/profile/data" label={t.profile.backupAndRestore} />
       <ScreenTitle>{t.importGuide.title}</ScreenTitle>
       <div className={styles.guide}>
         <p>{t.importGuide.intro}</p>

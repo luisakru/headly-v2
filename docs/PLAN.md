@@ -220,9 +220,9 @@ Toggle chips per attack, important for the doctor (aura matters for oestrogen co
 - Ticked during an attack (Active attack) and in the edit sheet
 - No analysis in the app; the PDF report gets a "Symptoms" column and a line with how many attacks in the range had each symptom
 
-### Small events
+### Events
 
-Small, repeatable things the user logs per day, e.g. a flight, getting up early or the first day of a period (`DayEventType` with `kind` `'custom' | 'period'`, and one `DayEvent` per logged day). The list starts empty; adding one offers suggestions (Period, Flight, Up early, Little sleep, Alcohol, Stress) or an own name. Life events stay separate.
+Small, repeatable things (UI name "Events"; life events are called "Life changes") the user logs per day, e.g. a flight, getting up early or the first day of a period (`DayEventType` with `kind` `'custom' | 'period'`, and one `DayEvent` per logged day). The list starts empty; adding one offers suggestions (Period, Flight, Up early, Little sleep, Alcohol, Stress) or an own name. Life events stay separate.
 
 - **Logging:** Home shows a "Today" row of toggle chips below "Start migraine", only once at least one event exists. The calendar shows the same chips under the selected day (today or earlier), always with a "+" chip to add a new event. Days with an event get a small mark in the corner of the day cell
 - **Profile → Small events:** list with counts; tap to rename or remove (removing also deletes its logged days, with confirmation)
@@ -283,16 +283,18 @@ A "When it starts" section in Statistics, after the insights, only when somethin
 
 ### Profile
 
-Grouped list in cards:
+Four cards, no single-row sections:
 
-- **Medications:** list, add, edit, archive. Fields: name, dose, "is a triptan"
-- **Preventions:** active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
-- **Life events:** list, add, edit, delete. Fields: name, date
-- **Knowledge:** one row opens a list of short articles in two groups, "Basics" and "Lesser known" (topics that were hard to find), each with an emoji and a title; tapping one opens the article (big emoji, title, text, sources). Articles are Markdown files the developer writes in `src/i18n/knowledge/<language>/<group>/NN-slug.md`, first line `# <emoji> <title>`. Titles and headings look like on every other page; the article text is sans; links open in a new tab
-- **Data:** export JSON, import JSON, "Data from other apps" (a page that explains converting old data with an AI assistant: warning that this shares health data with the assistant's company, four steps, mentions files, spreadsheets, PDFs, screenshots and photos, and a copyable prompt that describes the backup format and includes the device time zone), backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
-- **App:** introduction (opens the intro again), language (Deutsch / English), appearance (System / Light / Dark), privacy policy, imprint, about with version
-- **PDF export (Data card):** choose 3 or 6 months (the current month and the ones before, up to today; doctors rarely want more), then "Create PDF" opens the browser's print menu (no PDF library). Nothing is previewed in the app; only the print shows a plain black-and-white table with one row per day: date, migraine, pain, medication, whether it helped
-- **Coming soon, greyed out with a "Soon" badge:** notifications
+- **What I track:** Medication, Prevention, Symptoms, Events, Life changes. Each row opens its sheet:
+  - Medication: list, add, edit, archive. Fields: name, dose, "is a triptan"
+  - Prevention: active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
+  - Symptoms and Events: see their sections above
+  - Life changes (code: `LifeEvent`): list, add, edit, delete. Fields: name, date
+- **Data:** "PDF for your doctor" and "Back up and restore". The latter opens a page with export JSON ("last backup N days ago"), import JSON, "Data from other apps" (a page that explains converting old data with an AI assistant: warning that this shares health data with the assistant's company, four steps, mentions files, spreadsheets, PDFs, screenshots and photos, and a copyable prompt that describes the backup format and includes the device time zone), backup reminder on/off, and delete all data (double confirmation)
+- **Help and info:** Knowledge, Introduction, About with version, Privacy policy, Imprint
+  - Knowledge: a list of short articles in two groups, "Basics" and "Lesser known" (topics that were hard to find), each with an emoji and a title; tapping one opens the article (big emoji, title, text, sources). Articles are Markdown files the developer writes in `src/i18n/knowledge/<language>/<group>/NN-slug.md`, first line `# <emoji> <title>`; `**bold**` and links work. Titles and headings look like on every other page; the article text is sans; links open in a new tab
+- **Display:** language (Deutsch / English) and appearance (System / Light / Dark)
+- **PDF export:** choose 3 or 6 months (the current month and the ones before, up to today; doctors rarely want more), then "Create PDF" opens the browser's print menu (no PDF library). Nothing is previewed in the app; only the print shows a plain black-and-white table with one row per day: date, migraine, pain, medication, whether it helped, symptoms
 
 ## Native feel on iPhone
 

@@ -13,6 +13,7 @@ import {
   KnowledgePage,
   LegalPage,
 } from './screens/profile/ProfilePages';
+import { DataPage } from './screens/profile/DataPage';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { ReportPage } from './screens/profile/ReportPage';
 import { StatsScreen } from './screens/stats/StatsScreen';
@@ -31,6 +32,7 @@ export function App() {
             <Route path="profile" element={<ProfileScreen />} />
             <Route path="profile/knowledge" element={<KnowledgePage />} />
             <Route path="profile/knowledge/:slug" element={<ArticlePage />} />
+            <Route path="profile/data" element={<DataPage />} />
             <Route path="profile/import-guide" element={<ImportGuidePage />} />
             <Route path="profile/privacy" element={<LegalPage page="privacy" />} />
             <Route path="profile/imprint" element={<LegalPage page="imprint" />} />

@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { ChevronRightIcon } from '../../components/icons';
-import { useI18n } from '../../i18n/context';
 import styles from './Profile.module.css';
 
 type ProfileRowProps = {
@@ -8,23 +7,12 @@ type ProfileRowProps = {
   title: string;
   subtitle?: string;
   onClick?: () => void;
-  /** Greyed out with a "Soon" badge, not tappable. */
-  soon?: boolean;
   danger?: boolean;
   /** Shows a switch instead of the chevron. */
   checked?: boolean;
 };
 
-export function ProfileRow({
-  icon,
-  title,
-  subtitle,
-  onClick,
-  soon,
-  danger,
-  checked,
-}: ProfileRowProps) {
-  const { t } = useI18n();
+export function ProfileRow({ icon, title, subtitle, onClick, danger, checked }: ProfileRowProps) {
   const content = (
     <>
       <span className={styles.iconTile}>{icon}</span>
@@ -34,15 +22,6 @@ export function ProfileRow({
       </span>
     </>
   );
-
-  if (soon) {
-    return (
-      <div className={styles.row} data-soon>
-        {content}
-        <span className={styles.badge}>{t.common.soon}</span>
-      </div>
-    );
-  }
 
   const isSwitch = checked !== undefined;
   return (

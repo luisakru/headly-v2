@@ -93,6 +93,6 @@ test('lists life events in the range', async () => {
 
   await renderWithI18n(<StatsScreen />);
 
-  expect(await screen.findByText('Life events in this period')).toBeInTheDocument();
+  expect(await screen.findByText('Life changes in this period')).toBeInTheDocument();
   expect(screen.getByText('New job')).toBeInTheDocument();
 });

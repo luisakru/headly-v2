@@ -9,7 +9,16 @@ import { getSettings } from '../../data/settingsRepository';
 import { at } from '../../test/factories';
 import { renderWithI18n } from '../../test/renderWithI18n';
 import { MemoryRouter } from 'react-router-dom';
+import { DataPage } from './DataPage';
 import { ProfileScreen } from './ProfileScreen';
+
+function renderDataPage() {
+  return renderWithI18n(
+    <MemoryRouter>
+      <DataPage />
+    </MemoryRouter>,
+  );
+}
 
 function renderProfile() {
   return renderWithI18n(
@@ -26,7 +35,7 @@ beforeEach(async () => {
 test('adds, edits and archives a medication', async () => {
   await renderProfile();
 
-  fireEvent.click(await screen.findByRole('button', { name: /Manage medications/ }));
+  fireEvent.click(await screen.findByRole('button', { name: /^Medications/ }));
   fireEvent.click(screen.getByRole('button', { name: 'New medication' }));
   fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Sumatriptan' } });
   fireEvent.change(screen.getByLabelText('Dose (optional)'), { target: { value: '50 mg' } });
@@ -51,7 +60,7 @@ test('adds, edits and archives a medication', async () => {
 test('adds a prevention and rejects an end before the start', async () => {
   await renderProfile();
 
-  fireEvent.click(await screen.findByRole('button', { name: /Manage prevention/ }));
+  fireEvent.click(await screen.findByRole('button', { name: /^Prevention/ }));
   fireEvent.click(screen.getByRole('button', { name: 'New prevention' }));
   fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Magnesium' } });
   fireEvent.click(screen.getByRole('radio', { name: 'Lifestyle' }));
@@ -75,7 +84,7 @@ test('adds a prevention and rejects an end before the start', async () => {
 test('saves a reason for stopping a prevention only with an end date', async () => {
   await renderProfile();
 
-  fireEvent.click(await screen.findByRole('button', { name: /Manage prevention/ }));
+  fireEvent.click(await screen.findByRole('button', { name: /^Prevention/ }));
   fireEvent.click(screen.getByRole('button', { name: 'New prevention' }));
   fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Metoprolol' } });
   fireEvent.change(screen.getByLabelText('Start date'), { target: { value: '2026-01-01' } });
@@ -119,7 +128,7 @@ test('imports a backup file by replacing all data', async () => {
     },
     Date.now(),
   );
-  const { container } = await renderProfile();
+  const { container } = await renderDataPage();
   await screen.findByRole('button', { name: /Import data/ });
 
   const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' });
@@ -129,7 +138,7 @@ test('imports a backup file by replacing all data', async () => {
 
   expect(
     await screen.findByText(
-      'This backup contains 1 migraine, 0 medications, 0 intakes, 0 preventions, 0 life events, 0 small events.',
+      'This backup contains 1 migraine, 0 medications, 0 intakes, 0 preventions, 0 life changes, 0 events.',
     ),
   ).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Replace all' }));
@@ -141,7 +150,7 @@ test('imports a backup file by replacing all data', async () => {
 });
 
 test('shows an error for a file that is not a backup', async () => {
-  const { container } = await renderProfile();
+  const { container } = await renderDataPage();
   await screen.findByRole('button', { name: /Import data/ });
 
   const file = new File(['{"hello":1}'], 'other.json', { type: 'application/json' });
@@ -154,7 +163,7 @@ test('shows an error for a file that is not a backup', async () => {
 
 test('deletes all data after two confirmations', async () => {
   await createAttack({ startedAt: at(2026, 3, 5, 9), endedAt: at(2026, 3, 5, 12) });
-  await renderProfile();
+  await renderDataPage();
 
   fireEvent.click(await screen.findByRole('button', { name: /Delete all data/ }));
   fireEvent.click(screen.getByRole('button', { name: 'Delete all data' }));
@@ -164,30 +173,34 @@ test('deletes all data after two confirmations', async () => {
   await waitFor(async () => expect(await listAttacks()).toEqual([]));
 });
 
-test('toggles the backup reminder and switches the language', async () => {
-  await renderProfile();
+test('toggles the backup reminder', async () => {
+  await renderDataPage();
 
   fireEvent.click(await screen.findByRole('switch', { name: /Backup reminder/ }));
   await waitFor(async () => expect((await getSettings()).backupReminderEnabled).toBe(false));
+});
 
-  fireEvent.click(screen.getByRole('radio', { name: 'Deutsch' }));
+test('switches the language', async () => {
+  await renderProfile();
+
+  fireEvent.click(await screen.findByRole('radio', { name: 'Deutsch' }));
   expect(await screen.findByRole('heading', { name: 'Profil' })).toBeInTheDocument();
 });
 
 test('confirms a finished export', async () => {
   URL.createObjectURL = () => 'blob:backup';
   URL.revokeObjectURL = () => {};
-  await renderProfile();
+  await renderDataPage();
 
   fireEvent.click(await screen.findByRole('button', { name: /Export data/ }));
   expect(await screen.findByText('Backup saved')).toBeInTheDocument();
 });
 
-test('adds a life event', async () => {
+test('adds a life change', async () => {
   await renderProfile();
 
-  fireEvent.click(await screen.findByRole('button', { name: /^Life events/ }));
-  fireEvent.click(screen.getByRole('button', { name: 'New life event' }));
+  fireEvent.click(await screen.findByRole('button', { name: /^Life changes/ }));
+  fireEvent.click(screen.getByRole('button', { name: 'New life change' }));
   fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'New job' } });
   fireEvent.change(screen.getByLabelText('Date'), { target: { value: '2026-05-01' } });
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));

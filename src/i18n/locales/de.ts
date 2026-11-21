@@ -14,7 +14,6 @@ export const de: Dictionary = {
   },
   common: {
     close: 'Schließen',
-    soon: 'Bald',
   },
   tabs: {
     label: 'Hauptnavigation',
@@ -149,7 +148,7 @@ export const de: Dictionary = {
     lifeEventMigraineDays: (name: string, before: string, after: string) =>
       `Seit „${name}“: ${after} statt ${before} Migränetage pro Monat.`,
     lifeEventDetail: (days: number, before: string, after: string) =>
-      `Verglichen werden die ${days} Tage vor dem Ereignis (${before}) mit den ${days} Tagen ab dem Ereignis (${after}). Gezählt werden Tage mit Migräne, umgerechnet auf 30 Tage.`,
+      `Verglichen werden die ${days} Tage vor der Veränderung (${before}) mit den ${days} Tagen ab der Veränderung (${after}). Gezählt werden Tage mit Migräne, umgerechnet auf 30 Tage.`,
     medicationHelpedLess: (name: string, before: string, after: string) =>
       `${name} hat zuletzt weniger geholfen (${before} auf ${after}).`,
     medicationHelpedMore: (name: string, before: string, after: string) =>
@@ -221,23 +220,28 @@ export const de: Dictionary = {
     preventionEffectDetail: (days: number, before: string, after: string) =>
       `${days} Tage vor dem Beginn (${before}) gegen ${days} Tage ab Wirkbeginn (${after}), umgerechnet auf 30 Tage. Gezählt werden Migränetage und Tage mit Medikament. Den Wirkbeginn trägst du im Profil bei der Prophylaxe ein.`,
     preventionChartLabel: 'Migränetage je 30 Tage vor, während und nach der Prophylaxe',
-    chartMarkers: { start: 'Beginn', effective: 'Wirkbeginn', end: 'Ende', lifeEvent: 'Ereignis' },
+    chartMarkers: {
+      start: 'Beginn',
+      effective: 'Wirkbeginn',
+      end: 'Ende',
+      lifeEvent: 'Veränderung',
+    },
     migraineDaysPerMonth: (value: string) => `${value} Migränetage/Monat`,
     chartDetail:
       'Migränetage je 30 Tage. Blass: vor dem Beginn und nach dem Ende. Kräftig: während der Prophylaxe. Gestrichelt: Durchschnitt vor dem Beginn. Tippe auf einen Balken für den Zeitraum.',
-    lifeEvents: 'Ereignisse im Zeitraum',
+    lifeEvents: 'Veränderungen im Zeitraum',
     lifeEventEffectDetail: (days: number, before: string, after: string) =>
-      `${days} Tage vor dem Ereignis (${before}) gegen ${days} Tage danach (${after}), umgerechnet auf 30 Tage. Gezählt werden Migränetage und Tage mit Medikament.`,
-    lifeEventChartLabel: 'Migränetage je 30 Tage vor und nach dem Ereignis',
+      `${days} Tage vor der Veränderung (${before}) gegen ${days} Tage danach (${after}), umgerechnet auf 30 Tage. Gezählt werden Migränetage und Tage mit Medikament.`,
+    lifeEventChartLabel: 'Migränetage je 30 Tage vor und nach der Veränderung',
     lifeEventChartDetail:
-      'Migränetage je 30 Tage. Blass: vor dem Ereignis. Kräftig: danach. Gestrichelt: Durchschnitt vor dem Ereignis. Tippe auf einen Balken für den Zeitraum.',
+      'Migränetage je 30 Tage. Blass: vor der Veränderung. Kräftig: danach. Gestrichelt: Durchschnitt vor der Veränderung. Tippe auf einen Balken für den Zeitraum.',
     lifeEventGap: {
       shortBefore: (days: number, min: number) =>
         days === 0
-          ? 'Vor dem Ereignis sind keine Daten erfasst.'
-          : `Nur ${days} Tage vor dem Ereignis erfasst, mindestens ${min} nötig.`,
+          ? 'Vor der Veränderung sind keine Daten erfasst.'
+          : `Nur ${days} Tage vor der Veränderung erfasst, mindestens ${min} nötig.`,
       shortAfter: (days: number, min: number) =>
-        `Nur ${days} Tage seit dem Ereignis, mindestens ${min} nötig.`,
+        `Nur ${days} Tage seit der Veränderung, mindestens ${min} nötig.`,
     },
     shortComparison: (days: number) => `Nur ${days} Tage verglichen, daher wenig aussagekräftig.`,
     detailLabels: { comparison: 'Vergleich', note: 'Hinweis', chart: 'Diagramm' },
@@ -362,7 +366,7 @@ Regeln:
     reportItem: (name: string, count: number) => `${name} ${count}`,
   },
   dayEvents: {
-    title: 'Kleine Ereignisse',
+    title: 'Ereignisse',
     today: 'Heute',
     label: 'Ereignisse',
     add: 'Ereignis hinzufügen',
@@ -380,7 +384,6 @@ Regeln:
   },
   knowledge: {
     title: 'Wissen',
-    aboutMigraine: 'Über Migräne',
     articleCount: (n: number) => (n === 1 ? '1 Artikel' : `${n} Artikel`),
     disclaimer:
       'Keine ärztliche Beratung. Sprich Änderungen an Medikamenten immer mit deiner Ärztin oder deinem Arzt ab.',
@@ -390,6 +393,10 @@ Regeln:
     },
   },
   profile: {
+    tracking: 'Was ich erfasse',
+    help: 'Hilfe und Infos',
+    display: 'Darstellung',
+    backupAndRestore: 'Sichern und wiederherstellen',
     title: 'Profil',
     backToProfile: 'Profil',
     medications: 'Medikamente',
@@ -407,11 +414,10 @@ Regeln:
     managePreventions: 'Prophylaxe verwalten',
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 Prophylaxe' : `${total} Prophylaxen`} · ${active} aktiv`,
-    lifeEvents: 'Ereignisse',
-    manageLifeEvents: 'Lebensereignisse',
-    lifeEventCount: (n: number) => (n === 1 ? '1 Ereignis' : `${n} Ereignisse`),
-    newLifeEvent: 'Neues Ereignis',
-    editLifeEvent: 'Ereignis bearbeiten',
+    manageLifeEvents: 'Veränderungen',
+    lifeEventCount: (n: number) => (n === 1 ? '1 Veränderung' : `${n} Veränderungen`),
+    newLifeEvent: 'Neue Veränderung',
+    editLifeEvent: 'Veränderung bearbeiten',
     lifeEventHint: 'Zum Beispiel neuer Job, Umzug oder Pille abgesetzt',
     lifeEventDate: 'Datum',
     newPrevention: 'Neue Prophylaxe',
@@ -453,7 +459,6 @@ Regeln:
     backupReminderHint: 'Auf der Startseite, nach 30 Tagen',
     deleteAll: 'Alle Daten löschen',
     deleteAllHint: 'Nicht rückgängig machbar',
-    app: 'App',
     intro: 'Einführung',
     introHint: 'So funktioniert Headly',
     language: 'Sprache',
@@ -465,11 +470,8 @@ Regeln:
     aboutText:
       'Headly ist ein ruhiger Migräne-Tracker. Alle Daten bleiben in deinem Browser auf diesem Gerät: kein Konto, kein Server, kein Tracking.',
     disclaimer: 'Headly ist kein Medizinprodukt und ersetzt keine ärztliche Beratung.',
-    comingSoon: 'Demnächst',
     pdfExport: 'PDF-Export',
     pdfExportHint: 'Für das Arztgespräch',
-    notifications: 'Benachrichtigungen',
-    notificationsHint: 'Erinnerungen und Checks',
   },
   backup: {
     importTitle: 'Sicherung importieren',
@@ -487,8 +489,8 @@ Regeln:
         medications === 1 ? '1 Medikament' : `${medications} Medikamente`,
         medicationIntakes === 1 ? '1 Einnahme' : `${medicationIntakes} Einnahmen`,
         preventions === 1 ? '1 Prophylaxe' : `${preventions} Prophylaxen`,
-        lifeEvents === 1 ? '1 Ereignis' : `${lifeEvents} Ereignisse`,
-        dayEvents === 1 ? '1 kleines Ereignis' : `${dayEvents} kleine Ereignisse`,
+        lifeEvents === 1 ? '1 Veränderung' : `${lifeEvents} Veränderungen`,
+        dayEvents === 1 ? '1 Ereignis' : `${dayEvents} Ereignisse`,
       ].join(', '),
     merge: 'Zusammenführen',
     mergeHint: 'Fügt neue Einträge hinzu und aktualisiert geänderte.',

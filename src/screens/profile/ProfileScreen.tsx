@@ -1,8 +1,7 @@
 import { differenceInCalendarDays } from 'date-fns';
-import { useRef, useState, type ChangeEvent } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  BellIcon,
   BookIcon,
   DocumentIcon,
   DownloadIcon,
@@ -11,14 +10,9 @@ import {
   LockIcon,
   MedicationIcon,
   PreventionIcon,
-  TrashIcon,
-  UploadIcon,
 } from '../../components/icons';
 import { ScreenTitle } from '../../components/ScreenTitle';
 import { SegmentedControl } from '../../components/SegmentedControl';
-import { parseBackup, type Backup, type BackupError } from '../../data/backup';
-import { exportBackup } from '../../data/backupFile';
-import { DomainError } from '../../data/db';
 import { updateSettings } from '../../data/settingsRepository';
 import { isActivePrevention } from '../../domain/prevention';
 import type { Language, Theme } from '../../domain/types';
@@ -26,8 +20,6 @@ import { useI18n } from '../../i18n/context';
 import { knowledgeArticles } from '../../i18n/knowledge';
 import { useHomeData, useNow, useSettings } from '../home/useHomeData';
 import { DayEventTypesSheet } from './DayEventTypesSheet';
-import { DeleteAllSheet } from './DeleteAllSheet';
-import { ImportSheet } from './ImportSheet';
 import { LifeEventsSheet } from './LifeEventsSheet';
 import { MedicationsSheet } from './MedicationsSheet';
 import { PreventionsSheet } from './PreventionsSheet';
@@ -38,8 +30,7 @@ import { SymptomsSheet } from './SymptomsSheet';
 const LANGUAGES: Language[] = ['de', 'en'];
 const THEMES: Theme[] = ['system', 'light', 'dark'];
 
-type OpenSheet =
-  'medications' | 'symptoms' | 'preventions' | 'lifeEvents' | 'dayEventTypes' | 'deleteAll';
+type OpenSheet = 'medications' | 'symptoms' | 'preventions' | 'lifeEvents' | 'dayEventTypes';
 
 export function ProfileScreen() {
   const { t, language, setLanguage } = useI18n();
@@ -47,22 +38,10 @@ export function ProfileScreen() {
   const settings = useSettings();
   const now = useNow();
   const navigate = useNavigate();
-  const fileInput = useRef<HTMLInputElement>(null);
   const [openSheet, setOpenSheet] = useState<OpenSheet>();
-  const [importResult, setImportResult] = useState<Backup | BackupError>();
-  const [exported, setExported] = useState(false);
 
   if (!data || !settings) return null;
-  const {
-    attacks,
-    intakes,
-    medications,
-    preventions,
-    lifeEvents,
-    dayEventTypes,
-    dayEvents,
-    symptoms,
-  } = data;
+  const { medications, preventions, lifeEvents, dayEventTypes, dayEvents, symptoms } = data;
 
   const activeMedications = medications.filter((medication) => !medication.archived);
   const activePreventions = preventions.filter((prevention) => isActivePrevention(prevention, now));
@@ -71,67 +50,30 @@ export function ProfileScreen() {
       ? undefined
       : differenceInCalendarDays(now, settings.lastBackupAt);
 
-  const readFile = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    // Reset so choosing the same file again fires another change.
-    event.target.value = '';
-    if (!file) return;
-    try {
-      setImportResult(parseBackup(await file.text()));
-    } catch (error) {
-      if (!(error instanceof DomainError)) throw error;
-      setImportResult(error.code as BackupError);
-    }
-  };
-
   return (
     <>
       <ScreenTitle>{t.profile.title}</ScreenTitle>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.profile.medications}</h2>
+        <h2 className={styles.sectionLabel}>{t.profile.tracking}</h2>
         <div className={styles.card}>
           <ProfileRow
             icon={<MedicationIcon />}
-            title={t.profile.manageMedications}
+            title={t.profile.medications}
             subtitle={t.profile.medicationCount(activeMedications.length)}
             onClick={() => setOpenSheet('medications')}
           />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.symptoms.title}</h2>
-        <div className={styles.card}>
+          <ProfileRow
+            icon={<PreventionIcon />}
+            title={t.profile.preventions}
+            subtitle={t.profile.preventionCount(preventions.length, activePreventions.length)}
+            onClick={() => setOpenSheet('preventions')}
+          />
           <ProfileRow
             icon={<InfoIcon />}
             title={t.symptoms.title}
             subtitle={t.symptoms.count(symptoms.filter((symptom) => symptom.enabled).length)}
             onClick={() => setOpenSheet('symptoms')}
-          />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.profile.preventions}</h2>
-        <div className={styles.card}>
-          <ProfileRow
-            icon={<PreventionIcon />}
-            title={t.profile.managePreventions}
-            subtitle={t.profile.preventionCount(preventions.length, activePreventions.length)}
-            onClick={() => setOpenSheet('preventions')}
-          />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.profile.lifeEvents}</h2>
-        <div className={styles.card}>
-          <ProfileRow
-            icon={<LifeEventIcon />}
-            title={t.profile.manageLifeEvents}
-            subtitle={t.profile.lifeEventCount(lifeEvents.length)}
-            onClick={() => setOpenSheet('lifeEvents')}
           />
           <ProfileRow
             icon={<LifeEventIcon />}
@@ -139,17 +81,11 @@ export function ProfileScreen() {
             subtitle={t.dayEvents.count(dayEventTypes.length)}
             onClick={() => setOpenSheet('dayEventTypes')}
           />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.knowledge.title}</h2>
-        <div className={styles.card}>
           <ProfileRow
-            icon={<BookIcon />}
-            title={t.knowledge.aboutMigraine}
-            subtitle={t.knowledge.articleCount(knowledgeArticles[language].length)}
-            onClick={() => void navigate('/profile/knowledge')}
+            icon={<LifeEventIcon />}
+            title={t.profile.manageLifeEvents}
+            subtitle={t.profile.lifeEventCount(lifeEvents.length)}
+            onClick={() => setOpenSheet('lifeEvents')}
           />
         </div>
       </section>
@@ -158,75 +94,39 @@ export function ProfileScreen() {
         <h2 className={styles.sectionLabel}>{t.profile.data}</h2>
         <div className={styles.card}>
           <ProfileRow
-            icon={<DownloadIcon />}
-            title={t.profile.exportData}
-            subtitle={exported ? t.profile.exported : t.profile.lastBackup(daysSinceBackup)}
-            onClick={() =>
-              void exportBackup({
-                attacks,
-                medications,
-                medicationIntakes: intakes,
-                preventions,
-                lifeEvents,
-                dayEventTypes,
-                dayEvents,
-                symptoms,
-              }).then(setExported)
-            }
-          />
-          <ProfileRow
             icon={<DocumentIcon />}
             title={t.profile.pdfExport}
             subtitle={t.profile.pdfExportHint}
             onClick={() => void navigate('/profile/report')}
           />
           <ProfileRow
-            icon={<UploadIcon />}
-            title={t.profile.importData}
-            subtitle={t.profile.importHint}
-            onClick={() => fileInput.current?.click()}
-          />
-          <ProfileRow
-            icon={<InfoIcon />}
-            title={t.importGuide.title}
-            subtitle={t.importGuide.rowHint}
-            onClick={() => void navigate('/profile/import-guide')}
-          />
-          <ProfileRow
-            icon={<BellIcon />}
-            title={t.profile.backupReminder}
-            subtitle={t.profile.backupReminderHint}
-            checked={settings.backupReminderEnabled}
-            onClick={() =>
-              void updateSettings({ backupReminderEnabled: !settings.backupReminderEnabled })
-            }
-          />
-          <ProfileRow
-            icon={<TrashIcon />}
-            title={t.profile.deleteAll}
-            subtitle={t.profile.deleteAllHint}
-            danger
-            onClick={() => setOpenSheet('deleteAll')}
+            icon={<DownloadIcon />}
+            title={t.profile.backupAndRestore}
+            subtitle={t.profile.lastBackup(daysSinceBackup)}
+            onClick={() => void navigate('/profile/data')}
           />
         </div>
-        <input
-          ref={fileInput}
-          type="file"
-          accept=".json,application/json"
-          hidden
-          onChange={(event) => void readFile(event)}
-        />
-        <p className={styles.muted}>{t.profile.removeAppHint}</p>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.profile.app}</h2>
+        <h2 className={styles.sectionLabel}>{t.profile.help}</h2>
         <div className={styles.card}>
+          <ProfileRow
+            icon={<BookIcon />}
+            title={t.knowledge.title}
+            subtitle={t.knowledge.articleCount(knowledgeArticles[language].length)}
+            onClick={() => void navigate('/profile/knowledge')}
+          />
           <ProfileRow
             icon={<InfoIcon />}
             title={t.profile.intro}
             subtitle={t.profile.introHint}
             onClick={() => void navigate('/intro')}
+          />
+          <ProfileRow
+            icon={<InfoIcon />}
+            title={t.profile.about}
+            onClick={() => void navigate('/profile/about')}
           />
           <ProfileRow
             icon={<LockIcon />}
@@ -238,12 +138,13 @@ export function ProfileScreen() {
             title={t.profile.imprint}
             onClick={() => void navigate('/profile/imprint')}
           />
-          <ProfileRow
-            icon={<InfoIcon />}
-            title={t.profile.about}
-            onClick={() => void navigate('/profile/about')}
-          />
-          <div className={styles.languageRow}>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionLabel}>{t.profile.display}</h2>
+        <div className={styles.card}>
+          <div className={styles.settingRow}>
             <span className={styles.rowSubtitle}>{t.profile.language}</span>
             <SegmentedControl
               label={t.profile.language}
@@ -252,7 +153,7 @@ export function ProfileScreen() {
               onChange={(value) => void setLanguage(value)}
             />
           </div>
-          <div className={styles.languageRow}>
+          <div className={styles.settingRow}>
             <span className={styles.rowSubtitle}>{t.profile.theme}</span>
             <SegmentedControl
               label={t.profile.theme}
@@ -261,18 +162,6 @@ export function ProfileScreen() {
               onChange={(theme) => void updateSettings({ theme })}
             />
           </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.profile.comingSoon}</h2>
-        <div className={styles.card}>
-          <ProfileRow
-            icon={<BellIcon />}
-            title={t.profile.notifications}
-            subtitle={t.profile.notificationsHint}
-            soon
-          />
         </div>
       </section>
 
@@ -302,10 +191,6 @@ export function ProfileScreen() {
       )}
       {openSheet === 'symptoms' && (
         <SymptomsSheet symptoms={symptoms} onClose={() => setOpenSheet(undefined)} />
-      )}
-      {openSheet === 'deleteAll' && <DeleteAllSheet onClose={() => setOpenSheet(undefined)} />}
-      {importResult && (
-        <ImportSheet result={importResult} onClose={() => setImportResult(undefined)} />
       )}
     </>
   );
