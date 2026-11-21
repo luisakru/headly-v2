@@ -182,3 +182,20 @@ export function InfoIcon() {
     </svg>
   );
 }
+
+export function BookIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5Z" />
+      <path d="M12 6.5v13" />
+    </svg>
+  );
+}
+
+export function BookmarkIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <path d="M7 4.5h10v15l-5-3.5-5 3.5Z" />
+    </svg>
+  );
+}

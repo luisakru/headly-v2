@@ -3,6 +3,7 @@ import { version } from '../../../package.json';
 import { ChevronLeftIcon } from '../../components/icons';
 import { ScreenTitle } from '../../components/ScreenTitle';
 import { useI18n } from '../../i18n/context';
+import { knowledgeTexts, type KnowledgePage as KnowledgePageName } from '../../i18n/knowledge';
 import { legalTexts, type LegalPage as LegalPageName } from '../../i18n/legal';
 import { Markdown } from './Markdown';
 import styles from './Profile.module.css';
@@ -24,6 +25,18 @@ export function LegalPage({ page }: { page: LegalPageName }) {
       <BackToProfile />
       <article className={styles.legal}>
         <Markdown source={legalTexts[language][page]} />
+      </article>
+    </>
+  );
+}
+
+export function KnowledgePage({ page }: { page: KnowledgePageName }) {
+  const { language } = useI18n();
+  return (
+    <>
+      <BackToProfile />
+      <article className={styles.legal}>
+        <Markdown source={knowledgeTexts[language][page]} />
       </article>
     </>
   );

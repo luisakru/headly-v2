@@ -305,6 +305,10 @@
   padding-left: var(--space-5);
 }
 
+.legal a {
+  color: var(--color-primary);
+}
+
 .row:focus-visible,
 .itemRow:focus-visible,
 .textButton:focus-visible,

@@ -3,6 +3,8 @@ import { useRef, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   BellIcon,
+  BookIcon,
+  BookmarkIcon,
   DocumentIcon,
   DownloadIcon,
   InfoIcon,
@@ -106,6 +108,22 @@ export function ProfileScreen() {
             title={t.profile.manageLifeEvents}
             subtitle={t.profile.lifeEventCount(lifeEvents.length)}
             onClick={() => setOpenSheet('lifeEvents')}
+          />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionLabel}>{t.profile.knowledge}</h2>
+        <div className={styles.card}>
+          <ProfileRow
+            icon={<BookIcon />}
+            title={t.profile.aboutMigraine}
+            onClick={() => void navigate('/profile/migraine')}
+          />
+          <ProfileRow
+            icon={<BookmarkIcon />}
+            title={t.profile.collection}
+            onClick={() => void navigate('/profile/collection')}
           />
         </div>
       </section>

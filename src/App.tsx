@@ -4,7 +4,7 @@ import { I18nProvider } from './i18n/I18nProvider';
 import { CalendarScreen } from './screens/calendar/CalendarScreen';
 import { ComponentsScreen } from './screens/dev/ComponentsScreen';
 import { HomeScreen } from './screens/home/HomeScreen';
-import { AboutPage, LegalPage } from './screens/profile/ProfilePages';
+import { AboutPage, KnowledgePage, LegalPage } from './screens/profile/ProfilePages';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { ReportPage } from './screens/profile/ReportPage';
 import { StatsScreen } from './screens/stats/StatsScreen';
@@ -19,6 +19,8 @@ export function App() {
             <Route path="calendar" element={<CalendarScreen />} />
             <Route path="stats" element={<StatsScreen />} />
             <Route path="profile" element={<ProfileScreen />} />
+            <Route path="profile/migraine" element={<KnowledgePage page="migraine" />} />
+            <Route path="profile/collection" element={<KnowledgePage page="collection" />} />
             <Route path="profile/privacy" element={<LegalPage page="privacy" />} />
             <Route path="profile/imprint" element={<LegalPage page="imprint" />} />
             <Route path="profile/about" element={<AboutPage />} />
