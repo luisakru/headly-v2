@@ -18,9 +18,9 @@ export function IntroScreen() {
   if (!page) return null;
   const isLast = index === pages.length - 1;
 
-  const finish = async () => {
+  const finish = async (to = '/') => {
     await updateSettings({ introSeen: true });
-    void navigate('/', { replace: true });
+    void navigate(to, { replace: true });
   };
 
   return (
@@ -52,6 +52,11 @@ export function IntroScreen() {
         {!isLast && (
           <Button variant="outline" onClick={() => void finish()}>
             {t.intro.skip}
+          </Button>
+        )}
+        {isLast && page.guide && (
+          <Button variant="outline" onClick={() => void finish('/profile/import-guide')}>
+            {t.intro.openGuide}
           </Button>
         )}
       </div>

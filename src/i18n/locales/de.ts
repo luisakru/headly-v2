@@ -247,23 +247,18 @@ export const de: Dictionary = {
     next: 'Weiter',
     skip: 'Überspringen',
     start: "Los geht's",
+    openGuide: 'Anleitung öffnen',
     pages: [
       {
         title: 'Willkommen bei Headly',
         text: 'Ein ruhiger Migräne-Tracker.',
         items: [
-          ['🔒', 'Privat', 'Alles bleibt auf diesem Gerät.'],
-          ['✋', 'Schnell', 'Ein Tipp reicht, Details später.'],
-        ],
-      },
-      {
-        title: "So geht's",
-        text: 'Während einer Attacke:',
-        items: [
-          ['🌀', 'Migräne starten', 'Sobald es losgeht.'],
-          ['💊', 'Medikament eintragen', 'Was du wann genommen hast.'],
-          ['🌤️', 'Migräne beenden', 'Wenn es vorbei ist.'],
-          ['📊', 'Kalender und Statistik', 'Später Muster erkennen.'],
+          [
+            '🌀',
+            'Ein Tipp genügt',
+            'Tippe auf „Migräne starten“, wenn es losgeht. Details später.',
+          ],
+          ['🔒', 'Nur auf diesem Gerät', 'Kein Konto, keine Cloud. Sichere ab und zu im Profil.'],
         ],
       },
       {
@@ -280,16 +275,12 @@ export const de: Dictionary = {
         ],
       },
       {
-        title: 'Gut zu wissen',
-        text: 'Alles davon findest du im Profil.',
+        title: 'Daten in anderen Apps?',
+        text: 'Aus einer App, einer Tabelle, einem PDF oder von Fotos: Ein KI-Assistent kann sie für Headly umwandeln. Wir haben einen Prompt dafür vorbereitet.',
+        guide: true,
         items: [
-          ['💾', 'Sichern', 'Deine Daten liegen nur hier. Exportiere sie ab und zu.'],
-          [
-            '📥',
-            'Alte Daten mitnehmen',
-            'Ein KI-Assistent kann sie umwandeln. Es gibt einen Prompt zum Kopieren.',
-          ],
-          ['👋', 'Diese Einführung', 'Jederzeit wieder öffnen.'],
+          ['📋', 'Prompt kopieren', 'Im Profil unter „Daten aus anderen Apps“.'],
+          ['🤝', 'Du teilst Gesundheitsdaten', 'Mit der Firma hinter dem Assistenten.'],
         ],
       },
     ],

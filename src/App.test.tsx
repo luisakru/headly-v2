@@ -33,9 +33,9 @@ test('shows the intro on first start and not again after finishing it', async ()
   expect(await screen.findByRole('heading', { name: 'Welcome to Headly' })).toBeInTheDocument();
   expect(screen.queryByRole('link', { name: 'Statistics' })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-  fireEvent.click(await screen.findByRole('button', { name: 'Next' }));
   expect(await screen.findByRole('heading', { name: 'Add to Home Screen' })).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+  expect(await screen.findByRole('button', { name: 'Open the guide' })).toBeInTheDocument();
   fireEvent.click(await screen.findByRole('button', { name: "Let's start" }));
 
   expect(await screen.findByRole('heading', { name: 'Hello' })).toBeInTheDocument();

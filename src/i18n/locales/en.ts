@@ -244,23 +244,14 @@ export const en = {
     next: 'Next',
     skip: 'Skip',
     start: "Let's start",
+    openGuide: 'Open the guide',
     pages: [
       {
         title: 'Welcome to Headly',
         text: 'A calm migraine tracker.',
         items: [
-          ['🔒', 'Private', 'Everything stays on this device.'],
-          ['✋', 'Quick', 'One tap is enough, details can wait.'],
-        ],
-      },
-      {
-        title: 'How it works',
-        text: 'During an attack:',
-        items: [
-          ['🌀', 'Start migraine', 'As soon as it begins.'],
-          ['💊', 'Log medication', 'What you took and when.'],
-          ['🌤️', 'End migraine', 'When it is over.'],
-          ['📊', 'Calendar and statistics', 'Spot patterns later.'],
+          ['🌀', 'One tap is enough', 'Tap “Start migraine” when it begins. Add details later.'],
+          ['🔒', 'Only on this device', 'No account, no cloud. Back up now and then in Profile.'],
         ],
       },
       {
@@ -273,15 +264,21 @@ export const en = {
         ],
       },
       {
-        title: 'Good to know',
-        text: 'All of this is in Profile.',
+        title: 'Data in other apps?',
+        text: 'From an app, a spreadsheet, a PDF or photos: an AI assistant can convert it for Headly. We prepared a prompt for that.',
+        guide: true,
         items: [
-          ['💾', 'Back up', 'Your data lives only here. Export it now and then.'],
-          ['📥', 'Bring old data', 'An AI assistant can convert it. There is a prompt to copy.'],
-          ['👋', 'This intro', 'Open it again anytime.'],
+          ['📋', 'Copy the prompt', 'In Profile under “Data from other apps”.'],
+          ['🤝', 'You share health data', 'With the company behind the assistant.'],
         ],
       },
-    ] as { title: string; text: string; install?: boolean; items: [string, string, string][] }[],
+    ] as {
+      title: string;
+      text: string;
+      install?: boolean;
+      guide?: boolean;
+      items: [string, string, string][];
+    }[],
   },
   importGuide: {
     title: 'Data from other apps',

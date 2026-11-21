@@ -254,7 +254,7 @@ Layout, one element per row, in this order:
 
 ### Intro
 
-Shown full screen without the tab bar on first start (`introSeen` is false). Four short pages with emoji items, one line each: welcome (private, quick), how it works (start, log medication, end, calendar and statistics), add to Home Screen (iPhone and Android, hidden when already installed), good to know (backup, bring old data with an AI assistant, intro is in Profile). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
+Shown full screen without the tab bar on first start (`introSeen` is false). Three short pages with emoji items, one line each: welcome (one tap to start, data only on this device and backups in Profile), add to Home Screen (iPhone and Android, hidden when already installed), data in other apps (an AI assistant can convert it with the prompt in Profile, and this shares health data; an extra "Open the guide" button finishes the intro and opens that page). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
 
 ### Profile
 
