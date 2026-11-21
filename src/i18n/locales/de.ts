@@ -28,7 +28,6 @@ export const de: Dictionary = {
     migraineDaysLastFourWeeks: (n: number) =>
       n === 1 ? '1 Migränetag in den letzten 4 Wochen' : `${n} Migränetage in den letzten 4 Wochen`,
     startMigraine: 'Migräne starten',
-    lastFourWeeks: 'Letzte 4 Wochen',
     insight: 'Erkenntnis',
   },
   dayLegend: {

@@ -197,7 +197,6 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 
 - Greeting and current month with "N migraine days this month"
 - Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
-- Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack. Tapping an attack card opens the edit sheet; tapping the day again hides the cards
 - One insight card, the most relevant current insight
 - Prompt cards above the buttons when due: rate an intake, attack still running. The backup reminder is a quiet banner in the warning tint ("Your data is stored only on this device." with "Back up now" and "Later" as text buttons), so it reads as a notice, not part of tracking
 
@@ -255,7 +254,7 @@ A bottom sheet over the dimmed calendar (and over Home when opened from the 4-we
 Layout, one element per row, in this order:
 
 1. Title "Statistics"
-2. Segmented control: 1W, 1M, 3M, 6M, 1Y, 2Y, All. Default 3M. It sets how much the chart shows at once, not which data exists
+2. Segmented control: 1M, 3M, 6M, 1Y, 2Y, All. Default 3M. It sets how much the chart shows at once, not which data exists
 3. Toggle chips: Migraine and Medication, both on by default
 4. Chart with all data, one page per period, swiped sideways (snapping), starting at the page with today. The visible period is named above the chart
    - 1W (calendar week, Monday first) and 1M (calendar month): one bar per day, height = highest pain level (0–10), a dot at the baseline for an unrated migraine day, a medication dot above

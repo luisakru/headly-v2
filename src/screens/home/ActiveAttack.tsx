@@ -120,7 +120,7 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
         </section>
       )}
 
-      <div className={styles.pinnedActions}>
+      <div className={styles.pinnedActions} data-pinned-actions>
         <Button variant="outline" onClick={() => setSheet('medication')}>
           <PlusIcon />
           {t.activeAttack.logMedication}

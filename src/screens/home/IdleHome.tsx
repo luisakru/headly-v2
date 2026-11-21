@@ -13,8 +13,9 @@ import { formatMonthYear } from '../../i18n/format';
 import { BackupReminderCard } from './BackupReminderCard';
 import styles from './Home.module.css';
 import { RatingPromptCard } from './RatingPromptCard';
-import { RECENT_WEEKS, RecentWeeks } from './RecentWeeks';
 import type { HomeData } from './useHomeData';
+
+const RECENT_WEEKS = 4;
 
 export function IdleHome({
   attacks,
@@ -82,15 +83,6 @@ export function IdleHome({
           <DayEventChips types={dayEventTypes} events={dayEvents} date={toDayKey(now)} />
         </section>
       )}
-
-      <RecentWeeks
-        symptoms={symptoms}
-        eventDays={new Set(dayEvents.map((event) => event.date))}
-        attacks={attacks}
-        intakes={intakes}
-        medications={medications}
-        now={now}
-      />
 
       {insight && (
         <section className={styles.section}>

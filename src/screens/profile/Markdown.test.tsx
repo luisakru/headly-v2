@@ -9,3 +9,13 @@ test('renders links that open in a new tab', () => {
   expect(link).toHaveAttribute('target', '_blank');
   expect(link.parentElement).toHaveTextContent('Read the study first.');
 });
+
+test('renders bold text in lists and paragraphs', () => {
+  const { container } = render(
+    <Markdown source={'- **Aura:** before\n\nSee **this** and [that](https://example.org).'} />,
+  );
+
+  expect(screen.getByText('Aura:').tagName).toBe('STRONG');
+  expect(screen.getByText('this').tagName).toBe('STRONG');
+  expect(container.textContent).not.toContain('**');
+});

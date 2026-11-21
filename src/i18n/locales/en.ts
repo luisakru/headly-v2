@@ -29,7 +29,6 @@ export const en = {
         ? '1 migraine day during the last 4 weeks'
         : `${n} migraine days during the last 4 weeks`,
     startMigraine: 'Start migraine',
-    lastFourWeeks: 'Last 4 weeks',
     insight: 'Insight',
   },
   dayLegend: {

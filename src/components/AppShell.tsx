@@ -9,7 +9,9 @@ const THEME_COLORS = { light: '#F2EDE4', dark: '#282828' };
 export function AppShell() {
   const settings = useSettings();
   const theme = settings?.theme;
-  const isIntro = useLocation().pathname === '/intro';
+  const location = useLocation();
+  const isIntro = location.pathname === '/intro';
+  const introFinished = (location.state as { introFinished?: boolean } | null)?.introFinished;
 
   useEffect(() => {
     if (!theme) return;
@@ -22,7 +24,9 @@ export function AppShell() {
     });
   }, [theme]);
 
-  if (settings && !settings.introSeen && !isIntro) return <Navigate to="/intro" replace />;
+  if (settings && !settings.introSeen && !isIntro && !introFinished) {
+    return <Navigate to="/intro" replace />;
+  }
 
   return (
     <div className={styles.appShell}>

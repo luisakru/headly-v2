@@ -20,7 +20,8 @@ export function IntroScreen() {
 
   const finish = async (to = '/') => {
     await updateSettings({ introSeen: true });
-    void navigate(to, { replace: true });
+    // The settings query may still return the old value; the state tells AppShell not to redirect back.
+    void navigate(to, { replace: true, state: { introFinished: true } });
   };
 
   return (

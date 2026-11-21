@@ -11,6 +11,11 @@
   padding: calc(env(safe-area-inset-top) + var(--space-8)) var(--screen-padding) var(--space-8);
 }
 
+/* Pinned actions sit directly on the tab bar; Safari keeps sticky elements inside this padding. */
+.content:has([data-pinned-actions]) {
+  padding-bottom: 0;
+}
+
 /* Printing the report: one long page instead of a scrolling screen. */
 @media print {
   .appShell {

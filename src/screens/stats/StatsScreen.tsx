@@ -46,7 +46,7 @@ import { StatsChart } from './StatsChart';
 import { StartPatternCharts } from './StartPatternCharts';
 import styles from './Stats.module.css';
 
-const PRESETS: DateRangePreset[] = ['1W', '1M', '3M', '6M', '1Y', '2Y', 'all'];
+const PRESETS: DateRangePreset[] = ['1M', '3M', '6M', '1Y', '2Y', 'all'];
 const MAX_INSIGHTS = 3;
 const NO_VALUE = '–';
 
