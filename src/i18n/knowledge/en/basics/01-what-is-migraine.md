@@ -10,7 +10,7 @@ But the headache is only one part. An attack can start hours earlier with yawnin
 
 ## Forms many people don't know
 
-- **Migraine with aura:** about one in three see flickering, zigzag lines or blind spots, or feel tingling, before the pain, usually for 5 to 60 minutes
+- **Migraine with aura:** about a quarter to a third have an aura before the pain, usually for 5 to 60 minutes. It can affect all senses: flickering or blind spots, tingling or numbness, trouble speaking, more rarely sounds or smells
 - **Aura without headache:** the aura comes, the pain doesn't. Especially the first time, have it checked by a doctor, because it can look like a stroke
 - **Vestibular migraine:** dizziness, swaying or spinning, often without any headache. It often goes unrecognised as migraine for a long time
 - **Abdominal migraine:** mainly in children, with tummy pain and nausea instead of headache. Many get "classic" migraine later

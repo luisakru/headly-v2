@@ -349,7 +349,7 @@ Rules:
       light: 'Sensitive to light',
       noise: 'Sensitive to noise',
     },
-    auraHint: 'Visual disturbances or tingling beforehand',
+    auraHint: 'Changes in sight, touch, speech or other senses beforehand',
     done: 'Done',
     newSymptom: 'Own symptom',
     manageHint: 'Switch off what you do not need. Tap a name to rename or delete it.',

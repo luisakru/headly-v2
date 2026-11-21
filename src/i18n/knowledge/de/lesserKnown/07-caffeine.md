@@ -1,6 +1,6 @@
-# ☕ Kaffee mit Zitrone
+# ☕ Koffein
 
-Ein Hausmittel, von dem man immer wieder hört: ein starker Kaffee mit dem Saft einer halben Zitrone, getrunken gleich am Anfang einer Attacke. Andere schwören auf ein Glas Cola.
+Koffein ist eines der ältesten Hausmittel gegen Migräne. Manche trinken gleich am Anfang einer Attacke einen starken Kaffee mit dem Saft einer halben Zitrone, andere schwören auf ein Glas Cola.
 
 ## Was dahintersteckt
 

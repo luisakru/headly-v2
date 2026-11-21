@@ -1,6 +1,6 @@
-# ☕ Coffee with lemon
+# ☕ Caffeine
 
-A home remedy you hear about again and again: a strong coffee with the juice of half a lemon, drunk right at the start of an attack. Others swear by a glass of cola.
+Caffeine is one of the oldest home remedies for migraine. Some drink a strong coffee with the juice of half a lemon right at the start of an attack, others swear by a glass of cola.
 
 ## What is behind it
 

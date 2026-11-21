@@ -358,7 +358,7 @@ Regeln:
       light: 'Lichtempfindlich',
       noise: 'Lärmempfindlich',
     },
-    auraHint: 'Sehstörungen oder Kribbeln vorher',
+    auraHint: 'Sehen, Fühlen, Sprechen oder andere Sinne verändert vorher',
     done: 'Fertig',
     newSymptom: 'Eigenes Symptom',
     manageHint:

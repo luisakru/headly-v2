@@ -10,7 +10,7 @@ Der Kopfschmerz ist aber nur ein Teil. Eine Attacke kann schon Stunden vorher mi
 
 ## Formen, die viele nicht kennen
 
-- **Migräne mit Aura:** Bei etwa einem Drittel kommen vor dem Schmerz Flimmern, Zickzacklinien, blinde Flecken oder Kribbeln, meist 5 bis 60 Minuten lang
+- **Migräne mit Aura:** Bei etwa einem Viertel bis Drittel kommt vor dem Schmerz eine Aura, meist 5 bis 60 Minuten lang. Sie kann alle Sinne betreffen: Flimmern oder blinde Flecken, Kribbeln oder Taubheit, Sprachstörungen, seltener Geräusche oder Gerüche
 - **Aura ohne Kopfschmerz:** Die Aura kommt, der Schmerz bleibt aus. Gerade beim ersten Mal unbedingt ärztlich abklären lassen, weil es einem Schlaganfall ähneln kann
 - **Vestibuläre Migräne:** Schwindel, Schwanken oder Drehgefühl, oft ganz ohne Kopfschmerz. Sie wird häufig lange nicht als Migräne erkannt
 - **Bauchmigräne:** vor allem bei Kindern, mit Bauchschmerzen und Übelkeit statt Kopfschmerz. Viele bekommen später die „klassische“ Migräne
