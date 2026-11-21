@@ -183,7 +183,7 @@ Warm earth tones on a light background: calm, playful, never bright white or har
 
 **Typography:** DM Sans (400, 500) for UI text; DM Serif Display (upright, no italic anywhere) for screen titles, big numbers and the wordmark. Both are self-hosted woff2 files in `public/fonts/`, never loaded from Google.
 
-**Shape and spacing:** 4 px spacing scale; card radius 14 px; button radius 18 px; calendar cell radius 8 px; screen side padding 18 px.
+**Shape and spacing:** 4 px spacing scale; card radius 14 px; button radius 18 px; buttons come in two kinds only: primary is filled with `--color-primary`, secondary is an outline with a crisp 2 px `--color-primary` border and no fill; calendar cell radius 8 px; screen side padding 18 px.
 
 **Principles:** low contrast but readable (body text at least 4.5:1 against its background); one primary action per screen; no motion except the slow pulse on the "migraine active" dot, disabled under reduced motion; numbers before charts, trend arrows before graphs.
 
@@ -199,19 +199,19 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 - Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
 - Last 4 weeks as a 7-column grid (Monday first), same color rules as the calendar. Tapping a past day selects it and shows the day below the grid: one card per attack with the medication taken for that attack, plus a card for medication without an attack. Tapping an attack card opens the edit sheet; tapping the day again hides the cards
 - One insight card, the most relevant current insight
-- Prompt cards above the buttons when due: rate an intake, attack still running, backup reminder
+- Prompt cards above the buttons when due: rate an intake, attack still running. The backup reminder is a quiet banner in the warning tint ("Your data is stored only on this device." with "Back up now" and "Later" as text buttons), so it reads as a notice, not part of tracking
 
 ### Active attack
 
 Shown on the Home tab while an attack is active.
 
-- "Migraine active" label with the pulsing dot
+- "Migraine active" label with the pulsing dot; a "…" button on the right opens "More actions"
 - Elapsed time, large, and start time; tapping the start time edits it
 - Pain scale 0–10 as eleven tappable pips with "no pain" and "unbearable" labels. Each tap sets `painLevel`
-- "Medication" button: opens a sheet listing saved medications; a "Taken at" date and time field at the top, prefilled with now; one tap logs the intake at that time, linked to this attack. Empty state links to adding a medication
+- Filled "Log medication" button: opens a sheet listing saved medications; a "Taken at" date and time field at the top, prefilled with now; one tap logs the intake at that time, linked to this attack. Empty state links to adding a medication
 - List of intakes during this attack with rating status
-- Outlined "End migraine" button: ends at now, with "Ended earlier?" to pick a time
-- "Delete migraine" link next to "Ended earlier?": asks "Really delete?" before deleting
+- Outlined "End migraine" button: ends at now
+- "More actions" sheet: "Ended earlier?" to pick a time, and "Delete migraine", which asks "Really delete?" before deleting
 
 ### Calendar
 
@@ -254,7 +254,7 @@ Layout, one element per row, in this order:
 
 ### Intro
 
-Shown full screen without the tab bar on first start (`introSeen` is false). Three pages with emoji items: welcome (private, calm, quick), how it works (start, log medication, end, calendar, statistics), add to Home Screen (iPhone steps and Android, hidden when already installed), good to know (backup, knowledge, intro is in Profile). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
+Shown full screen without the tab bar on first start (`introSeen` is false). Four pages with emoji items: welcome (private, calm, quick), how it works (start, log medication, end, calendar, statistics), add to Home Screen (iPhone steps and Android, hidden when already installed), good to know (backup, knowledge, intro is in Profile). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
 
 ### Profile
 

@@ -1,5 +1,3 @@
-import { Button } from '../../components/Button';
-import { Card } from '../../components/Card';
 import { exportBackup } from '../../data/backupFile';
 import { updateSettings } from '../../data/settingsRepository';
 import { BACKUP_REMINDER_SNOOZE_MS } from '../../domain/constants';
@@ -18,10 +16,12 @@ export function BackupReminderCard({ data, now }: { data: HomeData; now: number 
   if (!settings || !shouldShowBackupReminder(settings, recordCount, false, now)) return null;
 
   return (
-    <Card className={styles.promptCard}>
-      <p className={styles.promptTitle}>{t.backup.reminder}</p>
-      <div className={styles.promptActions}>
-        <Button
+    <div className={styles.banner} role="status">
+      <p className={styles.bannerText}>{t.backup.reminder}</p>
+      <div className={styles.bannerActions}>
+        <button
+          type="button"
+          className={styles.bannerButton}
           onClick={() =>
             void exportBackup({
               attacks,
@@ -33,9 +33,11 @@ export function BackupReminderCard({ data, now }: { data: HomeData; now: number 
           }
         >
           {t.backup.backUpNow}
-        </Button>
-        <Button
-          variant="outline"
+        </button>
+        <button
+          type="button"
+          className={styles.bannerButton}
+          data-quiet
           onClick={() =>
             void updateSettings({
               backupReminderSnoozedUntil: Date.now() + BACKUP_REMINDER_SNOOZE_MS,
@@ -43,8 +45,8 @@ export function BackupReminderCard({ data, now }: { data: HomeData; now: number 
           }
         >
           {t.backup.later}
-        </Button>
+        </button>
       </div>
-    </Card>
+    </div>
   );
 }

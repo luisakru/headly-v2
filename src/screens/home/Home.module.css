@@ -34,7 +34,6 @@
   margin-bottom: var(--space-8);
 }
 
-.link,
 .startTime,
 .textButton {
   min-height: var(--touch-target);
@@ -44,20 +43,6 @@
   color: var(--color-primary);
   font-size: 16px;
   cursor: pointer;
-}
-
-.linkRow {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-4);
-  /* The 48 px touch targets already add space above the text, so cancel the list gap. */
-  margin-top: calc(-1 * var(--space-3));
-}
-
-.link {
-  padding: 0 var(--space-4);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .textButton {
@@ -99,7 +84,69 @@
   font-size: 15px;
 }
 
+/* Backup banner: a quiet notice from the app, not part of the tracking flow. */
+
+.banner {
+  padding: var(--space-3) var(--space-4) var(--space-1);
+  border-radius: var(--radius-card);
+  background: var(--color-warning-bg);
+  font-family: var(--font-sans);
+}
+
+.bannerText {
+  margin: 0;
+  font-size: 15px;
+}
+
+.bannerActions {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.bannerButton {
+  min-height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-warning-text);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bannerButton[data-quiet] {
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
 /* Active attack */
+
+.activeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* The 48 px button would push the label down; let it overlap the margin instead. */
+  margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-3)) calc(-1 * var(--space-3)) 0;
+}
+
+.moreButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.sheetActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
 
 .activeLabel {
   display: flex;
@@ -273,7 +320,8 @@
   color: var(--color-primary);
 }
 
-.link:focus-visible,
+.moreButton:focus-visible,
+.bannerButton:focus-visible,
 .startTime:focus-visible,
 .textButton:focus-visible,
 .medicationRow:focus-visible,

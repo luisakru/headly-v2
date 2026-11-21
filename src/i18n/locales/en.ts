@@ -73,6 +73,7 @@ export const en = {
     logMedication: 'Log medication',
     endMigraine: 'End migraine',
     endedEarlier: 'Ended earlier?',
+    moreActions: 'More actions',
     deleteIntake: (name: string) => `Delete ${name}`,
   },
   medicationSheet: {
@@ -412,7 +413,7 @@ export const en = {
       newerVersion:
         'This backup is from a newer version of Headly. Update the app first. Nothing was changed.',
     },
-    reminder: 'Your data only lives on this phone. Save a backup?',
+    reminder: 'Your data is stored only on this device.',
     backUpNow: 'Back up now',
     later: 'Later',
     deleteAllTitle: 'Delete all data',

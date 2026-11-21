@@ -72,6 +72,7 @@ export const de: Dictionary = {
     logMedication: 'Medikament eintragen',
     endMigraine: 'Migräne beenden',
     endedEarlier: 'Früher beendet?',
+    moreActions: 'Weitere Aktionen',
     deleteIntake: (name: string) => `${name} löschen`,
   },
   medicationSheet: {
@@ -429,7 +430,7 @@ export const de: Dictionary = {
       newerVersion:
         'Diese Sicherung stammt aus einer neueren Headly-Version. Bitte zuerst die App aktualisieren. Es wurde nichts geändert.',
     },
-    reminder: 'Deine Daten liegen nur auf diesem Handy. Jetzt sichern?',
+    reminder: 'Deine Daten liegen nur lokal auf deinem Gerät.',
     backUpNow: 'Jetzt sichern',
     later: 'Später',
     deleteAllTitle: 'Alle Daten löschen',

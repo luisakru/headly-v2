@@ -78,6 +78,16 @@ export function TrashIcon() {
   );
 }
 
+export function MoreIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24} fill="currentColor" stroke="none">
+      <circle cx="5" cy="12" r="1.8" />
+      <circle cx="12" cy="12" r="1.8" />
+      <circle cx="19" cy="12" r="1.8" />
+    </svg>
+  );
+}
+
 export function ChevronLeftIcon() {
   return (
     <svg {...svgProps} width={24} height={24} strokeWidth={2}>

@@ -4,7 +4,7 @@ import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { EffectivenessChips } from '../../components/EffectivenessChips';
-import { PlusIcon, TrashIcon } from '../../components/icons';
+import { MoreIcon, PlusIcon, TrashIcon } from '../../components/icons';
 import { PainScale } from '../../components/PainScale';
 import { deleteAttack, endAttack, updateAttack } from '../../data/attackRepository';
 import { deleteIntake, rateIntake } from '../../data/intakeRepository';
@@ -19,7 +19,7 @@ import { RatingPromptCard } from './RatingPromptCard';
 import { TimePickerSheet } from './TimePickerSheet';
 import type { HomeData } from './useHomeData';
 
-type Sheet = 'medication' | 'startTime' | 'endTime' | { rate: MedicationIntake };
+type Sheet = 'medication' | 'startTime' | 'endTime' | 'more' | { rate: MedicationIntake };
 
 type ActiveAttackProps = HomeData & { attack: Attack; now: number };
 
@@ -34,10 +34,20 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
 
   return (
     <div className={styles.active}>
-      <p className={styles.activeLabel}>
-        <span className={styles.pulseDot} aria-hidden="true" />
-        {t.activeAttack.label}
-      </p>
+      <div className={styles.activeHeader}>
+        <p className={styles.activeLabel}>
+          <span className={styles.pulseDot} aria-hidden="true" />
+          {t.activeAttack.label}
+        </p>
+        <button
+          type="button"
+          className={styles.moreButton}
+          aria-label={t.activeAttack.moreActions}
+          onClick={() => setSheet('more')}
+        >
+          <MoreIcon />
+        </button>
+      </div>
       <p className={styles.elapsed}>
         <span className={styles.runningFor}>{t.activeAttack.runningFor}</span>{' '}
         {t.activeAttack.duration(durationParts(now - attack.startedAt))}
@@ -75,28 +85,32 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
       <div className={styles.actions}>
         <AttackPromptCard attack={attack} now={now} onEndEarlier={() => setSheet('endTime')} />
         <RatingPromptCard intakes={intakes} medications={medications} now={now} />
-        <Button large variant="secondary" onClick={() => setSheet('medication')}>
+        <Button large onClick={() => setSheet('medication')}>
           <PlusIcon />
           {t.activeAttack.logMedication}
         </Button>
         <Button large variant="outline" onClick={() => void endAttack(attack.id)}>
           {t.activeAttack.endMigraine}
         </Button>
-        <div className={styles.linkRow}>
-          <button type="button" className={styles.link} onClick={() => setSheet('endTime')}>
-            {t.activeAttack.endedEarlier}
-          </button>
-          <button
-            type="button"
-            className={styles.link}
-            onClick={() =>
-              confirmingDelete ? void deleteAttack(attack.id) : setConfirmingDelete(true)
-            }
-          >
-            {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
-          </button>
-        </div>
       </div>
+
+      {sheet === 'more' && (
+        <BottomSheet open onClose={closeSheet} title={t.activeAttack.moreActions}>
+          <div className={styles.sheetActions}>
+            <Button variant="outline" onClick={() => setSheet('endTime')}>
+              {t.activeAttack.endedEarlier}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() =>
+                confirmingDelete ? void deleteAttack(attack.id) : setConfirmingDelete(true)
+              }
+            >
+              {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
+            </Button>
+          </div>
+        </BottomSheet>
+      )}
 
       {sheet === 'medication' && (
         <MedicationSheet medications={medications} attackId={attack.id} onClose={closeSheet} />

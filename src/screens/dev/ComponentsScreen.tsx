@@ -49,7 +49,6 @@ export function ComponentsScreen() {
 
       <Section title={t.dev.buttons}>
         <Button large>{t.home.startMigraine}</Button>
-        <Button variant="secondary">{t.activeAttack.logMedication}</Button>
         <Button variant="outline">{t.activeAttack.logMedication}</Button>
         <Button disabled>{t.home.startMigraine}</Button>
       </Section>

@@ -165,6 +165,7 @@ test('deletes the active attack after confirmation', async () => {
   await startAttack();
   await renderWithI18n(<HomeScreen />);
 
+  fireEvent.click(await screen.findByRole('button', { name: 'More actions' }));
   fireEvent.click(await screen.findByRole('button', { name: 'Delete migraine' }));
   expect(await listAttacks()).toHaveLength(1);
   fireEvent.click(screen.getByRole('button', { name: 'Really delete?' }));
@@ -179,11 +180,11 @@ test('reminds to back up once there is enough data, and snoozes on later', async
   }
   await renderWithI18n(<HomeScreen />);
 
-  expect(
-    await screen.findByText('Your data only lives on this phone. Save a backup?'),
-  ).toBeInTheDocument();
+  expect(await screen.findByText('Your data is stored only on this device.')).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Later' }));
 
-  await waitFor(() => expect(screen.queryByText(/Save a backup\?/)).not.toBeInTheDocument());
+  await waitFor(() =>
+    expect(screen.queryByText(/stored only on this device/)).not.toBeInTheDocument(),
+  );
   expect((await getSettings()).backupReminderSnoozedUntil).toBeGreaterThan(Date.now());
 });
