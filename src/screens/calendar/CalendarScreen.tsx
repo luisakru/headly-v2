@@ -109,7 +109,7 @@ export function CalendarScreen() {
 
       {selectedDay ? (
         <section className={styles.section}>
-          {toDayKey(selectedDay) <= toDayKey(now) && (
+          {dayEventTypes.length > 0 && toDayKey(selectedDay) <= toDayKey(now) && (
             <>
               <h2 className={styles.sectionLabel}>{t.dayEvents.label}</h2>
               <DayEventChips
