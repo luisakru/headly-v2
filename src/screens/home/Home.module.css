@@ -204,50 +204,6 @@
   cursor: pointer;
 }
 
-.painRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: var(--primary-action-height);
-  padding: 0 var(--space-4);
-  border: none;
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-
-.painValue {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
-  font-size: 17px;
-}
-
-.symptomValue {
-  display: flex;
-  flex: 1;
-  align-items: baseline;
-  gap: var(--space-3);
-  min-width: 0;
-  font-size: 17px;
-}
-
-.symptomSummary {
-  overflow: hidden;
-  color: var(--color-text);
-  font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.painNumber {
-  color: var(--color-text);
-  font-weight: 600;
-  font-size: 28px;
-  font-variant-numeric: tabular-nums;
-}
-
 /* Stays above the tab bar while the rest scrolls, so both actions are always in thumb reach. */
 .pinnedActions {
   position: sticky;
@@ -259,43 +215,6 @@
   padding: var(--space-3) var(--screen-padding) var(--space-4);
   border-top: 1px solid var(--color-border);
   background: var(--color-bg);
-}
-
-.intakeList {
-  margin: var(--space-1) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.intakeRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  min-height: var(--touch-target);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.intakeRow:last-child {
-  border-bottom: none;
-}
-
-.intakeText {
-  flex: 1;
-  min-width: 0;
-}
-
-.rateButton {
-  min-height: var(--touch-target);
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--color-primary);
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.rateButton[data-rated] {
-  color: var(--color-text-secondary);
 }
 
 /* Sheets */
@@ -375,8 +294,6 @@
 .moreButton:focus-visible,
 .bannerButton:focus-visible,
 .since:focus-visible,
-.painRow:focus-visible,
-.rateButton:focus-visible,
 .textButton:focus-visible,
 .medicationRow:focus-visible,
 .input:focus-visible {

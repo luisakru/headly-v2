@@ -19,6 +19,16 @@ function lastMonth(hour: number): Date {
   return day;
 }
 
+/** Opens the start or end row of the edit sheet, sets the time and goes back. */
+function setTime(label: 'Start' | 'End', time: number) {
+  const sheet = screen.getByRole('dialog');
+  fireEvent.click(within(sheet).getByRole('button', { name: new RegExp(`^${label}`) }));
+  fireEvent.change(screen.getByLabelText(label, { selector: 'input' }), {
+    target: { value: toInputValue(time) },
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Done' }));
+}
+
 beforeEach(async () => {
   await Promise.all(db.tables.map((table) => table.clear()));
 });
@@ -57,16 +67,13 @@ test('adds a past migraine with medication', async () => {
   fireEvent.click(await screen.findByRole('button', { name: 'Previous month' }));
   fireEvent.click(screen.getByRole('button', { name: formatDate(day, 'en') }));
   fireEvent.click(screen.getByRole('button', { name: 'Add migraine' }));
-  fireEvent.change(screen.getByLabelText('Start'), {
-    target: { value: toInputValue(day.getTime()) },
-  });
-  fireEvent.change(screen.getByLabelText('End'), {
-    target: { value: toInputValue(day.getTime() + 3 * HOUR_MS) },
-  });
+  setTime('Start', day.getTime());
+  setTime('End', day.getTime() + 3 * HOUR_MS);
+  fireEvent.click(screen.getByRole('button', { name: /^Pain/ }));
   fireEvent.click(screen.getByRole('radio', { name: '5' }));
   fireEvent.click(screen.getByRole('button', { name: 'Add medication' }));
   fireEvent.click(screen.getByRole('button', { name: /Ibuprofen/ }));
-  expect(screen.queryByRole('button', { name: 'Delete migraine' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'More actions' })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
   await waitFor(async () => expect(await listAttacks()).toHaveLength(1));
@@ -89,12 +96,8 @@ test('rejects an overlapping new migraine and saves nothing', async () => {
   fireEvent.click(await screen.findByRole('button', { name: 'Previous month' }));
   fireEvent.click(screen.getByRole('button', { name: formatDate(day, 'en') }));
   fireEvent.click(screen.getByRole('button', { name: 'Add migraine' }));
-  fireEvent.change(screen.getByLabelText('Start'), {
-    target: { value: toInputValue(day.getTime() + HOUR_MS) },
-  });
-  fireEvent.change(screen.getByLabelText('End'), {
-    target: { value: toInputValue(day.getTime() + 5 * HOUR_MS) },
-  });
+  setTime('Start', day.getTime() + HOUR_MS);
+  setTime('End', day.getTime() + 5 * HOUR_MS);
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
   expect(await screen.findByRole('alert')).toHaveTextContent(
@@ -110,18 +113,19 @@ test('prefills the end one hour after the chosen start', async () => {
   fireEvent.click(await screen.findByRole('button', { name: 'Previous month' }));
   fireEvent.click(screen.getByRole('button', { name: formatDate(day, 'en') }));
   fireEvent.click(screen.getByRole('button', { name: 'Add migraine' }));
-  fireEvent.change(screen.getByLabelText('Start'), {
-    target: { value: toInputValue(day.getTime()) },
-  });
-  expect(screen.getByLabelText('End')).toHaveValue(toInputValue(day.getTime() + HOUR_MS));
+  setTime('Start', day.getTime());
+  fireEvent.click(screen.getByRole('button', { name: /^End/ }));
+  expect(screen.getByLabelText('End', { selector: 'input' })).toHaveValue(
+    toInputValue(day.getTime() + HOUR_MS),
+  );
+  fireEvent.click(screen.getByRole('button', { name: 'Done' }));
 
-  fireEvent.change(screen.getByLabelText('End'), {
-    target: { value: toInputValue(day.getTime() + 4 * HOUR_MS) },
-  });
-  fireEvent.change(screen.getByLabelText('Start'), {
-    target: { value: toInputValue(day.getTime() + HOUR_MS) },
-  });
-  expect(screen.getByLabelText('End')).toHaveValue(toInputValue(day.getTime() + 4 * HOUR_MS));
+  setTime('End', day.getTime() + 4 * HOUR_MS);
+  setTime('Start', day.getTime() + HOUR_MS);
+  fireEvent.click(screen.getByRole('button', { name: /^End/ }));
+  expect(screen.getByLabelText('End', { selector: 'input' })).toHaveValue(
+    toInputValue(day.getTime() + 4 * HOUR_MS),
+  );
 });
 
 test('tapping a day shows each attack in its own card with its medication', async () => {
@@ -165,15 +169,17 @@ test('editing an attack from the day overview saves times, pain and medication',
 
   fireEvent.click(await screen.findByRole('button', { name: formatDate(day, 'en') }));
   fireEvent.click(await screen.findByRole('button', { name: /Duration/ }));
-  fireEvent.change(screen.getByLabelText('End'), {
-    target: { value: toInputValue(startedAt + 3 * HOUR_MS) },
-  });
+  setTime('End', startedAt + 3 * HOUR_MS);
+  fireEvent.click(screen.getByRole('button', { name: /^Pain/ }));
   fireEvent.click(screen.getByRole('radio', { name: '8' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Effect pending' }));
   fireEvent.click(screen.getByRole('button', { name: 'Remove Ibuprofen' }));
   fireEvent.click(screen.getByRole('button', { name: 'Add medication' }));
   fireEvent.click(screen.getByRole('button', { name: /Sumatriptan/ }));
+  fireEvent.click(screen.getByRole('button', { name: 'Effect pending' }));
   const sumatriptanEffect = screen.getByRole('radiogroup', { name: 'Effect · Sumatriptan' });
   fireEvent.click(within(sumatriptanEffect).getByRole('radio', { name: 'Strongly improved' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Done' }));
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
   await waitFor(() => expect(screen.queryByText('Edit migraine')).not.toBeInTheDocument());
@@ -200,12 +206,11 @@ test('editing rejects an end before the start and deletes after confirmation', a
 
   fireEvent.click(await screen.findByRole('button', { name: formatDate(day, 'en') }));
   fireEvent.click(await screen.findByRole('button', { name: /Duration/ }));
-  fireEvent.change(screen.getByLabelText('End'), {
-    target: { value: toInputValue(startedAt - HOUR_MS) },
-  });
+  setTime('End', startedAt - HOUR_MS);
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
   expect(await screen.findByRole('alert')).toHaveTextContent('The end has to be after the start.');
 
+  fireEvent.click(screen.getByRole('button', { name: 'More actions' }));
   fireEvent.click(screen.getByRole('button', { name: 'Delete migraine' }));
   expect(await listAttacks()).toHaveLength(1);
   fireEvent.click(screen.getByRole('button', { name: 'Really delete?' }));

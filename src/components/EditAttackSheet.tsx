@@ -2,16 +2,23 @@ import { useId, useState } from 'react';
 import { deleteAttack, saveAttackWithIntakes } from '../data/attackRepository';
 import type { Attack, Effectiveness, Medication, MedicationIntake, Symptom } from '../domain/types';
 import { useI18n } from '../i18n/context';
+import { formatDateTime, formatTime } from '../i18n/format';
+import { symptomName } from '../i18n/symptoms';
 import { errorMessage, fromInputValue, toInputValue } from './attackForm';
 import { BottomSheet } from './BottomSheet';
 import { Button } from './Button';
 import { EffectivenessChips } from './EffectivenessChips';
 import styles from './EditAttackSheet.module.css';
-import { PlusIcon, TrashIcon } from './icons';
+import { MoreIcon, PlusIcon } from './icons';
+import { IntakeRows } from './IntakeRows';
 import { PainScale } from './PainScale';
 import { SymptomChips } from './SymptomChips';
+import { ValueRow } from './ValueRow';
 
 const HOUR_MS = 60 * 60 * 1000;
+
+/** What the sheet shows: the overview, or one value being changed. */
+type View = 'main' | 'start' | 'end' | 'pain' | 'symptoms' | 'pick' | 'more' | { intake: string };
 
 type DraftIntake = {
   /** Undefined for an intake added in this sheet. */
@@ -43,10 +50,8 @@ export function EditAttackSheet({
   symptoms,
   onClose,
 }: EditAttackSheetProps) {
-  const { t } = useI18n();
-  const startId = useId();
-  const intakeIdPrefix = useId();
-  const endId = useId();
+  const { t, language } = useI18n();
+  const inputId = useId();
   const [start, setStart] = useState(() =>
     toInputValue(attack?.startedAt ?? defaultStartedAt ?? Date.now()),
   );
@@ -66,7 +71,7 @@ export function EditAttackSheet({
         effectiveness,
       })),
   );
-  const [picking, setPicking] = useState(false);
+  const [view, setView] = useState<View>('main');
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -74,6 +79,8 @@ export function EditAttackSheet({
   const endedAt = end ? fromInputValue(end) : undefined;
   const intakeTimes = draftIntakes.map((intake) => fromInputValue(intake.takenAt));
   const medicationName = (id: string) => medications.find((m) => m.id === id)?.name ?? '';
+  const back = () => setView('main');
+  const moment = (time: number) => (Number.isNaN(time) ? '–' : formatDateTime(time, language));
 
   const updateDraft = (key: string, changes: Partial<DraftIntake>) =>
     setDraftIntakes((current) =>
@@ -94,141 +101,158 @@ export function EditAttackSheet({
     onClose();
   };
 
+  const doneButton = (
+    <Button variant="outline" onClick={back}>
+      {t.common.done}
+    </Button>
+  );
+
+  const timeField = (label: string, value: string, onChange: (value: string) => void) => (
+    <div className={styles.form}>
+      <label htmlFor={inputId} className={styles.fieldLabel}>
+        {label}
+      </label>
+      <input
+        id={inputId}
+        type="datetime-local"
+        className={styles.input}
+        value={value}
+        onChange={(event) => {
+          onChange(event.target.value);
+          setError(undefined);
+        }}
+      />
+      {doneButton}
+    </div>
+  );
+
+  const editedIntake =
+    typeof view === 'object'
+      ? draftIntakes.find((intake) => intake.key === view.intake)
+      : undefined;
+
+  const title =
+    view === 'start'
+      ? t.editAttack.start
+      : view === 'end'
+        ? t.editAttack.end
+        : view === 'pain'
+          ? t.editAttack.painLevel
+          : view === 'symptoms'
+            ? t.symptoms.title
+            : view === 'pick'
+              ? t.editAttack.addMedication
+              : view === 'more'
+                ? t.activeAttack.moreActions
+                : editedIntake
+                  ? medicationName(editedIntake.medicationId)
+                  : attack
+                    ? t.editAttack.title
+                    : t.editAttack.addTitle;
+
+  const moreButton = attack && view === 'main' && (
+    <button
+      type="button"
+      className={styles.moreButton}
+      aria-label={t.activeAttack.moreActions}
+      onClick={() => setView('more')}
+    >
+      <MoreIcon />
+    </button>
+  );
+
   return (
-    <BottomSheet open onClose={onClose} title={attack ? t.editAttack.title : t.editAttack.addTitle}>
-      <div className={styles.form}>
-        <label htmlFor={startId} className={styles.fieldLabel}>
-          {t.editAttack.start}
-        </label>
-        <input
-          id={startId}
-          type="datetime-local"
-          className={styles.input}
-          value={start}
-          onChange={(event) => {
-            setStart(event.target.value);
-            setError(undefined);
-            // A new attack's end follows its start by one hour until the end is set by hand.
-            const newStart = fromInputValue(event.target.value);
-            if (!attack && !endTouched && !Number.isNaN(newStart)) {
-              setEnd(toInputValue(newStart + HOUR_MS));
-            }
+    <BottomSheet open onClose={onClose} title={title} action={moreButton}>
+      {view === 'start' &&
+        timeField(t.editAttack.start, start, (value) => {
+          setStart(value);
+          // A new attack's end follows its start by one hour until the end is set by hand.
+          const newStart = fromInputValue(value);
+          if (!attack && !endTouched && !Number.isNaN(newStart)) {
+            setEnd(toInputValue(newStart + HOUR_MS));
+          }
+        })}
+      {view === 'end' &&
+        timeField(t.editAttack.end, end, (value) => {
+          setEnd(value);
+          setEndTouched(true);
+        })}
+      {view === 'pain' && (
+        <PainScale
+          value={painLevel}
+          onChange={(level) => {
+            setPainLevel(level);
+            back();
           }}
         />
-        <label htmlFor={endId} className={styles.fieldLabel}>
-          {t.editAttack.end}
-        </label>
-        <input
-          id={endId}
-          type="datetime-local"
-          className={styles.input}
-          value={end}
-          onChange={(event) => {
-            setEnd(event.target.value);
-            setEndTouched(true);
-            setError(undefined);
-          }}
-        />
-
-        <span className={styles.fieldLabel}>{t.editAttack.painLevel}</span>
-        <PainScale value={painLevel} onChange={setPainLevel} />
-
-        {shownSymptoms.length > 0 && (
-          <>
-            <span className={styles.fieldLabel}>{t.symptoms.title}</span>
-            <SymptomChips symptoms={shownSymptoms} selected={symptomIds} onChange={setSymptomIds} />
-          </>
-        )}
-
-        <span className={styles.fieldLabel}>{t.editAttack.medications}</span>
-        {draftIntakes.map((intake) => {
-          const name = medicationName(intake.medicationId);
-          const timeId = `${intakeIdPrefix}-${intake.key}`;
-          return (
-            <div key={intake.key} className={styles.editIntake}>
-              <div className={styles.editIntakeHeader}>
-                <span className={styles.medicationName}>{name}</span>
+      )}
+      {view === 'symptoms' && (
+        <div className={styles.form}>
+          <SymptomChips symptoms={shownSymptoms} selected={symptomIds} onChange={setSymptomIds} />
+          {doneButton}
+        </div>
+      )}
+      {view === 'pick' && (
+        <ul className={styles.medicationList}>
+          {medications
+            .filter((medication) => !medication.archived)
+            .map((medication) => (
+              <li key={medication.id}>
                 <button
                   type="button"
-                  className={styles.iconButton}
-                  aria-label={t.editAttack.removeIntake(name)}
-                  onClick={() =>
-                    setDraftIntakes((current) => current.filter(({ key }) => key !== intake.key))
-                  }
+                  className={styles.medicationRow}
+                  onClick={() => {
+                    setDraftIntakes((current) => [
+                      ...current,
+                      {
+                        key: `new-${Date.now()}`,
+                        medicationId: medication.id,
+                        takenAt: Number.isNaN(startedAt) ? toInputValue(Date.now()) : start,
+                      },
+                    ]);
+                    back();
+                  }}
                 >
-                  <TrashIcon />
+                  <span className={styles.medicationName}>{medication.name}</span>
+                  <span className={styles.medicationDose}>{medication.dose}</span>
                 </button>
-              </div>
-              <label htmlFor={timeId} className={styles.fieldLabel}>
-                {t.editAttack.takenAt}
-              </label>
-              <input
-                id={timeId}
-                type="datetime-local"
-                className={styles.input}
-                value={intake.takenAt}
-                onChange={(event) => updateDraft(intake.key, { takenAt: event.target.value })}
-              />
-              <EffectivenessChips
-                label={t.effectiveness.sheetTitle(name)}
-                value={intake.effectiveness}
-                onChange={(effectiveness) => updateDraft(intake.key, { effectiveness })}
-              />
-            </div>
-          );
-        })}
-        {picking ? (
-          <ul className={styles.medicationList}>
-            {medications
-              .filter((medication) => !medication.archived)
-              .map((medication) => (
-                <li key={medication.id}>
-                  <button
-                    type="button"
-                    className={styles.medicationRow}
-                    onClick={() => {
-                      setDraftIntakes((current) => [
-                        ...current,
-                        {
-                          key: `new-${Date.now()}`,
-                          medicationId: medication.id,
-                          takenAt: Number.isNaN(startedAt) ? toInputValue(Date.now()) : start,
-                        },
-                      ]);
-                      setPicking(false);
-                    }}
-                  >
-                    <span className={styles.medicationName}>{medication.name}</span>
-                    <span className={styles.medicationDose}>{medication.dose}</span>
-                  </button>
-                </li>
-              ))}
-          </ul>
-        ) : (
-          <button type="button" className={styles.textButton} onClick={() => setPicking(true)}>
-            <PlusIcon />
-            {t.editAttack.addMedication}
-          </button>
-        )}
-
-        {error && (
-          <p role="alert" className={styles.error}>
-            {error}
-          </p>
-        )}
-        <Button
-          large
-          disabled={
-            Number.isNaN(startedAt) || Number.isNaN(endedAt) || intakeTimes.some(Number.isNaN)
-          }
-          onClick={() => void save()}
-        >
-          {t.editAttack.save}
-        </Button>
-        {attack && (
+              </li>
+            ))}
+        </ul>
+      )}
+      {editedIntake && (
+        <div className={styles.form}>
+          <label htmlFor={inputId} className={styles.fieldLabel}>
+            {t.editAttack.takenAt}
+          </label>
+          <input
+            id={inputId}
+            type="datetime-local"
+            className={styles.input}
+            value={editedIntake.takenAt}
+            onChange={(event) => updateDraft(editedIntake.key, { takenAt: event.target.value })}
+          />
+          <EffectivenessChips
+            label={t.effectiveness.sheetTitle(medicationName(editedIntake.medicationId))}
+            value={editedIntake.effectiveness}
+            onChange={(effectiveness) => updateDraft(editedIntake.key, { effectiveness })}
+          />
+          {doneButton}
           <Button
             variant="outline"
-            className={styles.deleteButton}
+            onClick={() => {
+              setDraftIntakes((current) => current.filter(({ key }) => key !== editedIntake.key));
+              back();
+            }}
+          >
+            {t.editAttack.removeIntake(medicationName(editedIntake.medicationId))}
+          </Button>
+        </div>
+      )}
+      {view === 'more' && attack && (
+        <div className={styles.form}>
+          <Button
+            variant="outline"
             onClick={() =>
               confirmingDelete
                 ? void deleteAttack(attack.id).then(onClose)
@@ -237,8 +261,76 @@ export function EditAttackSheet({
           >
             {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
           </Button>
-        )}
-      </div>
+          {doneButton}
+        </div>
+      )}
+      {view === 'main' && (
+        <div className={styles.form}>
+          <ValueRow
+            label={t.editAttack.start}
+            value={moment(startedAt)}
+            onClick={() => setView('start')}
+          />
+          <ValueRow
+            label={t.editAttack.end}
+            value={endedAt === undefined ? '–' : moment(endedAt)}
+            onClick={() => setView('end')}
+          />
+          <ValueRow
+            label={t.activeAttack.pain}
+            value={painLevel === undefined ? '–' : `${painLevel} ${t.activeAttack.painOutOf}`}
+            onClick={() => setView('pain')}
+          />
+          {shownSymptoms.length > 0 && (
+            <ValueRow
+              label={t.symptoms.title}
+              value={
+                shownSymptoms
+                  .filter((symptom) => symptomIds.includes(symptom.id))
+                  .map((symptom) => symptomName(symptom, t))
+                  .join(', ') || '–'
+              }
+              onClick={() => setView('symptoms')}
+            />
+          )}
+
+          {draftIntakes.length > 0 && (
+            <section>
+              <h3 className={styles.sectionLabel}>{t.editAttack.medications}</h3>
+              <IntakeRows
+                rows={draftIntakes.map((intake) => ({
+                  key: intake.key,
+                  name: medicationName(intake.medicationId),
+                  time: Number.isNaN(fromInputValue(intake.takenAt))
+                    ? '–'
+                    : formatTime(fromInputValue(intake.takenAt), language),
+                  effectiveness: intake.effectiveness,
+                }))}
+                onOpen={(key) => setView({ intake: key })}
+              />
+            </section>
+          )}
+          <Button variant="outline" onClick={() => setView('pick')}>
+            <PlusIcon />
+            {t.editAttack.addMedication}
+          </Button>
+
+          {error && (
+            <p role="alert" className={styles.error}>
+              {error}
+            </p>
+          )}
+          <Button
+            large
+            disabled={
+              Number.isNaN(startedAt) || Number.isNaN(endedAt) || intakeTimes.some(Number.isNaN)
+            }
+            onClick={() => void save()}
+          >
+            {t.editAttack.save}
+          </Button>
+        </div>
+      )}
     </BottomSheet>
   );
 }

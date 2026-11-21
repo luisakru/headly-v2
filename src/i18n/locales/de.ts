@@ -13,6 +13,7 @@ export const de: Dictionary = {
     dark: 'Dunkel',
   },
   common: {
+    done: 'Fertig',
     close: 'Schließen',
   },
   tabs: {

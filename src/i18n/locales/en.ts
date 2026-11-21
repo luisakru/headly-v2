@@ -12,6 +12,7 @@ export const en = {
     dark: 'Dark',
   },
   common: {
+    done: 'Done',
     close: 'Close',
   },
   tabs: {

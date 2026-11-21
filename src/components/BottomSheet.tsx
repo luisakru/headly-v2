@@ -9,10 +9,12 @@ type BottomSheetProps = {
   open: boolean;
   onClose: () => void;
   title?: string;
+  /** Shown next to the title, e.g. a "…" button. */
+  action?: ReactNode;
   children: ReactNode;
 };
 
-export function BottomSheet({ open, onClose, title, children }: BottomSheetProps) {
+export function BottomSheet({ open, onClose, title, action, children }: BottomSheetProps) {
   const { t } = useI18n();
   const sheetRef = useRef<HTMLDivElement>(null);
   const dragStartY = useRef<number | null>(null);
@@ -77,8 +79,13 @@ export function BottomSheet({ open, onClose, title, children }: BottomSheetProps
             // A drag that ends on the handle also fires a click; only a plain tap closes.
             onClick={() => !wasDragged.current && onClose()}
           />
-          {title && <h2 className={styles.title}>{title}</h2>}
         </div>
+        {(title || action) && (
+          <div className={styles.titleRow}>
+            {title && <h2 className={styles.title}>{title}</h2>}
+            {action}
+          </div>
+        )}
         <div className={styles.content}>{children}</div>
       </div>
     </div>,

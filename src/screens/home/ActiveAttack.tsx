@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
 import { EffectivenessChips } from '../../components/EffectivenessChips';
-import { ChevronRightIcon, MoreIcon, PlusIcon } from '../../components/icons';
+import { MoreIcon, PlusIcon } from '../../components/icons';
+import { IntakeRows } from '../../components/IntakeRows';
 import { PainScale } from '../../components/PainScale';
 import { SymptomChips } from '../../components/SymptomChips';
+import { ValueRow } from '../../components/ValueRow';
 import { deleteAttack, endAttack, updateAttack } from '../../data/attackRepository';
 import { deleteIntake, rateIntake } from '../../data/intakeRepository';
 import { durationParts } from '../../domain/days';
@@ -73,50 +75,41 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
       <AttackPromptCard attack={attack} now={now} onEndEarlier={() => setSheet('endTime')} />
       <RatingPromptCard intakes={intakes} medications={medications} now={now} />
 
-      <button type="button" className={styles.painRow} onClick={() => setSheet('pain')}>
-        <span className={styles.painValue}>
-          <span className={styles.muted}>{t.activeAttack.pain}</span>
-          <span className={styles.painNumber}>{attack.painLevel ?? '–'}</span>
-          <span className={styles.muted}>{t.activeAttack.painOutOf}</span>
-        </span>
-        <ChevronRightIcon />
-      </button>
+      <ValueRow
+        label={t.activeAttack.pain}
+        value={
+          attack.painLevel === undefined ? '–' : `${attack.painLevel} ${t.activeAttack.painOutOf}`
+        }
+        onClick={() => setSheet('pain')}
+      />
 
       {shownSymptoms.length > 0 && (
-        <button type="button" className={styles.painRow} onClick={() => setSheet('symptoms')}>
-          <span className={styles.symptomValue}>
-            <span className={styles.muted}>{t.symptoms.title}</span>
-            <span className={styles.symptomSummary}>
-              {attackSymptoms.length > 0
-                ? attackSymptoms.map((symptom) => symptomName(symptom, t)).join(', ')
-                : '–'}
-            </span>
-          </span>
-          <ChevronRightIcon />
-        </button>
+        <ValueRow
+          label={t.symptoms.title}
+          value={
+            attackSymptoms.length > 0
+              ? attackSymptoms.map((symptom) => symptomName(symptom, t)).join(', ')
+              : '–'
+          }
+          onClick={() => setSheet('symptoms')}
+        />
       )}
 
       {attackIntakes.length > 0 && (
         <section>
           <h2 className={styles.sectionLabel}>{t.activeAttack.medicationsDuring}</h2>
-          <ul className={styles.intakeList}>
-            {attackIntakes.map((intake) => (
-              <li key={intake.id} className={styles.intakeRow}>
-                <span className={styles.intakeText}>
-                  <span className={styles.medicationName}>{medicationName(intake)}</span>
-                  <span className={styles.muted}> · {formatTime(intake.takenAt, language)}</span>
-                </span>
-                <button
-                  type="button"
-                  className={styles.rateButton}
-                  data-rated={intake.effectiveness !== undefined || undefined}
-                  onClick={() => setSheet({ rate: intake })}
-                >
-                  {t.effectiveness[intake.effectiveness ?? 'pending']}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <IntakeRows
+            rows={attackIntakes.map((intake) => ({
+              key: intake.id,
+              name: medicationName(intake),
+              time: formatTime(intake.takenAt, language),
+              effectiveness: intake.effectiveness,
+            }))}
+            onOpen={(id) => {
+              const intake = attackIntakes.find((candidate) => candidate.id === id);
+              if (intake) setSheet({ rate: intake });
+            }}
+          />
         </section>
       )}
 

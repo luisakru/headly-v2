@@ -19,21 +19,6 @@
   color: var(--color-text);
 }
 
-.editIntake {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.editIntakeHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-
 .medicationName {
   font-weight: 500;
   font-size: 18px;
@@ -73,7 +58,22 @@
   color: var(--color-text-secondary);
 }
 
-.iconButton {
+.medicationRow:focus-visible,
+.input:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.sectionLabel {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.moreButton {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,33 +82,11 @@
   padding: 0;
   border: none;
   background: none;
-  color: var(--color-warning-text);
+  color: var(--color-text-secondary);
   cursor: pointer;
 }
 
-.deleteButton {
-  border-color: var(--color-border);
-  color: var(--color-warning-text);
-}
-
-.textButton {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: var(--touch-target);
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--color-primary);
-  font-weight: 500;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.textButton:focus-visible,
-.medicationRow:focus-visible,
-.iconButton:focus-visible,
-.input:focus-visible {
+.moreButton:focus-visible {
   outline: 2px solid var(--color-text);
   outline-offset: 2px;
 }

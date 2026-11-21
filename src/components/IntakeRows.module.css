@@ -1,0 +1,50 @@
+.intakeList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.intakeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.intakeRow:last-child {
+  border-bottom: none;
+}
+
+.intakeText {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.time {
+  color: var(--color-text-secondary);
+}
+
+.effectButton {
+  min-height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.effectButton[data-rated] {
+  color: var(--color-text-secondary);
+}
+
+.effectButton:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}

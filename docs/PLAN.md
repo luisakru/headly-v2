@@ -242,10 +242,10 @@ Small, repeatable things (UI name "Events"; life events are called "Life changes
 
 ### Edit sheet
 
-A bottom sheet over the dimmed calendar (and over Home when opened from the 4-week grid). Changes apply only on "Save".
+A bottom sheet over the dimmed calendar, built like the active-attack screen and with the same row components (`ValueRow`, `IntakeRows`). Changes apply only on "Save".
 
-- Fields: start, end (date + time, native pickers), pain level (pips), medications taken (list with add and remove), time taken per intake (date + time, new ones prefilled with the start), effectiveness per intake (four chips)
-- "Save" (primary) and "Delete" (muted destructive, with confirmation)
+- Overview: rows "Start", "End", "Pain 6 of 10", "Symptoms Aura, Nausea" (hidden when all symptoms are off), then the medication rows (name · time, effect as a text button) and an outlined "+ Add medication". "Save" (primary, large) at the bottom; "…" next to the title opens "More actions" with "Delete migraine" (asks "Really delete?")
+- Each row swaps the sheet content for one value with "Done" to go back: native date and time picker for start and end, pain scale (choosing a level goes back), symptom chips, medication list to add one, and per intake its time, effect chips and "Remove"
 - Validation: end after start, no overlap with another attack
 - A medication added here is logged at the attack's start time
 
