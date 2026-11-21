@@ -28,7 +28,7 @@ export const de: Dictionary = {
       morning: 'Guten Morgen',
       day: 'Guten Tag',
       evening: 'Schönen Abend',
-      night: 'Gute Nacht',
+      night: 'Hallo, Nachteule',
     },
     didYouKnow: 'Wusstest du?',
     hideFact: 'Fakt für heute ausblenden',

@@ -27,7 +27,7 @@ export const en = {
       morning: 'Good morning',
       day: 'Hello',
       evening: 'Good evening',
-      night: 'Good night',
+      night: 'Hello, night owl',
     },
     didYouKnow: 'Did you know?',
     hideFact: "Hide today's fact",

@@ -43,3 +43,56 @@
   fill: var(--color-text-secondary);
   font-weight: 700;
 }
+
+.lid,
+.steam,
+.cupHandle,
+.blanketLine {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.lid {
+  stroke: var(--color-avatar-ink);
+  stroke-width: 2.4;
+}
+
+.steam {
+  stroke: var(--color-text-secondary);
+  stroke-width: 2;
+  opacity: 0.7;
+}
+
+.cup {
+  fill: var(--color-primary);
+}
+
+.cupHandle {
+  stroke: var(--color-primary);
+  stroke-width: 3;
+}
+
+.blanket {
+  fill: var(--color-primary);
+}
+
+.blanketLine {
+  stroke: var(--color-avatar-line);
+  stroke-width: 2;
+  opacity: 0.8;
+}
+
+.cap {
+  fill: var(--color-primary);
+}
+
+.capBrim {
+  fill: none;
+  stroke: var(--color-avatar);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.pompom {
+  fill: var(--color-avatar);
+}

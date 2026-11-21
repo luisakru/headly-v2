@@ -83,7 +83,7 @@ export function IdleHome({
       <header className={styles.header}>
         <p className={styles.eyebrow}>{formatDate(now, language)}</p>
         <div className={styles.hello}>
-          <Headly look={partOfDay === 'morning' || partOfDay === 'day' ? 'day' : 'evening'} />
+          <Headly look={partOfDay} />
           <div className={styles.bubble}>
             <h1 className={styles.greeting}>{t.home.greeting[partOfDay]}</h1>
             <p className={styles.subtitle}>
