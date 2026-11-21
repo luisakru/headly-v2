@@ -4,7 +4,7 @@ Stand: November 2026
 
 ## 1. Verantwortliche Person
 
-[VORNAME NACHNAME]
+Luisa Krüger
 E-Mail: headly@bylu.app
 
 ## 2. Grundsatz: Deine Daten bleiben auf deinem Gerät

@@ -4,7 +4,7 @@ Last updated: November 2026
 
 ## 1. Controller
 
-[FIRST NAME LAST NAME]
+Luisa Krüger
 Email: headly@bylu.app
 
 ## 2. Principle: your data stays on your device
