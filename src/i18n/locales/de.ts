@@ -333,14 +333,17 @@ export const de: Dictionary = {
 
 {
   "app": "headly",
-  "schemaVersion": 3,
+  "schemaVersion": 5,
   "exportedAt": <jetzt als Unix-Zeit in Millisekunden>,
   "data": {
-    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"? }],
-    "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "archived": false }],
+    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"?, "symptomIds"? }],
+    "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "minIntervalHours"?, "archived": false }],
     "medicationIntakes": [{ "id", "createdAt", "updatedAt", "medicationId", "attackId"?, "takenAt", "effectiveness"? }],
     "preventions": [{ "id", "createdAt", "updatedAt", "name", "type", "dose"?, "startDate", "endDate"? }],
-    "lifeEvents": [{ "id", "createdAt", "updatedAt", "name", "date" }]
+    "lifeEvents": [{ "id", "createdAt", "updatedAt", "name", "date" }],
+    "dayEventTypes": [{ "id", "createdAt", "updatedAt", "name", "kind" }],
+    "dayEvents": [{ "id", "createdAt", "updatedAt", "typeId", "date" }],
+    "symptoms": []
   }
 }
 
@@ -353,6 +356,9 @@ Regeln:
 - medicationId zeigt auf ein Medikament, attackId auf die Migräne, während der es genommen wurde, falls es eine gibt.
 - effectiveness nur, wenn bekannt: "strong" (stark gebessert), "slight" (etwas gebessert), "none" (keine Wirkung), "worse" (verschlimmert).
 - preventions: type ist "medication" oder "lifestyle", Daten als "YYYY-MM-DD". lifeEvents sind Dinge wie ein neuer Job oder ein Umzug, mit "date" als "YYYY-MM-DD".
+- symptomIds: Liste von Symptomen während der Migräne. Nutze dafür "aura", "nausea" (Übelkeit), "vomiting" (Erbrechen), "light" (lichtempfindlich) und "noise" (lärmempfindlich). Lass "symptoms" leer.
+- minIntervalHours nur, wenn ich einen Mindestabstand zwischen zwei Einnahmen genannt habe.
+- Periode: ein Eintrag in dayEventTypes mit kind "period" und name "Periode", dazu in dayEvents je ein Eintrag mit dem ersten Tag jeder Periode ("date" als "YYYY-MM-DD"). Andere wiederkehrende Dinge wie Flüge, wenig Schlaf oder Alkohol genauso mit kind "custom".
 - Lass Felder weg, die du nicht kennst. Schreib nie null und erfinde nichts.
 - Liste nach der Datei kurz auf, was du nicht umwandeln konntest.`,
   },
@@ -379,7 +385,6 @@ Regeln:
     title: 'Ereignisse',
     today: 'Heute',
     label: 'Ereignisse',
-    add: 'Ereignis hinzufügen',
     newTitle: 'Neues Ereignis',
     period: 'Periode',
     periodHint:

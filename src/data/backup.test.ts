@@ -192,3 +192,48 @@ test('deleteAllData removes records and backup dates but keeps preferences', asy
   expect(await getSettings()).toMatchObject({ language: 'de', backupReminderEnabled: false });
   expect((await getSettings()).lastBackupAt).toBeUndefined();
 });
+
+test('imports a file written by an assistant from the import prompt', () => {
+  const file = {
+    app: 'headly',
+    schemaVersion: 5,
+    exportedAt: now,
+    data: {
+      attacks: [
+        {
+          id: 'attack-1',
+          createdAt: 1,
+          updatedAt: 1,
+          startedAt: at(2026, 9, 1, 8),
+          endedAt: at(2026, 9, 1, 18),
+          painLevel: 6,
+          symptomIds: ['aura', 'nausea'],
+        },
+      ],
+      medications: [
+        {
+          id: 'med-1',
+          createdAt: 1,
+          updatedAt: 1,
+          name: 'Sumatriptan',
+          isTriptan: true,
+          minIntervalHours: 2,
+          archived: false,
+        },
+      ],
+      medicationIntakes: [],
+      preventions: [],
+      lifeEvents: [],
+      dayEventTypes: [
+        { id: 'period', createdAt: 1, updatedAt: 1, name: 'Periode', kind: 'period' },
+      ],
+      dayEvents: [
+        { id: 'day-1', createdAt: 1, updatedAt: 1, typeId: 'period', date: '2026-09-02' },
+      ],
+      symptoms: [],
+    },
+  };
+  const backup = parseBackup(JSON.stringify(file));
+  expect(backup.data.attacks[0]?.symptomIds).toEqual(['aura', 'nausea']);
+  expect(backup.data.dayEvents).toHaveLength(1);
+});

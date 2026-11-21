@@ -13,13 +13,13 @@ function renderSheet(onClose = vi.fn()) {
 test('closes on Escape, backdrop tap and handle tap, but not on content tap', async () => {
   const onClose = vi.fn();
   await renderSheet(onClose);
-  const dialog = screen.getByRole('dialog', { name: 'Sheet' });
 
   fireEvent.click(screen.getByText('Content'));
   expect(onClose).not.toHaveBeenCalled();
 
   fireEvent.keyDown(document, { key: 'Escape' });
-  fireEvent.click(dialog.parentElement!);
+  // Looked up right before the tap: a late re-render can replace the element.
+  fireEvent.click(screen.getByRole('dialog', { name: 'Sheet' }).parentElement!);
   fireEvent.click(screen.getByRole('button', { name: 'Close' }));
   expect(onClose).toHaveBeenCalledTimes(3);
 });

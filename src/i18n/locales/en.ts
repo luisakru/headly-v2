@@ -324,14 +324,17 @@ export const en = {
 
 {
   "app": "headly",
-  "schemaVersion": 3,
+  "schemaVersion": 5,
   "exportedAt": <now as Unix time in milliseconds>,
   "data": {
-    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"? }],
-    "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "archived": false }],
+    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"?, "symptomIds"? }],
+    "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "minIntervalHours"?, "archived": false }],
     "medicationIntakes": [{ "id", "createdAt", "updatedAt", "medicationId", "attackId"?, "takenAt", "effectiveness"? }],
     "preventions": [{ "id", "createdAt", "updatedAt", "name", "type", "dose"?, "startDate", "endDate"? }],
-    "lifeEvents": [{ "id", "createdAt", "updatedAt", "name", "date" }]
+    "lifeEvents": [{ "id", "createdAt", "updatedAt", "name", "date" }],
+    "dayEventTypes": [{ "id", "createdAt", "updatedAt", "name", "kind" }],
+    "dayEvents": [{ "id", "createdAt", "updatedAt", "typeId", "date" }],
+    "symptoms": []
   }
 }
 
@@ -344,6 +347,9 @@ Rules:
 - medicationId points to a medication; attackId points to the migraine during which it was taken, if there is one.
 - effectiveness only if known: "strong" (much better), "slight" (a little better), "none" (no effect), "worse".
 - preventions: type is "medication" or "lifestyle"; dates as "YYYY-MM-DD". lifeEvents are things like a new job or a move, with "date" as "YYYY-MM-DD".
+- symptomIds: list of symptoms during the migraine. Use "aura", "nausea", "vomiting", "light" (sensitive to light) and "noise" (sensitive to noise). Leave "symptoms" empty.
+- minIntervalHours only if I mentioned a minimum gap between two doses.
+- Period: one entry in dayEventTypes with kind "period" and name "Period", plus one entry in dayEvents for the first day of each period ("date" as "YYYY-MM-DD"). Other recurring things such as flights, little sleep or alcohol work the same way with kind "custom".
 - Leave out fields you do not know. Never write null and never invent data.
 - After the file, briefly list anything you could not convert.`,
   },
@@ -369,7 +375,6 @@ Rules:
     title: 'Events',
     today: 'Today',
     label: 'Events',
-    add: 'Add an event',
     newTitle: 'New event',
     period: 'Period',
     periodHint:
