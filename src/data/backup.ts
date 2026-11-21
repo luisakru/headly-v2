@@ -9,12 +9,13 @@ import type {
   Medication,
   MedicationIntake,
   Prevention,
+  Symptom,
 } from '../domain/types';
 import { db, DomainError } from './db';
 import { updateSettings } from './settingsRepository';
 
 /** Matches the database version; bump both together and migrate older backups below. */
-export const BACKUP_SCHEMA_VERSION = 4;
+export const BACKUP_SCHEMA_VERSION = 5;
 
 export type BackupData = {
   attacks: Attack[];
@@ -24,6 +25,7 @@ export type BackupData = {
   lifeEvents: LifeEvent[];
   dayEventTypes: DayEventType[];
   dayEvents: DayEvent[];
+  symptoms: Symptom[];
 };
 
 export type Backup = {
@@ -45,6 +47,7 @@ const TABLE_NAMES = [
   'lifeEvents',
   'dayEventTypes',
   'dayEvents',
+  'symptoms',
 ] as const;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -61,6 +64,7 @@ const backupSchema = z.object({
         startedAt: z.number(),
         endedAt: z.number().optional(),
         painLevel: z.number().int().min(PAIN_LEVEL_MIN).max(PAIN_LEVEL_MAX).optional(),
+        symptomIds: z.array(z.string()).optional(),
         notes: z.string().optional(),
       }),
     ),
@@ -104,6 +108,17 @@ const backupSchema = z.object({
       .default([]),
     dayEvents: z
       .array(z.object({ ...recordFields, typeId: z.string(), date: z.string().regex(ISO_DATE) }))
+      .default([]),
+    // Added in version 5.
+    symptoms: z
+      .array(
+        z.object({
+          ...recordFields,
+          builtIn: z.enum(['aura', 'nausea', 'vomiting', 'light', 'noise']).optional(),
+          name: z.string().optional(),
+          enabled: z.boolean(),
+        }),
+      )
       .default([]),
   }),
 });
@@ -174,6 +189,7 @@ export function importBackup(backup: Backup, mode: ImportMode): Promise<ImportSu
       lifeEvents: 0,
       dayEventTypes: 0,
       dayEvents: 0,
+      symptoms: 0,
     };
     for (const name of TABLE_NAMES) {
       const table = db.table<BackupData[typeof name][number], string>(name);

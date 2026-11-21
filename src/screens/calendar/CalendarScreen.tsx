@@ -29,7 +29,7 @@ export function CalendarScreen() {
   const swipeStart = useRef<{ x: number; y: number }>(undefined);
 
   if (!data) return null;
-  const { attacks, intakes, medications, dayEventTypes, dayEvents } = data;
+  const { attacks, intakes, medications, dayEventTypes, dayEvents, symptoms } = data;
 
   const monthRange = { start: month.getTime(), end: addMonths(month, 1).getTime() };
   const migraineDayCount = countDaysInRange(migraineDays(attacks, now), monthRange);
@@ -143,6 +143,7 @@ export function CalendarScreen() {
           defaultStartedAt={selectedDay && defaultStartedAt(selectedDay)}
           intakes={intakes}
           medications={medications}
+          symptoms={symptoms}
           onClose={() => setEditing(undefined)}
         />
       )}

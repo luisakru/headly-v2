@@ -64,6 +64,7 @@ export function ImportSheet({ result, onClose }: ImportSheetProps) {
                   lifeEvents: lifeEvents.length,
                   dayEventTypes: dayEventTypes.length,
                   dayEvents: dayEvents.length,
+                  symptoms: 0,
                 }),
               )}
             </p>

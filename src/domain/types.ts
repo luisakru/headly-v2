@@ -3,6 +3,8 @@ export type Attack = {
   startedAt: number;
   endedAt?: number;
   painLevel?: number;
+  /** Ids of `Symptom`s during this attack. */
+  symptomIds?: string[];
   notes?: string;
   createdAt: number;
   updatedAt: number;
@@ -74,6 +76,19 @@ export type DayEvent = {
   typeId: string;
   /** ISO date, YYYY-MM-DD */
   date: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
+export type BuiltInSymptom = 'aura' | 'nausea' | 'vomiting' | 'light' | 'noise';
+
+/** A symptom the user can tick per attack; built-in ones are named by the locale unless renamed. */
+export type Symptom = {
+  id: string;
+  builtIn?: BuiltInSymptom;
+  /** Own name; for built-in symptoms only when renamed. */
+  name?: string;
+  enabled: boolean;
   createdAt: number;
   updatedAt: number;
 };

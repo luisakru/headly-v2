@@ -190,3 +190,13 @@ test('reminds to back up once there is enough data, and snoozes on later', async
   );
   expect((await getSettings()).backupReminderSnoozedUntil).toBeGreaterThan(Date.now());
 });
+
+test('ticks symptoms of the active attack', async () => {
+  await startAttack();
+  await renderWithI18n(<HomeScreen />);
+
+  fireEvent.click(await screen.findByRole('button', { name: /^Symptoms/ }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Aura' }));
+  await waitFor(async () => expect((await getActiveAttack())?.symptomIds).toEqual(['aura']));
+  expect(screen.queryByRole('button', { name: 'Sensitive to noise' })).not.toBeInTheDocument();
+});

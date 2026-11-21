@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { deleteAttack, saveAttackWithIntakes } from '../data/attackRepository';
-import type { Attack, Effectiveness, Medication, MedicationIntake } from '../domain/types';
+import type { Attack, Effectiveness, Medication, MedicationIntake, Symptom } from '../domain/types';
 import { useI18n } from '../i18n/context';
 import { errorMessage, fromInputValue, toInputValue } from './attackForm';
 import { BottomSheet } from './BottomSheet';
@@ -9,6 +9,7 @@ import { EffectivenessChips } from './EffectivenessChips';
 import styles from './EditAttackSheet.module.css';
 import { PlusIcon, TrashIcon } from './icons';
 import { PainScale } from './PainScale';
+import { SymptomChips } from './SymptomChips';
 
 const HOUR_MS = 60 * 60 * 1000;
 
@@ -29,6 +30,7 @@ type EditAttackSheetProps = {
   defaultStartedAt?: number;
   intakes: MedicationIntake[];
   medications: Medication[];
+  symptoms: Symptom[];
   onClose: () => void;
 };
 
@@ -38,6 +40,7 @@ export function EditAttackSheet({
   defaultStartedAt,
   intakes,
   medications,
+  symptoms,
   onClose,
 }: EditAttackSheetProps) {
   const { t } = useI18n();
@@ -50,6 +53,8 @@ export function EditAttackSheet({
   const [end, setEnd] = useState(() => (attack?.endedAt ? toInputValue(attack.endedAt) : ''));
   const [endTouched, setEndTouched] = useState(false);
   const [painLevel, setPainLevel] = useState(attack?.painLevel);
+  const [symptomIds, setSymptomIds] = useState(attack?.symptomIds ?? []);
+  const shownSymptoms = symptoms.filter((symptom) => symptom.enabled);
   const [draftIntakes, setDraftIntakes] = useState<DraftIntake[]>(() =>
     intakes
       .filter((intake) => attack && intake.attackId === attack.id)
@@ -79,7 +84,7 @@ export function EditAttackSheet({
     try {
       await saveAttackWithIntakes(
         attack?.id,
-        { startedAt, endedAt, painLevel },
+        { startedAt, endedAt, painLevel, symptomIds },
         draftIntakes.map((intake) => ({ ...intake, takenAt: fromInputValue(intake.takenAt) })),
       );
     } catch (caught) {
@@ -127,6 +132,13 @@ export function EditAttackSheet({
 
         <span className={styles.fieldLabel}>{t.editAttack.painLevel}</span>
         <PainScale value={painLevel} onChange={setPainLevel} />
+
+        {shownSymptoms.length > 0 && (
+          <>
+            <span className={styles.fieldLabel}>{t.symptoms.title}</span>
+            <SymptomChips symptoms={shownSymptoms} selected={symptomIds} onChange={setSymptomIds} />
+          </>
+        )}
 
         <span className={styles.fieldLabel}>{t.editAttack.medications}</span>
         {draftIntakes.map((intake) => {

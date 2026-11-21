@@ -344,6 +344,25 @@ Regeln:
 - Lass Felder weg, die du nicht kennst. Schreib nie null und erfinde nichts.
 - Liste nach der Datei kurz auf, was du nicht umwandeln konntest.`,
   },
+  symptoms: {
+    title: 'Symptome',
+    builtIn: {
+      aura: 'Aura',
+      nausea: 'Übelkeit',
+      vomiting: 'Erbrechen',
+      light: 'Lichtempfindlich',
+      noise: 'Lärmempfindlich',
+    },
+    auraHint: 'Sehstörungen oder Kribbeln vorher',
+    done: 'Fertig',
+    newSymptom: 'Eigenes Symptom',
+    shown: 'Anzeigen',
+    off: 'Aus',
+    manageHint: 'Schalte aus, was du nicht brauchst. Tippe auf eines, um es umzubenennen.',
+    count: (shown: number) => (shown === 1 ? '1 angezeigt' : `${shown} angezeigt`),
+    reportSummary: (items: string, total: number) => `Symptome bei ${total} Migränen: ${items}`,
+    reportItem: (name: string, count: number) => `${name} ${count}`,
+  },
   dayEvents: {
     title: 'Kleine Ereignisse',
     today: 'Heute',

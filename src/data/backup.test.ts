@@ -54,6 +54,7 @@ const data: BackupData = {
   lifeEvents: [{ id: 'e1', name: 'New job', date: '2026-05-01', createdAt: 1, updatedAt: 1 }],
   dayEventTypes: [{ id: 't1', name: 'Flight', kind: 'custom', createdAt: 1, updatedAt: 1 }],
   dayEvents: [{ id: 'd1', typeId: 't1', date: '2026-05-02', createdAt: 1, updatedAt: 1 }],
+  symptoms: [],
 };
 
 const exported = () => JSON.stringify(buildBackup(data, now));
@@ -152,6 +153,7 @@ describe('importBackup', () => {
       lifeEvents: 1,
       dayEventTypes: 1,
       dayEvents: 1,
+      symptoms: 0,
     });
     expect(await listMedications()).toEqual(data.medications);
     expect(await db.medicationIntakes.toArray()).toEqual(data.medicationIntakes);
@@ -172,6 +174,7 @@ describe('importBackup', () => {
       lifeEvents: 1,
       dayEventTypes: 1,
       dayEvents: 1,
+      symptoms: 0,
     });
     expect((await listAttacks())[0]?.painLevel).toBe(3);
     expect((await listMedications()).map((m) => m.name)).toEqual(['Ibuprofen', 'Sumatriptan']);

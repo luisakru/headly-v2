@@ -7,9 +7,11 @@ import { ScreenTitle } from '../../components/ScreenTitle';
 import { SegmentedControl } from '../../components/SegmentedControl';
 import { monthsInRange, PRESET_MONTHS, reportRange } from '../../domain/dateRange';
 import { countAttacksStartedIn } from '../../domain/stats';
+import { symptomCounts } from '../../domain/symptoms';
 import { attacksOnDay, intakesOnDay, isInRange, toDayKey } from '../../domain/days';
 import { useI18n } from '../../i18n/context';
 import { formatDateShort, formatDayRange, formatMonthYear } from '../../i18n/format';
+import { symptomName } from '../../i18n/symptoms';
 import { useHomeData, useNow } from '../home/useHomeData';
 import profileStyles from './Profile.module.css';
 import styles from './Report.module.css';
@@ -26,11 +28,17 @@ export function ReportPage() {
   const [preset, setPreset] = useState<ReportPreset>('3M');
 
   if (!data) return null;
-  const { attacks, intakes, medications } = data;
+  const { attacks, intakes, medications, symptoms } = data;
   const range = reportRange(PRESET_MONTHS[preset], now);
   const months = monthsInRange(range);
   const days = eachDayOfInterval({ start: range.start, end: addDays(range.end, -1) });
   const medicationName = (id: string) => medications.find((m) => m.id === id)?.name ?? '';
+  const attacksInRange = attacks.filter((attack) => isInRange(attack.startedAt, range));
+  const symptomTotals = symptomCounts(attacksInRange, symptoms);
+  const symptomNames = (ids: string[] = []) =>
+    symptoms
+      .filter((symptom) => ids.includes(symptom.id))
+      .map((symptom) => symptomName(symptom, t));
 
   return (
     <>
@@ -75,6 +83,16 @@ export function ReportPage() {
             ))}
           </tbody>
         </table>
+        {symptomTotals.length > 0 && (
+          <p className={styles.meta}>
+            {t.symptoms.reportSummary(
+              symptomTotals
+                .map(({ symptom, count }) => t.symptoms.reportItem(symptomName(symptom, t), count))
+                .join(', '),
+              attacksInRange.length,
+            )}
+          </p>
+        )}
         {months.map((month) => (
           <section key={month.start} className={styles.month}>
             <h2 className={styles.monthHeading}>{formatMonthYear(month.start, language)}</h2>
@@ -86,6 +104,7 @@ export function ReportPage() {
                   <th>{t.dayDetail.pain}</th>
                   <th>{t.dayDetail.medications}</th>
                   <th>{t.report.helped}</th>
+                  <th>{t.symptoms.title}</th>
                 </tr>
               </thead>
               <tbody>
@@ -124,6 +143,13 @@ export function ReportPage() {
                                 : NO_VALUE}
                             </span>
                           ))}
+                        </td>
+                        <td>
+                          {[
+                            ...new Set(
+                              dayAttacks.flatMap((attack) => symptomNames(attack.symptomIds)),
+                            ),
+                          ].join(', ')}
                         </td>
                       </tr>
                     );

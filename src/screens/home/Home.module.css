@@ -224,6 +224,23 @@
   font-size: 17px;
 }
 
+.symptomValue {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  gap: var(--space-3);
+  min-width: 0;
+  font-size: 17px;
+}
+
+.symptomSummary {
+  overflow: hidden;
+  color: var(--color-text);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .painNumber {
   color: var(--color-text);
   font-weight: 600;

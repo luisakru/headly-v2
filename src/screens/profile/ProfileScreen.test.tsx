@@ -115,6 +115,7 @@ test('imports a backup file by replacing all data', async () => {
       lifeEvents: [],
       dayEventTypes: [],
       dayEvents: [],
+      symptoms: [],
     },
     Date.now(),
   );

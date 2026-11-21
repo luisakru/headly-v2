@@ -5,6 +5,7 @@ import { Button } from '../../components/Button';
 import { EffectivenessChips } from '../../components/EffectivenessChips';
 import { ChevronRightIcon, MoreIcon, PlusIcon } from '../../components/icons';
 import { PainScale } from '../../components/PainScale';
+import { SymptomChips } from '../../components/SymptomChips';
 import { deleteAttack, endAttack, updateAttack } from '../../data/attackRepository';
 import { deleteIntake, rateIntake } from '../../data/intakeRepository';
 import { durationParts } from '../../domain/days';
@@ -12,22 +13,32 @@ import { activeAttackPrompt } from '../../domain/prompts';
 import type { Attack, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatDateTime, formatTime } from '../../i18n/format';
+import { symptomName } from '../../i18n/symptoms';
 import styles from './Home.module.css';
 import { MedicationSheet } from './MedicationSheet';
 import { RatingPromptCard } from './RatingPromptCard';
 import { TimePickerSheet } from './TimePickerSheet';
 import type { HomeData } from './useHomeData';
 
-type Sheet = 'medication' | 'startTime' | 'endTime' | 'more' | 'pain' | { rate: MedicationIntake };
+type Sheet =
+  | 'medication'
+  | 'startTime'
+  | 'endTime'
+  | 'more'
+  | 'pain'
+  | 'symptoms'
+  | { rate: MedicationIntake };
 
 type ActiveAttackProps = HomeData & { attack: Attack; now: number };
 
-export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttackProps) {
+export function ActiveAttack({ attack, intakes, medications, symptoms, now }: ActiveAttackProps) {
   const { t, language } = useI18n();
   const [sheet, setSheet] = useState<Sheet>();
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const closeSheet = () => setSheet(undefined);
   const attackIntakes = intakes.filter((intake) => intake.attackId === attack.id);
+  const shownSymptoms = symptoms.filter((symptom) => symptom.enabled);
+  const attackSymptoms = shownSymptoms.filter((symptom) => attack.symptomIds?.includes(symptom.id));
   const medicationName = (intake: MedicationIntake) =>
     medications.find((medication) => medication.id === intake.medicationId)?.name ?? '';
 
@@ -70,6 +81,20 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
         </span>
         <ChevronRightIcon />
       </button>
+
+      {shownSymptoms.length > 0 && (
+        <button type="button" className={styles.painRow} onClick={() => setSheet('symptoms')}>
+          <span className={styles.symptomValue}>
+            <span className={styles.muted}>{t.symptoms.title}</span>
+            <span className={styles.symptomSummary}>
+              {attackSymptoms.length > 0
+                ? attackSymptoms.map((symptom) => symptomName(symptom, t)).join(', ')
+                : '–'}
+            </span>
+          </span>
+          <ChevronRightIcon />
+        </button>
+      )}
 
       {attackIntakes.length > 0 && (
         <section>
@@ -131,6 +156,20 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
               closeSheet();
             }}
           />
+        </BottomSheet>
+      )}
+      {sheet === 'symptoms' && (
+        <BottomSheet open onClose={closeSheet} title={t.symptoms.title}>
+          <div className={styles.sheetActions}>
+            <SymptomChips
+              symptoms={shownSymptoms}
+              selected={attack.symptomIds ?? []}
+              onChange={(symptomIds) => void updateAttack(attack.id, { symptomIds })}
+            />
+            <Button variant="outline" onClick={closeSheet}>
+              {t.symptoms.done}
+            </Button>
+          </div>
         </BottomSheet>
       )}
       {sheet === 'medication' && (

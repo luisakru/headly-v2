@@ -6,6 +6,7 @@ import { listLifeEvents } from '../../data/lifeEventRepository';
 import { listIntakes } from '../../data/intakeRepository';
 import { listMedications } from '../../data/medicationRepository';
 import { listPreventions } from '../../data/preventionRepository';
+import { listSymptoms } from '../../data/symptomRepository';
 import { getSettings } from '../../data/settingsRepository';
 import type {
   Attack,
@@ -16,6 +17,7 @@ import type {
   MedicationIntake,
   Prevention,
   Settings,
+  Symptom,
 } from '../../domain/types';
 
 export type HomeData = {
@@ -27,21 +29,41 @@ export type HomeData = {
   lifeEvents: LifeEvent[];
   dayEventTypes: DayEventType[];
   dayEvents: DayEvent[];
+  /** Built-in and own symptoms, including turned-off ones. */
+  symptoms: Symptom[];
 };
 
 export function useHomeData(): HomeData | undefined {
   return useLiveQuery(async () => {
-    const [attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents] =
-      await Promise.all([
-        listAttacks(),
-        listIntakes(),
-        listMedications({ includeArchived: true }),
-        listPreventions(),
-        listLifeEvents(),
-        listDayEventTypes(),
-        listDayEvents(),
-      ]);
-    return { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents };
+    const [
+      attacks,
+      intakes,
+      medications,
+      preventions,
+      lifeEvents,
+      dayEventTypes,
+      dayEvents,
+      symptoms,
+    ] = await Promise.all([
+      listAttacks(),
+      listIntakes(),
+      listMedications({ includeArchived: true }),
+      listPreventions(),
+      listLifeEvents(),
+      listDayEventTypes(),
+      listDayEvents(),
+      listSymptoms(),
+    ]);
+    return {
+      attacks,
+      intakes,
+      medications,
+      preventions,
+      lifeEvents,
+      dayEventTypes,
+      dayEvents,
+      symptoms,
+    };
   });
 }
 

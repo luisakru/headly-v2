@@ -209,9 +209,17 @@ Shown on the Home tab while an attack is active.
 - Elapsed time, large; below it a quiet "since 08:40" that edits the start time when tapped
 - "Is it still going?" prompt as a quiet banner (same style as the backup banner) when due
 - Pain as one row, "Pain 6 of 10 ›"; tapping opens the 0–10 pain scale in a sheet, and choosing a level saves it and closes the sheet
+- "Symptoms" row below the pain row, showing the ticked ones ("Symptoms Aura, Nausea ›"); tapping opens a sheet with toggle chips of the shown symptoms, saved on every tap, and "Done". Hidden when all symptoms are turned off
 - Medication as plain rows: name · time, and the effect as a text button that opens the rating sheet; deleting an intake lives in that sheet
 - Pinned above the tab bar, always in reach: outlined "Log medication" (opens the medication sheet with a "Taken at" field, prefilled with now; one tap logs the intake linked to this attack) and the filled "End migraine" (ends at now)
 - "More actions" sheet: "Ended earlier?" to pick a time, and "Delete migraine", which asks "Really delete?" before deleting
+
+### Symptoms
+
+Toggle chips per attack, important for the doctor (aura matters for oestrogen contraception, nausea for nasal spray instead of tablets). Built-in: Aura, Nausea, Vomiting, Sensitive to light (on) and Sensitive to noise (off); their names come from the locale until renamed, and they are only stored once changed. Own symptoms can be added, renamed and deleted. Profile → Symptoms: turn on or off, rename, add.
+
+- Ticked during an attack (Active attack) and in the edit sheet
+- No analysis in the app; the PDF report gets a "Symptoms" column and a line with how many attacks in the range had each symptom
 
 ### Small events
 

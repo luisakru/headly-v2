@@ -340,6 +340,25 @@ Rules:
 - Leave out fields you do not know. Never write null and never invent data.
 - After the file, briefly list anything you could not convert.`,
   },
+  symptoms: {
+    title: 'Symptoms',
+    builtIn: {
+      aura: 'Aura',
+      nausea: 'Nausea',
+      vomiting: 'Vomiting',
+      light: 'Sensitive to light',
+      noise: 'Sensitive to noise',
+    },
+    auraHint: 'Visual disturbances or tingling beforehand',
+    done: 'Done',
+    newSymptom: 'Own symptom',
+    shown: 'Show',
+    off: 'Off',
+    manageHint: 'Turn off what you do not need. Tap one to rename it.',
+    count: (shown: number) => (shown === 1 ? '1 shown' : `${shown} shown`),
+    reportSummary: (items: string, total: number) => `Symptoms in ${total} migraines: ${items}`,
+    reportItem: (name: string, count: number) => `${name} ${count}`,
+  },
   dayEvents: {
     title: 'Small events',
     today: 'Today',

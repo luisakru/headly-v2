@@ -24,6 +24,7 @@ export function IdleHome({
   lifeEvents,
   dayEventTypes,
   dayEvents,
+  symptoms,
   now,
 }: HomeData & { now: number }) {
   const { t, language } = useI18n();
@@ -66,6 +67,7 @@ export function IdleHome({
             lifeEvents,
             dayEventTypes,
             dayEvents,
+            symptoms,
           }}
           now={now}
         />
@@ -82,6 +84,7 @@ export function IdleHome({
       )}
 
       <RecentWeeks
+        symptoms={symptoms}
         eventDays={new Set(dayEvents.map((event) => event.date))}
         attacks={attacks}
         intakes={intakes}

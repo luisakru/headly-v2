@@ -33,11 +33,13 @@ import { MedicationsSheet } from './MedicationsSheet';
 import { PreventionsSheet } from './PreventionsSheet';
 import styles from './Profile.module.css';
 import { ProfileRow } from './ProfileRow';
+import { SymptomsSheet } from './SymptomsSheet';
 
 const LANGUAGES: Language[] = ['de', 'en'];
 const THEMES: Theme[] = ['system', 'light', 'dark'];
 
-type OpenSheet = 'medications' | 'preventions' | 'lifeEvents' | 'dayEventTypes' | 'deleteAll';
+type OpenSheet =
+  'medications' | 'symptoms' | 'preventions' | 'lifeEvents' | 'dayEventTypes' | 'deleteAll';
 
 export function ProfileScreen() {
   const { t, language, setLanguage } = useI18n();
@@ -51,7 +53,16 @@ export function ProfileScreen() {
   const [exported, setExported] = useState(false);
 
   if (!data || !settings) return null;
-  const { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents } = data;
+  const {
+    attacks,
+    intakes,
+    medications,
+    preventions,
+    lifeEvents,
+    dayEventTypes,
+    dayEvents,
+    symptoms,
+  } = data;
 
   const activeMedications = medications.filter((medication) => !medication.archived);
   const activePreventions = preventions.filter((prevention) => isActivePrevention(prevention, now));
@@ -85,6 +96,18 @@ export function ProfileScreen() {
             title={t.profile.manageMedications}
             subtitle={t.profile.medicationCount(activeMedications.length)}
             onClick={() => setOpenSheet('medications')}
+          />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionLabel}>{t.symptoms.title}</h2>
+        <div className={styles.card}>
+          <ProfileRow
+            icon={<InfoIcon />}
+            title={t.symptoms.title}
+            subtitle={t.symptoms.count(symptoms.filter((symptom) => symptom.enabled).length)}
+            onClick={() => setOpenSheet('symptoms')}
           />
         </div>
       </section>
@@ -147,6 +170,7 @@ export function ProfileScreen() {
                 lifeEvents,
                 dayEventTypes,
                 dayEvents,
+                symptoms,
               }).then(setExported)
             }
           />
@@ -275,6 +299,9 @@ export function ProfileScreen() {
           events={dayEvents}
           onClose={() => setOpenSheet(undefined)}
         />
+      )}
+      {openSheet === 'symptoms' && (
+        <SymptomsSheet symptoms={symptoms} onClose={() => setOpenSheet(undefined)} />
       )}
       {openSheet === 'deleteAll' && <DeleteAllSheet onClose={() => setOpenSheet(undefined)} />}
       {importResult && (

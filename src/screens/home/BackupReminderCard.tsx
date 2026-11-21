@@ -10,7 +10,16 @@ import { useSettings, type HomeData } from './useHomeData';
 export function BackupReminderCard({ data, now }: { data: HomeData; now: number }) {
   const { t } = useI18n();
   const settings = useSettings();
-  const { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents } = data;
+  const {
+    attacks,
+    intakes,
+    medications,
+    preventions,
+    lifeEvents,
+    dayEventTypes,
+    dayEvents,
+    symptoms,
+  } = data;
   const recordCount =
     attacks.length +
     intakes.length +
@@ -36,6 +45,7 @@ export function BackupReminderCard({ data, now }: { data: HomeData; now: number 
               lifeEvents,
               dayEventTypes,
               dayEvents,
+              symptoms,
             })
           }
         >

@@ -4,7 +4,7 @@ import { DayDetails } from '../../components/DayDetails';
 import { DayGrid, DayLegend } from '../../components/DayGrid';
 import { EditAttackSheet } from '../../components/EditAttackSheet';
 import { recentWeekDays } from '../../domain/calendar';
-import type { Attack, Medication, MedicationIntake } from '../../domain/types';
+import type { Attack, Medication, MedicationIntake, Symptom } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import styles from './Home.module.css';
 
@@ -15,10 +15,18 @@ type RecentWeeksProps = {
   intakes: MedicationIntake[];
   medications: Medication[];
   now: number;
+  symptoms: Symptom[];
   eventDays?: Set<string>;
 };
 
-export function RecentWeeks({ attacks, intakes, medications, now, eventDays }: RecentWeeksProps) {
+export function RecentWeeks({
+  attacks,
+  intakes,
+  medications,
+  now,
+  symptoms,
+  eventDays,
+}: RecentWeeksProps) {
   const { t } = useI18n();
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(() => startOfDay(now));
   const [editingAttack, setEditingAttack] = useState<Attack>();
@@ -51,6 +59,7 @@ export function RecentWeeks({ attacks, intakes, medications, now, eventDays }: R
           attack={editingAttack}
           intakes={intakes}
           medications={medications}
+          symptoms={symptoms}
           onClose={() => setEditingAttack(undefined)}
         />
       )}

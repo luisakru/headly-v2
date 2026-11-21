@@ -8,6 +8,7 @@ import type {
   MedicationIntake,
   Prevention,
   Settings,
+  Symptom,
 } from '../domain/types';
 
 export const SETTINGS_ID = 'settings';
@@ -22,6 +23,7 @@ export class HeadlyDatabase extends Dexie {
   lifeEvents!: EntityTable<LifeEvent, 'id'>;
   dayEventTypes!: EntityTable<DayEventType, 'id'>;
   dayEvents!: EntityTable<DayEvent, 'id'>;
+  symptoms!: EntityTable<Symptom, 'id'>;
   settings!: EntityTable<SettingsRecord, 'id'>;
 
   constructor() {
@@ -49,6 +51,7 @@ export class HeadlyDatabase extends Dexie {
       );
     this.version(3).stores({ lifeEvents: 'id, date' });
     this.version(4).stores({ dayEventTypes: 'id', dayEvents: 'id, date, typeId' });
+    this.version(5).stores({ symptoms: 'id' });
   }
 }
 
