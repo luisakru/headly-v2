@@ -4,7 +4,7 @@ Ein Hausmittel, von dem man immer wieder hört: ein starker Kaffee mit dem Saft 
 
 ## Was dahintersteckt
 
-Gut belegt ist das Koffein. Es verstärkt die Wirkung von Schmerzmitteln. Deshalb gibt es Kombipräparate aus Schmerzmittel und Koffein, die auch in der deutschen Leitlinie stehen. Zur Zitrone selbst gibt es keine Studien. Vielleicht macht sie den Kaffee einfach bekömmlicher. Cola bringt Koffein, Zucker und Flüssigkeit mit, das tut manchen bei Übelkeit gut.
+Gut belegt ist das Koffein. Es verstärkt die Wirkung von Schmerzmitteln. Deshalb gibt es Kombipräparate aus Schmerzmittel und Koffein, die auch in der deutschen Leitlinie stehen. Zur Zitrone selbst gibt es keine Studien. Warum sie hilft, weiß niemand so genau, aber viele schwören darauf. Cola bringt Koffein, Zucker und Flüssigkeit mit, das tut manchen bei Übelkeit gut.
 
 ## Worauf du achten solltest
 

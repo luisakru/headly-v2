@@ -4,7 +4,7 @@ A home remedy you hear about again and again: a strong coffee with the juice of 
 
 ## What is behind it
 
-The caffeine is well studied. It makes pain relievers work better, which is why there are combination products of a pain reliever and caffeine, also listed in the German guideline. There are no studies on the lemon itself; perhaps it simply makes the coffee easier on the stomach. Cola brings caffeine, sugar and fluid, which helps some people with nausea.
+The caffeine is well studied. It makes pain relievers work better, which is why there are combination products of a pain reliever and caffeine, also listed in the German guideline. There are no studies on the lemon itself. Nobody quite knows why it helps, but many swear by it. Cola brings caffeine, sugar and fluid, which helps some people with nausea.
 
 ## What to keep in mind
 
