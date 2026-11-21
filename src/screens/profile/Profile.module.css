@@ -75,7 +75,8 @@
 }
 
 .row + .row,
-.settingRow {
+.row + .settingRow,
+.settingRow + .settingRow {
   border-top: 1px solid var(--color-border);
   border-radius: 0;
 }
