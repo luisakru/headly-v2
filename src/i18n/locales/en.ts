@@ -63,13 +63,14 @@ export const en = {
   },
   activeAttack: {
     label: 'Migraine active',
-    runningFor: 'running for',
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
-    startedToday: (time: string) => `started at ${time} today`,
-    startedOn: (dateTime: string) => `started ${dateTime}`,
+    sinceToday: (time: string) => `since ${time}`,
+    sinceOn: (dateTime: string) => `since ${dateTime}`,
+    pain: 'Pain',
+    painOutOf: 'of 10',
     painNow: 'Pain level now',
-    medicationsDuring: 'Medication during this migraine',
+    medicationsDuring: 'Medication',
     logMedication: 'Log medication',
     endMigraine: 'End migraine',
     endedEarlier: 'Ended earlier?',

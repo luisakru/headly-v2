@@ -27,9 +27,11 @@ test('logs a full attack: start, pain, medication, end', async () => {
   fireEvent.click(await screen.findByRole('button', { name: 'Start migraine' }));
   expect(await screen.findByText('Migraine active')).toBeInTheDocument();
 
-  fireEvent.click(screen.getByRole('radio', { name: '6' }));
+  fireEvent.click(screen.getByRole('button', { name: /^Pain/ }));
+  fireEvent.click(await screen.findByRole('radio', { name: '6' }));
   await waitFor(async () => expect((await getActiveAttack())?.painLevel).toBe(6));
-  fireEvent.click(screen.getByRole('radio', { name: '0' }));
+  fireEvent.click(await screen.findByRole('button', { name: /^Pain\s*6/ }));
+  fireEvent.click(await screen.findByRole('radio', { name: '0' }));
   await waitFor(async () => expect((await getActiveAttack())?.painLevel).toBe(0));
 
   fireEvent.click(await screen.findByRole('button', { name: 'Log medication' }));

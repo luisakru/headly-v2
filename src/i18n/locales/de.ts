@@ -62,13 +62,14 @@ export const de: Dictionary = {
   },
   activeAttack: {
     label: 'Migräne aktiv',
-    runningFor: 'läuft seit',
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}T ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
-    startedToday: (time: string) => `gestartet um ${time} Uhr heute`,
-    startedOn: (dateTime: string) => `gestartet am ${dateTime} Uhr`,
+    sinceToday: (time: string) => `seit ${time} Uhr`,
+    sinceOn: (dateTime: string) => `seit ${dateTime} Uhr`,
+    pain: 'Schmerz',
+    painOutOf: 'von 10',
     painNow: 'Schmerzintensität jetzt',
-    medicationsDuring: 'Medikamente in dieser Migräne',
+    medicationsDuring: 'Medikamente',
     logMedication: 'Medikament eintragen',
     endMigraine: 'Migräne beenden',
     endedEarlier: 'Früher beendet?',

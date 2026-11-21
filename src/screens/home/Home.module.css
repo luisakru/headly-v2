@@ -35,7 +35,6 @@
   margin-bottom: var(--space-8);
 }
 
-.startTime,
 .textButton {
   min-height: var(--touch-target);
   padding: 0;
@@ -96,6 +95,12 @@
 
 .bannerText {
   margin: 0;
+  font-size: 15px;
+}
+
+.bannerHint {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
   font-size: 15px;
 }
 
@@ -170,18 +175,15 @@
   }
 }
 
-.active .section {
-  margin-bottom: var(--space-5);
-}
-
-.runningFor {
-  color: var(--color-text-secondary);
-  font-family: var(--font-sans);
-  font-size: 18px;
+.active {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-height: 100%;
 }
 
 .elapsed {
-  margin: var(--space-5) 0 0;
+  margin: 0;
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 52px;
@@ -189,19 +191,61 @@
   line-height: 1.1;
 }
 
-.startTime {
-  margin-bottom: var(--space-5);
+.since {
+  min-height: var(--touch-target);
+  padding: 0;
+  border: none;
+  background: none;
   color: var(--color-text-secondary);
-  text-align: left;
-  text-decoration: underline dotted;
+  font-size: 17px;
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
   text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.painRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--primary-action-height);
+  padding: 0 var(--space-4);
+  border: none;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.painValue {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: 17px;
+}
+
+.painNumber {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stays above the tab bar while the rest scrolls, so both actions are always in thumb reach. */
+.pinnedActions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: auto calc(-1 * var(--screen-padding)) calc(-1 * var(--space-8));
+  padding: var(--space-3) var(--screen-padding) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
 }
 
 .intakeList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin: 0;
+  margin: var(--space-1) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -209,44 +253,32 @@
 .intakeRow {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding-right: var(--space-2);
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.intakeRow:last-child {
+  border-bottom: none;
 }
 
 .intakeText {
-  display: flex;
   flex: 1;
-  flex-direction: column;
   min-width: 0;
 }
 
-.statusChip {
+.rateButton {
   min-height: var(--touch-target);
-  padding: 0 var(--space-3);
-  border: none;
-  border-radius: var(--radius-button);
-  background: var(--color-border);
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.statusChip[data-rated] {
-  background: var(--color-warning-bg);
-  color: var(--color-text);
-}
-
-.iconButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--touch-target);
-  height: var(--touch-target);
   padding: 0;
   border: none;
   background: none;
-  color: var(--color-warning-text);
+  color: var(--color-primary);
+  font-size: 15px;
   cursor: pointer;
+}
+
+.rateButton[data-rated] {
+  color: var(--color-text-secondary);
 }
 
 /* Sheets */
@@ -325,11 +357,11 @@
 
 .moreButton:focus-visible,
 .bannerButton:focus-visible,
-.startTime:focus-visible,
+.since:focus-visible,
+.painRow:focus-visible,
+.rateButton:focus-visible,
 .textButton:focus-visible,
 .medicationRow:focus-visible,
-.statusChip:focus-visible,
-.iconButton:focus-visible,
 .input:focus-visible {
   outline: 2px solid var(--color-text);
   outline-offset: 2px;

@@ -2,15 +2,14 @@ import { isSameDay } from 'date-fns';
 import { useState } from 'react';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Button } from '../../components/Button';
-import { Card } from '../../components/Card';
 import { EffectivenessChips } from '../../components/EffectivenessChips';
-import { MoreIcon, PlusIcon, TrashIcon } from '../../components/icons';
+import { ChevronRightIcon, MoreIcon, PlusIcon } from '../../components/icons';
 import { PainScale } from '../../components/PainScale';
 import { deleteAttack, endAttack, updateAttack } from '../../data/attackRepository';
 import { deleteIntake, rateIntake } from '../../data/intakeRepository';
 import { durationParts } from '../../domain/days';
 import { activeAttackPrompt } from '../../domain/prompts';
-import type { Attack, Medication, MedicationIntake } from '../../domain/types';
+import type { Attack, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatDateTime, formatTime } from '../../i18n/format';
 import styles from './Home.module.css';
@@ -19,7 +18,7 @@ import { RatingPromptCard } from './RatingPromptCard';
 import { TimePickerSheet } from './TimePickerSheet';
 import type { HomeData } from './useHomeData';
 
-type Sheet = 'medication' | 'startTime' | 'endTime' | 'more' | { rate: MedicationIntake };
+type Sheet = 'medication' | 'startTime' | 'endTime' | 'more' | 'pain' | { rate: MedicationIntake };
 
 type ActiveAttackProps = HomeData & { attack: Attack; now: number };
 
@@ -48,44 +47,56 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
           <MoreIcon />
         </button>
       </div>
-      <p className={styles.elapsed}>
-        <span className={styles.runningFor}>{t.activeAttack.runningFor}</span>{' '}
-        {t.activeAttack.duration(durationParts(now - attack.startedAt))}
-      </p>
-      <button type="button" className={styles.startTime} onClick={() => setSheet('startTime')}>
-        {isSameDay(attack.startedAt, now)
-          ? t.activeAttack.startedToday(formatTime(attack.startedAt, language))
-          : t.activeAttack.startedOn(formatDateTime(attack.startedAt, language))}
+
+      <div>
+        <p className={styles.elapsed}>
+          {t.activeAttack.duration(durationParts(now - attack.startedAt))}
+        </p>
+        <button type="button" className={styles.since} onClick={() => setSheet('startTime')}>
+          {isSameDay(attack.startedAt, now)
+            ? t.activeAttack.sinceToday(formatTime(attack.startedAt, language))
+            : t.activeAttack.sinceOn(formatDateTime(attack.startedAt, language))}
+        </button>
+      </div>
+
+      <AttackPromptCard attack={attack} now={now} onEndEarlier={() => setSheet('endTime')} />
+      <RatingPromptCard intakes={intakes} medications={medications} now={now} />
+
+      <button type="button" className={styles.painRow} onClick={() => setSheet('pain')}>
+        <span className={styles.painValue}>
+          <span className={styles.muted}>{t.activeAttack.pain}</span>
+          <span className={styles.painNumber}>{attack.painLevel ?? '–'}</span>
+          <span className={styles.muted}>{t.activeAttack.painOutOf}</span>
+        </span>
+        <ChevronRightIcon />
       </button>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.activeAttack.painNow}</h2>
-        <PainScale
-          value={attack.painLevel}
-          onChange={(painLevel) => void updateAttack(attack.id, { painLevel })}
-        />
-      </section>
-
       {attackIntakes.length > 0 && (
-        <section className={styles.section}>
+        <section>
           <h2 className={styles.sectionLabel}>{t.activeAttack.medicationsDuring}</h2>
           <ul className={styles.intakeList}>
             {attackIntakes.map((intake) => (
-              <IntakeRow
-                key={intake.id}
-                intake={intake}
-                medication={medications.find((m) => m.id === intake.medicationId)}
-                onRate={() => setSheet({ rate: intake })}
-              />
+              <li key={intake.id} className={styles.intakeRow}>
+                <span className={styles.intakeText}>
+                  <span className={styles.medicationName}>{medicationName(intake)}</span>
+                  <span className={styles.muted}> · {formatTime(intake.takenAt, language)}</span>
+                </span>
+                <button
+                  type="button"
+                  className={styles.rateButton}
+                  data-rated={intake.effectiveness !== undefined || undefined}
+                  onClick={() => setSheet({ rate: intake })}
+                >
+                  {t.effectiveness[intake.effectiveness ?? 'pending']}
+                </button>
+              </li>
             ))}
           </ul>
         </section>
       )}
 
-      <div className={styles.actions}>
-        <AttackPromptCard attack={attack} now={now} onEndEarlier={() => setSheet('endTime')} />
-        <RatingPromptCard intakes={intakes} medications={medications} now={now} />
-        <Button large variant="outline" onClick={() => setSheet('medication')}>
+      <div className={styles.pinnedActions}>
+        <Button variant="outline" onClick={() => setSheet('medication')}>
           <PlusIcon />
           {t.activeAttack.logMedication}
         </Button>
@@ -111,7 +122,17 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
           </div>
         </BottomSheet>
       )}
-
+      {sheet === 'pain' && (
+        <BottomSheet open onClose={closeSheet} title={t.activeAttack.painNow}>
+          <PainScale
+            value={attack.painLevel}
+            onChange={(painLevel) => {
+              void updateAttack(attack.id, { painLevel });
+              closeSheet();
+            }}
+          />
+        </BottomSheet>
+      )}
       {sheet === 'medication' && (
         <MedicationSheet medications={medications} attackId={attack.id} onClose={closeSheet} />
       )}
@@ -137,56 +158,28 @@ export function ActiveAttack({ attack, intakes, medications, now }: ActiveAttack
           onClose={closeSheet}
           title={t.effectiveness.sheetTitle(medicationName(sheet.rate))}
         >
-          <EffectivenessChips
-            label={t.effectiveness.sheetTitle(medicationName(sheet.rate))}
-            value={sheet.rate.effectiveness}
-            onChange={(effectiveness) => {
-              void rateIntake(sheet.rate.id, effectiveness);
-              closeSheet();
-            }}
-          />
+          <div className={styles.sheetActions}>
+            <EffectivenessChips
+              label={t.effectiveness.sheetTitle(medicationName(sheet.rate))}
+              value={sheet.rate.effectiveness}
+              onChange={(effectiveness) => {
+                void rateIntake(sheet.rate.id, effectiveness);
+                closeSheet();
+              }}
+            />
+            <Button
+              variant="outline"
+              onClick={() => {
+                void deleteIntake(sheet.rate.id);
+                closeSheet();
+              }}
+            >
+              {t.activeAttack.deleteIntake(medicationName(sheet.rate))}
+            </Button>
+          </div>
         </BottomSheet>
       )}
     </div>
-  );
-}
-
-type IntakeRowProps = {
-  intake: MedicationIntake;
-  medication?: Medication;
-  onRate: () => void;
-};
-
-function IntakeRow({ intake, medication, onRate }: IntakeRowProps) {
-  const { t, language } = useI18n();
-  const name = medication?.name ?? '';
-  const details = [medication?.dose, formatTime(intake.takenAt, language)].filter(Boolean);
-
-  return (
-    <li>
-      <Card className={styles.intakeRow}>
-        <div className={styles.intakeText}>
-          <span className={styles.medicationName}>{name}</span>
-          <span className={styles.muted}>{details.join(' · ')}</span>
-        </div>
-        <button
-          type="button"
-          className={styles.statusChip}
-          data-rated={intake.effectiveness !== undefined || undefined}
-          onClick={onRate}
-        >
-          {t.effectiveness[intake.effectiveness ?? 'pending']}
-        </button>
-        <button
-          type="button"
-          className={styles.iconButton}
-          aria-label={t.activeAttack.deleteIntake(name)}
-          onClick={() => void deleteIntake(intake.id)}
-        >
-          <TrashIcon />
-        </button>
-      </Card>
-    </li>
   );
 }
 
@@ -223,25 +216,31 @@ function AttackPromptCard({ attack, now, onEndEarlier }: AttackPromptCardProps) 
   };
 
   return (
-    <Card className={styles.promptCard}>
-      {prompt === 'stillRunning' ? (
-        <p className={styles.promptTitle}>{t.prompts.stillRunning}</p>
-      ) : (
-        <>
-          <p className={styles.promptTitle}>{t.prompts.stillRunningNextDay}</p>
-          <p className={styles.muted}>{t.prompts.stillRunningNextDayHint}</p>
-        </>
+    <div className={styles.banner} role="status">
+      <p className={styles.bannerText}>
+        {prompt === 'stillRunning' ? t.prompts.stillRunning : t.prompts.stillRunningNextDay}
+      </p>
+      {prompt !== 'stillRunning' && (
+        <p className={styles.bannerHint}>{t.prompts.stillRunningNextDayHint}</p>
       )}
-      <div className={styles.promptActions}>
-        <Button variant="outline" onClick={dismiss}>
-          {t.prompts.stillGoing}
-        </Button>
+      <div className={styles.bannerActions}>
         {prompt === 'stillRunning' ? (
-          <Button onClick={() => void endAttack(attack.id)}>{t.prompts.itIsOver}</Button>
+          <button
+            type="button"
+            className={styles.bannerButton}
+            onClick={() => void endAttack(attack.id)}
+          >
+            {t.prompts.itIsOver}
+          </button>
         ) : (
-          <Button onClick={onEndEarlier}>{t.prompts.endAtTime}</Button>
+          <button type="button" className={styles.bannerButton} onClick={onEndEarlier}>
+            {t.prompts.endAtTime}
+          </button>
         )}
+        <button type="button" className={styles.bannerButton} data-quiet onClick={dismiss}>
+          {t.prompts.stillGoing}
+        </button>
       </div>
-    </Card>
+    </div>
   );
 }

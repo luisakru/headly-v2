@@ -206,11 +206,11 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 Shown on the Home tab while an attack is active.
 
 - "Migraine active" label with the pulsing dot; a "…" button on the right opens "More actions"
-- Elapsed time, large, and start time; tapping the start time edits it
-- Pain scale 0–10 as eleven tappable pips with "no pain" and "unbearable" labels. Each tap sets `painLevel`
-- Outlined "Log medication" button: opens a sheet listing saved medications; a "Taken at" date and time field at the top, prefilled with now; one tap logs the intake at that time, linked to this attack. Empty state links to adding a medication
-- List of intakes during this attack with rating status
-- Filled "End migraine" button: ends at now
+- Elapsed time, large; below it a quiet "since 08:40" that edits the start time when tapped
+- "Is it still going?" prompt as a quiet banner (same style as the backup banner) when due
+- Pain as one row, "Pain 6 of 10 ›"; tapping opens the 0–10 pain scale in a sheet, and choosing a level saves it and closes the sheet
+- Medication as plain rows: name · time, and the effect as a text button that opens the rating sheet; deleting an intake lives in that sheet
+- Pinned above the tab bar, always in reach: outlined "Log medication" (opens the medication sheet with a "Taken at" field, prefilled with now; one tap logs the intake linked to this attack) and the filled "End migraine" (ends at now)
 - "More actions" sheet: "Ended earlier?" to pick a time, and "Delete migraine", which asks "Really delete?" before deleting
 
 ### Calendar
