@@ -1,13 +1,11 @@
 # Privacy policy
 
-Last updated: [MONTH YEAR]
+Last updated: November 2026
 
 ## 1. Controller
 
 [FIRST NAME LAST NAME]
-[STREET AND NUMBER]
-[POSTCODE CITY]
-Email: [YOUR-EMAIL@EXAMPLE.COM]
+Email: headly@bylu.app
 
 ## 2. Principle: your data stays on your device
 
@@ -83,4 +81,4 @@ If this policy changes significantly, the updated version will be available in t
 ## 15. Contact
 
 For questions about how your data is processed:
-[YOUR-EMAIL@EXAMPLE.COM]
+headly@bylu.app

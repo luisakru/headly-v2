@@ -331,7 +331,7 @@ The UI ships in German and English from day one, switchable in Profile; the defa
 - **Plurals and variables** via small helper functions in the dictionary, for example ` migraineDays: (n) => n === 1 ? '1 migraine day' :  `${n} migraine days\`\`.
 - **Dates and numbers** formatted with `Intl.DateTimeFormat` and `Intl.NumberFormat` using the current language; date-fns locale for relative phrases. Weeks always start on Monday.
 - **Insights** are templates per language, filled with numbers; never machine-translated at runtime.
-- **Legal texts** (privacy policy, imprint) exist in both languages as separate Markdown files.
+- **Legal texts:** a privacy policy in both languages as Markdown files. No imprint: Headly is private and earns no money. Contact and support: headly@bylu.app (Profile → Help and info → "Feedback and bugs" opens a mail with the app version in the subject).
 - The selected language is stored in `Settings` and applied without a reload.
 
 ## Data safety: export, import, backup reminder

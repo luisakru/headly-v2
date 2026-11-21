@@ -465,7 +465,8 @@ Regeln:
     language: 'Sprache',
     theme: 'Darstellung',
     privacy: 'Datenschutz',
-    imprint: 'Impressum',
+    feedback: 'Feedback und Fehler',
+    feedbackSubject: (version: string) => `Headly ${version}: Feedback`,
     about: 'Über Headly',
     version: (version: string) => `Version ${version}`,
     aboutText:

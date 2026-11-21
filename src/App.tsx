@@ -35,7 +35,6 @@ export function App() {
             <Route path="profile/data" element={<DataPage />} />
             <Route path="profile/import-guide" element={<ImportGuidePage />} />
             <Route path="profile/privacy" element={<LegalPage page="privacy" />} />
-            <Route path="profile/imprint" element={<LegalPage page="imprint" />} />
             <Route path="profile/about" element={<AboutPage />} />
             <Route path="profile/report" element={<ReportPage />} />
             {/* Developer gallery; left out of the production build. */}

@@ -1,6 +1,7 @@
 import { differenceInCalendarDays } from 'date-fns';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { version } from '../../../package.json';
 import {
   BookIcon,
   DocumentIcon,
@@ -28,6 +29,7 @@ import { ProfileRow } from './ProfileRow';
 import { SymptomsSheet } from './SymptomsSheet';
 
 const LANGUAGES: Language[] = ['de', 'en'];
+const SUPPORT_EMAIL = 'headly@bylu.app';
 const THEMES: Theme[] = ['system', 'light', 'dark'];
 
 type OpenSheet = 'medications' | 'symptoms' | 'preventions' | 'lifeEvents' | 'dayEventTypes';
@@ -125,6 +127,15 @@ export function ProfileScreen() {
           />
           <ProfileRow
             icon={<InfoIcon />}
+            title={t.profile.feedback}
+            subtitle={SUPPORT_EMAIL}
+            onClick={() => {
+              const subject = encodeURIComponent(t.profile.feedbackSubject(version));
+              window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${subject}`;
+            }}
+          />
+          <ProfileRow
+            icon={<InfoIcon />}
             title={t.profile.about}
             onClick={() => void navigate('/profile/about')}
           />
@@ -132,11 +143,6 @@ export function ProfileScreen() {
             icon={<LockIcon />}
             title={t.profile.privacy}
             onClick={() => void navigate('/profile/privacy')}
-          />
-          <ProfileRow
-            icon={<DocumentIcon />}
-            title={t.profile.imprint}
-            onClick={() => void navigate('/profile/imprint')}
           />
         </div>
       </section>

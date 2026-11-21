@@ -1,13 +1,11 @@
 # Datenschutz
 
-Stand: [MONAT JAHR]
+Stand: November 2026
 
 ## 1. Verantwortliche Person
 
 [VORNAME NACHNAME]
-[STRASSE UND HAUSNUMMER]
-[PLZ ORT]
-E-Mail: [DEINE-EMAIL@EXAMPLE.COM]
+E-Mail: headly@bylu.app
 
 ## 2. Grundsatz: Deine Daten bleiben auf deinem Gerät
 
@@ -83,4 +81,4 @@ Bei wesentlichen Änderungen wird die aktualisierte Version in der App hinterleg
 ## 15. Kontakt
 
 Bei Fragen zur Verarbeitung deiner Daten:
-[DEINE-EMAIL@EXAMPLE.COM]
+headly@bylu.app

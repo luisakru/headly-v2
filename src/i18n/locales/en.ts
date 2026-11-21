@@ -454,7 +454,8 @@ Rules:
     language: 'Language',
     theme: 'Appearance',
     privacy: 'Privacy policy',
-    imprint: 'Imprint',
+    feedback: 'Feedback and bugs',
+    feedbackSubject: (version: string) => `Headly ${version}: feedback`,
     about: 'About Headly',
     version: (version: string) => `Version ${version}`,
     aboutText:
