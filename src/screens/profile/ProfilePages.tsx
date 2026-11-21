@@ -39,7 +39,7 @@ export function KnowledgePage() {
   return (
     <div className={styles.knowledge}>
       <BackToProfile />
-      <h1 className={styles.knowledgeTitle}>{t.knowledge.title}</h1>
+      <ScreenTitle>{t.knowledge.title}</ScreenTitle>
       <p className={styles.muted}>{t.knowledge.disclaimer}</p>
       {GROUPS.map((group) => (
         <section key={group} className={styles.section}>
