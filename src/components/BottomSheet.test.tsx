@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithI18n } from '../test/renderWithI18n';
 import { BottomSheet } from './BottomSheet';
 
@@ -13,6 +13,8 @@ function renderSheet(onClose = vi.fn()) {
 test('closes on Escape, backdrop tap and handle tap, but not on content tap', async () => {
   const onClose = vi.fn();
   await renderSheet(onClose);
+  // Focus and the Escape listener are set up in the same effect; wait until it has run.
+  await waitFor(() => expect(screen.getByRole('dialog', { name: 'Sheet' })).toHaveFocus());
 
   fireEvent.click(screen.getByText('Content'));
   expect(onClose).not.toHaveBeenCalled();

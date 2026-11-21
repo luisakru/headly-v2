@@ -260,7 +260,7 @@ Layout, one element per row, in this order:
 
 1. Title "Statistics"
 2. Segmented control: 1M, 3M, 6M, 1Y, 2Y, All. Default 3M. It sets how much the chart shows at once, not which data exists
-3. Toggle chips: Migraine and Medication, both on by default
+3. The chart legend below the chart doubles as the filter: slim toggles "Migraine" and "Medication" (swatch and label, no frame, crossed out when off), both on by default. Their tap area stays 48 px
 4. Chart with all data, one page per period, swiped sideways (snapping), starting at the page with today. The visible period is named above the chart
    - 1W (calendar week, Monday first) and 1M (calendar month): one bar per day, height = highest pain level (0–10), a dot at the baseline for an unrated migraine day, a medication dot above
    - 3M: 13 weeks ending with the current week, grouped bars per week (migraine days, medication days)

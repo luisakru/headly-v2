@@ -29,6 +29,24 @@
   opacity: 0.35;
 }
 
+.toggleChip[data-compact] {
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.toggleChip[data-compact][aria-pressed='true'] {
+  background: none;
+  color: var(--color-text-secondary);
+}
+
+.toggleChip[data-compact][aria-pressed='false'] {
+  text-decoration: line-through;
+}
+
 .toggleChip:focus-visible {
   outline: 2px solid var(--color-text);
   outline-offset: 2px;

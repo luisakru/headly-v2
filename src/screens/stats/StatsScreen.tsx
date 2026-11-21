@@ -140,21 +140,6 @@ export function StatsScreen() {
           onChange={changePreset}
           compact
         />
-
-        <div className={styles.chips}>
-          <ToggleChip
-            label={t.stats.series.migraine}
-            pressed={showMigraine}
-            onChange={setShowMigraine}
-            swatchColor="var(--color-primary-soft)"
-          />
-          <ToggleChip
-            label={t.stats.series.medication}
-            pressed={showMedication}
-            onChange={setShowMedication}
-            swatchColor="var(--color-primary)"
-          />
-        </div>
       </div>
 
       <Card className={styles.section}>
@@ -170,6 +155,22 @@ export function StatsScreen() {
           showMedication={showMedication}
           onPageChange={setPageIndex}
         />
+        <div className={styles.chips}>
+          <ToggleChip
+            label={t.stats.series.migraine}
+            pressed={showMigraine}
+            onChange={setShowMigraine}
+            swatchColor="var(--color-primary-soft)"
+            compact
+          />
+          <ToggleChip
+            label={t.stats.series.medication}
+            pressed={showMedication}
+            onChange={setShowMedication}
+            swatchColor="var(--color-primary)"
+            compact
+          />
+        </div>
       </Card>
 
       <div className={`${styles.statCards} ${styles.section}`}>
