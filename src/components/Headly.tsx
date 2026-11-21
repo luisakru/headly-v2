@@ -4,7 +4,7 @@ import styles from './Headly.module.css';
 const BRAIN =
   'M30 64 C16 60 16 40 32 36 C34 20 52 16 58 28 C66 14 88 20 86 36 C102 40 102 62 88 66 C90 82 72 90 62 82 C56 92 36 90 36 78 C24 80 18 68 30 64 Z';
 const FOLDS =
-  'M58 28 C52 40 62 48 57 60 M34 44 q8 -5 13 3 M74 38 q9 -1 11 8 M32 72 q4 6 10 4 M78 74 q6 -2 8 -8';
+  'M58 28 C54 36 58 42 57 48 M28 70 q4 6 10 5 M88 70 q-4 6 -10 5';
 
 /** A small brain as companion on Home, with a different look for each time of day. */
 export function Headly({ look }: { look: TimeOfDay }) {
