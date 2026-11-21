@@ -238,6 +238,16 @@ export const en = {
         `Only ${days} days to compare from when it is expected to work, at least ${min} needed.`,
     },
   },
+  knowledge: {
+    title: 'Knowledge',
+    aboutMigraine: 'About migraine',
+    articleCount: (n: number) => (n === 1 ? '1 article' : `${n} articles`),
+    disclaimer: 'Not medical advice. Always talk to your doctor before changing your medication.',
+    groups: {
+      basics: 'Basics',
+      collection: 'My collection',
+    },
+  },
   profile: {
     title: 'Profile',
     backToProfile: 'Profile',
@@ -259,9 +269,6 @@ export const en = {
     lifeEvents: 'Life events',
     manageLifeEvents: 'Manage life events',
     lifeEventCount: (n: number) => (n === 1 ? '1 life event' : `${n} life events`),
-    knowledge: 'Knowledge',
-    aboutMigraine: 'About migraine',
-    collection: 'My collection',
     newLifeEvent: 'New life event',
     editLifeEvent: 'Edit life event',
     lifeEventHint: 'For example a new job, a move or stopping the pill',

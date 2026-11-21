@@ -1,12 +1,41 @@
 import type { Language } from '../../domain/types';
-import collectionDe from './collection.de.md?raw';
-import collectionEn from './collection.en.md?raw';
-import migraineDe from './migraine.de.md?raw';
-import migraineEn from './migraine.en.md?raw';
 
-export type KnowledgePage = 'migraine' | 'collection';
+export type KnowledgeGroup = 'basics' | 'collection';
 
-export const knowledgeTexts: Record<Language, Record<KnowledgePage, string>> = {
-  de: { migraine: migraineDe, collection: collectionDe },
-  en: { migraine: migraineEn, collection: collectionEn },
+export type Article = {
+  group: KnowledgeGroup;
+  /** File name without the order prefix, the same in every language. */
+  slug: string;
+  emoji: string;
+  title: string;
+  /** Markdown without the title line. */
+  body: string;
 };
+
+/** Parses `de/basics/01-what-is-migraine.md` whose first line is `# 🧠 Title`. */
+export function parseArticle(path: string, source: string): Article & { language: Language } {
+  const [, language, group, slug] = /(\w+)\/(\w+)\/\d+-([\w-]+)\.md$/.exec(path) ?? [];
+  const [titleLine = '', ...rest] = source.trim().split('\n');
+  const [, emoji = '', title = ''] = /^#\s+(\S+)\s+(.+)$/.exec(titleLine) ?? [];
+  return {
+    language: language as Language,
+    group: group as KnowledgeGroup,
+    slug: slug ?? '',
+    emoji,
+    title,
+    body: rest.join('\n').trim(),
+  };
+}
+
+const files = import.meta.glob<string>('./*/*/*.md', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+export const knowledgeArticles: Record<Language, Article[]> = { de: [], en: [] };
+
+for (const path of Object.keys(files).sort()) {
+  const { language, ...article } = parseArticle(path, files[path] ?? '');
+  knowledgeArticles[language].push(article);
+}

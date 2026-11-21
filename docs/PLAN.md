@@ -258,7 +258,7 @@ Grouped list in cards:
 - **Medications:** list, add, edit, archive. Fields: name, dose, "is a triptan"
 - **Preventions:** active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
 - **Life events:** list, add, edit, delete. Fields: name, date
-- **Knowledge:** "About migraine" and "My collection", static Markdown pages the developer writes in `src/i18n/knowledge/` (links open in a new tab)
+- **Knowledge:** one row opens a list of short articles in two groups, "Basics" and "My collection", each with an emoji and a title; tapping one opens the article (big emoji, title, text, sources). Articles are Markdown files the developer writes in `src/i18n/knowledge/<language>/<group>/NN-slug.md`, first line `# <emoji> <title>`. Knowledge pages use the sans font only; links open in a new tab
 - **Data:** export JSON, import JSON, backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
 - **App:** language (Deutsch / English), privacy policy, imprint, about with version
 - **PDF export (Data card):** choose 3 or 6 months (the current month and the ones before, up to today; doctors rarely want more), then "Create PDF" opens the browser's print menu (no PDF library). Nothing is previewed in the app; only the print shows a plain black-and-white table with one row per day: date, migraine, pain, medication, whether it helped

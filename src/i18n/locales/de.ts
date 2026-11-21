@@ -241,6 +241,17 @@ export const de: Dictionary = {
         `Nur ${days} Tage zum Vergleich ab dem Wirkbeginn, mindestens ${min} nötig.`,
     },
   },
+  knowledge: {
+    title: 'Wissen',
+    aboutMigraine: 'Über Migräne',
+    articleCount: (n: number) => (n === 1 ? '1 Artikel' : `${n} Artikel`),
+    disclaimer:
+      'Keine ärztliche Beratung. Sprich Änderungen an Medikamenten immer mit deiner Ärztin oder deinem Arzt ab.',
+    groups: {
+      basics: 'Grundlagen',
+      collection: 'Meine Sammlung',
+    },
+  },
   profile: {
     title: 'Profil',
     backToProfile: 'Profil',
@@ -262,9 +273,6 @@ export const de: Dictionary = {
     lifeEvents: 'Ereignisse',
     manageLifeEvents: 'Ereignisse verwalten',
     lifeEventCount: (n: number) => (n === 1 ? '1 Ereignis' : `${n} Ereignisse`),
-    knowledge: 'Wissen',
-    aboutMigraine: 'Über Migräne',
-    collection: 'Meine Sammlung',
     newLifeEvent: 'Neues Ereignis',
     editLifeEvent: 'Ereignis bearbeiten',
     lifeEventHint: 'Zum Beispiel neuer Job, Umzug oder Pille abgesetzt',

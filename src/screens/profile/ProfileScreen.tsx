@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   BellIcon,
   BookIcon,
-  BookmarkIcon,
   DocumentIcon,
   DownloadIcon,
   InfoIcon,
@@ -24,6 +23,7 @@ import { updateSettings } from '../../data/settingsRepository';
 import { isActivePrevention } from '../../domain/prevention';
 import type { Language, Theme } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
+import { knowledgeArticles } from '../../i18n/knowledge';
 import { useHomeData, useNow, useSettings } from '../home/useHomeData';
 import { DeleteAllSheet } from './DeleteAllSheet';
 import { ImportSheet } from './ImportSheet';
@@ -113,17 +113,13 @@ export function ProfileScreen() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionLabel}>{t.profile.knowledge}</h2>
+        <h2 className={styles.sectionLabel}>{t.knowledge.title}</h2>
         <div className={styles.card}>
           <ProfileRow
             icon={<BookIcon />}
-            title={t.profile.aboutMigraine}
-            onClick={() => void navigate('/profile/migraine')}
-          />
-          <ProfileRow
-            icon={<BookmarkIcon />}
-            title={t.profile.collection}
-            onClick={() => void navigate('/profile/collection')}
+            title={t.knowledge.aboutMigraine}
+            subtitle={t.knowledge.articleCount(knowledgeArticles[language].length)}
+            onClick={() => void navigate('/profile/knowledge')}
           />
         </div>
       </section>

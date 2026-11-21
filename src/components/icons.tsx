@@ -191,11 +191,3 @@ export function BookIcon() {
     </svg>
   );
 }
-
-export function BookmarkIcon() {
-  return (
-    <svg {...svgProps} width={24} height={24}>
-      <path d="M7 4.5h10v15l-5-3.5-5 3.5Z" />
-    </svg>
-  );
-}

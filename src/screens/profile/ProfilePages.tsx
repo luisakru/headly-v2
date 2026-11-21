@@ -1,19 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { version } from '../../../package.json';
 import { ChevronLeftIcon } from '../../components/icons';
 import { ScreenTitle } from '../../components/ScreenTitle';
 import { useI18n } from '../../i18n/context';
-import { knowledgeTexts, type KnowledgePage as KnowledgePageName } from '../../i18n/knowledge';
+import { knowledgeArticles, type KnowledgeGroup } from '../../i18n/knowledge';
 import { legalTexts, type LegalPage as LegalPageName } from '../../i18n/legal';
 import { Markdown } from './Markdown';
 import styles from './Profile.module.css';
+import { ProfileRow } from './ProfileRow';
 
-function BackToProfile() {
+function BackToProfile({ to = '/profile', label }: { to?: string; label?: string }) {
   const { t } = useI18n();
   return (
-    <Link to="/profile" className={styles.backLink}>
+    <Link to={to} className={styles.backLink}>
       <ChevronLeftIcon />
-      {t.profile.backToProfile}
+      {label ?? t.profile.backToProfile}
     </Link>
   );
 }
@@ -30,13 +31,52 @@ export function LegalPage({ page }: { page: LegalPageName }) {
   );
 }
 
-export function KnowledgePage({ page }: { page: KnowledgePageName }) {
-  const { language } = useI18n();
+const GROUPS: KnowledgeGroup[] = ['basics', 'collection'];
+
+export function KnowledgePage() {
+  const { t, language } = useI18n();
+  const navigate = useNavigate();
+  return (
+    <div className={styles.knowledge}>
+      <BackToProfile />
+      <h1 className={styles.knowledgeTitle}>{t.knowledge.title}</h1>
+      <p className={styles.muted}>{t.knowledge.disclaimer}</p>
+      {GROUPS.map((group) => (
+        <section key={group} className={styles.section}>
+          <h2 className={styles.sectionLabel}>{t.knowledge.groups[group]}</h2>
+          <div className={styles.card}>
+            {knowledgeArticles[language]
+              .filter((article) => article.group === group)
+              .map((article) => (
+                <ProfileRow
+                  key={article.slug}
+                  icon={article.emoji}
+                  title={article.title}
+                  onClick={() => void navigate(`/profile/knowledge/${article.slug}`)}
+                />
+              ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+export function ArticlePage() {
+  const { t, language } = useI18n();
+  const { slug } = useParams();
+  const article = knowledgeArticles[language].find((candidate) => candidate.slug === slug);
+  if (!article) return <Navigate to="/profile/knowledge" replace />;
+
   return (
     <>
-      <BackToProfile />
-      <article className={styles.legal}>
-        <Markdown source={knowledgeTexts[language][page]} />
+      <BackToProfile to="/profile/knowledge" label={t.knowledge.title} />
+      <article className={`${styles.legal} ${styles.article}`}>
+        <p className={styles.articleEmoji} aria-hidden="true">
+          {article.emoji}
+        </p>
+        <h1>{article.title}</h1>
+        <Markdown source={article.body} />
       </article>
     </>
   );
