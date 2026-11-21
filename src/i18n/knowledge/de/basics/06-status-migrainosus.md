@@ -6,7 +6,7 @@ Was du tun kannst:
 
 - Nicht immer weiter dasselbe Schmerzmittel nehmen, halte die Höchstmengen ein
 - Genug trinken, auch in kleinen Schlucken, wenn dir übel ist
-- Deine Hausärztin oder Neurologin anrufen, außerhalb der Sprechzeiten den ärztlichen Bereitschaftsdienst unter 116 117
+- Deine Hausärztin oder Neurologin anrufen, außerhalb der Sprechzeiten den ärztlichen Bereitschaftsdienst unter 116 117. Der kann auch zu dir nach Hause kommen, siehe „116 117: Hilfe, die zu dir kommt“
 
 In der Praxis oder Klinik gibt es Behandlungen, die zu Hause nicht gehen, z. B. Infusionen gegen Schmerz und Übelkeit oder Kortison für ein paar Tage.
 

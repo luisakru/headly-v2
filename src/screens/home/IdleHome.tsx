@@ -50,32 +50,12 @@ export function IdleHome({
   })[0];
 
   return (
-    <>
+    <div className={styles.home}>
       <header className={styles.header}>
         <p className={styles.eyebrow}>{formatMonthYear(now, language)}</p>
         <h1 className={styles.greeting}>{t.home.title}</h1>
         <p className={styles.subtitle}>{t.home.migraineDaysLastFourWeeks(recentMigraineDays)}</p>
       </header>
-
-      <div className={styles.actions}>
-        <RatingPromptCard intakes={intakes} medications={medications} now={now} />
-        <BackupReminderCard
-          data={{
-            attacks,
-            intakes,
-            medications,
-            preventions,
-            lifeEvents,
-            dayEventTypes,
-            dayEvents,
-            symptoms,
-          }}
-          now={now}
-        />
-        <Button large onClick={() => void startAttack()}>
-          {t.home.startMigraine}
-        </Button>
-      </div>
 
       {dayEventTypes.length > 0 && (
         <section className={styles.section}>
@@ -84,12 +64,33 @@ export function IdleHome({
         </section>
       )}
 
+      <RatingPromptCard intakes={intakes} medications={medications} now={now} />
+      <BackupReminderCard
+        data={{
+          attacks,
+          intakes,
+          medications,
+          preventions,
+          lifeEvents,
+          dayEventTypes,
+          dayEvents,
+          symptoms,
+        }}
+        now={now}
+      />
+
       {insight && (
         <section className={styles.section}>
           <h2 className={styles.sectionLabel}>{t.home.insight}</h2>
           <InsightCard insight={insight} />
         </section>
       )}
-    </>
+
+      <div className={styles.pinnedActions} data-pinned-actions>
+        <Button large onClick={() => void startAttack()}>
+          {t.home.startMigraine}
+        </Button>
+      </div>
+    </div>
   );
 }

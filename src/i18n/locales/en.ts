@@ -357,6 +357,7 @@ Rules:
     reportItem: (name: string, count: number) => `${name} ${count}`,
   },
   dayEvents: {
+    hint: 'Small things on a day, e.g. a flight or your period',
     title: 'Events',
     today: 'Today',
     label: 'Events',
@@ -383,6 +384,7 @@ Rules:
     },
   },
   profile: {
+    lifeEventsHint: 'Big shifts, e.g. a new job or a move',
     tracking: 'What I track',
     help: 'Help and info',
     display: 'Display',
@@ -405,7 +407,6 @@ Rules:
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 prevention' : `${total} preventions`} · ${active} active`,
     manageLifeEvents: 'Life changes',
-    lifeEventCount: (n: number) => (n === 1 ? '1 life change' : `${n} life changes`),
     newLifeEvent: 'New life change',
     editLifeEvent: 'Edit life change',
     lifeEventHint: 'For example a new job, a move or stopping the pill',

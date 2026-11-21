@@ -6,7 +6,7 @@ What you can do:
 
 - Don't keep taking more of the same painkiller, stay within the daily limits
 - Drink enough, in small sips if you feel sick
-- Call your GP or neurologist, or the out-of-hours medical service (116 117 in Germany)
+- Call your GP or neurologist, or the out-of-hours medical service (116 117 in Germany), who can also come to your home; see “116 117: Help that comes to you”
 
 A practice or hospital has treatments you can't do at home, such as infusions against pain and nausea, or cortisone for a few days.
 

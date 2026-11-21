@@ -195,10 +195,13 @@ Four tabs in a bottom tab bar: Home, Calendar, Statistics, Profile. Sub-pages pu
 
 ### Home (no active attack)
 
-- Greeting and current month with "N migraine days this month"
-- Primary button "Start migraine": one tap creates an attack at now and opens the active-attack screen
+Top to bottom, with the main action in thumb reach like on the active-attack screen:
+
+- Current month, greeting and "N migraine days in the last 4 weeks"
+- "Today" row of event chips (only once at least one event exists)
+- Prompt cards when due: rate an intake; the backup reminder as a quiet banner in the warning tint
 - One insight card, the most relevant current insight
-- Prompt cards above the buttons when due: rate an intake, attack still running. The backup reminder is a quiet banner in the warning tint ("Your data is stored only on this device." with "Back up now" and "Later" as text buttons), so it reads as a notice, not part of tracking
+- "Start migraine" (primary, large) pinned above the tab bar: one tap creates an attack at now and opens the active-attack screen
 
 ### Active attack
 
@@ -285,7 +288,7 @@ A "When it starts" section in Statistics, after the insights, only when somethin
 
 Four cards, no single-row sections:
 
-- **What I track:** Medication, Prevention, Symptoms, Events, Life changes. Each row opens its sheet:
+- **What I track:** Medication, Prevention, Symptoms, Events, Life changes. Events and Life changes show a one-line explanation as subtitle instead of a count. Each row opens its sheet:
   - Medication: list, add, edit, archive. Fields: name, dose, "is a triptan"
   - Prevention: active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
   - Symptoms and Events: see their sections above

@@ -367,6 +367,7 @@ Regeln:
     reportItem: (name: string, count: number) => `${name} ${count}`,
   },
   dayEvents: {
+    hint: 'Kleines am Tag, z. B. Flug oder Periode',
     title: 'Ereignisse',
     today: 'Heute',
     label: 'Ereignisse',
@@ -394,6 +395,7 @@ Regeln:
     },
   },
   profile: {
+    lifeEventsHint: 'Große Einschnitte, z. B. neuer Job oder Umzug',
     tracking: 'Was ich erfasse',
     help: 'Hilfe und Infos',
     display: 'Darstellung',
@@ -416,7 +418,6 @@ Regeln:
     preventionCount: (total: number, active: number) =>
       `${total === 1 ? '1 Prophylaxe' : `${total} Prophylaxen`} · ${active} aktiv`,
     manageLifeEvents: 'Veränderungen',
-    lifeEventCount: (n: number) => (n === 1 ? '1 Veränderung' : `${n} Veränderungen`),
     newLifeEvent: 'Neue Veränderung',
     editLifeEvent: 'Veränderung bearbeiten',
     lifeEventHint: 'Zum Beispiel neuer Job, Umzug oder Pille abgesetzt',

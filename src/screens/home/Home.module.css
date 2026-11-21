@@ -1,5 +1,16 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-height: 100%;
+}
+
+.home .section {
+  margin-bottom: 0;
+}
+
 .header {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-1);
 }
 
 .eyebrow,
@@ -26,13 +37,6 @@
   margin: 0;
   color: var(--color-text-secondary);
   font-size: 17px;
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-8);
 }
 
 .section {

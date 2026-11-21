@@ -80,13 +80,13 @@ export function ProfileScreen() {
           <ProfileRow
             icon={<LifeEventIcon />}
             title={t.dayEvents.title}
-            subtitle={t.dayEvents.count(dayEventTypes.length)}
+            subtitle={t.dayEvents.hint}
             onClick={() => setOpenSheet('dayEventTypes')}
           />
           <ProfileRow
             icon={<LifeEventIcon />}
             title={t.profile.manageLifeEvents}
-            subtitle={t.profile.lifeEventCount(lifeEvents.length)}
+            subtitle={t.profile.lifeEventsHint}
             onClick={() => setOpenSheet('lifeEvents')}
           />
         </div>
