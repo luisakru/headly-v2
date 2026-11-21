@@ -181,7 +181,7 @@ Warm earth tones on a light background: calm, playful, never bright white or har
 | `--color-positive` | #6B8B4A | Improving trend arrows |
 | `--color-error` | #A9483A | Validation error messages |
 
-**Typography:** DM Sans (400, 500) for UI text; DM Serif Display (upright, no italic anywhere) for screen titles, big numbers and the wordmark. Both are self-hosted woff2 files in `public/fonts/`, never loaded from Google.
+**Typography:** one typeface, Atkinson Hyperlegible Next (made for low vision, so it stays legible during an attack). Hierarchy comes from size and weight only: 400 for text, 500 for names and buttons, 600 for titles and big numbers. No italic anywhere. Self-hosted woff2 files in `public/fonts/`, never loaded from Google.
 
 **Shape and spacing:** 4 px spacing scale; card radius 14 px; button radius 18 px; buttons come in two kinds only: primary is filled with `--color-primary`, secondary is an outline with a crisp 2 px `--color-primary` border and no fill; calendar cell radius 8 px; screen side padding 18 px.
 
@@ -345,7 +345,7 @@ The existing privacy policy and imprint drafts can be reused, with one change: a
 Eight phases, each one agent session ending in a working, testable state. Do not start a phase before the previous one's acceptance criteria pass.
 
 1. **Phase 0 — Setup.** Vite + React + TS strict, ESLint, Prettier, Vitest, CSS tokens, self-hosted fonts, folder structure (`src/domain`, `src/data`, `src/i18n`, `src/components`, `src/screens`, `src/styles`), `CLAUDE.md` with the hard rules and glossary, `docs/reference/` with the screenshots.
-   - Done when: `npm run dev`, `build`, `test`, `lint`, `typecheck` all pass; an empty screen shows the cream background and DM Sans.
+   - Done when: `npm run dev`, `build`, `test`, `lint`, `typecheck` all pass; an empty screen shows the cream background and the app font.
 2. **Phase 1 — Data and domain.** Dexie schema v1, repositories per table, settings store, all statistics and insight functions as pure functions in `src/domain`, seed script with realistic demo data.
    - Done when: unit tests cover migraine-day counting across midnight and month boundaries, overlap rejection, effectiveness rate, overuse thresholds, prevention before/after, and every insight condition.
 3. **Phase 2 — Design system and shell.** Tokens, Button, Card, PainScale, BottomSheet, SegmentedControl, ToggleChip, TabBar, layout with safe areas, i18n setup with language switching.

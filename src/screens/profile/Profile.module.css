@@ -63,8 +63,8 @@
 }
 
 .rowTitle {
-  font-family: var(--font-serif);
-  font-size: 19px;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .rowSubtitle {
@@ -204,8 +204,8 @@
 }
 
 .itemName {
-  font-family: var(--font-serif);
-  font-size: 19px;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .itemMeta {
@@ -234,8 +234,8 @@
   border: none;
   background: none;
   color: var(--color-primary);
-  font-family: var(--font-serif);
-  font-size: 19px;
+  font-weight: 500;
+  font-size: 18px;
   cursor: pointer;
 }
 
@@ -282,17 +282,19 @@
 
 .legal h1 {
   margin: 0 0 var(--space-6);
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 40px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 34px;
+  letter-spacing: -0.01em;
   line-height: 1.1;
 }
 
 .legal h2 {
   margin: var(--space-6) 0 var(--space-2);
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 22px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.01em;
 }
 
 .legal p,

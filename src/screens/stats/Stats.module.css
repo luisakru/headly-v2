@@ -117,8 +117,10 @@
 
 .statValue {
   margin: 0 0 var(--space-1);
-  font-family: var(--font-serif);
-  font-size: 32px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: -0.01em;
   line-height: 1.2;
 }
 
@@ -207,8 +209,8 @@
 
 .preventionName {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: 19px;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .preventionMeta {
