@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { de } from './src/i18n/locales/de';
 
 export default defineConfig({
   plugins: [
@@ -24,6 +25,14 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
+          },
+        ],
+        // Long-press menu of the app icon on Android. iOS ignores shortcuts.
+        shortcuts: [
+          {
+            name: de.home.startMigraine,
+            url: '/start',
+            icons: [{ src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' }],
           },
         ],
       },

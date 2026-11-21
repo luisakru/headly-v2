@@ -299,6 +299,8 @@ Grouped list in cards:
 
 Users are expected to add Headly to their home screen; once installed it must be indistinguishable from a native app at first glance.
 
+**App shortcut (Android).** The manifest has a "Start migraine" shortcut in the long-press menu of the app icon. It opens `/start`, which starts an attack unless one is running and then shows Home. iOS ignores manifest shortcuts, and a link from the Shortcuts app would open Safari, whose storage is separate from the Home Screen app, so there is no iOS equivalent.
+
 **Install guidance.** iOS Safari has no install prompt, so the app shows its own. When opened in Safari and not installed (`display-mode: standalone` is false and `navigator.standalone` is false), show a friendly bottom card: "Add Headly to your home screen" with three illustrated steps (Share button, "Add to Home Screen", "Add"). It can be dismissed and reappears after 14 days. It never shows inside the installed app. On other browsers, use the standard `beforeinstallprompt` flow if available.
 
 **Manifest and head tags:**

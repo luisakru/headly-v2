@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { listAttacks } from './data/attackRepository';
 import { updateSettings } from './data/settingsRepository';
 import { App } from './App';
 
@@ -40,4 +41,14 @@ test('shows the intro on first start and not again after finishing it', async ()
 
   expect(await screen.findByRole('heading', { name: 'Hello' })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'Statistics' })).toBeInTheDocument();
+});
+
+test('the start shortcut starts one attack and shows it on Home', async () => {
+  await updateSettings({ introSeen: true });
+  window.history.pushState({}, '', '/start');
+  render(<App />);
+
+  expect(await screen.findByText('Migraine active')).toBeInTheDocument();
+  expect(window.location.pathname).toBe('/');
+  expect((await listAttacks()).filter((attack) => !attack.endedAt)).toHaveLength(1);
 });

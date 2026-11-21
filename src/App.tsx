@@ -5,6 +5,7 @@ import { CalendarScreen } from './screens/calendar/CalendarScreen';
 import { ComponentsScreen } from './screens/dev/ComponentsScreen';
 import { HomeScreen } from './screens/home/HomeScreen';
 import { IntroScreen } from './screens/intro/IntroScreen';
+import { StartShortcut } from './screens/home/StartShortcut';
 import {
   AboutPage,
   ArticlePage,
@@ -24,6 +25,7 @@ export function App() {
           <Route element={<AppShell />}>
             <Route index element={<HomeScreen />} />
             <Route path="intro" element={<IntroScreen />} />
+            <Route path="start" element={<StartShortcut />} />
             <Route path="calendar" element={<CalendarScreen />} />
             <Route path="stats" element={<StatsScreen />} />
             <Route path="profile" element={<ProfileScreen />} />
