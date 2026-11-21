@@ -11,6 +11,7 @@ import { ValueRow } from '../../components/ValueRow';
 import { deleteAttack, endAttack, updateAttack } from '../../data/attackRepository';
 import { deleteIntake, rateIntake } from '../../data/intakeRepository';
 import { durationParts } from '../../domain/days';
+import { nextIntakeAt } from '../../domain/nextIntake';
 import { activeAttackPrompt } from '../../domain/prompts';
 import type { Attack, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
@@ -41,6 +42,15 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
   const attackIntakes = intakes.filter((intake) => intake.attackId === attack.id);
   const shownSymptoms = symptoms.filter((symptom) => symptom.enabled);
   const attackSymptoms = shownSymptoms.filter((symptom) => attack.symptomIds?.includes(symptom.id));
+  // Only the latest intake of each medication shows when the next one is allowed.
+  const noteFor = (intake: MedicationIntake) => {
+    const medication = medications.find((m) => m.id === intake.medicationId);
+    const next = nextIntakeAt(medication, intakes, now);
+    const isLatest = !intakes.some(
+      (other) => other.medicationId === intake.medicationId && other.takenAt > intake.takenAt,
+    );
+    return next && isLatest ? t.activeAttack.nextFrom(formatTime(next, language)) : undefined;
+  };
   const medicationName = (intake: MedicationIntake) =>
     medications.find((medication) => medication.id === intake.medicationId)?.name ?? '';
 
@@ -104,6 +114,7 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
               name: medicationName(intake),
               time: formatTime(intake.takenAt, language),
               effectiveness: intake.effectiveness,
+              note: noteFor(intake),
             }))}
             onOpen={(id) => {
               const intake = attackIntakes.find((candidate) => candidate.id === id);

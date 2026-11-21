@@ -110,3 +110,16 @@ test('ticks symptoms of the active attack', async () => {
   await waitFor(async () => expect((await getActiveAttack())?.symptomIds).toEqual(['aura']));
   expect(screen.queryByRole('button', { name: 'Sensitive to noise' })).not.toBeInTheDocument();
 });
+
+test('shows when a medication with a minimum gap may be taken again', async () => {
+  const medication = await createMedication({
+    name: 'Sumatriptan',
+    isTriptan: true,
+    minIntervalHours: 2,
+  });
+  const attack = await startAttack(Date.now() - 2 * HOUR_MS);
+  await logIntake(medication.id, { takenAt: Date.now() - HOUR_MS, attackId: attack.id });
+  await renderWithI18n(<HomeScreen />);
+
+  expect(await screen.findByText(/next from/)).toBeInTheDocument();
+});

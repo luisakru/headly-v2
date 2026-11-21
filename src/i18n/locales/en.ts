@@ -61,6 +61,7 @@ export const en = {
     confirmDelete: 'Really delete?',
   },
   activeAttack: {
+    nextFrom: (time: string) => `next from ${time}`,
     label: 'Migraine active',
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
@@ -384,6 +385,9 @@ Rules:
     },
   },
   profile: {
+    minInterval: 'Minimum gap in hours (optional)',
+    minIntervalHint:
+      'From the package leaflet or your doctor. Headly then shows when you may take it again.',
     lifeEventsHint: 'Big shifts, e.g. a new job or a move',
     tracking: 'What I track',
     help: 'Help and info',

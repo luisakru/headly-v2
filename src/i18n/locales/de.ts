@@ -60,6 +60,7 @@ export const de: Dictionary = {
     confirmDelete: 'Wirklich löschen?',
   },
   activeAttack: {
+    nextFrom: (time: string) => `nächste ab ${time}`,
     label: 'Migräne aktiv',
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}T ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
@@ -395,6 +396,9 @@ Regeln:
     },
   },
   profile: {
+    minInterval: 'Mindestabstand in Stunden (optional)',
+    minIntervalHint:
+      'Aus dem Beipackzettel oder von deiner Ärztin. Headly zeigt dann, ab wann du es wieder nehmen darfst.',
     lifeEventsHint: 'Große Einschnitte, z. B. neuer Job oder Umzug',
     tracking: 'Was ich erfasse',
     help: 'Hilfe und Infos',

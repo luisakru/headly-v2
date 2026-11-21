@@ -84,13 +84,23 @@ function MedicationForm({ medication, onDone }: { medication?: Medication; onDon
   const { t } = useI18n();
   const nameId = useId();
   const doseId = useId();
+  const intervalId = useId();
   const [name, setName] = useState(medication?.name ?? '');
   const [dose, setDose] = useState(medication?.dose ?? '');
   const [isTriptan, setIsTriptan] = useState(medication?.isTriptan ?? false);
+  const [minGap, setMinGap] = useState(medication?.minIntervalHours?.toString() ?? '');
+  const intervalHours = minGap.trim() === '' ? undefined : Number(minGap.replace(',', '.'));
+  const intervalValid =
+    intervalHours === undefined || (Number.isFinite(intervalHours) && intervalHours > 0);
 
   const save = async (event: FormEvent) => {
     event.preventDefault();
-    const fields = { name: name.trim(), dose: dose.trim() || undefined, isTriptan };
+    const fields = {
+      name: name.trim(),
+      dose: dose.trim() || undefined,
+      isTriptan,
+      minIntervalHours: intervalHours,
+    };
     if (medication) await updateMedication(medication.id, fields);
     else await createMedication(fields);
     onDone();
@@ -121,11 +131,23 @@ function MedicationForm({ medication, onDone }: { medication?: Medication; onDon
       <div>
         <ToggleChip label={t.profile.isTriptan} pressed={isTriptan} onChange={setIsTriptan} />
       </div>
+      <label htmlFor={intervalId} className={styles.fieldLabel}>
+        {t.profile.minInterval}
+      </label>
+      <p className={styles.fieldHint}>{t.profile.minIntervalHint}</p>
+      <input
+        id={intervalId}
+        className={styles.input}
+        inputMode="decimal"
+        value={minGap}
+        onChange={(event) => setMinGap(event.target.value)}
+        autoComplete="off"
+      />
       <div className={styles.buttonRow}>
         <Button variant="outline" onClick={onDone}>
           {t.profile.cancel}
         </Button>
-        <Button type="submit" disabled={name.trim() === ''}>
+        <Button type="submit" disabled={name.trim() === '' || !intervalValid}>
           {t.profile.save}
         </Button>
       </div>

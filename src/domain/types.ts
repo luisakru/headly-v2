@@ -15,6 +15,8 @@ export type Medication = {
   name: string;
   dose?: string;
   isTriptan: boolean;
+  /** Hours the user wants between two intakes; set by the user, never suggested by Headly. */
+  minIntervalHours?: number;
   archived: boolean;
   createdAt: number;
   updatedAt: number;

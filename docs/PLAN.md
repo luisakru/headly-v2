@@ -289,7 +289,7 @@ A "When it starts" section in Statistics, after the insights, from 5 attacks in 
 Four cards, no single-row sections:
 
 - **What I track:** Medication, Prevention, Symptoms, Events, Life changes. Events and Life changes show a one-line explanation as subtitle instead of a count. Each row opens its sheet:
-  - Medication: list, add, edit, archive. Fields: name, dose, "is a triptan"
+  - Medication: list, add, edit, archive. Fields: name, dose, "is a triptan", optional minimum gap in hours (entered by the user from the leaflet or their doctor; Headly never suggests a value). During an attack, the latest intake of a medication with a gap shows "next from 11:15" until that time
   - Prevention: active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
   - Symptoms and Events: see their sections above
   - Life changes (code: `LifeEvent`): list, add, edit, delete. Fields: name, date

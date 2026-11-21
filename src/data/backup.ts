@@ -74,6 +74,7 @@ const backupSchema = z.object({
         name: z.string(),
         dose: z.string().optional(),
         isTriptan: z.boolean(),
+        minIntervalHours: z.number().positive().optional(),
         archived: z.boolean(),
       }),
     ),
