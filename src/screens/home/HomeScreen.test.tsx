@@ -39,7 +39,7 @@ test('logs a full attack: start, pain, medication, end', async () => {
 
   const [intake] = await listIntakes();
   expect(intake).toMatchObject({ medicationId: medication.id, attackId: expect.any(String) });
-  expect(await screen.findByRole('button', { name: 'Effect pending' })).toBeInTheDocument();
+  expect(await screen.findByRole('button', { name: /Effect pending/ })).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('button', { name: 'End migraine' }));
   expect(await screen.findByRole('button', { name: 'Start migraine' })).toBeInTheDocument();

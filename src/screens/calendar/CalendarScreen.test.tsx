@@ -73,6 +73,10 @@ test('adds a past migraine with medication', async () => {
   fireEvent.click(screen.getByRole('radio', { name: '5' }));
   fireEvent.click(screen.getByRole('button', { name: 'Add medication' }));
   fireEvent.click(screen.getByRole('button', { name: /Ibuprofen/ }));
+  fireEvent.change(screen.getByLabelText('Taken at', { selector: 'input' }), {
+    target: { value: toInputValue(day.getTime() + 2 * HOUR_MS) },
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Done' }));
   expect(screen.queryByRole('button', { name: 'More actions' })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
@@ -84,7 +88,7 @@ test('adds a past migraine with medication', async () => {
     painLevel: 5,
   });
   expect(await listIntakes()).toMatchObject([
-    { medicationId: medication.id, attackId: attack!.id, takenAt: day.getTime() },
+    { medicationId: medication.id, attackId: attack!.id, takenAt: day.getTime() + 2 * HOUR_MS },
   ]);
 });
 
@@ -172,11 +176,10 @@ test('editing an attack from the day overview saves times, pain and medication',
   setTime('End', startedAt + 3 * HOUR_MS);
   fireEvent.click(screen.getByRole('button', { name: /^Pain/ }));
   fireEvent.click(screen.getByRole('radio', { name: '8' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Effect pending' }));
+  fireEvent.click(screen.getByRole('button', { name: /^Ibuprofen/ }));
   fireEvent.click(screen.getByRole('button', { name: 'Remove Ibuprofen' }));
   fireEvent.click(screen.getByRole('button', { name: 'Add medication' }));
   fireEvent.click(screen.getByRole('button', { name: /Sumatriptan/ }));
-  fireEvent.click(screen.getByRole('button', { name: 'Effect pending' }));
   const sumatriptanEffect = screen.getByRole('radiogroup', { name: 'Effect · Sumatriptan' });
   fireEvent.click(within(sumatriptanEffect).getByRole('radio', { name: 'Strongly improved' }));
   fireEvent.click(screen.getByRole('button', { name: 'Done' }));

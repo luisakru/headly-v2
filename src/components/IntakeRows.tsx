@@ -9,7 +9,7 @@ export type IntakeRowData = {
   effectiveness?: Effectiveness;
 };
 
-/** Plain rows "name · time" with the effect as a text button that opens the intake. */
+/** Plain rows "name · time · effect"; tapping a row opens the intake to change its time or effect. */
 export function IntakeRows({
   rows,
   onOpen,
@@ -21,18 +21,18 @@ export function IntakeRows({
   return (
     <ul className={styles.intakeList}>
       {rows.map((row) => (
-        <li key={row.key} className={styles.intakeRow}>
-          <span className={styles.intakeText}>
-            <span className={styles.name}>{row.name}</span>
-            <span className={styles.time}> · {row.time}</span>
-          </span>
-          <button
-            type="button"
-            className={styles.effectButton}
-            data-rated={row.effectiveness !== undefined || undefined}
-            onClick={() => onOpen(row.key)}
-          >
-            {t.effectiveness[row.effectiveness ?? 'pending']}
+        <li key={row.key}>
+          <button type="button" className={styles.intakeRow} onClick={() => onOpen(row.key)}>
+            <span className={styles.intakeText}>
+              <span className={styles.name}>{row.name}</span>
+              <span className={styles.time}> · {row.time}</span>
+            </span>
+            <span
+              className={styles.effect}
+              data-rated={row.effectiveness !== undefined || undefined}
+            >
+              {t.effectiveness[row.effectiveness ?? 'pending']}
+            </span>
           </button>
         </li>
       ))}

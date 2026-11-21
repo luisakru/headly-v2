@@ -202,15 +202,17 @@ export function EditAttackSheet({
                   type="button"
                   className={styles.medicationRow}
                   onClick={() => {
+                    const key = `new-${Date.now()}`;
                     setDraftIntakes((current) => [
                       ...current,
                       {
-                        key: `new-${Date.now()}`,
+                        key,
                         medicationId: medication.id,
                         takenAt: Number.isNaN(startedAt) ? toInputValue(Date.now()) : start,
                       },
                     ]);
-                    back();
+                    // Straight to its time and effect, which often differ from the attack's start.
+                    setView({ intake: key });
                   }}
                 >
                   <span className={styles.medicationName}>{medication.name}</span>

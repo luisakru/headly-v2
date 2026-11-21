@@ -4,16 +4,23 @@
   list-style: none;
 }
 
+.intakeList li + li {
+  border-top: 1px solid var(--color-border);
+}
+
 .intakeRow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  width: 100%;
   min-height: var(--touch-target);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.intakeRow:last-child {
-  border-bottom: none;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .intakeText {
@@ -30,21 +37,17 @@
   color: var(--color-text-secondary);
 }
 
-.effectButton {
-  min-height: var(--touch-target);
-  padding: 0;
-  border: none;
-  background: none;
+.effect {
+  flex: none;
   color: var(--color-primary);
   font-size: 15px;
-  cursor: pointer;
 }
 
-.effectButton[data-rated] {
+.effect[data-rated] {
   color: var(--color-text-secondary);
 }
 
-.effectButton:focus-visible {
+.intakeRow:focus-visible {
   outline: 2px solid var(--color-text);
   outline-offset: 2px;
 }
