@@ -238,6 +238,47 @@ export const en = {
         `Only ${days} days to compare from when it is expected to work, at least ${min} needed.`,
     },
   },
+  intro: {
+    next: 'Next',
+    skip: 'Skip',
+    start: "Let's start",
+    pages: [
+      {
+        title: 'Welcome to Headly',
+        text: 'A calm migraine tracker for days when everything is too much.',
+        items: [
+          ['🔒', 'Private', 'Everything stays on this device. No account, no cloud.'],
+          ['🌙', 'Calm', 'Muted colors and big buttons, even in the middle of an attack.'],
+          ['✋', 'Quick', 'One tap is enough. You can add details later.'],
+        ],
+      },
+      {
+        title: 'How it works',
+        text: 'Three taps during an attack, the rest happens later.',
+        items: [
+          ['🌀', 'Start migraine', 'Tap it on Home as soon as it begins. The time runs along.'],
+          ['💊', 'Log medication', 'What you took and when. Later Headly asks if it helped.'],
+          ['🌤️', 'End migraine', 'When it is over. Forgot? You can set an earlier time.'],
+          ['📅', 'Calendar', 'Add past migraines or edit them.'],
+          ['📊', 'Statistics', 'See patterns and how well your medication works.'],
+        ],
+      },
+      {
+        title: 'Good to know',
+        text: 'A few things that help in the long run.',
+        items: [
+          [
+            '💾',
+            'Back up your data',
+            'It lives only on this device. Export it now and then in Profile.',
+          ],
+          ['📲', 'Add to Home Screen', 'Headly then opens like an app, even offline.'],
+          ['📖', 'Knowledge', 'Short articles about migraine in Profile.'],
+          ['👋', 'This intro', 'You can open it again anytime in Profile.'],
+        ],
+      },
+    ] as { title: string; text: string; items: [string, string, string][] }[],
+  },
   knowledge: {
     title: 'Knowledge',
     aboutMigraine: 'About migraine',
@@ -313,6 +354,8 @@ export const en = {
     deleteAll: 'Delete all data',
     deleteAllHint: 'Cannot be undone',
     app: 'App',
+    intro: 'Introduction',
+    introHint: 'How Headly works',
     language: 'Language',
     theme: 'Appearance',
     privacy: 'Privacy policy',

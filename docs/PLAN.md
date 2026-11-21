@@ -144,6 +144,7 @@ type Settings = {
   backupReminderEnabled: boolean;
   backupReminderSnoozedUntil?: number;
   installHintDismissed: boolean;
+  introSeen: boolean;
 };
 ```
 
@@ -251,6 +252,10 @@ Layout, one element per row, in this order:
 
 **Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%).", "Aquipta works less well than at first: 3.4 at first, 5.6 migraine days per month lately (before: 7.3)." (active preventions with six full 30-day blocks; first vs. latest 90 days differ by at least one day), "Since “New job”: 7 instead of 2.4 migraine days per month." (life events in the range, at least 30 days compared, change of at least one day; Home only, Statistics shows life events in their own section) Each template has a German and English version and only appears when its data condition is met.
 
+### Intro
+
+Shown full screen without the tab bar on first start (`introSeen` is false). Three pages with emoji items: welcome (private, calm, quick), how it works (start, log medication, end, calendar, statistics), good to know (backup, add to Home Screen, knowledge, intro is in Profile). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
+
 ### Profile
 
 Grouped list in cards:
@@ -260,7 +265,7 @@ Grouped list in cards:
 - **Life events:** list, add, edit, delete. Fields: name, date
 - **Knowledge:** one row opens a list of short articles in two groups, "Basics" and "Lesser known" (topics that were hard to find), each with an emoji and a title; tapping one opens the article (big emoji, title, text, sources). Articles are Markdown files the developer writes in `src/i18n/knowledge/<language>/<group>/NN-slug.md`, first line `# <emoji> <title>`. Knowledge pages use the sans font only; links open in a new tab
 - **Data:** export JSON, import JSON, backup reminder on/off, "last backup N days ago", delete all data (double confirmation)
-- **App:** language (Deutsch / English), privacy policy, imprint, about with version
+- **App:** introduction (opens the intro again), language (Deutsch / English), appearance (System / Light / Dark), privacy policy, imprint, about with version
 - **PDF export (Data card):** choose 3 or 6 months (the current month and the ones before, up to today; doctors rarely want more), then "Create PDF" opens the browser's print menu (no PDF library). Nothing is previewed in the app; only the print shows a plain black-and-white table with one row per day: date, migraine, pain, medication, whether it helped
 - **Coming soon, greyed out with a "Soon" badge:** notifications
 

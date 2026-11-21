@@ -184,6 +184,12 @@ export function ProfileScreen() {
         <h2 className={styles.sectionLabel}>{t.profile.app}</h2>
         <div className={styles.card}>
           <ProfileRow
+            icon={<InfoIcon />}
+            title={t.profile.intro}
+            subtitle={t.profile.introHint}
+            onClick={() => void navigate('/intro')}
+          />
+          <ProfileRow
             icon={<LockIcon />}
             title={t.profile.privacy}
             onClick={() => void navigate('/profile/privacy')}

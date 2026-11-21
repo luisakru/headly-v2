@@ -241,6 +241,59 @@ export const de: Dictionary = {
         `Nur ${days} Tage zum Vergleich ab dem Wirkbeginn, mindestens ${min} nötig.`,
     },
   },
+  intro: {
+    next: 'Weiter',
+    skip: 'Überspringen',
+    start: "Los geht's",
+    pages: [
+      {
+        title: 'Willkommen bei Headly',
+        text: 'Ein ruhiger Migräne-Tracker für Tage, an denen alles zu viel ist.',
+        items: [
+          ['🔒', 'Privat', 'Alles bleibt auf diesem Gerät. Kein Konto, keine Cloud.'],
+          ['🌙', 'Ruhig', 'Gedämpfte Farben und große Knöpfe, auch mitten in der Attacke.'],
+          ['✋', 'Schnell', 'Ein Tipp reicht. Details kannst du später ergänzen.'],
+        ],
+      },
+      {
+        title: "So funktioniert's",
+        text: 'Drei Tipps während der Attacke, der Rest kommt später.',
+        items: [
+          [
+            '🌀',
+            'Migräne starten',
+            'Tippe auf der Startseite, sobald es losgeht. Die Zeit läuft mit.',
+          ],
+          [
+            '💊',
+            'Medikament eintragen',
+            'Was du wann genommen hast. Später fragt Headly, ob es geholfen hat.',
+          ],
+          [
+            '🌤️',
+            'Migräne beenden',
+            'Wenn es vorbei ist. Vergessen? Du kannst eine frühere Zeit wählen.',
+          ],
+          ['📅', 'Kalender', 'Vergangene Migräne nachtragen oder bearbeiten.'],
+          ['📊', 'Statistik', 'Muster erkennen und sehen, wie gut deine Medikamente wirken.'],
+        ],
+      },
+      {
+        title: 'Gut zu wissen',
+        text: 'Ein paar Dinge, die auf Dauer helfen.',
+        items: [
+          [
+            '💾',
+            'Daten sichern',
+            'Sie liegen nur auf diesem Gerät. Exportiere sie ab und zu im Profil.',
+          ],
+          ['📲', 'Zum Home-Bildschirm', 'Dann öffnet sich Headly wie eine App, auch offline.'],
+          ['📖', 'Wissen', 'Kurze Artikel über Migräne findest du im Profil.'],
+          ['👋', 'Diese Einführung', 'Du kannst sie jederzeit im Profil wieder öffnen.'],
+        ],
+      },
+    ],
+  },
   knowledge: {
     title: 'Wissen',
     aboutMigraine: 'Über Migräne',
@@ -317,6 +370,8 @@ export const de: Dictionary = {
     deleteAll: 'Alle Daten löschen',
     deleteAllHint: 'Nicht rückgängig machbar',
     app: 'App',
+    intro: 'Einführung',
+    introHint: 'So funktioniert Headly',
     language: 'Sprache',
     theme: 'Darstellung',
     privacy: 'Datenschutz',

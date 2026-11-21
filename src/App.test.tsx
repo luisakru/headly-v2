@@ -4,7 +4,7 @@ import { App } from './App';
 
 beforeEach(async () => {
   window.history.pushState({}, '', '/');
-  await updateSettings({ language: 'en' });
+  await updateSettings({ language: 'en', introSeen: true });
 });
 
 test('navigates between tabs', async () => {
@@ -24,4 +24,18 @@ test('switches language without a reload', async () => {
   expect(await screen.findByRole('heading', { name: 'Komponenten' })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'Statistik' })).toBeInTheDocument();
   expect(document.documentElement.lang).toBe('de');
+});
+
+test('shows the intro on first start and not again after finishing it', async () => {
+  await updateSettings({ introSeen: false });
+  render(<App />);
+
+  expect(await screen.findByRole('heading', { name: 'Welcome to Headly' })).toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: 'Statistics' })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Next' }));
+  fireEvent.click(await screen.findByRole('button', { name: "Let's start" }));
+
+  expect(await screen.findByRole('heading', { name: 'Hello' })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'Statistics' })).toBeInTheDocument();
 });

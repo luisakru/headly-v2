@@ -48,6 +48,7 @@ describe('shouldShowBackupReminder', () => {
     theme: 'system',
     backupReminderEnabled: true,
     installHintDismissed: false,
+    introSeen: false,
   };
 
   test('never backed up: shows from 5 records on', () => {

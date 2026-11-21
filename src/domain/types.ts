@@ -70,6 +70,7 @@ export type Settings = {
   backupReminderEnabled: boolean;
   backupReminderSnoozedUntil?: number;
   installHintDismissed: boolean;
+  introSeen: boolean;
 };
 
 /** Half-open interval [start, end) in epoch milliseconds. */

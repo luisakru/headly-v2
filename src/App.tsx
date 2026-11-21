@@ -4,6 +4,7 @@ import { I18nProvider } from './i18n/I18nProvider';
 import { CalendarScreen } from './screens/calendar/CalendarScreen';
 import { ComponentsScreen } from './screens/dev/ComponentsScreen';
 import { HomeScreen } from './screens/home/HomeScreen';
+import { IntroScreen } from './screens/intro/IntroScreen';
 import { AboutPage, ArticlePage, KnowledgePage, LegalPage } from './screens/profile/ProfilePages';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { ReportPage } from './screens/profile/ReportPage';
@@ -16,6 +17,7 @@ export function App() {
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<HomeScreen />} />
+            <Route path="intro" element={<IntroScreen />} />
             <Route path="calendar" element={<CalendarScreen />} />
             <Route path="stats" element={<StatsScreen />} />
             <Route path="profile" element={<ProfileScreen />} />

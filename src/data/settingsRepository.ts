@@ -11,6 +11,7 @@ export function defaultSettings(): Settings {
     theme: 'system',
     backupReminderEnabled: true,
     installHintDismissed: false,
+    introSeen: false,
   };
 }
 

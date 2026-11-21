@@ -177,6 +177,7 @@ describe('settingsRepository', () => {
       theme: 'system',
       backupReminderEnabled: true,
       installHintDismissed: false,
+      introSeen: false,
     });
   });
 
