@@ -254,7 +254,7 @@ Layout, one element per row, in this order:
 
 ### Intro
 
-Shown full screen without the tab bar on first start (`introSeen` is false). Three pages with emoji items: welcome (private, calm, quick), how it works (start, log medication, end, calendar, statistics), good to know (backup, add to Home Screen, knowledge, intro is in Profile). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
+Shown full screen without the tab bar on first start (`introSeen` is false). Three pages with emoji items: welcome (private, calm, quick), how it works (start, log medication, end, calendar, statistics), add to Home Screen (iPhone steps and Android, hidden when already installed), good to know (backup, knowledge, intro is in Profile). "Next" and "Skip" on every page; the last button saves `introSeen` and opens Home. Profile → App → "Introduction" opens it again.
 
 ### Profile
 

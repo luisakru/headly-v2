@@ -264,6 +264,25 @@ export const en = {
         ],
       },
       {
+        title: 'Add to Home Screen',
+        text: 'Headly then opens like an app: full screen, with its own icon and offline too.',
+        install: true,
+        items: [
+          [
+            '⬆️',
+            'iPhone: tap Share',
+            'In Safari, tap the Share icon (square with an arrow up). Can’t see it? Tap ⋯ first.',
+          ],
+          ['➕', 'Add to Home Screen', 'Scroll down in the menu a little and tap it.'],
+          ['✅', 'Tap Add', 'Top right. Headly is now next to your other apps.'],
+          [
+            '🤖',
+            'Android',
+            'In Chrome, tap ⋮ at the top right, then “Install app” or “Add to Home screen”.',
+          ],
+        ],
+      },
+      {
         title: 'Good to know',
         text: 'A few things that help in the long run.',
         items: [
@@ -272,12 +291,11 @@ export const en = {
             'Back up your data',
             'It lives only on this device. Export it now and then in Profile.',
           ],
-          ['📲', 'Add to Home Screen', 'Headly then opens like an app, even offline.'],
           ['📖', 'Knowledge', 'Short articles about migraine in Profile.'],
           ['👋', 'This intro', 'You can open it again anytime in Profile.'],
         ],
       },
-    ] as { title: string; text: string; items: [string, string, string][] }[],
+    ] as { title: string; text: string; install?: boolean; items: [string, string, string][] }[],
   },
   knowledge: {
     title: 'Knowledge',

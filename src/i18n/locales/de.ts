@@ -279,6 +279,25 @@ export const de: Dictionary = {
         ],
       },
       {
+        title: 'Zum Home-Bildschirm',
+        text: 'Dann öffnet sich Headly wie eine App: im Vollbild, mit eigenem Icon und auch offline.',
+        install: true,
+        items: [
+          [
+            '⬆️',
+            'iPhone: Teilen tippen',
+            'Tippe in Safari auf das Teilen-Symbol (Quadrat mit Pfeil nach oben). Siehst du es nicht, tippe zuerst auf ⋯.',
+          ],
+          ['➕', 'Zum Home-Bildschirm', 'Im Menü etwas nach unten scrollen und antippen.'],
+          ['✅', 'Hinzufügen tippen', 'Oben rechts. Headly liegt jetzt neben deinen anderen Apps.'],
+          [
+            '🤖',
+            'Android',
+            'Tippe in Chrome oben rechts auf ⋮, dann auf „App installieren“ oder „Zum Startbildschirm hinzufügen“.',
+          ],
+        ],
+      },
+      {
         title: 'Gut zu wissen',
         text: 'Ein paar Dinge, die auf Dauer helfen.',
         items: [
@@ -287,7 +306,6 @@ export const de: Dictionary = {
             'Daten sichern',
             'Sie liegen nur auf diesem Gerät. Exportiere sie ab und zu im Profil.',
           ],
-          ['📲', 'Zum Home-Bildschirm', 'Dann öffnet sich Headly wie eine App, auch offline.'],
           ['📖', 'Wissen', 'Kurze Artikel über Migräne findest du im Profil.'],
           ['👋', 'Diese Einführung', 'Du kannst sie jederzeit im Profil wieder öffnen.'],
         ],
