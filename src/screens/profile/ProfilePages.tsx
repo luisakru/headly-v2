@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Button } from '../../components/Button';
 import { version } from '../../../package.json';
 import { ChevronLeftIcon } from '../../components/icons';
 import { ScreenTitle } from '../../components/ScreenTitle';
@@ -78,6 +80,50 @@ export function ArticlePage() {
         <h1>{article.title}</h1>
         <Markdown source={article.body} />
       </article>
+    </>
+  );
+}
+
+export function ImportGuidePage() {
+  const { t } = useI18n();
+  const [copied, setCopied] = useState(false);
+  const prompt = t.importGuide.prompt(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(prompt);
+      setCopied(true);
+    } catch {
+      // Clipboard refused: the prompt stays selectable on the page.
+    }
+  };
+
+  return (
+    <>
+      <BackToProfile />
+      <ScreenTitle>{t.importGuide.title}</ScreenTitle>
+      <div className={styles.guide}>
+        <p>{t.importGuide.intro}</p>
+        <div className={styles.warning} role="note">
+          <p className={styles.warningTitle}>{t.importGuide.warningTitle}</p>
+          <p>{t.importGuide.warning}</p>
+        </div>
+        <section>
+          <h2 className={styles.sectionLabel}>{t.importGuide.stepsTitle}</h2>
+          <ol className={styles.steps}>
+            {t.importGuide.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </section>
+        <section>
+          <h2 className={styles.sectionLabel}>{t.importGuide.promptTitle}</h2>
+          <pre className={styles.prompt}>{prompt}</pre>
+        </section>
+        <Button large onClick={() => void copy()}>
+          {copied ? t.importGuide.copied : t.importGuide.copy}
+        </Button>
+      </div>
     </>
   );
 }

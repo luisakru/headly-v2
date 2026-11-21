@@ -154,6 +154,12 @@ export function ProfileScreen() {
             onClick={() => fileInput.current?.click()}
           />
           <ProfileRow
+            icon={<InfoIcon />}
+            title={t.importGuide.title}
+            subtitle={t.importGuide.rowHint}
+            onClick={() => void navigate('/profile/import-guide')}
+          />
+          <ProfileRow
             icon={<BellIcon />}
             title={t.profile.backupReminder}
             subtitle={t.profile.backupReminderHint}

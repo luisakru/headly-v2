@@ -299,6 +299,52 @@ export const en = {
       },
     ] as { title: string; text: string; install?: boolean; items: [string, string, string][] }[],
   },
+  importGuide: {
+    title: 'Data from other apps',
+    rowHint: 'Convert with an AI assistant',
+    intro:
+      'Do you have older entries in another app, a spreadsheet, a PDF from your doctor or photos of a paper diary? An AI assistant such as ChatGPT or Claude can turn them into a file that Headly can import.',
+    warningTitle: 'You are sharing health data',
+    warning:
+      'Everything you upload goes to the company behind the assistant, outside of Headly. Check what you share and remove what is not needed, such as names or addresses. Headly itself never sends anything.',
+    stepsTitle: 'How it works',
+    steps: [
+      'Copy the prompt below.',
+      'Open your assistant, paste the prompt and attach your data: an export file, a spreadsheet, a PDF, screenshots or photos.',
+      'Download the file headly-import.json that the assistant creates.',
+      'In Profile, tap "Import data", choose the file and then "Merge". Check the summary afterwards.',
+    ],
+    promptTitle: 'Prompt',
+    copy: 'Copy prompt',
+    copied: 'Copied',
+    prompt: (timeZone: string) =>
+      `Convert my attached migraine data into an import file for the app Headly. Create a downloadable file named headly-import.json with exactly this structure:
+
+{
+  "app": "headly",
+  "schemaVersion": 3,
+  "exportedAt": <now as Unix time in milliseconds>,
+  "data": {
+    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"? }],
+    "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "archived": false }],
+    "medicationIntakes": [{ "id", "createdAt", "updatedAt", "medicationId", "attackId"?, "takenAt", "effectiveness"? }],
+    "preventions": [{ "id", "createdAt", "updatedAt", "name", "type", "dose"?, "startDate", "endDate"? }],
+    "lifeEvents": [{ "id", "createdAt", "updatedAt", "name", "date" }]
+  }
+}
+
+Rules:
+- All times (startedAt, endedAt, takenAt, createdAt, updatedAt, exportedAt) are Unix time in milliseconds (13 digits) in my time zone ${timeZone}. Set createdAt and updatedAt to the time of the entry.
+- id: a unique text per record, e.g. "attack-1", "med-1", "intake-1".
+- painLevel: whole number from 0 to 10. Convert other scales, e.g. mild = 3, moderate = 6, severe = 9.
+- Always set endedAt. If the end is unknown, use the end of that day. Migraines must not overlap.
+- List each medication only once in medications. isTriptan is true for triptans such as sumatriptan or rizatriptan.
+- medicationId points to a medication; attackId points to the migraine during which it was taken, if there is one.
+- effectiveness only if known: "strong" (much better), "slight" (a little better), "none" (no effect), "worse".
+- preventions: type is "medication" or "lifestyle"; dates as "YYYY-MM-DD". lifeEvents are things like a new job or a move, with "date" as "YYYY-MM-DD".
+- Leave out fields you do not know. Never write null and never invent data.
+- After the file, briefly list anything you could not convert.`,
+  },
   knowledge: {
     title: 'Knowledge',
     aboutMigraine: 'About migraine',

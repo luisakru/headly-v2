@@ -314,6 +314,52 @@ export const de: Dictionary = {
       },
     ],
   },
+  importGuide: {
+    title: 'Daten aus anderen Apps',
+    rowHint: 'Mit einem KI-Assistenten umwandeln',
+    intro:
+      'Du hast ältere Einträge in einer anderen App, einer Tabelle, einem PDF vom Arzt oder auf Fotos von einem Papier-Tagebuch? Ein KI-Assistent wie ChatGPT oder Claude kann daraus eine Datei machen, die Headly importieren kann.',
+    warningTitle: 'Du teilst Gesundheitsdaten',
+    warning:
+      'Alles, was du hochlädst, geht an die Firma hinter dem Assistenten, außerhalb von Headly. Prüfe, was du teilst, und entferne, was nicht nötig ist, zum Beispiel Namen oder Adressen. Headly selbst sendet nie etwas.',
+    stepsTitle: "So geht's",
+    steps: [
+      'Kopiere den Prompt unten.',
+      'Öffne deinen Assistenten, füge den Prompt ein und hänge deine Daten an: eine Export-Datei, eine Tabelle, ein PDF, Screenshots oder Fotos.',
+      'Lade die Datei headly-import.json herunter, die der Assistent erstellt.',
+      'Tippe im Profil auf „Daten importieren“, wähle die Datei und dann „Zusammenführen“. Prüfe danach die Zusammenfassung.',
+    ],
+    promptTitle: 'Prompt',
+    copy: 'Prompt kopieren',
+    copied: 'Kopiert',
+    prompt: (timeZone: string) =>
+      `Wandle meine angehängten Migräne-Daten in eine Import-Datei für die App Headly um. Erstelle eine herunterladbare Datei namens headly-import.json mit genau dieser Struktur:
+
+{
+  "app": "headly",
+  "schemaVersion": 3,
+  "exportedAt": <jetzt als Unix-Zeit in Millisekunden>,
+  "data": {
+    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"? }],
+    "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "archived": false }],
+    "medicationIntakes": [{ "id", "createdAt", "updatedAt", "medicationId", "attackId"?, "takenAt", "effectiveness"? }],
+    "preventions": [{ "id", "createdAt", "updatedAt", "name", "type", "dose"?, "startDate", "endDate"? }],
+    "lifeEvents": [{ "id", "createdAt", "updatedAt", "name", "date" }]
+  }
+}
+
+Regeln:
+- Alle Zeiten (startedAt, endedAt, takenAt, createdAt, updatedAt, exportedAt) sind Unix-Zeit in Millisekunden (13 Stellen) in meiner Zeitzone ${timeZone}. Setze createdAt und updatedAt auf die Zeit des Eintrags.
+- id: ein eindeutiger Text pro Eintrag, z. B. "attack-1", "med-1", "intake-1".
+- painLevel: ganze Zahl von 0 bis 10. Rechne andere Skalen um, z. B. leicht = 3, mittel = 6, stark = 9.
+- Setze immer endedAt. Ist das Ende unbekannt, nimm das Ende des Tages. Migränen dürfen sich nicht überschneiden.
+- Jedes Medikament nur einmal in medications. isTriptan ist true für Triptane wie Sumatriptan oder Rizatriptan.
+- medicationId zeigt auf ein Medikament, attackId auf die Migräne, während der es genommen wurde, falls es eine gibt.
+- effectiveness nur, wenn bekannt: "strong" (stark gebessert), "slight" (etwas gebessert), "none" (keine Wirkung), "worse" (verschlimmert).
+- preventions: type ist "medication" oder "lifestyle", Daten als "YYYY-MM-DD". lifeEvents sind Dinge wie ein neuer Job oder ein Umzug, mit "date" als "YYYY-MM-DD".
+- Lass Felder weg, die du nicht kennst. Schreib nie null und erfinde nichts.
+- Liste nach der Datei kurz auf, was du nicht umwandeln konntest.`,
+  },
   knowledge: {
     title: 'Wissen',
     aboutMigraine: 'Über Migräne',

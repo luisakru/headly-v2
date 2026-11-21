@@ -332,6 +332,56 @@
   text-align: center;
 }
 
+.guide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.guide p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.warning {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-radius: var(--radius-card);
+  background: var(--color-warning-bg);
+}
+
+.warningTitle {
+  color: var(--color-warning-text);
+  font-weight: 600;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+  line-height: 1.5;
+}
+
+.prompt {
+  max-height: 320px;
+  margin: var(--space-2) 0 0;
+  padding: var(--space-4);
+  overflow-y: auto;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+
 .row:focus-visible,
 .itemRow:focus-visible,
 .textButton:focus-visible,

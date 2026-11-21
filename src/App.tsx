@@ -5,7 +5,13 @@ import { CalendarScreen } from './screens/calendar/CalendarScreen';
 import { ComponentsScreen } from './screens/dev/ComponentsScreen';
 import { HomeScreen } from './screens/home/HomeScreen';
 import { IntroScreen } from './screens/intro/IntroScreen';
-import { AboutPage, ArticlePage, KnowledgePage, LegalPage } from './screens/profile/ProfilePages';
+import {
+  AboutPage,
+  ArticlePage,
+  ImportGuidePage,
+  KnowledgePage,
+  LegalPage,
+} from './screens/profile/ProfilePages';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { ReportPage } from './screens/profile/ReportPage';
 import { StatsScreen } from './screens/stats/StatsScreen';
@@ -23,6 +29,7 @@ export function App() {
             <Route path="profile" element={<ProfileScreen />} />
             <Route path="profile/knowledge" element={<KnowledgePage />} />
             <Route path="profile/knowledge/:slug" element={<ArticlePage />} />
+            <Route path="profile/import-guide" element={<ImportGuidePage />} />
             <Route path="profile/privacy" element={<LegalPage page="privacy" />} />
             <Route path="profile/imprint" element={<LegalPage page="imprint" />} />
             <Route path="profile/about" element={<AboutPage />} />
