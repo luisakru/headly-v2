@@ -3,8 +3,15 @@ import type { ReactNode } from 'react';
 /**
  * Renders the small Markdown subset the legal and knowledge texts use: `#` and `##` headings,
  * `-` and `1.` lists, `[text](https://…)` links, `**bold**` and paragraphs, where single line breaks are kept (addresses).
+ * A block `![alt](name)` shows the SVG `figures[name]`.
  */
-export function Markdown({ source }: { source: string }) {
+export function Markdown({
+  source,
+  figures = {},
+}: {
+  source: string;
+  figures?: Record<string, string>;
+}) {
   const blocks = source.trim().split(/\n\s*\n/);
   return (
     <>
@@ -12,6 +19,17 @@ export function Markdown({ source }: { source: string }) {
         const lines = block.split('\n');
         if (block.startsWith('# ')) return <h1 key={index}>{block.slice(2)}</h1>;
         if (block.startsWith('## ')) return <h2 key={index}>{block.slice(3)}</h2>;
+        const [, alt, figure] = /^!\[([^\]]*)\]\(([\w-]+)\)$/.exec(block) ?? [];
+        if (figure !== undefined) {
+          return (
+            <figure
+              key={index}
+              role="img"
+              aria-label={alt}
+              dangerouslySetInnerHTML={{ __html: figures[figure] ?? '' }}
+            />
+          );
+        }
         if (lines.every((line) => /^\d+\. /.test(line))) {
           return (
             <ol key={index}>

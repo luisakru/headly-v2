@@ -1,4 +1,4 @@
-import { factOfTheDay, knowledgeArticles, knowledgeFacts, parseArticle } from '.';
+import { factOfTheDay, knowledgeArticles, knowledgeFacts, knowledgeFigures, parseArticle } from '.';
 
 test('parses group, slug, emoji, title and body from an article file', () => {
   const article = parseArticle(
@@ -20,6 +20,16 @@ test('every article exists in both languages', () => {
     knowledgeArticles[language].map(({ group, slug, emoji }) => `${group}/${slug}/${emoji}`);
   expect(keys('de').length).toBeGreaterThan(0);
   expect(keys('de')).toEqual(keys('en'));
+});
+
+test('every figure an article shows exists in its language', () => {
+  for (const language of ['de', 'en'] as const) {
+    for (const article of knowledgeArticles[language]) {
+      for (const [, name] of article.body.matchAll(/^!\[[^\]]*\]\(([\w-]+)\)$/gm)) {
+        expect(knowledgeFigures[language]).toHaveProperty(name ?? '');
+      }
+    }
+  }
 });
 
 describe('facts', () => {

@@ -5,7 +5,7 @@ import { version } from '../../../package.json';
 import { ChevronLeftIcon } from '../../components/icons';
 import { ScreenTitle } from '../../components/ScreenTitle';
 import { useI18n } from '../../i18n/context';
-import { knowledgeArticles, type KnowledgeGroup } from '../../i18n/knowledge';
+import { knowledgeArticles, knowledgeFigures, type KnowledgeGroup } from '../../i18n/knowledge';
 import { legalTexts, type LegalPage as LegalPageName } from '../../i18n/legal';
 import { Markdown } from './Markdown';
 import styles from './Profile.module.css';
@@ -78,7 +78,7 @@ export function ArticlePage() {
           {article.emoji}
         </p>
         <h1>{article.title}</h1>
-        <Markdown source={article.body} />
+        <Markdown source={article.body} figures={knowledgeFigures[language]} />
       </article>
     </>
   );

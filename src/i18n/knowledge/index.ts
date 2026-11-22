@@ -43,6 +43,20 @@ for (const path of Object.keys(files).sort()) {
   knowledgeArticles[language].push(article);
 }
 
+const figureFiles = import.meta.glob<string>('./*/figures/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+/** SVG figures by language and name, e.g. `de/figures/pill.svg` is `knowledgeFigures.de.pill`. */
+export const knowledgeFigures: Record<Language, Record<string, string>> = { de: {}, en: {} };
+
+for (const [path, svg] of Object.entries(figureFiles)) {
+  const [, language, name] = /(\w+)\/figures\/([\w-]+)\.svg$/.exec(path) ?? [];
+  knowledgeFigures[language as Language][name ?? ''] = svg;
+}
+
 export type Fact = {
   text: string;
   /** Slug of the article the fact comes from. */

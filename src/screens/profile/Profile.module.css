@@ -329,6 +329,16 @@
   font-size: 17px;
 }
 
+.article figure {
+  margin: var(--space-2) 0 var(--space-5);
+}
+
+.article figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .article .articleEmoji {
   margin: 0 0 var(--space-4);
   font-size: 56px;

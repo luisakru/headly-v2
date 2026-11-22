@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" aria-hidden="true">
+  <rect x="225.0" y="24" width="70.0" height="116" rx="8" style="fill:var(--color-surface)"/>
+  <text x="0" y="14" font-size="13" style="fill:var(--color-text-secondary)">Oestrogen</text>
+  <text x="260" y="42" font-size="13" text-anchor="middle" style="fill:var(--color-text-secondary)">Break</text>
+  <path d="M20.0 56 L225.0 56 C235.0 56 235.0 124 250.0 124 L295.0 124 C305.0 124 305.0 56 315.0 56 L320.0 56" style="fill:none;stroke:var(--color-primary)" stroke-width="2" stroke-linecap="round"/>
+  <path transform="translate(246.0 66)" d="M3 0 L-3 10 H1 L-2 18 L6 7 H2 L5 0 Z" style="fill:var(--color-primary)"/>
+  <path transform="translate(266.0 86)" d="M3 0 L-3 10 H1 L-2 18 L6 7 H2 L5 0 Z" style="fill:var(--color-primary)"/>
+  <path transform="translate(282.0 64)" d="M3 0 L-3 10 H1 L-2 18 L6 7 H2 L5 0 Z" style="fill:var(--color-primary)"/>
+  <line x1="20" y1="148" x2="320" y2="148" style="stroke:var(--color-border)" stroke-width="1"/>
+  <text x="20" y="166" font-size="13" style="fill:var(--color-text-secondary)">Day 1</text>
+  <text x="220" y="166" font-size="13" text-anchor="middle" style="fill:var(--color-text-secondary)">21</text>
+  <text x="290" y="166" font-size="13" text-anchor="middle" style="fill:var(--color-text-secondary)">28</text>
+  <text x="170" y="192" font-size="14" text-anchor="middle" style="fill:var(--color-text)">Attacks cluster in the break</text>
+</svg>

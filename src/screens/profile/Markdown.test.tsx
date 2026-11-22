@@ -25,3 +25,8 @@ test('renders numbered lists', () => {
   expect(container.querySelectorAll('ol li')).toHaveLength(2);
   expect(container.textContent).not.toContain('1.');
 });
+
+test('renders a figure by name with its alt text as label', () => {
+  render(<Markdown source={'![A circle](dot)'} figures={{ dot: '<svg><circle r="1"/></svg>' }} />);
+  expect(screen.getByRole('img', { name: 'A circle' }).querySelector('circle')).not.toBeNull();
+});

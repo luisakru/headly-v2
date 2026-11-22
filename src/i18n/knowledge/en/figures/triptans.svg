@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 232" aria-hidden="true">
+  <text x="0" y="14" font-size="13" style="fill:var(--color-text-secondary)">Half-life in hours, approximate</text>
+  <text x="0" y="40" font-size="14" style="fill:var(--color-text)">Sumatriptan</text>
+  <rect x="104" y="30" width="13.8" height="12" rx="4" style="fill:var(--color-primary)"/>
+  <text x="123.846" y="40" font-size="13" style="fill:var(--color-text-secondary)">2 h</text>
+  <text x="0" y="70" font-size="14" style="fill:var(--color-text)">Rizatriptan</text>
+  <rect x="104" y="60" width="13.8" height="12" rx="4" style="fill:var(--color-primary)"/>
+  <text x="123.846" y="70" font-size="13" style="fill:var(--color-text-secondary)">2 h</text>
+  <text x="0" y="100" font-size="14" style="fill:var(--color-text)">Zolmitriptan</text>
+  <rect x="104" y="90" width="20.8" height="12" rx="4" style="fill:var(--color-primary)"/>
+  <text x="130.769" y="100" font-size="13" style="fill:var(--color-text-secondary)">3 h</text>
+  <text x="0" y="130" font-size="14" style="fill:var(--color-text)">Almotriptan</text>
+  <rect x="104" y="120" width="24.2" height="12" rx="4" style="fill:var(--color-primary)"/>
+  <text x="134.231" y="130" font-size="13" style="fill:var(--color-text-secondary)">3.5 h</text>
+  <text x="0" y="160" font-size="14" style="fill:var(--color-text)">Eletriptan</text>
+  <rect x="104" y="150" width="27.7" height="12" rx="4" style="fill:var(--color-primary)"/>
+  <text x="137.692" y="160" font-size="13" style="fill:var(--color-text-secondary)">4 h</text>
+  <text x="0" y="190" font-size="14" style="fill:var(--color-text)">Naratriptan</text>
+  <rect x="104" y="180" width="41.5" height="12" rx="4" style="fill:var(--color-primary)"/>
+  <text x="151.538" y="190" font-size="13" style="fill:var(--color-text-secondary)">6 h</text>
+  <text x="0" y="220" font-size="14" style="fill:var(--color-text)">Frovatriptan</text>
+  <rect x="104" y="210" width="180.0" height="12" rx="4" style="fill:var(--color-primary)"/>
+  <text x="290" y="220" font-size="13" style="fill:var(--color-text-secondary)">26 h</text>
+</svg>

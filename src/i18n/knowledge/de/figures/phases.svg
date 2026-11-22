@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 84" aria-hidden="true">
+  <text x="0" y="16" font-size="13" font-weight="600" style="fill:var(--color-text)">Vorboten</text>
+  <rect x="0" y="26" width="86" height="14" rx="4" style="fill:var(--color-primary)"/>
+  <text x="0" y="60" font-size="13" style="fill:var(--color-text-secondary)">Stunden bis</text>
+  <text x="0" y="77" font-size="13" style="fill:var(--color-text-secondary)">2 Tage</text>
+  <text x="88" y="16" font-size="13" font-weight="600" style="fill:var(--color-text)">Aura</text>
+  <rect x="88" y="26" width="48" height="14" rx="4" style="fill:var(--color-primary-soft)"/>
+  <text x="88" y="60" font-size="13" style="fill:var(--color-text-secondary)">5–60</text>
+  <text x="88" y="77" font-size="13" style="fill:var(--color-text-secondary)">Min.</text>
+  <text x="138" y="16" font-size="13" font-weight="600" style="fill:var(--color-text)">Kopfschmerz</text>
+  <rect x="138" y="26" width="112" height="14" rx="4" style="fill:var(--color-primary)"/>
+  <text x="138" y="60" font-size="13" style="fill:var(--color-text-secondary)">4–72</text>
+  <text x="138" y="77" font-size="13" style="fill:var(--color-text-secondary)">Stunden</text>
+  <text x="252" y="16" font-size="13" font-weight="600" style="fill:var(--color-text)">Rückbildung</text>
+  <rect x="252" y="26" width="88" height="14" rx="4" style="fill:var(--color-primary)"/>
+  <text x="252" y="60" font-size="13" style="fill:var(--color-text-secondary)">bis</text>
+  <text x="252" y="77" font-size="13" style="fill:var(--color-text-secondary)">2 Tage</text>
+</svg>

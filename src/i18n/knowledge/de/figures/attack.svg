@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 324" aria-hidden="true">
+  <rect x="0" y="0" width="340" height="52" rx="12" style="fill:var(--color-surface)"/>
+  <circle cx="24" cy="26" r="12" style="fill:var(--color-primary)"/>
+  <text x="24" y="31" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--color-on-primary)">1</text>
+  <text x="46" y="22" font-size="14" font-weight="600" style="fill:var(--color-text)">Hypothalamus</text>
+  <text x="46" y="41" font-size="13" style="fill:var(--color-text-secondary)">Gerät aus dem Takt: Vorboten</text>
+  <path d="M18 58 l6 5 l6 -5" style="fill:none;stroke:var(--color-primary-soft)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="0" y="68" width="340" height="52" rx="12" style="fill:var(--color-surface)"/>
+  <circle cx="24" cy="94" r="12" style="fill:var(--color-primary)"/>
+  <text x="24" y="99" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--color-on-primary)">2</text>
+  <text x="46" y="90" font-size="14" font-weight="600" style="fill:var(--color-text)">Hirnrinde</text>
+  <text x="46" y="109" font-size="13" style="fill:var(--color-text-secondary)">Erregungswelle: Aura (nicht bei allen)</text>
+  <path d="M18 126 l6 5 l6 -5" style="fill:none;stroke:var(--color-primary-soft)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="0" y="136" width="340" height="52" rx="12" style="fill:var(--color-surface)"/>
+  <circle cx="24" cy="162" r="12" style="fill:var(--color-primary)"/>
+  <text x="24" y="167" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--color-on-primary)">3</text>
+  <text x="46" y="158" font-size="14" font-weight="600" style="fill:var(--color-text)">Trigeminusnerv</text>
+  <text x="46" y="177" font-size="13" style="fill:var(--color-text-secondary)">Setzt CGRP an den Hirnhäuten frei</text>
+  <path d="M18 194 l6 5 l6 -5" style="fill:none;stroke:var(--color-primary-soft)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="0" y="204" width="340" height="52" rx="12" style="fill:var(--color-surface)"/>
+  <circle cx="24" cy="230" r="12" style="fill:var(--color-primary)"/>
+  <text x="24" y="235" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--color-on-primary)">4</text>
+  <text x="46" y="226" font-size="14" font-weight="600" style="fill:var(--color-text)">Hirnhäute</text>
+  <text x="46" y="245" font-size="13" style="fill:var(--color-text-secondary)">Gefäße weiten sich, Nerven gereizt</text>
+  <path d="M18 262 l6 5 l6 -5" style="fill:none;stroke:var(--color-primary-soft)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="0" y="272" width="340" height="52" rx="12" style="fill:var(--color-surface)"/>
+  <circle cx="24" cy="298" r="12" style="fill:var(--color-primary)"/>
+  <text x="24" y="303" font-size="13" font-weight="600" text-anchor="middle" style="fill:var(--color-on-primary)">5</text>
+  <text x="46" y="294" font-size="14" font-weight="600" style="fill:var(--color-text)">Hirnstamm und Thalamus</text>
+  <text x="46" y="313" font-size="13" style="fill:var(--color-text-secondary)">Verstärken Schmerz, Licht und Lärm</text>
+</svg>
