@@ -8,7 +8,7 @@ Schon im 2. Jahrhundert beschrieb der griechische Arzt Aretaios Attacken mit hal
 
 ## Vom Nervenleiden zur „Frauenkrankheit“
 
-Im 18. und 19. Jahrhundert brachten Ärzte Migräne mit Nervosität und Hysterie in Verbindung. Frauen galten als „schwache Nerven“, und so wurde Migräne zum Leiden empfindlicher Damen, belächelt statt ernst genommen. Das Bild der blassen Frau mit der Hand an der Stirn stammt aus dieser Zeit.
+Im 18. und 19. Jahrhundert brachten Ärzte Migräne mit Nervosität und Hysterie in Verbindung. Man glaubte, Frauen hätten von Natur aus schwächere Nerven, und so wurde Migräne zum Leiden empfindlicher Damen, belächelt statt ernst genommen. Das Bild der blassen Frau mit der Hand an der Stirn stammt aus dieser Zeit.
 
 Im 20. Jahrhundert beschrieb der einflussreiche US-Neurologe Harold Wolff eine „Migräne-Persönlichkeit“: ehrgeizig, perfektionistisch, angespannt. Frauen mit Migräne unterstellte er, ihre Rolle als Frau, besonders im Bett, nicht anzunehmen. Damit lag die Schuld bei den Betroffenen selbst. Daraus wurde der Spruch „Nicht heute, Schatz, ich hab Migräne“, Migräne als Ausrede.
 

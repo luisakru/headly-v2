@@ -8,7 +8,7 @@ As early as the 2nd century, the Greek physician Aretaeus described attacks with
 
 ## From nervous disorder to "women's disease"
 
-In the 18th and 19th centuries, doctors linked migraine to nervousness and hysteria. Women were thought to have "weak nerves", so migraine became the ailment of delicate ladies, smiled at rather than taken seriously. The image of the pale woman with her hand on her forehead comes from this time.
+In the 18th and 19th centuries, doctors linked migraine to nervousness and hysteria. Women were believed to have weaker nerves by nature, so migraine became the ailment of delicate ladies, smiled at rather than taken seriously. The image of the pale woman with her hand on her forehead comes from this time.
 
 In the 20th century, the influential US neurologist Harold Wolff described a "migraine personality": ambitious, perfectionist, tense. He claimed women with migraine did not accept their role as women, especially in bed. That put the blame on the patients themselves. It gave rise to the line "Not tonight, darling, I have a migraine", migraine as an excuse.
 
