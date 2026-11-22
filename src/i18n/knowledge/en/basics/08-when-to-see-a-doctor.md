@@ -1,4 +1,4 @@
-# 🏥 When to see a doctor
+# 🏥 Warning signs
 
 Right away, with:
 

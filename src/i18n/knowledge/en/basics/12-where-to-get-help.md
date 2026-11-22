@@ -21,5 +21,5 @@ For an appointment you usually need a referral, often from your neurologist. Wai
 
 ## In an emergency
 
-- **116 117**, the out-of-hours medical service in Germany, can also come to your home, see "116 117: Help that comes to you"
+- **116 117**, the out-of-hours medical service in Germany, can also come to your home, see "On-call doctor 116 117"
 - **112** if your life is in danger or you have warning signs

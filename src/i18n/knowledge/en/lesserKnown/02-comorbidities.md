@@ -1,4 +1,4 @@
-# 🔗 What often comes along
+# 🔗 Comorbidities
 
 Migraine rarely comes alone. Some conditions are clearly more common in people with migraine. Knowing this helps you spot connections and can shape the choice of treatment.
 

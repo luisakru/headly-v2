@@ -1,4 +1,4 @@
-# 💊 Headache from too much medication
+# 💊 Medication overuse headache
 
 It sounds paradoxical: the tablets against headache cause headaches themselves. This is called medication overuse headache. It is one of the most common reasons why occasional migraine turns into an almost daily one. The good news: it can be treated well.
 

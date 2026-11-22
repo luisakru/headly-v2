@@ -1,4 +1,4 @@
-# 🧷 Das Schmerzgedächtnis
+# 🧷 Schmerzgedächtnis
 
 Viele halten eine Attacke lieber aus, statt etwas zu nehmen. Das fühlt sich tapfer an, kann aber nach hinten losgehen. Das Nervensystem lernt aus Schmerz, und es lernt leider gut.
 
@@ -21,7 +21,7 @@ Eine große Studie aus den USA zeigte außerdem: Wessen Akutbehandlung schlecht 
 
 ## Aber nicht zu viel
 
-Hier steckt ein Dilemma: Zu viele Tabletten machen selbst Kopfschmerzen, siehe „Kopfschmerz durch zu viele Medikamente“. Der Weg dazwischen:
+Hier steckt ein Dilemma: Zu viele Tabletten machen selbst Kopfschmerzen, siehe „Medikamentenübergebrauch“. Der Weg dazwischen:
 
 - **Früh und richtig dosiert nehmen,** statt spät und zögerlich
 - **Die Tage im Blick behalten:** Triptane an weniger als 10, einfache Schmerzmittel an weniger als 15 Tagen im Monat. Headly zählt mit

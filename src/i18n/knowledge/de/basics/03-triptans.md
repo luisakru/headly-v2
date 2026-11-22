@@ -47,7 +47,7 @@ Für zu Hause, unterwegs oder im Urlaub kann so eine Notfallpackung viel Stress 
 - **Nicht während der Aura,** sondern erst, wenn der Kopfschmerz einsetzt
 - **Kommt die Migräne zurück,** ist nach frühestens 2 Stunden eine zweite Dosis möglich. Hat die erste gar nicht geholfen, bringt eine zweite meist nichts
 - **Kombination:** Zusammen mit Naproxen kommt die Attacke seltener zurück. Das klärst du mit deiner Ärztin
-- **An weniger als 10 Tagen im Monat,** sonst droht Kopfschmerz durch Medikamentenübergebrauch, siehe „Kopfschmerz durch zu viele Medikamente“
+- **An weniger als 10 Tagen im Monat,** sonst droht Kopfschmerz durch Medikamentenübergebrauch, siehe „Medikamentenübergebrauch“
 
 ## Nebenwirkungen
 
@@ -59,9 +59,9 @@ Weil Triptane Gefäße verengen, sind sie bei Herzinfarkt, Schlaganfall, Durchbl
 
 Die gute Nachricht: Triptane schaden nach heutigem Wissen den Organen nicht. Anders als manche Schmerzmittel belasten sie weder Magen noch Nieren oder Leber. Auch bei häufiger Einnahme fanden große Studien bei Menschen ohne Herz-Kreislauf-Erkrankung kein erhöhtes Risiko für Herzinfarkt oder Schlaganfall.
 
-Das eigentliche Risiko ist der Kopf selbst: An 10 oder mehr Tagen im Monat können Triptane Kopfschmerz durch Übergebrauch auslösen, siehe „Kopfschmerz durch zu viele Medikamente“. Sehr selten kann es zusammen mit bestimmten Antidepressiva zu einer Überreaktion des Serotonin-Systems kommen. Sag deiner Ärztin deshalb, was du sonst noch nimmst.
+Das eigentliche Risiko ist der Kopf selbst: An 10 oder mehr Tagen im Monat können Triptane Kopfschmerz durch Übergebrauch auslösen, siehe „Medikamentenübergebrauch“. Sehr selten kann es zusammen mit bestimmten Antidepressiva zu einer Überreaktion des Serotonin-Systems kommen. Sag deiner Ärztin deshalb, was du sonst noch nimmst.
 
-Unterm Strich: Innerhalb der Grenzen ist ein Triptan fast immer besser, als sich durch die Attacke zu quälen. Das schont auch dein Schmerzgedächtnis, siehe „Das Schmerzgedächtnis“.
+Unterm Strich: Innerhalb der Grenzen ist ein Triptan fast immer besser, als sich durch die Attacke zu quälen. Das schont auch dein Schmerzgedächtnis, siehe „Schmerzgedächtnis“.
 
 ## Quellen
 

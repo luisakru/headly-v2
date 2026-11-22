@@ -30,7 +30,7 @@ On top of that comes a vicious circle: pain steals sleep, nausea stops you drink
 - Dark, quiet, cool. Sleep ends some attacks
 - If you usually drink coffee, don't stop suddenly
 
-At the latest when there is no end in sight after three days, call your GP or neurologist. Outside office hours, you can reach the out-of-hours medical service (116 117 in Germany), who can also come to your home; see “116 117: Help that comes to you”.
+At the latest when there is no end in sight after three days, call your GP or neurologist. Outside office hours, you can reach the out-of-hours medical service (116 117 in Germany), who can also come to your home; see “On-call doctor 116 117”.
 
 ## What doctors can do
 
@@ -43,7 +43,7 @@ A practice or hospital has treatments you can't do at home:
 
 Opioids such as tramadol are not a good choice for migraine. They help little and make the head more sensitive over time.
 
-Go to the emergency room right away if you can't keep anything down or new warning signs appear, see "When to see a doctor".
+Go to the emergency room right away if you can't keep anything down or new warning signs appear, see "Warning signs".
 
 ## Afterwards
 

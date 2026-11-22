@@ -1,4 +1,4 @@
-# 💊 Kopfschmerz durch zu viele Medikamente
+# 💊 Medikamentenübergebrauch
 
 Das klingt paradox: Die Tabletten gegen Kopfschmerz machen selbst Kopfschmerzen. Fachleute nennen das Kopfschmerz durch Medikamentenübergebrauch. Er ist eine der häufigsten Ursachen dafür, dass aus gelegentlicher Migräne eine fast tägliche wird. Die gute Nachricht: Er lässt sich gut behandeln.
 
@@ -35,7 +35,7 @@ Nach der Pause wirken Akutmedikamente oft wieder besser. Rückfälle sind häufi
 
 ## Die andere Seite
 
-Viele haben so viel Angst vor zu vielen Tabletten, dass sie Attacken lieber aushalten. Das ist genauso riskant: Jede lange, unbehandelte Attacke trainiert das Schmerzsystem, und die Migräne kommt leichter wieder. Mehr dazu unter „Das Schmerzgedächtnis“.
+Viele haben so viel Angst vor zu vielen Tabletten, dass sie Attacken lieber aushalten. Das ist genauso riskant: Jede lange, unbehandelte Attacke trainiert das Schmerzsystem, und die Migräne kommt leichter wieder. Mehr dazu unter „Schmerzgedächtnis“.
 
 Es geht also nicht um möglichst wenig, sondern um Balance: Attacken früh und richtig behandeln, und dabei die Tage im Blick behalten. Reichen die erlaubten Tage nicht, ist das kein Grund zum Aushalten, sondern ein Grund für eine Prophylaxe.
 

@@ -1,4 +1,4 @@
-# 🌘 The phases of an attack
+# 🌘 Phases of an attack
 
 An attack often starts long before the headache and ends only some time after it. Not every attack has every phase, and they can overlap.
 

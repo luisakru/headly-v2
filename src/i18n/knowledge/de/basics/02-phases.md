@@ -1,4 +1,4 @@
-# 🌘 Die Phasen einer Attacke
+# 🌘 Phasen einer Attacke
 
 Eine Attacke beginnt oft lange vor dem Kopfschmerz und endet erst eine Weile danach. Nicht jede Attacke hat alle Phasen, und sie können sich überlappen.
 

@@ -1,4 +1,4 @@
-# 📱 Instagram trends
+# 📱 Home remedies fact-checked
 
 Instagram and TikTok come up with a new migraine trick all the time. Some have a real idea behind them, some are just … creative. Here is our honest fact check, with a wink. And who knows: if it helps you, it helps.
 

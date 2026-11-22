@@ -1,4 +1,4 @@
-# ✨ Surprising things about migraine
+# ✨ Surprising facts
 
 ## The chocolate is innocent
 

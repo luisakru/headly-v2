@@ -1,4 +1,4 @@
-# 🔗 Was oft zusammen auftritt
+# 🔗 Begleiterkrankungen
 
 Migräne kommt selten allein. Manche Erkrankungen treten bei Menschen mit Migräne deutlich häufiger auf. Das zu wissen hilft, Zusammenhänge zu erkennen, und kann die Wahl der Behandlung beeinflussen.
 

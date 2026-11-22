@@ -30,7 +30,7 @@ Dazu kommt ein Teufelskreis: Schmerz raubt Schlaf, Übelkeit verhindert Trinken 
 - Dunkel, ruhig, kühl. Schlaf beendet manche Attacke
 - Wenn du sonst Kaffee trinkst, nicht abrupt weglassen
 
-Spätestens wenn nach drei Tagen kein Ende in Sicht ist, ruf deine Hausärztin oder Neurologin an. Außerhalb der Sprechzeiten erreichst du den ärztlichen Bereitschaftsdienst unter 116 117. Der kann auch zu dir nach Hause kommen, siehe „116 117: Hilfe, die zu dir kommt“.
+Spätestens wenn nach drei Tagen kein Ende in Sicht ist, ruf deine Hausärztin oder Neurologin an. Außerhalb der Sprechzeiten erreichst du den ärztlichen Bereitschaftsdienst unter 116 117. Der kann auch zu dir nach Hause kommen, siehe „Bereitschaftsdienst 116 117“.
 
 ## Was Ärztinnen und Ärzte tun können
 
@@ -43,7 +43,7 @@ In der Praxis oder Klinik gibt es Behandlungen, die zu Hause nicht gehen:
 
 Opioide wie Tramadol sind bei Migräne keine gute Wahl. Sie helfen wenig und machen den Kopf auf Dauer empfindlicher.
 
-Sofort in die Notaufnahme, wenn du nichts mehr bei dir behältst oder neue Warnzeichen dazukommen, siehe „Wann zum Arzt?“.
+Sofort in die Notaufnahme, wenn du nichts mehr bei dir behältst oder neue Warnzeichen dazukommen, siehe „Warnzeichen“.
 
 ## Danach
 

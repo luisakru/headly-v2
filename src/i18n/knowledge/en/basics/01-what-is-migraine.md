@@ -6,7 +6,7 @@ Migraine is a neurological disease, not a "normal" headache. About one in seven 
 
 An untreated attack lasts 4 to 72 hours. The pain is often one-sided, throbbing and gets worse with movement. It usually comes with nausea and sensitivity to light, sound or smells. That is why Headly is kept so calm and dark.
 
-But the headache is only one part. An attack can start hours earlier with yawning, cravings, a stiff neck or irritability, and linger for a day afterwards like a hangover. More on this in "The phases of an attack".
+But the headache is only one part. An attack can start hours earlier with yawning, cravings, a stiff neck or irritability, and linger for a day afterwards like a hangover. More on this in "Phases of an attack".
 
 ## Forms many people don't know
 

@@ -1,4 +1,4 @@
-# ✨ Überraschendes über Migräne
+# ✨ Überraschendes
 
 ## Die Schokolade ist unschuldig
 

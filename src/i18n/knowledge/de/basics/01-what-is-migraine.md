@@ -6,7 +6,7 @@ Migräne ist eine neurologische Erkrankung, kein „normaler“ Kopfschmerz. Etw
 
 Eine typische Attacke dauert unbehandelt 4 bis 72 Stunden. Der Schmerz ist oft einseitig, pochend und wird bei Bewegung schlimmer. Dazu kommen Übelkeit und Empfindlichkeit gegen Licht, Geräusche oder Gerüche. Deshalb ist Headly so ruhig und dunkel gehalten.
 
-Der Kopfschmerz ist aber nur ein Teil. Eine Attacke kann schon Stunden vorher mit Gähnen, Heißhunger, Nackensteife oder Gereiztheit beginnen und danach noch einen Tag lang wie ein Kater nachwirken. Mehr dazu unter „Die Phasen einer Attacke“.
+Der Kopfschmerz ist aber nur ein Teil. Eine Attacke kann schon Stunden vorher mit Gähnen, Heißhunger, Nackensteife oder Gereiztheit beginnen und danach noch einen Tag lang wie ein Kater nachwirken. Mehr dazu unter „Phasen einer Attacke“.
 
 ## Formen, die viele nicht kennen
 

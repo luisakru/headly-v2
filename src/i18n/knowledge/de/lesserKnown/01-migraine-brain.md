@@ -1,4 +1,4 @@
-# 🧩 Das Migräne-Gehirn
+# 🧩 Migräne-Gehirn
 
 Funktioniert unser Gehirn anders? Ein bisschen schon, und zwar auch zwischen den Attacken.
 

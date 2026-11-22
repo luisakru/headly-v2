@@ -1,4 +1,4 @@
-# 📞 116 117: Hilfe, die zu dir kommt
+# 📞 Bereitschaftsdienst 116 117
 
 Manchmal ist der Schmerz so stark, dass du nicht mehr weißt, was du tun sollst. Und gleichzeitig ist der Weg in die Notaufnahme unvorstellbar: grelles Licht, Lärm, Wartezimmer, Fahren.
 

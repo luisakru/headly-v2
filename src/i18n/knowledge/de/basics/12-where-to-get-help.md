@@ -21,5 +21,5 @@ Für einen Termin brauchst du meist eine Überweisung, oft von der Neurologin. W
 
 ## In akuter Not
 
-- **116 117**, der ärztliche Bereitschaftsdienst, kommt auch zu dir nach Hause, siehe „116 117: Hilfe, die zu dir kommt“
+- **116 117**, der ärztliche Bereitschaftsdienst, kommt auch zu dir nach Hause, siehe „Bereitschaftsdienst 116 117“
 - **112** bei Lebensgefahr oder Warnzeichen

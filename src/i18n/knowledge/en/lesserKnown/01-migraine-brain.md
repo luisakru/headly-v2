@@ -1,4 +1,4 @@
-# 🧩 The migraine brain
+# 🧩 Migraine brain
 
 Does our brain work differently? A little, yes, and also between attacks.
 

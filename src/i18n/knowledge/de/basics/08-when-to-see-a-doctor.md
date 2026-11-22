@@ -1,4 +1,4 @@
-# 🏥 Wann zum Arzt?
+# 🏥 Warnzeichen
 
 Sofort, bei:
 

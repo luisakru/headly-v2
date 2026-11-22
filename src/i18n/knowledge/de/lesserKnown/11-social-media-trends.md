@@ -1,4 +1,4 @@
-# 📱 Instagram-Trends
+# 📱 Hausmittel im Faktencheck
 
 Auf Instagram und TikTok taucht ständig ein neuer Migräne-Trick auf. Manche haben echte Ideen dahinter, manche sind einfach nur … kreativ. Hier unser ehrlicher Faktencheck, mit Augenzwinkern. Und wer weiß: Wenn es dir hilft, hilft es.
 

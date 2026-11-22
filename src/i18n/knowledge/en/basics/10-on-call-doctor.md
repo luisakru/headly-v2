@@ -1,4 +1,4 @@
-# 📞 116 117: Help that comes to you
+# 📞 On-call doctor 116 117
 
 Sometimes the pain is so bad that you no longer know what to do. And at the same time, getting to the emergency room is unthinkable: bright light, noise, waiting rooms, the drive.
 

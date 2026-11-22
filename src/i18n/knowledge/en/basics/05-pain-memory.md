@@ -21,7 +21,7 @@ A large US study also showed: people whose acute treatment worked poorly develop
 
 ## But not too much
 
-There is a dilemma here: too many tablets cause headaches themselves, see "Headache from too much medication". The way in between:
+There is a dilemma here: too many tablets cause headaches themselves, see "Medication overuse headache". The way in between:
 
 - **Take it early and at the right dose,** rather than late and hesitantly
 - **Keep an eye on the days:** triptans on fewer than 10, simple pain relievers on fewer than 15 days a month. Headly counts along

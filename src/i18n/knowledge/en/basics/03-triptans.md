@@ -47,7 +47,7 @@ An emergency pack for home, on the go or on holiday can take a lot of stress awa
 - **Not during the aura,** but only once the headache starts
 - **If the migraine comes back,** a second dose is possible after 2 hours at the earliest. If the first didn't help at all, a second usually won't either
 - **Combination:** together with naproxen, the attack comes back less often. Discuss this with your doctor
-- **On fewer than 10 days a month,** otherwise medication overuse headache may follow, see "Headache from too much medication"
+- **On fewer than 10 days a month,** otherwise medication overuse headache may follow, see "Medication overuse headache"
 
 ## Side effects
 
@@ -59,7 +59,7 @@ Because triptans narrow blood vessels, they are not suitable after a heart attac
 
 The good news: as far as we know today, triptans don't harm your organs. Unlike some pain relievers, they don't strain the stomach, kidneys or liver. Even with frequent use, large studies found no increased risk of heart attack or stroke in people without cardiovascular disease.
 
-The real risk is the head itself: on 10 or more days a month, triptans can cause medication overuse headache, see "Headache from too much medication". Very rarely, combined with certain antidepressants, the serotonin system can overreact. So tell your doctor what else you take.
+The real risk is the head itself: on 10 or more days a month, triptans can cause medication overuse headache, see "Medication overuse headache". Very rarely, combined with certain antidepressants, the serotonin system can overreact. So tell your doctor what else you take.
 
 Bottom line: within the limits, a triptan is almost always better than suffering through the attack. That also spares your pain memory, see "Pain memory".
 
