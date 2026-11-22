@@ -10,8 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="docs/media/headly-demo.mp4"><img src="docs/media/headly-demo-poster.jpg" width="300" alt="Demo video: starting a migraine, logging medication, the calendar, statistics, knowledge articles and the PDF report for the doctor" /></a><br />
-  <a href="docs/media/headly-demo.mp4">▶ Watch the demo video (80 s)</a>
+  <img src="docs/media/headly-demo.png" width="300" alt="Demo: starting a migraine, logging medication, the calendar, statistics, knowledge articles and the PDF report for the doctor" />
 </p>
 
 ---
