@@ -55,6 +55,14 @@ Typical is the "triptan feeling": pressure or tightness in the chest and throat,
 
 Because triptans narrow blood vessels, they are not suitable after a heart attack or stroke, with circulation problems or poorly controlled high blood pressure. Your doctor checks this with you beforehand.
 
+## What if you take a lot?
+
+The good news: as far as we know today, triptans don't harm your organs. Unlike some pain relievers, they don't strain the stomach, kidneys or liver. Even with frequent use, large studies found no increased risk of heart attack or stroke in people without cardiovascular disease.
+
+The real risk is the head itself: on 10 or more days a month, triptans can cause medication overuse headache, see "Headache from too much medication". Very rarely, combined with certain antidepressants, the serotonin system can overreact. So tell your doctor what else you take.
+
+Bottom line: within the limits, a triptan is almost always better than suffering through the attack. That also spares your pain memory, see "Pain memory".
+
 ## Sources
 
 - [German migraine guideline](https://register.awmf.org/de/leitlinien/detail/030-057)
@@ -62,3 +70,4 @@ Because triptans narrow blood vessels, they are not suitable after a heart attac
 - [Study: a good response does not rule out serious causes, 2008](https://pubmed.ncbi.nlm.nih.gov/18479425/)
 - [Pharmazeutische Zeitung: triptans without prescription (German)](https://www.pharmazeutische-zeitung.de/rezeptfreie-therapieoptionen-141506/seite/2/)
 - [Paper on the release of rizatriptan 5 mg, 2024](https://link.springer.com/article/10.1007/s40122-024-00625-2)
+- [Studies on the safety of frequent triptan use](https://pubmed.ncbi.nlm.nih.gov/?term=triptan+overuse+cardiovascular+safety)

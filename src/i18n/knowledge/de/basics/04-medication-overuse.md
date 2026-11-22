@@ -33,6 +33,12 @@ Bekommt das Schmerzsystem fast täglich Medikamente, stellt es sich darauf ein. 
 
 Nach der Pause wirken Akutmedikamente oft wieder besser. Rückfälle sind häufig, vor allem im ersten Jahr. Ein Tagebuch hilft, früh zu merken, wenn die Tage wieder mehr werden.
 
+## Die andere Seite
+
+Viele haben so viel Angst vor zu vielen Tabletten, dass sie Attacken lieber aushalten. Das ist genauso riskant: Jede lange, unbehandelte Attacke trainiert das Schmerzsystem, und die Migräne kommt leichter wieder. Mehr dazu unter „Das Schmerzgedächtnis“.
+
+Es geht also nicht um möglichst wenig, sondern um Balance: Attacken früh und richtig behandeln, und dabei die Tage im Blick behalten. Reichen die erlaubten Tage nicht, ist das kein Grund zum Aushalten, sondern ein Grund für eine Prophylaxe.
+
 ## Abstand zwischen zwei Einnahmen
 
 Übliche Werte für Erwachsene, laut Packungsbeilage:

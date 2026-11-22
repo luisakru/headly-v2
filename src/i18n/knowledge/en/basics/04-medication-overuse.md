@@ -33,6 +33,12 @@ When the pain system gets medication almost every day, it adapts. The pain thres
 
 After the break, acute medication often works better again. Relapses are common, especially in the first year. A diary helps you notice early when the days start adding up again.
 
+## The other side
+
+Many people are so afraid of taking too many tablets that they would rather sit out attacks. That is just as risky: every long, untreated attack trains the pain system, and migraine comes back more easily. More in "Pain memory".
+
+So it is not about taking as little as possible, but about balance: treat attacks early and properly, while keeping an eye on the days. If the allowed days are not enough, that is no reason to sit it out, but a reason for prevention.
+
 ## Gap between two doses
 
 Usual values for adults, according to the package leaflet:

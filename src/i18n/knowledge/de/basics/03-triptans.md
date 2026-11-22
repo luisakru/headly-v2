@@ -55,6 +55,14 @@ Typisch ist das „Triptan-Gefühl“: Druck oder Enge in Brust und Hals, Kribbe
 
 Weil Triptane Gefäße verengen, sind sie bei Herzinfarkt, Schlaganfall, Durchblutungsstörungen oder schlecht eingestelltem Bluthochdruck nicht geeignet. Das klärt deine Ärztin vorher mit dir.
 
+## Und wenn man viele nimmt?
+
+Die gute Nachricht: Triptane schaden nach heutigem Wissen den Organen nicht. Anders als manche Schmerzmittel belasten sie weder Magen noch Nieren oder Leber. Auch bei häufiger Einnahme fanden große Studien bei Menschen ohne Herz-Kreislauf-Erkrankung kein erhöhtes Risiko für Herzinfarkt oder Schlaganfall.
+
+Das eigentliche Risiko ist der Kopf selbst: An 10 oder mehr Tagen im Monat können Triptane Kopfschmerz durch Übergebrauch auslösen, siehe „Kopfschmerz durch zu viele Medikamente“. Sehr selten kann es zusammen mit bestimmten Antidepressiva zu einer Überreaktion des Serotonin-Systems kommen. Sag deiner Ärztin deshalb, was du sonst noch nimmst.
+
+Unterm Strich: Innerhalb der Grenzen ist ein Triptan fast immer besser, als sich durch die Attacke zu quälen. Das schont auch dein Schmerzgedächtnis, siehe „Das Schmerzgedächtnis“.
+
 ## Quellen
 
 - [Leitlinie Migräne](https://register.awmf.org/de/leitlinien/detail/030-057)
@@ -62,3 +70,4 @@ Weil Triptane Gefäße verengen, sind sie bei Herzinfarkt, Schlaganfall, Durchbl
 - [Studie: Gutes Ansprechen schließt ernste Ursachen nicht aus, 2008 (englisch)](https://pubmed.ncbi.nlm.nih.gov/18479425/)
 - [Pharmazeutische Zeitung: Rezeptfreie Triptane](https://www.pharmazeutische-zeitung.de/rezeptfreie-therapieoptionen-141506/seite/2/)
 - [Studie zur Freigabe von Rizatriptan 5 mg, 2024 (englisch)](https://link.springer.com/article/10.1007/s40122-024-00625-2)
+- [Studien zur Sicherheit von Triptanen bei häufiger Einnahme (englisch)](https://pubmed.ncbi.nlm.nih.gov/?term=triptan+overuse+cardiovascular+safety)
