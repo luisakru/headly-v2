@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 240" aria-hidden="true">
+  <ellipse cx="170" cy="120" rx="95" ry="90" style="fill:none;stroke:var(--color-primary-soft)" stroke-width="2"/>
+  <path transform="translate(237.2 56.4) rotate(43.5)" d="M5 0 L-5 -6 L-5 6 Z" style="fill:var(--color-primary-soft)"/>
+  <path transform="translate(237.2 183.6) rotate(136.5)" d="M5 0 L-5 -6 L-5 6 Z" style="fill:var(--color-primary-soft)"/>
+  <path transform="translate(102.8 183.6) rotate(-136.5)" d="M5 0 L-5 -6 L-5 6 Z" style="fill:var(--color-primary-soft)"/>
+  <path transform="translate(102.8 56.4) rotate(-43.5)" d="M5 0 L-5 -6 L-5 6 Z" style="fill:var(--color-primary-soft)"/>
+  <rect x="102" y="12" width="136" height="36" rx="12" style="fill:var(--color-primary)"/>
+  <text x="170" y="35" font-size="14" font-weight="600" text-anchor="middle" style="fill:var(--color-on-primary)">Body signal</text>
+  <rect x="194" y="102" width="136" height="36" rx="12" style="fill:var(--color-surface)"/>
+  <text x="262" y="125" font-size="14" text-anchor="middle" style="fill:var(--color-text)">Sensor measures</text>
+  <rect x="102" y="192" width="136" height="36" rx="12" style="fill:var(--color-surface)"/>
+  <text x="170" y="215" font-size="14" text-anchor="middle" style="fill:var(--color-text)">You see it</text>
+  <rect x="10" y="94" width="136" height="52" rx="12" style="fill:var(--color-surface)"/>
+  <text x="78" y="116" font-size="14" text-anchor="middle" style="fill:var(--color-text)">You learn</text>
+  <text x="78" y="134" font-size="14" text-anchor="middle" style="fill:var(--color-text)">to steer it</text>
+</svg>
