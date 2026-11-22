@@ -23,12 +23,6 @@
         size: 154mm 216mm;
         margin: 0;
       }
-      .bleed .page {
-        page: bleed;
-        width: 154mm;
-        height: 216mm;
-        padding: 12mm 15mm 10mm;
-      }
       * {
         box-sizing: border-box;
       }
@@ -41,109 +35,130 @@
         width: 148mm;
         height: 210mm;
         overflow: hidden;
-        padding: 9mm 12mm 7mm;
         display: flex;
         flex-direction: column;
-        gap: 3.4mm;
+        background: #f2ede4;
+      }
+      .bleed .page {
+        page: bleed;
+        width: 154mm;
+        height: 216mm;
+        padding: 3mm 0 0;
+      }
+      .bleed .top,
+      .bleed .points {
+        padding-left: 15mm;
+        padding-right: 15mm;
+      }
+      .bleed .bottom {
+        padding: 6mm 15mm 10mm;
+      }
+      .top {
+        padding: 10mm 12mm 0;
       }
       .brand {
         display: flex;
         align-items: center;
-        gap: 3.4mm;
+        gap: 2.5mm;
+        font-size: 12pt;
+        font-weight: 600;
       }
       .brand img {
-        width: 17mm;
-        height: 17mm;
-      }
-      .name {
-        margin: 0;
-        font-size: 24pt;
-        font-weight: 600;
-        line-height: 1;
-      }
-      .tagline {
-        margin: 1.5mm 0 0;
-        font-size: 10pt;
-        color: #7a6a5c;
+        width: 8mm;
+        height: 8mm;
       }
       h1 {
-        margin: 0;
-        font-size: 17pt;
+        margin: 6mm 0 0;
+        font-size: 24pt;
         font-weight: 600;
-        line-height: 1.2;
+        line-height: 1.1;
+        letter-spacing: -0.3pt;
+      }
+      .sub {
+        margin: 2.5mm 0 0;
+        font-size: 11.5pt;
         color: #8b5e4a;
       }
-      .intro {
-        margin: -1.5mm 0 0;
-        font-size: 10pt;
-        line-height: 1.45;
-      }
-      ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 1.6mm;
-      }
-      li {
-        display: flex;
-        gap: 3mm;
-        font-size: 10pt;
-        line-height: 1.35;
-      }
-      li span {
+      .phones {
+        position: relative;
+        width: 148mm;
         flex: none;
-        width: 6mm;
-        font-size: 12pt;
-        text-align: center;
+        height: 66mm;
+        margin: 6mm auto 0;
       }
-      li b {
-        font-weight: 600;
+      .phones img {
+        position: absolute;
+        width: 28mm;
+        border-radius: 3.6mm;
+        border: 0.8mm solid #3a3028;
       }
-      .card {
-        padding: 3.2mm 5mm;
-        border-radius: 4mm;
-        background: #f2ede4;
-        font-size: 9.5pt;
+      .phones .left {
+        left: 25mm;
+        top: 5mm;
+      }
+      .phones .center {
+        left: 59mm;
+        top: 0;
+        width: 30mm;
+        z-index: 1;
+      }
+      .phones .right {
+        left: 95mm;
+        top: 5mm;
+      }
+      .points {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4mm 7mm;
+        margin-top: auto;
+        padding: 0 12mm;
+      }
+      .points div {
+        padding-top: 2.5mm;
+        border-top: 0.3mm solid #c4a088;
+        font-size: 9pt;
         line-height: 1.4;
       }
-      .card b {
+      .points b {
         display: block;
         margin-bottom: 1mm;
         font-size: 10.5pt;
         font-weight: 600;
       }
-      .cta {
-        margin-top: auto;
+      .bottom {
         display: flex;
         align-items: center;
         gap: 5mm;
-        padding: 3.5mm 5mm;
-        border-radius: 4mm;
-        border: 0.4mm solid #ddd5c8;
+        margin-top: 6mm;
+        padding: 5mm 12mm 6mm;
+        background: #8b5e4a;
+        color: #f5efe8;
       }
-      .cta img {
-        width: 22mm;
-        height: 22mm;
+      .qr {
+        flex: none;
+        padding: 1.6mm;
+        border-radius: 2mm;
+        background: #f5efe8;
       }
-      .cta p {
-        margin: 0;
-        font-size: 9.5pt;
-        line-height: 1.4;
+      .qr img {
+        display: block;
+        width: 20mm;
+        height: 20mm;
       }
       .url {
-        display: block;
-        margin-bottom: 1.5mm;
-        font-size: 13pt;
-        font-weight: 600;
-        color: #8b5e4a;
-      }
-      .foot {
         margin: 0;
+        font-size: 14pt;
+        font-weight: 600;
+      }
+      .how {
+        margin: 1mm 0 0;
+        font-size: 9pt;
+        line-height: 1.4;
+      }
+      .by {
+        margin: 2.5mm 0 0;
         font-size: 8pt;
-        color: #7a6a5c;
-        text-align: center;
+        opacity: 0.8;
       }
     </style>
   </head>
@@ -152,50 +167,45 @@
       if (location.search.includes('print')) document.body.classList.add('bleed');
     </script>
     <div class="page">
-      <div class="brand">
-        <img src="../../public/headly_icon.svg" alt="" />
+      <div class="top">
+        <div class="brand"><img src="../../public/headly_icon.svg" alt="" />Headly</div>
+        <h1>Das ruhige<br />Migräne-Tagebuch.</h1>
+        <p class="sub">Minimalistisch. Kostenlos. Deine Daten bleiben auf deinem Handy.</p>
+      </div>
+
+      <div class="phones">
+        <img class="left" src="screen-home.png" alt="" />
+        <img class="center" src="screen-stats.png" alt="" />
+        <img class="right" src="screen-knowledge.png" alt="" />
+      </div>
+
+      <div class="points">
         <div>
-          <p class="name">Headly</p>
-          <p class="tagline">Das ruhige Migräne-Tagebuch fürs Handy</p>
+          <b>Minimalistisch</b>
+          Gedämpfte Farben, große Knöpfe, ein Tipp pro Eintrag. Gemacht für schlechte Tage.
+        </div>
+        <div>
+          <b>Statistik mit Tiefgang</b>
+          Migräne- und Medikamententage, Wirksamkeit, Prophylaxe im Vergleich, PDF für den Arzttermin.
+        </div>
+        <div>
+          <b>Wissen aus vielen Jahren</b>
+          Fast 30 Artikel, von Triptanen bis Biofeedback. Verständlich und mit Quellen.
+        </div>
+        <div>
+          <b>Kostenlos und privat</b>
+          Kein Konto, keine Werbung, keine Cloud. Funktioniert auch offline.
         </div>
       </div>
 
-      <h1>Migräne festhalten, ohne dass es Kraft kostet.</h1>
-
-      <p class="intro">
-        Headly ist für den Moment gemacht, in dem es dir am schlechtesten geht: gedämpfte Farben,
-        große Knöpfe, ein Tipp pro Eintrag. Den Rest rechnet Headly für dich aus.
-      </p>
-
-      <ul>
-        <li><span>⚡</span><div><b>Attacke mit einem Tipp starten</b> und die Schmerzstärke von 0 bis 10 festhalten</div></li>
-        <li><span>💊</span><div><b>Medikamente eintragen</b> und später bewerten, ob sie geholfen haben</div></li>
-        <li><span>📅</span><div><b>Migräne- und Medikamententage</b> auf einen Blick, mit Hinweis bei Übergebrauch</div></li>
-        <li><span>🛡️</span><div><b>Prophylaxe und Veränderungen</b> mit Vorher-nachher-Vergleich</div></li>
-        <li><span>📚</span><div><b>Wissen</b> zu Triptanen, Prophylaxe, Schmerzgedächtnis und mehr, verständlich und mit Quellen</div></li>
-      </ul>
-
-      <div class="card">
-        <b>📄 Für den nächsten Arzttermin</b>
-        Ein PDF-Bericht der letzten 3 oder 6 Monate: Migränetage, Medikamententage, Wirksamkeit und
-        Prophylaxe-Verlauf. Genau die Fragen, die in der Sprechstunde gestellt werden.
+      <div class="bottom">
+        <div class="qr"><img src="qr.svg" alt="QR-Code zu headly.bylu.app" /></div>
+        <div>
+          <p class="url">headly.bylu.app</p>
+          <p class="how">Im Browser öffnen und zum Home-Bildschirm hinzufügen.</p>
+          <p class="by">Entwickelt von jemandem mit Migräne.</p>
+        </div>
       </div>
-
-      <div class="card">
-        <b>🔒 Deine Daten bleiben bei dir</b>
-        Alles bleibt auf deinem Handy. Kein Konto, keine Cloud, kein Tracking. Funktioniert auch offline.
-      </div>
-
-      <div class="cta">
-        <img src="qr.svg" alt="QR-Code zu headly.bylu.app" />
-        <p>
-          <span class="url">headly.bylu.app</span>
-          QR-Code scannen oder Adresse im Browser öffnen, dann zum Home-Bildschirm hinzufügen. Headly
-          öffnet sich danach wie eine App.
-        </p>
-      </div>
-
-      <p class="foot">Entwickelt von jemandem mit Migräne. Ersetzt keine ärztliche Beratung.</p>
     </div>
   </body>
 </html>
