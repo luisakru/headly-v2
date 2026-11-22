@@ -59,7 +59,7 @@ Weil Triptane Gefäße verengen, sind sie bei Herzinfarkt, Schlaganfall, Durchbl
 
 Die gute Nachricht: Triptane schaden nach heutigem Wissen den Organen nicht. Anders als manche Schmerzmittel belasten sie weder Magen noch Nieren oder Leber. Auch bei häufiger Einnahme fanden große Studien bei Menschen ohne Herz-Kreislauf-Erkrankung kein erhöhtes Risiko für Herzinfarkt oder Schlaganfall.
 
-Das eigentliche Risiko ist der Kopf selbst: An 10 oder mehr Tagen im Monat können Triptane Kopfschmerz durch Übergebrauch auslösen, siehe „Medikamentenübergebrauch“. Sehr selten kann es zusammen mit bestimmten Antidepressiva zu einer Überreaktion des Serotonin-Systems kommen. Sag deiner Ärztin deshalb, was du sonst noch nimmst.
+Das eigentliche Risiko: Nimmst du Triptane an 10 oder mehr Tagen im Monat, können sie Kopfschmerz durch Übergebrauch auslösen, siehe „Medikamentenübergebrauch“. Sehr selten kann es zusammen mit bestimmten Antidepressiva zu einer Überreaktion des Serotonin-Systems kommen. Sag deiner Ärztin deshalb, was du sonst noch nimmst.
 
 Unterm Strich: Innerhalb der Grenzen ist ein Triptan fast immer besser, als sich durch die Attacke zu quälen. Das schont auch dein Schmerzgedächtnis, siehe „Schmerzgedächtnis“.
 

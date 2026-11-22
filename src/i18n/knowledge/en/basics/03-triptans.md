@@ -59,7 +59,7 @@ Because triptans narrow blood vessels, they are not suitable after a heart attac
 
 The good news: as far as we know today, triptans don't harm your organs. Unlike some pain relievers, they don't strain the stomach, kidneys or liver. Even with frequent use, large studies found no increased risk of heart attack or stroke in people without cardiovascular disease.
 
-The real risk is the head itself: on 10 or more days a month, triptans can cause medication overuse headache, see "Medication overuse headache". Very rarely, combined with certain antidepressants, the serotonin system can overreact. So tell your doctor what else you take.
+The real risk: if you take triptans on 10 or more days a month, they can cause medication overuse headache, see "Medication overuse headache". Very rarely, combined with certain antidepressants, the serotonin system can overreact. So tell your doctor what else you take.
 
 Bottom line: within the limits, a triptan is almost always better than suffering through the attack. That also spares your pain memory, see "Pain memory".
 
