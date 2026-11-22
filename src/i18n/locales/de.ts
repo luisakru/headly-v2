@@ -292,7 +292,7 @@ export const de: Dictionary = {
         text: 'Öffnet sich wie eine App, auch offline.',
         items: [
           [
-            '⬆️',
+            '🍎',
             'iPhone',
             'In Safari auf Teilen tippen (ggf. hinter ⋯), dann „Zum Home-Bildschirm“.',
           ],

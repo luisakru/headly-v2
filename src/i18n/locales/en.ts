@@ -280,7 +280,7 @@ export const en = {
         title: 'Add to Home Screen',
         text: 'Opens like an app, even offline.',
         items: [
-          ['⬆️', 'iPhone', 'In Safari, tap Share (behind ⋯ if hidden), then “Add to Home Screen”.'],
+          ['🍎', 'iPhone', 'In Safari, tap Share (behind ⋯ if hidden), then “Add to Home Screen”.'],
           ['🤖', 'Android', 'In Chrome, tap ⋮, then “Install app”.'],
         ],
       },
