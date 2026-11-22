@@ -12,6 +12,8 @@ Glasses with slightly reddish lenses that filter certain parts of light. Sounds 
 
 Two points are shown a lot:
 
+![Two acupressure points: on the back of the hand between thumb and index finger, and on the inner wrist three finger widths below the crease](acupressure)
+
 - **Between thumb and index finger** on the back of the hand, press firmly for one or two minutes. Better not during pregnancy
 - **Inside of the wrist,** about three finger widths below the wrist crease. There are hints that this point helps against nausea; travel sickness bands are based on it
 

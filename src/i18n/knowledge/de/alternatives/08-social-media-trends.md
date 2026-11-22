@@ -12,6 +12,8 @@ Brillen mit leicht rötlichen Gläsern, die bestimmte Lichtanteile filtern. Klin
 
 Zwei Punkte werden oft gezeigt:
 
+![Zwei Akupressur-Punkte: auf dem Handrücken zwischen Daumen und Zeigefinger, und an der Innenseite des Handgelenks drei Finger breit unter der Falte](acupressure)
+
 - **Zwischen Daumen und Zeigefinger** auf dem Handrücken, ein bis zwei Minuten fest drücken. In der Schwangerschaft lieber nicht
 - **Innenseite des Handgelenks,** etwa drei Finger breit unter der Handgelenksfalte. Für diesen Punkt gibt es Hinweise, dass er gegen Übelkeit hilft, darauf beruhen auch die Armbänder gegen Reiseübelkeit
 
