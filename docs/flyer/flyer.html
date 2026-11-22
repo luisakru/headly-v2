@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Headly Flyer</title>
+    <style>
+      @font-face {
+        font-family: 'Atkinson';
+        font-weight: 400;
+        src: url('../../public/fonts/atkinson-hyperlegible-next-latin-400-normal.woff2');
+      }
+      @font-face {
+        font-family: 'Atkinson';
+        font-weight: 600;
+        src: url('../../public/fonts/atkinson-hyperlegible-next-latin-600-normal.woff2');
+      }
+      @page {
+        size: A5;
+        margin: 0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: 'Atkinson', sans-serif;
+        color: #3a3028;
+      }
+      .page {
+        width: 148mm;
+        height: 210mm;
+        overflow: hidden;
+        padding: 9mm 12mm 7mm;
+        display: flex;
+        flex-direction: column;
+        gap: 3.4mm;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 3.4mm;
+      }
+      .brand img {
+        width: 17mm;
+        height: 17mm;
+      }
+      .name {
+        margin: 0;
+        font-size: 24pt;
+        font-weight: 600;
+        line-height: 1;
+      }
+      .tagline {
+        margin: 1.5mm 0 0;
+        font-size: 10pt;
+        color: #7a6a5c;
+      }
+      h1 {
+        margin: 0;
+        font-size: 17pt;
+        font-weight: 600;
+        line-height: 1.2;
+        color: #8b5e4a;
+      }
+      .intro {
+        margin: -1.5mm 0 0;
+        font-size: 10pt;
+        line-height: 1.45;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1.6mm;
+      }
+      li {
+        display: flex;
+        gap: 3mm;
+        font-size: 10pt;
+        line-height: 1.35;
+      }
+      li span {
+        flex: none;
+        width: 6mm;
+        font-size: 12pt;
+        text-align: center;
+      }
+      li b {
+        font-weight: 600;
+      }
+      .card {
+        padding: 3.2mm 5mm;
+        border-radius: 4mm;
+        background: #f2ede4;
+        font-size: 9.5pt;
+        line-height: 1.4;
+      }
+      .card b {
+        display: block;
+        margin-bottom: 1mm;
+        font-size: 10.5pt;
+        font-weight: 600;
+      }
+      .cta {
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        gap: 5mm;
+        padding: 3.5mm 5mm;
+        border-radius: 4mm;
+        border: 0.4mm solid #ddd5c8;
+      }
+      .cta img {
+        width: 22mm;
+        height: 22mm;
+      }
+      .cta p {
+        margin: 0;
+        font-size: 9.5pt;
+        line-height: 1.4;
+      }
+      .url {
+        display: block;
+        margin-bottom: 1.5mm;
+        font-size: 13pt;
+        font-weight: 600;
+        color: #8b5e4a;
+      }
+      .foot {
+        margin: 0;
+        font-size: 8pt;
+        color: #7a6a5c;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="brand">
+        <img src="../../public/headly_icon.svg" alt="" />
+        <div>
+          <p class="name">Headly</p>
+          <p class="tagline">Das ruhige Migräne-Tagebuch fürs Handy</p>
+        </div>
+      </div>
+
+      <h1>Migräne festhalten, ohne dass es Kraft kostet.</h1>
+
+      <p class="intro">
+        Headly ist für den Moment gemacht, in dem es dir am schlechtesten geht: gedämpfte Farben,
+        große Knöpfe, ein Tipp pro Eintrag. Den Rest rechnet Headly für dich aus.
+      </p>
+
+      <ul>
+        <li><span>⚡</span><div><b>Attacke mit einem Tipp starten</b> und die Schmerzstärke von 0 bis 10 festhalten</div></li>
+        <li><span>💊</span><div><b>Medikamente eintragen</b> und später bewerten, ob sie geholfen haben</div></li>
+        <li><span>📅</span><div><b>Migräne- und Medikamententage</b> auf einen Blick, mit Hinweis bei Übergebrauch</div></li>
+        <li><span>🛡️</span><div><b>Prophylaxe und Veränderungen</b> mit Vorher-nachher-Vergleich</div></li>
+        <li><span>📚</span><div><b>Wissen</b> zu Triptanen, Prophylaxe, Schmerzgedächtnis und mehr, verständlich und mit Quellen</div></li>
+      </ul>
+
+      <div class="card">
+        <b>📄 Für den nächsten Arzttermin</b>
+        Ein PDF-Bericht der letzten 3 oder 6 Monate: Migränetage, Medikamententage, Wirksamkeit und
+        Prophylaxe-Verlauf. Genau die Fragen, die in der Sprechstunde gestellt werden.
+      </div>
+
+      <div class="card">
+        <b>🔒 Deine Daten bleiben bei dir</b>
+        Alles bleibt auf deinem Handy. Kein Konto, keine Cloud, kein Tracking. Funktioniert auch offline.
+      </div>
+
+      <div class="cta">
+        <img src="qr.svg" alt="QR-Code zu headly.bylu.app" />
+        <p>
+          <span class="url">headly.bylu.app</span>
+          QR-Code scannen oder Adresse im Browser öffnen, dann zum Home-Bildschirm hinzufügen. Headly
+          öffnet sich danach wie eine App.
+        </p>
+      </div>
+
+      <p class="foot">Entwickelt von jemandem mit Migräne. Ersetzt keine ärztliche Beratung.</p>
+    </div>
+  </body>
+</html>
