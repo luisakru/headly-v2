@@ -93,6 +93,20 @@ export function IdleHome({
         </div>
       </header>
 
+      <BackupReminderCard
+        data={{
+          attacks,
+          intakes,
+          medications,
+          preventions,
+          lifeEvents,
+          dayEventTypes,
+          dayEvents,
+          symptoms,
+        }}
+        now={now}
+      />
+
       {fact && !factDismissed && (
         <section className={styles.factCard}>
           <h2 className={styles.sectionLabel}>{t.home.didYouKnow}</h2>
@@ -123,19 +137,6 @@ export function IdleHome({
       )}
 
       <RatingPromptCard intakes={intakes} medications={medications} now={now} />
-      <BackupReminderCard
-        data={{
-          attacks,
-          intakes,
-          medications,
-          preventions,
-          lifeEvents,
-          dayEventTypes,
-          dayEvents,
-          symptoms,
-        }}
-        now={now}
-      />
 
       {insight && (
         <section className={styles.section}>
