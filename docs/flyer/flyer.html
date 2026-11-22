@@ -18,6 +18,17 @@
         size: A5;
         margin: 0;
       }
+      /* flyer.html?print adds 3 mm bleed on every side for print shops. */
+      @page bleed {
+        size: 154mm 216mm;
+        margin: 0;
+      }
+      .bleed .page {
+        page: bleed;
+        width: 154mm;
+        height: 216mm;
+        padding: 12mm 15mm 10mm;
+      }
       * {
         box-sizing: border-box;
       }
@@ -137,6 +148,9 @@
     </style>
   </head>
   <body>
+    <script>
+      if (location.search.includes('print')) document.body.classList.add('bleed');
+    </script>
     <div class="page">
       <div class="brand">
         <img src="../../public/headly_icon.svg" alt="" />
