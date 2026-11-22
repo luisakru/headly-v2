@@ -1,4 +1,4 @@
-# 🛡️ Preventing with medication
+# 🛡️ Prevention
 
 A preventive is not taken during an attack but regularly, so that attacks become rarer and milder. It is usually worth it from three attacks a month, earlier if attacks are very severe or long. Roughly halving your migraine days already counts as success.
 
@@ -20,6 +20,21 @@ They are the first medications developed specifically against migraine. They slo
 - **CGRP antibodies:** an injection under the skin, once a month or every three months depending on the product. One is also given as an infusion
 - **Gepants for prevention** such as atogepant (Aquipta): one tablet a day
 - **Botox:** for chronic migraine, about every three months, many small injections in the forehead, head and neck
+
+## Without medication
+
+Prevention doesn't always have to be a tablet. According to the guideline, these approaches work well, alone or together with medication:
+
+- **Endurance exercise,** e.g. three times a week for 30 minutes of cycling, swimming or brisk walking
+- **Relaxation** such as progressive muscle relaxation, practised regularly
+- **Biofeedback,** where you learn to consciously influence body signals such as muscle tension
+- **Behavioural therapy,** to deal differently with stress and the fear of the next attack
+
+Then there are magnesium, vitamin B2 and Q10 as well as acupuncture, see the articles under "Lesser known".
+
+## How long?
+
+If prevention works well, after about 6 to 12 months you discuss with your doctor whether a break is possible. For some, migraine stays less frequent afterwards; for others it comes back. Then you can start again.
 
 ## The hurdle in Germany
 

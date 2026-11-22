@@ -2,6 +2,8 @@
 
 An attack often starts long before the headache and ends only some time after it. Not every attack has every phase, and they can overlap.
 
+![The four phases: prodrome, aura, headache, postdrome](phases)
+
 ## Early warning signs
 
 **Hours to two days before.** Tiredness, yawning, cravings, a stiff neck, irritability, sensitivity to light or needing to pee often. Many people only notice them once they look out for them.

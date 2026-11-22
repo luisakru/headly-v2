@@ -1,6 +1,37 @@
-# 💊 How often and how far apart?
+# 💊 Headache from too much medication
 
-Acute medication works best early in an attack. To keep it working in the long run, there are two limits: the gap between two doses and the number of days a month.
+It sounds paradoxical: the tablets against headache cause headaches themselves. This is called medication overuse headache. It is one of the most common reasons why occasional migraine turns into an almost daily one. The good news: it can be treated well.
+
+## How to recognise it
+
+- Headache on 15 or more days a month
+- For more than three months, you have taken acute medication on many days
+- Often a dull, constant headache, sometimes already on waking, with "real" attacks in between
+- The tablets work less well than they used to
+
+## When it is too much
+
+- **Triptans, combination products and opioids:** on 10 or more days a month
+- **Simple pain relievers** such as ibuprofen or paracetamol: on 15 or more days a month
+
+Days count, not tablets. Three tablets on one day are one day; one tablet on three days is three.
+
+In Statistics, Headly shows your medication days and warns when a month is over the limit.
+
+## Why it happens
+
+![Vicious circle: headache, tablet, briefly better, brain becomes more sensitive, more headache](overuse)
+
+When the pain system gets medication almost every day, it adapts. The pain threshold drops and the brain becomes more sensitive. As the effect wears off, the head speaks up sooner, and you reach for a tablet again. On top of that comes the fear of the next attack, which makes many take a tablet earlier and more often. This is not a character flaw but a cycle that is easy to slip into.
+
+## What helps
+
+- **Knowing alone helps.** In studies, many managed to reduce their medication days after being well informed
+- **A medication break.** Usually pain relievers and triptans are stopped all at once, not slowly. You plan this with your doctor; opioids or sedatives are tapered slowly, often in hospital
+- **The first days are hard.** The headache often gets worse first, usually for 2 to 10 days. There are bridging treatments against nausea and pain, e.g. cortisone for a few days
+- **Start prevention at the same time**, so attacks become rarer. The CGRP medications also work well with overuse, see "Prevention"
+
+After the break, acute medication often works better again. Relapses are common, especially in the first year. A diary helps you notice early when the days start adding up again.
 
 ## Gap between two doses
 
@@ -10,22 +41,10 @@ Usual values for adults, according to the package leaflet:
 - **Paracetamol 500 mg:** at least 6 hours, no more than 4,000 mg a day
 - **Triptans such as sumatriptan:** a second dose after 2 hours at the earliest, and only if the migraine comes back after getting better
 
-If the first triptan dose does not help at all, a second one in the same attack usually won't either. If your doctor prescribes something else, follow their advice.
-
-In Headly you can set a minimum gap for each medication in Profile. When you log the next one, you then see from when it is fine again.
-
-## The 10-day rule
-
-Too much acute medication can cause headaches itself. This is called medication overuse headache and is a common reason why migraine becomes chronic.
-
-- **Triptans and combination products:** on fewer than 10 days a month
-- **Simple pain relievers** such as ibuprofen or paracetamol: on fewer than 15 days a month
-
-Days count, not tablets. Three tablets on one day are one day; one tablet on three days is three. If you regularly need more, that is a good reason for prevention, see "Preventing with medication".
-
-In Statistics, Headly shows your medication days and warns when a month is over the limit.
+If your doctor prescribes something else, follow their advice. In Headly you can set a minimum gap for each medication in Profile. When you log the next one, you then see from when it is fine again.
 
 ## Sources
 
-- [German migraine guideline](https://register.awmf.org/de/leitlinien/detail/030-057)
 - [German guideline on medication overuse headache](https://register.awmf.org/de/leitlinien/detail/030-131)
+- [ICHD-3: Medication overuse headache](https://ichd-3.org/8-headache-attributed-to-a-substance-or-its-withdrawal/8-2-medication-overuse-headache-moh/)
+- [German migraine guideline](https://register.awmf.org/de/leitlinien/detail/030-057)

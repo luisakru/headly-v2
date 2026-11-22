@@ -2,6 +2,8 @@
 
 Eine Attacke beginnt oft lange vor dem Kopfschmerz und endet erst eine Weile danach. Nicht jede Attacke hat alle Phasen, und sie können sich überlappen.
 
+![Die vier Phasen: Vorboten, Aura, Kopfschmerz, Rückbildung](phases)
+
 ## Vorboten
 
 **Stunden bis zwei Tage vorher.** Müdigkeit, Gähnen, Heißhunger, ein steifer Nacken, Gereiztheit, Lichtempfindlichkeit oder häufiges Wasserlassen. Viele merken sie erst, wenn sie gezielt darauf achten.

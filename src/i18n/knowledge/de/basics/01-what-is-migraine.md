@@ -16,11 +16,34 @@ Der Kopfschmerz ist aber nur ein Teil. Eine Attacke kann schon Stunden vorher mi
 - **Bauchmigräne:** vor allem bei Kindern, mit Bauchschmerzen und Übelkeit statt Kopfschmerz. Viele bekommen später die „klassische“ Migräne
 - **Chronische Migräne:** an 15 oder mehr Tagen im Monat Kopfschmerzen, davon an mindestens 8 mit Migräne. Dafür gibt es eigene Behandlungen
 
-## Woher sie kommt
+## Was im Körper passiert
 
-Migräne liegt oft in der Familie, viele Gene tragen ein kleines Stück bei. Bei einer Attacke werden Nervenfasern rund um die Hirnhäute aktiviert und setzen Botenstoffe wie CGRP frei. Genau dort setzen die neuen Medikamente an, siehe „Vorbeugen mit Medikamenten“.
+Migräne liegt oft in der Familie, viele Gene tragen ein kleines Stück bei. Sie machen das Gehirn reizoffener: Es verarbeitet Licht, Geräusche und Veränderungen intensiver und kommt leichter aus dem Gleichgewicht. Ganz verstanden ist eine Attacke noch nicht, aber diese Schritte gelten als gut belegt:
+
+![Ablauf einer Attacke im Gehirn: Hypothalamus, Hirnrinde, Trigeminusnerv, Hirnhäute, Hirnstamm und Thalamus](attack)
+
+1. **Der Hypothalamus gerät aus dem Takt.** Diese Steuerzentrale regelt Schlaf, Hunger und Hormone. Schon Stunden vor dem Schmerz ist sie in Messungen auffällig aktiv. Daher kommen Vorboten wie Gähnen oder Heißhunger.
+2. **Bei einer Aura läuft eine Welle über die Hirnrinde.** Nervenzellen feuern kurz stark und verstummen dann. Die Welle wandert langsam, etwa 3 Millimeter pro Minute. Deshalb breitet sich ein Flimmern oder Kribbeln allmählich aus.
+3. **Der Trigeminusnerv wird aktiviert.** Seine feinen Fasern umspinnen die Hirnhäute und ihre Gefäße. Aktiviert setzen sie Botenstoffe frei, vor allem CGRP.
+4. **An den Hirnhäuten entsteht eine Reizung.** CGRP weitet die Gefäße und macht die Nervenenden empfindlich. Das Gehirn selbst spürt keinen Schmerz, die Hirnhäute schon. Das Pochen kommt von hier.
+5. **Hirnstamm und Thalamus verstärken das Signal.** Sie leiten den Schmerz weiter und drehen dabei die Empfindlichkeit für Licht, Lärm und Gerüche hoch. Dauert das lange, werden sie selbst überempfindlich, dann tut sogar Berührung weh.
+
+Früher hieß es, Migräne sei eine Gefäßkrankheit. Heute weiß man: Die Gefäße machen mit, der Ursprung liegt aber in den Nerven. Genau an CGRP setzen die neuen Medikamente an, siehe „Prophylaxe“ und „Triptane“.
+
+## Was oft hilft
+
+Migräne-Gehirne mögen es regelmäßig. Das klingt langweilig und sagt jede Ärztin, aber es wirkt:
+
+- Regelmäßig schlafen, auch am Wochenende
+- Regelmäßig essen und genug trinken
+- Ausdauersport wie Radfahren, Schwimmen oder Walken
+- Entspannung, z. B. progressive Muskelentspannung
+- Ein Tagebuch wie Headly, um Muster zu erkennen
+
+Nicht alles hilft allen. Probier eine Sache nach der anderen und gib ihr ein paar Wochen.
 
 ## Quellen
 
 - [Internationale Kopfschmerzklassifikation ICHD-3 (englisch)](https://ichd-3.org)
 - [Leitlinie Migräne](https://register.awmf.org/de/leitlinien/detail/030-057)
+- [Übersicht zur Entstehung der Migräne, 2017 (englisch)](https://journals.physiology.org/doi/full/10.1152/physrev.00034.2015)

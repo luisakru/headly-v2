@@ -1,4 +1,4 @@
-# 🛡️ Vorbeugen mit Medikamenten
+# 🛡️ Prophylaxe
 
 Eine Prophylaxe nimmt man nicht in der Attacke, sondern regelmäßig, damit Attacken seltener und schwächer werden. Sie lohnt sich meist ab drei Attacken im Monat, bei sehr starken oder langen Attacken auch früher. Als Erfolg gilt schon, wenn sich die Migränetage etwa halbieren.
 
@@ -20,6 +20,21 @@ Sie sind die ersten Medikamente, die gezielt gegen Migräne entwickelt wurden. S
 - **CGRP-Antikörper:** eine Spritze unter die Haut, je nach Mittel einmal im Monat oder alle drei Monate. Eines gibt es auch als Infusion
 - **Gepante zur Vorbeugung** wie Atogepant (Aquipta): eine Tablette am Tag
 - **Botox:** bei chronischer Migräne, etwa alle drei Monate viele kleine Spritzen an Stirn, Kopf und Nacken
+
+## Ohne Medikamente
+
+Eine Prophylaxe muss nicht immer eine Tablette sein. Laut Leitlinie wirken diese Wege gut, allein oder zusammen mit Medikamenten:
+
+- **Ausdauersport,** z. B. dreimal pro Woche 30 Minuten Radfahren, Schwimmen oder zügiges Gehen
+- **Entspannung** wie progressive Muskelentspannung, regelmäßig geübt
+- **Biofeedback,** dabei lernst du, Körpersignale wie Muskelspannung bewusst zu beeinflussen
+- **Verhaltenstherapie,** um mit Stress und der Angst vor der nächsten Attacke anders umzugehen
+
+Dazu kommen Magnesium, Vitamin B2 und Q10 sowie Akupunktur, siehe die Artikel unter „Weniger bekannt“.
+
+## Wie lange?
+
+Läuft eine Prophylaxe gut, wird nach etwa 6 bis 12 Monaten besprochen, ob eine Pause möglich ist. Bei manchen bleibt die Migräne danach seltener, bei anderen kommt sie zurück. Dann kann man wieder anfangen.
 
 ## Die Hürde in Deutschland
 

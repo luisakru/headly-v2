@@ -50,7 +50,7 @@ Go to the emergency room right away if you can't keep anything down or new warni
 Status migrainosus is a good reason to take a closer look with your doctor:
 
 - Do you take painkillers or triptans on more than 10 days a month? Then a break with medical support can help
-- Would prevention make sense? See “Preventing with medication”
+- Would prevention make sense? See “Prevention”
 - An emergency plan: what do I take when, and when do I call whom? Written down, it helps when you can't think clearly yourself
 
 In Stats, Headly shows your medication days per month. You can bring them to your appointment.

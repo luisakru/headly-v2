@@ -50,7 +50,7 @@ Sofort in die Notaufnahme, wenn du nichts mehr bei dir behältst oder neue Warnz
 Ein Status migränosus ist ein guter Anlass, mit deiner Ärztin genauer hinzuschauen:
 
 - Nimmst du an mehr als 10 Tagen im Monat Schmerzmittel oder Triptane? Dann kann eine Pause unter ärztlicher Begleitung helfen
-- Wäre eine Prophylaxe sinnvoll? Siehe „Vorbeugen mit Medikamenten“
+- Wäre eine Prophylaxe sinnvoll? Siehe „Prophylaxe“
 - Ein Notfallplan: Was nehme ich wann, und ab wann rufe ich wen an? Aufgeschrieben hilft er, wenn du selbst nicht mehr klar denken kannst
 
 In der Statistik zeigt dir Headly deine Medikamententage pro Monat. Das kannst du zum Termin mitnehmen.
