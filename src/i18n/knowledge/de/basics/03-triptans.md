@@ -26,9 +26,20 @@ In Deutschland gibt es sieben Triptane. Sie unterscheiden sich darin, wie schnel
 - **Naratriptan:** sanft, wirkt langsamer, dafür länger. Gut bei mittelstarken, langen Attacken
 - **Frovatriptan:** der Marathonläufer. Wirkt langsam, bleibt aber etwa einen Tag im Körper. Wird oft als Kurzzeit-Vorbeugung bei menstrueller Migräne eingesetzt
 
-Naratriptan und Almotriptan gibt es in kleiner Packung ohne Rezept in der Apotheke.
-
 Im Alltag sind die Unterschiede oft kleiner, als die Zahlen vermuten lassen. Welches zu dir passt, zeigt am Ende nur das Ausprobieren. Hilft ein Triptan nicht, kann ein anderes trotzdem helfen. Viele probieren zwei oder drei, bis das passende dabei ist. Gib jedem mindestens zwei, besser drei Attacken.
+
+## Ohne Rezept aus der Apotheke
+
+Rezept vergessen, Packung leer, Praxis zu? Einige Triptane bekommst du in Deutschland ohne Rezept in jeder Apotheke, meist in kleinen Packungen mit 2 Tabletten:
+
+- **Naratriptan 2,5 mg,** seit 2006, das erste rezeptfreie Triptan der Welt
+- **Almotriptan 12,5 mg,** seit 2011
+- **Sumatriptan 50 mg,** seit 2020
+- **Rizatriptan 5 mg,** seit 2024, in niedrigerer Dosis als auf Rezept. Ob deine Apotheke es schon rezeptfrei abgibt, fragst du am besten direkt
+
+Die Bedingungen: Du bist zwischen 18 und 65, und eine Ärztin hat bei dir schon einmal Migräne festgestellt. Rezeptfrei gibt es nur Tabletten, keine Nasensprays oder Spritzen. Die Apotheke fragt kurz nach, das ist normal.
+
+Für zu Hause, unterwegs oder im Urlaub kann so eine Notfallpackung viel Stress nehmen. Die Grenzen gelten trotzdem: An weniger als 10 Tagen im Monat, und bei Herz-Kreislauf-Erkrankungen nicht ohne ärztlichen Rat.
 
 ## So wirken sie am besten
 
@@ -49,3 +60,5 @@ Weil Triptane Gefäße verengen, sind sie bei Herzinfarkt, Schlaganfall, Durchbl
 - [Leitlinie Migräne](https://register.awmf.org/de/leitlinien/detail/030-057)
 - [Warum die Unterschiede zwischen Triptanen im Alltag klein sind, 2010 (englisch)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3072488)
 - [Studie: Gutes Ansprechen schließt ernste Ursachen nicht aus, 2008 (englisch)](https://pubmed.ncbi.nlm.nih.gov/18479425/)
+- [Pharmazeutische Zeitung: Rezeptfreie Triptane](https://www.pharmazeutische-zeitung.de/rezeptfreie-therapieoptionen-141506/seite/2/)
+- [Studie zur Freigabe von Rizatriptan 5 mg, 2024 (englisch)](https://link.springer.com/article/10.1007/s40122-024-00625-2)

@@ -26,9 +26,20 @@ There are seven triptans in Germany. They differ in how fast they work and how l
 - **Naratriptan:** gentle, slower to work but lasts longer. Good for moderate, long attacks
 - **Frovatriptan:** the marathon runner. Slow to work, but stays in the body for about a day. Often used as short-term prevention for menstrual migraine
 
-In Germany, naratriptan and almotriptan are available in small packs at the pharmacy without a prescription.
-
 In everyday life, the differences are often smaller than the numbers suggest. In the end, only trying shows which one suits you. If one triptan doesn't help, another may still work. Many try two or three until they find the right one. Give each at least two, better three attacks.
+
+## Without a prescription from the pharmacy
+
+Forgot your prescription, pack empty, practice closed? In Germany, some triptans are available without a prescription in any pharmacy, usually in small packs of 2 tablets:
+
+- **Naratriptan 2.5 mg,** since 2006, the world's first triptan without a prescription
+- **Almotriptan 12.5 mg,** since 2011
+- **Sumatriptan 50 mg,** since 2020
+- **Rizatriptan 5 mg,** since 2024, at a lower dose than on prescription. Best ask your pharmacy directly whether they already sell it without one
+
+The conditions: you are between 18 and 65, and a doctor has diagnosed you with migraine before. Only tablets are available without a prescription, no nasal sprays or injections. The pharmacy will ask a few questions; that is normal.
+
+An emergency pack for home, on the go or on holiday can take a lot of stress away. The limits still apply: on fewer than 10 days a month, and not without medical advice if you have heart or circulation problems.
 
 ## How they work best
 
@@ -49,3 +60,5 @@ Because triptans narrow blood vessels, they are not suitable after a heart attac
 - [German migraine guideline](https://register.awmf.org/de/leitlinien/detail/030-057)
 - [Why differences between triptans matter little in practice, 2010](https://pmc.ncbi.nlm.nih.gov/articles/PMC3072488)
 - [Study: a good response does not rule out serious causes, 2008](https://pubmed.ncbi.nlm.nih.gov/18479425/)
+- [Pharmazeutische Zeitung: triptans without prescription (German)](https://www.pharmazeutische-zeitung.de/rezeptfreie-therapieoptionen-141506/seite/2/)
+- [Paper on the release of rizatriptan 5 mg, 2024](https://link.springer.com/article/10.1007/s40122-024-00625-2)
