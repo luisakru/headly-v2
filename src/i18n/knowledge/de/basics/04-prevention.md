@@ -30,7 +30,7 @@ Eine Prophylaxe muss nicht immer eine Tablette sein. Laut Leitlinie wirken diese
 - **Biofeedback,** dabei lernst du, Körpersignale wie Muskelspannung bewusst zu beeinflussen
 - **Verhaltenstherapie,** um mit Stress und der Angst vor der nächsten Attacke anders umzugehen
 
-Dazu kommen Magnesium, Vitamin B2 und Q10 sowie Akupunktur, siehe die Artikel unter „Weniger bekannt“.
+Dazu kommen Magnesium, Vitamin B2 und Q10 sowie Akupunktur, siehe die Artikel unter „Alternative Ansätze“.
 
 ## Wie lange?
 

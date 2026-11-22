@@ -30,7 +30,7 @@ Prevention doesn't always have to be a tablet. According to the guideline, these
 - **Biofeedback,** where you learn to consciously influence body signals such as muscle tension
 - **Behavioural therapy,** to deal differently with stress and the fear of the next attack
 
-Then there are magnesium, vitamin B2 and Q10 as well as acupuncture, see the articles under "Lesser known".
+Then there are magnesium, vitamin B2 and Q10 as well as acupuncture, see the articles under "Alternative approaches".
 
 ## How long?
 

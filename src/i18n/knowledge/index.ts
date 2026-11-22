@@ -3,7 +3,7 @@ import type { Language } from '../../domain/types';
 import factsDe from './de/facts.json';
 import factsEn from './en/facts.json';
 
-export type KnowledgeGroup = 'basics' | 'lesserKnown';
+export type KnowledgeGroup = 'basics' | 'alternatives' | 'lesserKnown';
 
 export type Article = {
   group: KnowledgeGroup;

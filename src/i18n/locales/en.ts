@@ -392,6 +392,7 @@ Rules:
     disclaimer: 'Not medical advice. Always talk to your doctor before changing your medication.',
     groups: {
       basics: 'Basics',
+      alternatives: 'Alternative approaches',
       lesserKnown: 'Lesser known',
     },
   },

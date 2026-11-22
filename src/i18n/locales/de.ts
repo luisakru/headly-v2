@@ -404,6 +404,7 @@ Regeln:
       'Keine ärztliche Beratung. Sprich Änderungen an Medikamenten immer mit deiner Ärztin oder deinem Arzt ab.',
     groups: {
       basics: 'Grundlagen',
+      alternatives: 'Alternative Ansätze',
       lesserKnown: 'Weniger bekannt',
     },
   },
