@@ -39,7 +39,7 @@ test('selects today on open and toggles the selection', async () => {
   const today = await screen.findByRole('button', { name: formatDate(new Date(), 'en') });
   expect(today).toHaveAttribute('aria-pressed', 'true');
   expect(screen.queryByText('No entry on this day')).not.toBeInTheDocument();
-  expect(screen.getByText('Add migraine')).toBeInTheDocument();
+  expect(screen.getByText('Add attack')).toBeInTheDocument();
 
   fireEvent.click(today);
   expect(screen.getByText('Tap a day for details')).toBeInTheDocument();
@@ -66,7 +66,7 @@ test('adds a past migraine with medication', async () => {
 
   fireEvent.click(await screen.findByRole('button', { name: 'Previous month' }));
   fireEvent.click(screen.getByRole('button', { name: formatDate(day, 'en') }));
-  fireEvent.click(screen.getByRole('button', { name: 'Add migraine' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Add attack' }));
   setTime('Start', day.getTime());
   setTime('End', day.getTime() + 3 * HOUR_MS);
   fireEvent.click(screen.getByRole('button', { name: /^Pain/ }));
@@ -99,7 +99,7 @@ test('rejects an overlapping new migraine and saves nothing', async () => {
 
   fireEvent.click(await screen.findByRole('button', { name: 'Previous month' }));
   fireEvent.click(screen.getByRole('button', { name: formatDate(day, 'en') }));
-  fireEvent.click(screen.getByRole('button', { name: 'Add migraine' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Add attack' }));
   setTime('Start', day.getTime() + HOUR_MS);
   setTime('End', day.getTime() + 5 * HOUR_MS);
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
@@ -116,7 +116,7 @@ test('prefills the end one hour after the chosen start', async () => {
 
   fireEvent.click(await screen.findByRole('button', { name: 'Previous month' }));
   fireEvent.click(screen.getByRole('button', { name: formatDate(day, 'en') }));
-  fireEvent.click(screen.getByRole('button', { name: 'Add migraine' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Add attack' }));
   setTime('Start', day.getTime());
   fireEvent.click(screen.getByRole('button', { name: /^End/ }));
   expect(screen.getByLabelText('End', { selector: 'input' })).toHaveValue(
@@ -185,7 +185,7 @@ test('editing an attack from the day overview saves times, pain and medication',
   fireEvent.click(screen.getByRole('button', { name: 'Done' }));
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-  await waitFor(() => expect(screen.queryByText('Edit migraine')).not.toBeInTheDocument());
+  await waitFor(() => expect(screen.queryByText('Edit attack')).not.toBeInTheDocument());
   expect(await db.attacks.get(attack.id)).toMatchObject({
     endedAt: startedAt + 3 * HOUR_MS,
     painLevel: 8,
@@ -214,7 +214,7 @@ test('editing rejects an end before the start and deletes after confirmation', a
   expect(await screen.findByRole('alert')).toHaveTextContent('The end has to be after the start.');
 
   fireEvent.click(screen.getByRole('button', { name: 'More actions' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Delete migraine' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Delete attack' }));
   expect(await listAttacks()).toHaveLength(1);
   fireEvent.click(screen.getByRole('button', { name: 'Really delete?' }));
   await waitFor(async () => expect(await listAttacks()).toHaveLength(0));

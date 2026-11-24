@@ -1,6 +1,14 @@
 import { useId, useState } from 'react';
 import { deleteAttack, saveAttackWithIntakes } from '../data/attackRepository';
-import type { Attack, Effectiveness, Medication, MedicationIntake, Symptom } from '../domain/types';
+import { attackLabel } from '../domain/attacks';
+import type {
+  Attack,
+  AttackKind,
+  Effectiveness,
+  Medication,
+  MedicationIntake,
+  Symptom,
+} from '../domain/types';
 import { useI18n } from '../i18n/context';
 import { formatDateTime, formatTime } from '../i18n/format';
 import { symptomName } from '../i18n/symptoms';
@@ -12,6 +20,7 @@ import styles from './EditAttackSheet.module.css';
 import { MoreIcon, PlusIcon } from './icons';
 import { IntakeRows } from './IntakeRows';
 import { PainScale } from './PainScale';
+import { SegmentedControl } from './SegmentedControl';
 import { SymptomChips } from './SymptomChips';
 import { ValueRow } from './ValueRow';
 
@@ -38,6 +47,8 @@ type EditAttackSheetProps = {
   intakes: MedicationIntake[];
   medications: Medication[];
   symptoms: Symptom[];
+  /** Shows the choice between migraine and other headache. */
+  trackOtherHeadaches: boolean;
   onClose: () => void;
 };
 
@@ -48,6 +59,7 @@ export function EditAttackSheet({
   intakes,
   medications,
   symptoms,
+  trackOtherHeadaches,
   onClose,
 }: EditAttackSheetProps) {
   const { t, language } = useI18n();
@@ -58,6 +70,10 @@ export function EditAttackSheet({
   const [end, setEnd] = useState(() => (attack?.endedAt ? toInputValue(attack.endedAt) : ''));
   const [endTouched, setEndTouched] = useState(false);
   const [painLevel, setPainLevel] = useState(attack?.painLevel);
+  const [kind, setKind] = useState<AttackKind | undefined>(
+    attack?.kind ?? (trackOtherHeadaches ? 'migraine' : undefined),
+  );
+  const label = attackLabel(kind, trackOtherHeadaches);
   const [symptomIds, setSymptomIds] = useState(attack?.symptomIds ?? []);
   const shownSymptoms = symptoms.filter((symptom) => symptom.enabled);
   const [draftIntakes, setDraftIntakes] = useState<DraftIntake[]>(() =>
@@ -91,7 +107,7 @@ export function EditAttackSheet({
     try {
       await saveAttackWithIntakes(
         attack?.id,
-        { startedAt, endedAt, painLevel, symptomIds },
+        { startedAt, endedAt, painLevel, symptomIds, ...(kind && { kind }) },
         draftIntakes.map((intake) => ({ ...intake, takenAt: fromInputValue(intake.takenAt) })),
       );
     } catch (caught) {
@@ -147,7 +163,7 @@ export function EditAttackSheet({
                 : editedIntake
                   ? medicationName(editedIntake.medicationId)
                   : attack
-                    ? t.editAttack.title
+                    ? t.editAttack.title[label]
                     : t.editAttack.addTitle;
 
   const moreButton = attack && view === 'main' && (
@@ -261,13 +277,24 @@ export function EditAttackSheet({
                 : setConfirmingDelete(true)
             }
           >
-            {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
+            {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete[label]}
           </Button>
           {doneButton}
         </div>
       )}
       {view === 'main' && (
         <div className={styles.form}>
+          {label !== 'attack' && (
+            <SegmentedControl<AttackKind>
+              label={t.editAttack.kind}
+              options={(['migraine', 'headache'] as const).map((value) => ({
+                value,
+                label: t.attackKind[value],
+              }))}
+              value={kind ?? 'migraine'}
+              onChange={setKind}
+            />
+          )}
           <ValueRow
             label={t.editAttack.start}
             value={moment(startedAt)}

@@ -10,7 +10,15 @@ import {
   startOfYear,
 } from 'date-fns';
 import { PRESET_MONTHS, type DateRangePreset } from './dateRange';
-import { attackDayKeys, countDaysInRange, medicationDays, toDayKey } from './days';
+import { isMigraine } from './attacks';
+import {
+  attackDayKeys,
+  countDaysInRange,
+  headacheDays,
+  medicationDays,
+  migraineDays,
+  toDayKey,
+} from './days';
 import type { Attack, MedicationIntake, TimeRange } from './types';
 
 const TICK_STEPS = [1, 2, 5, 10, 20, 50, 100];
@@ -31,9 +39,13 @@ export type BucketSize = 'day' | 'week' | 'month' | 'year';
 export type ChartBucket = {
   range: TimeRange;
   migraineDays: number;
+  /** Days with another headache and no migraine. */
+  headacheDays: number;
   medicationDays: number;
-  /** Highest pain level of the day's attacks; only for day buckets. */
+  /** Highest pain level of the day's migraine attacks; only for day buckets. */
   pain?: number;
+  /** Highest pain level of the day's other headaches; only for day buckets. */
+  headachePain?: number;
 };
 
 /** A y-axis with round tick values and at most four intervals. */
@@ -128,14 +140,20 @@ export function chartBuckets(
   intakes: MedicationIntake[],
   now: number,
 ): ChartBucket[][] {
-  const painByDay = new Map<string, number | undefined>();
-  for (const attack of attacks) {
-    for (const day of attackDayKeys(attack, now)) {
-      const levels = [painByDay.get(day), attack.painLevel].filter((level) => level !== undefined);
-      painByDay.set(day, levels.length > 0 ? Math.max(...levels) : undefined);
+  const painByDay = (kindAttacks: Attack[]) => {
+    const pain = new Map<string, number | undefined>();
+    for (const attack of kindAttacks) {
+      for (const day of attackDayKeys(attack, now)) {
+        const levels = [pain.get(day), attack.painLevel].filter((level) => level !== undefined);
+        pain.set(day, levels.length > 0 ? Math.max(...levels) : undefined);
+      }
     }
-  }
-  const migraine = new Set(painByDay.keys());
+    return pain;
+  };
+  const migrainePain = painByDay(attacks.filter(isMigraine));
+  const headachePain = painByDay(attacks.filter((attack) => !isMigraine(attack)));
+  const migraine = migraineDays(attacks, now);
+  const headache = headacheDays(attacks, now);
   const medication = medicationDays(intakes);
 
   return pages.map((page) =>
@@ -144,15 +162,19 @@ export function chartBuckets(
         return {
           range,
           migraineDays: countDaysInRange(migraine, range),
+          headacheDays: countDaysInRange(headache, range),
           medicationDays: countDaysInRange(medication, range),
         };
       const day = toDayKey(range.start);
-      const pain = painByDay.get(day);
+      const pain = migrainePain.get(day);
+      const otherPain = headache.has(day) ? headachePain.get(day) : undefined;
       return {
         range,
         migraineDays: migraine.has(day) ? 1 : 0,
+        headacheDays: headache.has(day) ? 1 : 0,
         medicationDays: medication.has(day) ? 1 : 0,
         ...(pain !== undefined && { pain }),
+        ...(otherPain !== undefined && { headachePain: otherPain }),
       };
     }),
   );

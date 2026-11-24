@@ -185,6 +185,7 @@ describe('settingsRepository', () => {
       backupReminderEnabled: true,
       installHintDismissed: false,
       introSeen: false,
+      trackOtherHeadaches: false,
     });
   });
 

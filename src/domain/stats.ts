@@ -1,7 +1,14 @@
 import { OVERUSE_MEDICATION_DAYS_PER_MONTH, OVERUSE_TRIPTAN_DAYS_PER_MONTH } from './constants';
 import { differenceInCalendarDays } from 'date-fns';
 import { endOfToday, monthsInRange, toMonthKey } from './dateRange';
-import { countDaysInRange, isInRange, medicationDays, migraineDays, triptanDays } from './days';
+import {
+  countDaysInRange,
+  headacheDays,
+  isInRange,
+  medicationDays,
+  migraineDays,
+  triptanDays,
+} from './days';
 import type { Attack, Effectiveness, Medication, MedicationIntake, TimeRange } from './types';
 
 export type EffectivenessSummary = {
@@ -20,10 +27,18 @@ export type OveruseMonth = {
 const HELPFUL: ReadonlySet<Effectiveness> = new Set(['strong', 'slight']);
 
 /** Migraine days per 30 days, counting only up to today. */
-export function averageMigraineDaysPerMonth(attacks: Attack[], range: TimeRange, now: number) {
+function averageDaysPerMonth(dayKeys: Set<string>, range: TimeRange, now: number) {
   const days = differenceInCalendarDays(Math.min(range.end, endOfToday(now)), range.start);
   if (days <= 0) return 0;
-  return (countDaysInRange(migraineDays(attacks, now), range) / days) * 30;
+  return (countDaysInRange(dayKeys, range) / days) * 30;
+}
+
+export function averageMigraineDaysPerMonth(attacks: Attack[], range: TimeRange, now: number) {
+  return averageDaysPerMonth(migraineDays(attacks, now), range, now);
+}
+
+export function averageHeadacheDaysPerMonth(attacks: Attack[], range: TimeRange, now: number) {
+  return averageDaysPerMonth(headacheDays(attacks, now), range, now);
 }
 
 export function totalMedicationDays(intakes: MedicationIntake[], range: TimeRange): number {

@@ -6,6 +6,7 @@ import { ChevronLeftIcon } from '../../components/icons';
 import { ScreenTitle } from '../../components/ScreenTitle';
 import { SegmentedControl } from '../../components/SegmentedControl';
 import { monthsInRange, PRESET_MONTHS, reportRange } from '../../domain/dateRange';
+import { isMigraine } from '../../domain/attacks';
 import { countAttacksStartedIn } from '../../domain/stats';
 import { symptomCounts } from '../../domain/symptoms';
 import { attacksOnDay, intakesOnDay, isInRange, toDayKey } from '../../domain/days';
@@ -28,12 +29,15 @@ export function ReportPage() {
   const [preset, setPreset] = useState<ReportPreset>('3M');
 
   if (!data) return null;
-  const { attacks, intakes, medications, symptoms } = data;
+  const { intakes, medications, symptoms } = data;
+  const attacks = data.attacks.filter(isMigraine);
+  const headaches = data.attacks.filter((attack) => !isMigraine(attack));
   const range = reportRange(PRESET_MONTHS[preset], now);
   const months = monthsInRange(range);
   const days = eachDayOfInterval({ start: range.start, end: addDays(range.end, -1) });
   const medicationName = (id: string) => medications.find((m) => m.id === id)?.name ?? '';
   const attacksInRange = attacks.filter((attack) => isInRange(attack.startedAt, range));
+  const hasHeadaches = headaches.some((attack) => isInRange(attack.startedAt, range));
   const symptomTotals = symptomCounts(attacksInRange, symptoms);
   const symptomNames = (ids: string[] = []) =>
     symptoms
@@ -68,6 +72,7 @@ export function ReportPage() {
             <tr>
               <th>{t.report.month}</th>
               <th className={styles.number}>{t.report.attacks}</th>
+              {hasHeadaches && <th className={styles.number}>{t.report.headaches}</th>}
               <th className={styles.number}>{t.report.intakes}</th>
             </tr>
           </thead>
@@ -76,6 +81,9 @@ export function ReportPage() {
               <tr key={month.start}>
                 <td>{formatMonthYear(month.start, language)}</td>
                 <td className={styles.number}>{countAttacksStartedIn(attacks, month)}</td>
+                {hasHeadaches && (
+                  <td className={styles.number}>{countAttacksStartedIn(headaches, month)}</td>
+                )}
                 <td className={styles.number}>
                   {intakes.filter((intake) => isInRange(intake.takenAt, month)).length}
                 </td>
@@ -100,7 +108,7 @@ export function ReportPage() {
               <thead>
                 <tr>
                   <th>{t.report.date}</th>
-                  <th>{t.report.migraine}</th>
+                  <th>{hasHeadaches ? t.report.kind : t.report.migraine}</th>
                   <th>{t.dayDetail.pain}</th>
                   <th>{t.dayDetail.medications}</th>
                   <th>{t.report.helped}</th>
@@ -112,7 +120,10 @@ export function ReportPage() {
                   .filter((day) => isInRange(day.getTime(), month))
                   .map((day) => {
                     const dayKey = toDayKey(day);
-                    const dayAttacks = attacksOnDay(attacks, dayKey, now);
+                    const dayAttacks = attacksOnDay(data.attacks, dayKey, now);
+                    const kinds = [
+                      ...new Set(dayAttacks.map((attack) => attack.kind ?? 'migraine')),
+                    ];
                     const dayIntakes = intakesOnDay(intakes, dayKey);
                     const pains = dayAttacks.flatMap((attack) =>
                       attack.painLevel === undefined ? [] : [attack.painLevel],
@@ -120,7 +131,13 @@ export function ReportPage() {
                     return (
                       <tr key={dayKey}>
                         <td>{formatDateShort(day.getTime(), language)}</td>
-                        <td>{dayAttacks.length > 0 ? t.report.yes : ''}</td>
+                        <td>
+                          {hasHeadaches
+                            ? kinds.map((kind) => t.attackKind[kind]).join(', ')
+                            : dayAttacks.length > 0
+                              ? t.report.yes
+                              : ''}
+                        </td>
                         <td>
                           {pains.length > 0
                             ? t.dayDetail.painOutOfTen(Math.max(...pains))

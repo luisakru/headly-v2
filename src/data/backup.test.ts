@@ -97,6 +97,25 @@ describe('parseBackup', () => {
     expect(() => parseBackup(JSON.stringify(broken))).toThrow(new DomainError('invalidFile'));
   });
 
+  test('keeps the kind of other headaches and accepts attacks without a kind', () => {
+    const backup = buildBackup(data, now);
+    const withKinds = {
+      ...backup,
+      data: {
+        ...data,
+        attacks: [
+          { ...data.attacks[0], id: 'h', kind: 'headache' },
+          { ...data.attacks[0], id: 'm' },
+        ],
+      },
+    };
+    const parsed = parseBackup(JSON.stringify(withKinds));
+    expect(parsed.data.attacks.map((attack) => [attack.id, attack.kind])).toEqual([
+      ['h', 'headache'],
+      ['m', undefined],
+    ]);
+  });
+
   test('rejects a backup from a newer app version', () => {
     const backup = { ...buildBackup(data, now), schemaVersion: BACKUP_SCHEMA_VERSION + 1 };
     expect(() => parseBackup(JSON.stringify(backup))).toThrow(new DomainError('newerVersion'));

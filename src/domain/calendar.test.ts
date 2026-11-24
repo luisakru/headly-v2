@@ -48,4 +48,14 @@ describe('dayKind', () => {
   ])('%s is %s', (dayKey, kind) => {
     expect(dayKind(dayKey, migraine, medication)).toBe(kind);
   });
+
+  const headache = new Set(['2026-10-01', '2026-10-03', '2026-10-05']);
+
+  test.each([
+    ['2026-10-01', 'migraine'],
+    ['2026-10-03', 'headacheWithMedication'],
+    ['2026-10-05', 'headache'],
+  ])('with other headaches, %s is %s', (dayKey, kind) => {
+    expect(dayKind(dayKey, migraine, medication, headache)).toBe(kind);
+  });
 });

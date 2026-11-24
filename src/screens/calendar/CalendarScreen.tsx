@@ -8,11 +8,11 @@ import { DayGrid, DayLegend } from '../../components/DayGrid';
 import { EditAttackSheet } from '../../components/EditAttackSheet';
 import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from '../../components/icons';
 import { monthGridDays } from '../../domain/calendar';
-import { countDaysInRange, migraineDays, toDayKey } from '../../domain/days';
+import { countDaysInRange, headacheDays, migraineDays, toDayKey } from '../../domain/days';
 import type { Attack } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatMonthYear } from '../../i18n/format';
-import { useHomeData, useNow } from '../home/useHomeData';
+import { useHomeData, useNow, useSettings } from '../home/useHomeData';
 import styles from './Calendar.module.css';
 
 const SWIPE_DISTANCE = 50;
@@ -23,17 +23,20 @@ type Editing = { attack?: Attack };
 export function CalendarScreen() {
   const { t, language } = useI18n();
   const data = useHomeData();
+  const settings = useSettings();
   const now = useNow();
   const [month, setMonth] = useState(() => startOfMonth(Date.now()));
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(() => new Date());
   const [editing, setEditing] = useState<Editing>();
   const swipeStart = useRef<{ x: number; y: number }>(undefined);
 
-  if (!data) return null;
+  if (!data || !settings) return null;
   const { attacks, intakes, medications, dayEventTypes, dayEvents, symptoms } = data;
 
   const monthRange = { start: month.getTime(), end: addMonths(month, 1).getTime() };
   const migraineDayCount = countDaysInRange(migraineDays(attacks, now), monthRange);
+  const headacheDayCount = countDaysInRange(headacheDays(attacks, now), monthRange);
+  const { trackOtherHeadaches } = settings;
   const isCurrentMonth = isSameMonth(month, now);
   const showMonth = (offset: number) => setMonth((current) => addMonths(current, offset));
 
@@ -89,7 +92,12 @@ export function CalendarScreen() {
         >
           <ChevronRightIcon />
         </button>
-        <p className={styles.subtitle}>{t.calendar.migraineDays(migraineDayCount)}</p>
+        <p className={styles.subtitle}>
+          {[
+            t.calendar.migraineDays(migraineDayCount),
+            ...(headacheDayCount > 0 ? [t.calendar.headacheDays(headacheDayCount)] : []),
+          ].join(' · ')}
+        </p>
       </header>
 
       <section className={styles.section}>
@@ -104,7 +112,9 @@ export function CalendarScreen() {
             eventDays={new Set(dayEvents.map((event) => event.date))}
           />
         </div>
-        <DayLegend />
+        <DayLegend
+          showHeadache={trackOtherHeadaches || attacks.some((attack) => attack.kind === 'headache')}
+        />
       </section>
 
       {selectedDay ? (
@@ -125,6 +135,7 @@ export function CalendarScreen() {
             intakes={intakes}
             medications={medications}
             now={now}
+            trackOtherHeadaches={trackOtherHeadaches}
             onEditAttack={(attack) => setEditing({ attack })}
           />
           {toDayKey(selectedDay) <= toDayKey(now) && (
@@ -145,6 +156,7 @@ export function CalendarScreen() {
           intakes={intakes}
           medications={medications}
           symptoms={symptoms}
+          trackOtherHeadaches={trackOtherHeadaches}
           onClose={() => setEditing(undefined)}
         />
       )}

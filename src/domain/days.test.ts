@@ -4,6 +4,7 @@ import {
   attacksOnDay,
   countDaysInRange,
   durationParts,
+  headacheDays,
   intakesOnDay,
   migraineDays,
   triptanDays,
@@ -51,6 +52,18 @@ test('migraineDays merges days of several attacks', () => {
     makeAttack({ startedAt: at(2026, 3, 5, 20), endedAt: at(2026, 3, 6, 2) }),
   ];
   expect([...migraineDays(attacks, at(2026, 4, 1))].sort()).toEqual(['2026-03-05', '2026-03-06']);
+});
+
+test('other headaches are not migraine days but headache days', () => {
+  const now = at(2026, 4, 1);
+  const attacks = [
+    makeAttack({ startedAt: at(2026, 3, 5, 9), endedAt: at(2026, 3, 5, 12) }),
+    makeAttack({ kind: 'headache', startedAt: at(2026, 3, 6, 9), endedAt: at(2026, 3, 6, 12) }),
+    makeAttack({ kind: 'migraine', startedAt: at(2026, 3, 7, 9), endedAt: at(2026, 3, 7, 12) }),
+    makeAttack({ kind: 'headache', startedAt: at(2026, 3, 7, 14), endedAt: at(2026, 3, 7, 16) }),
+  ];
+  expect([...migraineDays(attacks, now)].sort()).toEqual(['2026-03-05', '2026-03-07']);
+  expect([...headacheDays(attacks, now)]).toEqual(['2026-03-06']);
 });
 
 test('countDaysInRange splits an attack across months', () => {

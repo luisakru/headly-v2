@@ -1,3 +1,4 @@
+import { attackLabel } from '../domain/attacks';
 import { attacksOnDay, durationParts, intakesOnDay, toDayKey } from '../domain/days';
 import type { Attack, Medication, MedicationIntake } from '../domain/types';
 import { useI18n } from '../i18n/context';
@@ -11,6 +12,8 @@ type DayDetailsProps = {
   intakes: MedicationIntake[];
   medications: Medication[];
   now: number;
+  /** Names each card migraine or headache. */
+  trackOtherHeadaches?: boolean;
   onEditAttack?: (attack: Attack) => void;
 };
 
@@ -21,6 +24,7 @@ export function DayDetails({
   intakes,
   medications,
   now,
+  trackOtherHeadaches = false,
   onEditAttack,
 }: DayDetailsProps) {
   const { t, language } = useI18n();
@@ -50,40 +54,44 @@ export function DayDetails({
 
   return (
     <div className={styles.details} aria-live="polite">
-      {dayAttacks.map((attack) => (
-        <Card
-          key={attack.id}
-          {...(onEditAttack && {
-            role: 'button',
-            tabIndex: 0,
-            className: styles.editable,
-            onClick: () => onEditAttack(attack),
-            onKeyDown: (event) => {
-              if (event.key !== 'Enter' && event.key !== ' ') return;
-              event.preventDefault();
-              onEditAttack(attack);
-            },
-          })}
-        >
-          <dl className={styles.rows}>
-            <Row label={t.dayDetail.start} value={formatMoment(attack.startedAt)} />
-            <Row
-              label={t.dayDetail.end}
-              value={attack.endedAt ? formatMoment(attack.endedAt) : t.dayDetail.ongoing}
-            />
-            <Row
-              label={t.dayDetail.duration}
-              value={t.activeAttack.duration(
-                durationParts((attack.endedAt ?? now) - attack.startedAt),
+      {dayAttacks.map((attack) => {
+        const label = attackLabel(attack.kind, trackOtherHeadaches);
+        return (
+          <Card
+            key={attack.id}
+            {...(onEditAttack && {
+              role: 'button',
+              tabIndex: 0,
+              className: styles.editable,
+              onClick: () => onEditAttack(attack),
+              onKeyDown: (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                onEditAttack(attack);
+              },
+            })}
+          >
+            {label !== 'attack' && <h4 className={styles.cardTitle}>{t.attackKind[label]}</h4>}
+            <dl className={styles.rows}>
+              <Row label={t.dayDetail.start} value={formatMoment(attack.startedAt)} />
+              <Row
+                label={t.dayDetail.end}
+                value={attack.endedAt ? formatMoment(attack.endedAt) : t.dayDetail.ongoing}
+              />
+              <Row
+                label={t.dayDetail.duration}
+                value={t.activeAttack.duration(
+                  durationParts((attack.endedAt ?? now) - attack.startedAt),
+                )}
+              />
+              {attack.painLevel !== undefined && (
+                <Row label={t.dayDetail.pain} value={t.dayDetail.painOutOfTen(attack.painLevel)} />
               )}
-            />
-            {attack.painLevel !== undefined && (
-              <Row label={t.dayDetail.pain} value={t.dayDetail.painOutOfTen(attack.painLevel)} />
-            )}
-          </dl>
-          {intakeRows(intakes.filter((intake) => intake.attackId === attack.id))}
-        </Card>
-      ))}
+            </dl>
+            {intakeRows(intakes.filter((intake) => intake.attackId === attack.id))}
+          </Card>
+        );
+      })}
       {unlinkedIntakes.length > 0 && (
         <Card>
           <h4 className={styles.cardTitle}>{t.dayDetail.medications}</h4>

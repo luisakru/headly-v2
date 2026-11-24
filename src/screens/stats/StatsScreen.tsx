@@ -9,6 +9,7 @@ import {
   OVERUSE_MEDICATION_DAYS_PER_MONTH,
   OVERUSE_TRIPTAN_DAYS_PER_MONTH,
 } from '../../domain/constants';
+import { isMigraine } from '../../domain/attacks';
 import { bucketSize, chartBuckets, chartPages } from '../../domain/chart';
 import { lookbackRange, type DateRangePreset } from '../../domain/dateRange';
 import { startPattern } from '../../domain/startPattern';
@@ -24,6 +25,7 @@ import {
   preventionOverlapsRange,
 } from '../../domain/prevention';
 import {
+  averageHeadacheDaysPerMonth,
   averageMigraineDaysPerMonth,
   averagePain,
   effectivenessSummary,
@@ -58,6 +60,7 @@ export function StatsScreen() {
   // Undefined = the page with today.
   const [pageIndex, setPageIndex] = useState<number>();
   const [showMigraine, setShowMigraine] = useState(true);
+  const [showHeadache, setShowHeadache] = useState(true);
   const [showMedication, setShowMedication] = useState(true);
   const chart = useMemo(() => {
     if (!data) return undefined;
@@ -69,7 +72,10 @@ export function StatsScreen() {
   }, [data, preset, now]);
 
   if (!data || !chart) return null;
-  const { attacks, intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents } = data;
+  const { intakes, medications, preventions, lifeEvents, dayEventTypes, dayEvents } = data;
+  // Everything but the chart and the headache card is about migraine only.
+  const attacks = data.attacks.filter(isMigraine);
+  const hasHeadaches = attacks.length < data.attacks.length;
   const { firstDay, size, pages, buckets } = chart;
   // Cards and lists follow the page visible in the chart.
   const range = pages[pageIndex ?? pages.length - 1] ?? pages[pages.length - 1]!;
@@ -79,7 +85,7 @@ export function StatsScreen() {
   const insightRange = lookbackRange(preset, now, firstDay);
   const pattern = startPattern(attacks, insightRange);
   const insights = generateInsights({
-    attacks,
+    attacks: data.attacks,
     intakes,
     medications,
     preventions,
@@ -152,6 +158,7 @@ export function StatsScreen() {
           size={size}
           lifeEvents={lifeEvents}
           showMigraine={showMigraine}
+          showHeadache={hasHeadaches && showHeadache}
           showMedication={showMedication}
           onPageChange={setPageIndex}
         />
@@ -163,6 +170,15 @@ export function StatsScreen() {
             swatchColor="var(--color-primary-soft)"
             compact
           />
+          {hasHeadaches && (
+            <ToggleChip
+              label={t.stats.series.headache}
+              pressed={showHeadache}
+              onChange={setShowHeadache}
+              swatchColor="var(--color-headache)"
+              compact
+            />
+          )}
           <ToggleChip
             label={t.stats.series.medication}
             pressed={showMedication}
@@ -180,6 +196,14 @@ export function StatsScreen() {
           </p>
           <p className={styles.statLabel}>{t.stats.averageMigraineDays}</p>
         </Card>
+        {hasHeadaches && (
+          <Card>
+            <p className={styles.statValue}>
+              {formatNumber(averageHeadacheDaysPerMonth(data.attacks, range, now), language)}
+            </p>
+            <p className={styles.statLabel}>{t.stats.averageHeadacheDays}</p>
+          </Card>
+        )}
         <Card>
           <p className={styles.statValue}>
             {effectiveness.rate === undefined

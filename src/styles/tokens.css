@@ -7,6 +7,8 @@
   --color-border: light-dark(#ddd5c8, #504945);
   --color-primary: light-dark(#8b5e4a, #b98470);
   --color-primary-soft: light-dark(#c4a088, #6b4a3e);
+  /* Other headaches: a lighter step than migraine. */
+  --color-headache: light-dark(#dcc6b4, #54433b);
   --color-on-primary: light-dark(#f5efe8, #282828);
   --color-text: light-dark(#3a3028, #d5c4a1);
   --color-text-secondary: light-dark(#9c8e80, #bdae93);

@@ -100,6 +100,31 @@ describe('chartBuckets', () => {
     ).toEqual([1, 0]);
   });
 
+  test('other headaches get their own count and pain, migraine wins on shared days', () => {
+    const week = { start: at(2026, 10, 26), end: at(2026, 11, 2) };
+    const withHeadaches = [
+      ...attacks,
+      makeAttack({
+        kind: 'headache',
+        startedAt: at(2026, 10, 27, 14),
+        endedAt: at(2026, 10, 27, 15),
+        painLevel: 9,
+      }),
+      makeAttack({
+        kind: 'headache',
+        startedAt: at(2026, 10, 30, 14),
+        endedAt: at(2026, 10, 30, 15),
+        painLevel: 3,
+      }),
+    ];
+    const [days = []] = chartBuckets([week], 'day', withHeadaches, intakes, now);
+    expect(days[1]).toMatchObject({ migraineDays: 1, headacheDays: 0, pain: 7 });
+    expect(days[1]?.headachePain).toBeUndefined();
+    expect(days[4]).toMatchObject({ migraineDays: 0, headacheDays: 1, headachePain: 3 });
+    const [weeks = []] = chartBuckets([week], 'week', withHeadaches, intakes, now);
+    expect(weeks[0]).toMatchObject({ migraineDays: 2, headacheDays: 1 });
+  });
+
   test('builds one bucket list per page', () => {
     const weeks = chartPages('1W', now, at(2026, 10, 20));
     expect(chartBuckets(weeks, 'day', attacks, intakes, now)).toHaveLength(3);

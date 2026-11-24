@@ -61,6 +61,7 @@ const backupSchema = z.object({
     attacks: z.array(
       z.object({
         ...recordFields,
+        kind: z.enum(['migraine', 'headache']).optional(),
         startedAt: z.number(),
         endedAt: z.number().optional(),
         painLevel: z.number().int().min(PAIN_LEVEL_MIN).max(PAIN_LEVEL_MAX).optional(),

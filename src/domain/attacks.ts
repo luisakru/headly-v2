@@ -1,10 +1,25 @@
 import { PAIN_LEVEL_MAX, PAIN_LEVEL_MIN } from './constants';
-import type { Attack } from './types';
+import type { Attack, AttackKind } from './types';
 
 export type AttackValidationError =
   'startInFuture' | 'endBeforeStart' | 'invalidPainLevel' | 'overlap' | 'activeAttackExists';
 
 type AttackTimes = Pick<Attack, 'id' | 'startedAt' | 'endedAt' | 'painLevel'>;
+
+export function isMigraine(attack: Attack): boolean {
+  return attack.kind !== 'headache';
+}
+
+export type AttackLabel = 'attack' | AttackKind;
+
+/** How the UI names an attack: neutral "attack" unless other headaches are tracked. */
+export function attackLabel(
+  kind: AttackKind | undefined,
+  trackOtherHeadaches: boolean,
+): AttackLabel {
+  if (kind === 'headache') return 'headache';
+  return trackOtherHeadaches ? 'migraine' : 'attack';
+}
 
 export function findActiveAttack(attacks: Attack[]): Attack | undefined {
   return attacks.find((attack) => attack.endedAt === undefined);

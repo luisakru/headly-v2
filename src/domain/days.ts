@@ -1,4 +1,5 @@
 import { eachDayOfInterval, format, startOfDay } from 'date-fns';
+import { isMigraine } from './attacks';
 import type { Attack, Medication, MedicationIntake, TimeRange } from './types';
 
 /** Local calendar day as YYYY-MM-DD. */
@@ -26,8 +27,20 @@ export function intakesOnDay(intakes: MedicationIntake[], dayKey: string): Medic
   return intakes.filter((intake) => toDayKey(intake.takenAt) === dayKey);
 }
 
+/** Days touched by a migraine attack; other headaches don't count. */
 export function migraineDays(attacks: Attack[], now: number): Set<string> {
-  return new Set(attacks.flatMap((attack) => attackDayKeys(attack, now)));
+  return new Set(attacks.filter(isMigraine).flatMap((attack) => attackDayKeys(attack, now)));
+}
+
+/** Days touched by another headache and no migraine; a day with both is a migraine day. */
+export function headacheDays(attacks: Attack[], now: number): Set<string> {
+  const migraine = migraineDays(attacks, now);
+  return new Set(
+    attacks
+      .filter((attack) => !isMigraine(attack))
+      .flatMap((attack) => attackDayKeys(attack, now))
+      .filter((day) => !migraine.has(day)),
+  );
 }
 
 export function medicationDays(intakes: MedicationIntake[]): Set<string> {

@@ -35,12 +35,14 @@ export const de: Dictionary = {
     readMore: 'Weiterlesen',
     migraineDaysLastFourWeeks: (n: number) =>
       n === 1 ? '1 Migränetag in den letzten 4 Wochen' : `${n} Migränetage in den letzten 4 Wochen`,
-    startMigraine: 'Migräne starten',
+    startMigraine: 'Attacke starten',
     insight: 'Erkenntnis',
   },
+  attackKind: { migraine: 'Migräne', headache: 'Kopfschmerz' },
   dayLegend: {
     migraine: 'Migräne',
     withMedication: '+ Medikament',
+    headache: 'Kopfschmerz',
     today: 'Heute',
   },
   dayDetail: {
@@ -54,8 +56,13 @@ export const de: Dictionary = {
     noEntry: 'Kein Eintrag an diesem Tag',
   },
   editAttack: {
-    title: 'Migräne bearbeiten',
-    addTitle: 'Migräne nachtragen',
+    title: {
+      attack: 'Attacke bearbeiten',
+      migraine: 'Migräne bearbeiten',
+      headache: 'Kopfschmerz bearbeiten',
+    },
+    addTitle: 'Attacke nachtragen',
+    kind: 'Art',
     start: 'Beginn',
     end: 'Ende',
     painLevel: 'Schmerzintensität',
@@ -64,11 +71,15 @@ export const de: Dictionary = {
     takenAt: 'Genommen um',
     removeIntake: (name: string) => `${name} entfernen`,
     save: 'Speichern',
-    delete: 'Migräne löschen',
+    delete: {
+      attack: 'Attacke löschen',
+      migraine: 'Migräne löschen',
+      headache: 'Kopfschmerz löschen',
+    },
     confirmDelete: 'Wirklich löschen?',
   },
   activeAttack: {
-    label: 'Migräne aktiv',
+    label: { attack: 'Attacke aktiv', migraine: 'Migräne aktiv', headache: 'Kopfschmerz aktiv' },
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}T ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
     sinceToday: (time: string) => `seit ${time} Uhr`,
@@ -78,7 +89,11 @@ export const de: Dictionary = {
     painNow: 'Schmerzintensität jetzt',
     medicationsDuring: 'Medikamente',
     logMedication: 'Medikament eintragen',
-    endMigraine: 'Migräne beenden',
+    end: {
+      attack: 'Attacke beenden',
+      migraine: 'Migräne beenden',
+      headache: 'Kopfschmerz beenden',
+    },
     endedEarlier: 'Früher beendet?',
     moreActions: 'Weitere Aktionen',
     deleteIntake: (name: string) => `${name} löschen`,
@@ -184,7 +199,8 @@ export const de: Dictionary = {
     previousMonth: 'Vorheriger Monat',
     nextMonth: 'Nächster Monat',
     tapADay: 'Tippe auf einen Tag für Details',
-    addMigraine: 'Migräne nachtragen',
+    addMigraine: 'Attacke nachtragen',
+    headacheDays: (n: number) => (n === 1 ? '1 Kopfschmerztag' : `${n} Kopfschmerztage`),
   },
   stats: {
     startPattern: {
@@ -205,6 +221,7 @@ export const de: Dictionary = {
     painAxis: 'Intensität (0–10)',
     series: {
       migraine: 'Migräne',
+      headache: 'Kopfschmerz',
       medication: 'Medikament',
     },
     chartLabel: 'Migränetage und Medikamententage pro Monat',
@@ -212,6 +229,8 @@ export const de: Dictionary = {
     migraineDayCount: (n: number) => (n === 1 ? '1 Migränetag' : `${n} Migränetage`),
     medicationDayCount: (n: number) => (n === 1 ? '1 Medikamententag' : `${n} Medikamententage`),
     averageMigraineDays: 'Ø Migränetage/Monat',
+    averageHeadacheDays: 'Ø Kopfschmerz\u00ADtage/Monat',
+    headacheDayCount: (n: number) => (n === 1 ? '1 Kopfschmerztag' : `${n} Kopfschmerztage`),
     effectivenessRate: 'Ø Wirksamkeit',
     unrated: (n: number) => `${n} nicht bewertet`,
     averagePain: 'Ø Intensität',
@@ -414,6 +433,8 @@ Regeln:
       'Aus dem Beipackzettel oder von deiner Ärztin. Headly zeigt dann, ab wann du es wieder nehmen darfst.',
     lifeEventsHint: 'Große Einschnitte, z. B. neuer Job oder Umzug',
     tracking: 'Was ich erfasse',
+    otherHeadaches: 'Andere Kopfschmerzen',
+    otherHeadachesHint: 'Getrennt von Migräne erfassen, z. B. Spannungskopfschmerz',
     help: 'Hilfe und Infos',
     display: 'Darstellung',
     backupAndRestore: 'Sichern und wiederherstellen',
@@ -546,6 +567,8 @@ Regeln:
     intakes: 'Medikamenten-Einnahmen',
     date: 'Datum',
     migraine: 'Migräne',
+    headaches: 'Kopfschmerzen',
+    kind: 'Art',
     yes: 'Ja',
     helped: 'Geholfen',
   },

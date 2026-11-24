@@ -3,7 +3,7 @@ import { getActiveAttack, listAttacks, startAttack } from '../../data/attackRepo
 import { db } from '../../data/db';
 import { listIntakes, logIntake } from '../../data/intakeRepository';
 import { createMedication } from '../../data/medicationRepository';
-import { getSettings } from '../../data/settingsRepository';
+import { getSettings, updateSettings } from '../../data/settingsRepository';
 import { renderWithI18n } from '../../test/renderWithI18n';
 import { MemoryRouter } from 'react-router-dom';
 import { toDayKey } from '../../domain/days';
@@ -28,8 +28,8 @@ test('logs a full attack: start, pain, medication, end', async () => {
     </MemoryRouter>,
   );
 
-  fireEvent.click(await screen.findByRole('button', { name: 'Start migraine' }));
-  expect(await screen.findByText('Migraine active')).toBeInTheDocument();
+  fireEvent.click(await screen.findByRole('button', { name: 'Start attack' }));
+  expect(await screen.findByText('Attack active')).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('button', { name: /^Pain/ }));
   fireEvent.click(await screen.findByRole('radio', { name: '6' }));
@@ -47,9 +47,28 @@ test('logs a full attack: start, pain, medication, end', async () => {
   expect(intake).toMatchObject({ medicationId: medication.id, attackId: expect.any(String) });
   expect(await screen.findByRole('button', { name: /Effect pending/ })).toBeInTheDocument();
 
-  fireEvent.click(screen.getByRole('button', { name: 'End migraine' }));
-  expect(await screen.findByRole('button', { name: 'Start migraine' })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'End attack' }));
+  expect(await screen.findByRole('button', { name: 'Start attack' })).toBeInTheDocument();
   expect((await listAttacks())[0]?.endedAt).toBeDefined();
+});
+
+test('with other headaches tracked, starts a headache and can switch it to migraine', async () => {
+  await updateSettings({ trackOtherHeadaches: true });
+  await renderWithI18n(
+    <MemoryRouter>
+      <HomeScreen />
+    </MemoryRouter>,
+  );
+
+  expect(await screen.findByRole('button', { name: 'Migraine' })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Headache' }));
+  expect(await screen.findByText('Headache active')).toBeInTheDocument();
+  expect((await getActiveAttack())?.kind).toBe('headache');
+
+  fireEvent.click(screen.getByRole('radio', { name: 'Migraine' }));
+  expect(await screen.findByText('Migraine active')).toBeInTheDocument();
+  expect((await getActiveAttack())?.kind).toBe('migraine');
+  expect(screen.getByRole('button', { name: 'End migraine' })).toBeInTheDocument();
 });
 
 test('tapping a logged medication again undoes the intake', async () => {
@@ -96,11 +115,11 @@ test('deletes the active attack after confirmation', async () => {
   );
 
   fireEvent.click(await screen.findByRole('button', { name: 'More actions' }));
-  fireEvent.click(await screen.findByRole('button', { name: 'Delete migraine' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Delete attack' }));
   expect(await listAttacks()).toHaveLength(1);
   fireEvent.click(screen.getByRole('button', { name: 'Really delete?' }));
 
-  expect(await screen.findByRole('button', { name: 'Start migraine' })).toBeInTheDocument();
+  expect(await screen.findByRole('button', { name: 'Start attack' })).toBeInTheDocument();
   expect(await listAttacks()).toHaveLength(0);
 });
 

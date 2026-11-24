@@ -23,6 +23,11 @@
   color: var(--color-on-primary);
 }
 
+.soft {
+  background: var(--color-headache);
+  color: var(--color-text);
+}
+
 .outline {
   background: transparent;
   border-color: var(--color-primary);

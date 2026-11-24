@@ -46,11 +46,16 @@
   color: var(--color-on-primary);
 }
 
+.dayCell[data-kind^='headache'] {
+  background: var(--color-headache);
+}
+
 .dayCell[data-future] {
   color: var(--color-text-muted);
 }
 
 .dayCell[data-kind='medicationOnly']::before,
+.dayCell[data-kind='headacheWithMedication']::before,
 .dayCell[data-today]::after {
   content: '';
   position: absolute;
@@ -62,7 +67,8 @@
 }
 
 /* A medication day without migraine shows its dot at the top, so it never collides with today. */
-.dayCell[data-kind='medicationOnly']::before {
+.dayCell[data-kind='medicationOnly']::before,
+.dayCell[data-kind='headacheWithMedication']::before {
   top: 5px;
   bottom: auto;
   background: var(--color-primary);
@@ -101,6 +107,10 @@
 
 .legendSwatch[data-kind='migraineWithMedication'] {
   background: var(--color-primary);
+}
+
+.legendSwatch[data-kind='headache'] {
+  background: var(--color-headache);
 }
 
 .legendDot {

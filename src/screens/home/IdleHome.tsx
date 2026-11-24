@@ -42,7 +42,8 @@ export function IdleHome({
   dayEvents,
   symptoms,
   now,
-}: HomeData & { now: number }) {
+  trackOtherHeadaches,
+}: HomeData & { now: number; trackOtherHeadaches: boolean }) {
   const { t, language } = useI18n();
   const navigate = useNavigate();
   const partOfDay = timeOfDay(now);
@@ -146,9 +147,20 @@ export function IdleHome({
       )}
 
       <div className={styles.pinnedActions} data-pinned-actions>
-        <Button large onClick={() => void startAttack()}>
-          {t.home.startMigraine}
-        </Button>
+        {trackOtherHeadaches ? (
+          <div className={styles.startChoices}>
+            <Button large onClick={() => void startAttack(Date.now(), 'migraine')}>
+              {t.attackKind.migraine}
+            </Button>
+            <Button large variant="soft" onClick={() => void startAttack(Date.now(), 'headache')}>
+              {t.attackKind.headache}
+            </Button>
+          </div>
+        ) : (
+          <Button large onClick={() => void startAttack()}>
+            {t.home.startMigraine}
+          </Button>
+        )}
       </div>
     </div>
   );

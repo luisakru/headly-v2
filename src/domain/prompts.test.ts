@@ -49,6 +49,7 @@ describe('shouldShowBackupReminder', () => {
     backupReminderEnabled: true,
     installHintDismissed: false,
     introSeen: false,
+    trackOtherHeadaches: false,
   };
 
   test('never backed up: shows from 5 records on', () => {

@@ -6,6 +6,7 @@ import {
   BookIcon,
   DocumentIcon,
   DownloadIcon,
+  HeadacheIcon,
   InfoIcon,
   LifeEventIcon,
   LockIcon,
@@ -76,6 +77,15 @@ export function ProfileScreen() {
             title={t.symptoms.title}
             subtitle={t.symptoms.count(symptoms.filter((symptom) => symptom.enabled).length)}
             onClick={() => setOpenSheet('symptoms')}
+          />
+          <ProfileRow
+            icon={<HeadacheIcon />}
+            title={t.profile.otherHeadaches}
+            subtitle={t.profile.otherHeadachesHint}
+            checked={settings.trackOtherHeadaches}
+            onClick={() =>
+              void updateSettings({ trackOtherHeadaches: !settings.trackOtherHeadaches })
+            }
           />
           <ProfileRow
             icon={<LifeEventIcon />}

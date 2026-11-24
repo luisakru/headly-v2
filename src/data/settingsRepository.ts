@@ -12,6 +12,7 @@ export function defaultSettings(): Settings {
     backupReminderEnabled: true,
     installHintDismissed: false,
     introSeen: false,
+    trackOtherHeadaches: false,
   };
 }
 

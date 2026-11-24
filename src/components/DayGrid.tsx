@@ -1,5 +1,5 @@
 import { dayKind, recentWeekDays } from '../domain/calendar';
-import { medicationDays, migraineDays, toDayKey } from '../domain/days';
+import { headacheDays, medicationDays, migraineDays, toDayKey } from '../domain/days';
 import type { Attack, MedicationIntake } from '../domain/types';
 import { useI18n } from '../i18n/context';
 import { formatDate, formatWeekday } from '../i18n/format';
@@ -17,7 +17,7 @@ type DayGridProps = {
   eventDays?: Set<string>;
 };
 
-/** Days colored by migraine and medication. Tapping the selected day again clears the selection. */
+/** Days colored by migraine, other headache and medication. Tapping the selected day again clears the selection. */
 export function DayGrid({
   days,
   attacks,
@@ -30,6 +30,7 @@ export function DayGrid({
   const { language } = useI18n();
   const migraine = migraineDays(attacks, now);
   const medication = medicationDays(intakes);
+  const headache = headacheDays(attacks, now);
   const todayKey = toDayKey(now);
   const selectedKey = selectedDay && toDayKey(selectedDay);
 
@@ -53,7 +54,7 @@ export function DayGrid({
             key={dayKey}
             type="button"
             className={styles.dayCell}
-            data-kind={dayKind(dayKey, migraine, medication)}
+            data-kind={dayKind(dayKey, migraine, medication, headache)}
             data-today={dayKey === todayKey || undefined}
             data-future={dayKey > todayKey || undefined}
             disabled={dayKey > todayKey}
@@ -70,7 +71,7 @@ export function DayGrid({
   );
 }
 
-export function DayLegend() {
+export function DayLegend({ showHeadache = false }: { showHeadache?: boolean }) {
   const { t } = useI18n();
   return (
     <div className={styles.legend}>
@@ -82,6 +83,12 @@ export function DayLegend() {
         <span className={styles.legendSwatch} data-kind="migraineWithMedication" />
         {t.dayLegend.withMedication}
       </span>
+      {showHeadache && (
+        <span className={styles.legendItem}>
+          <span className={styles.legendSwatch} data-kind="headache" />
+          {t.dayLegend.headache}
+        </span>
+      )}
       <span className={styles.legendItem}>
         <span className={styles.legendDot} />
         {t.dayLegend.today}

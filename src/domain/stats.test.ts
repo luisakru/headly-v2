@@ -1,5 +1,6 @@
 import { at, attacksOnDays, makeAttack, makeIntake, makeMedication } from '../test/factories';
 import {
+  averageHeadacheDaysPerMonth,
   averageMigraineDaysPerMonth,
   averagePain,
   effectivenessSummary,
@@ -100,6 +101,17 @@ describe('overuseMonths', () => {
   test('does not flag 14 medication days', () => {
     expect(overuseMonths(daily(other.id, 2, 14), [triptan, other], range)).toEqual([]);
   });
+});
+
+test('other headaches have their own average and leave migraine days alone', () => {
+  const attacks = [
+    ...attacksOnDays([[2026, 1, 3]]),
+    makeAttack({ kind: 'headache', startedAt: at(2026, 1, 3, 20), endedAt: at(2026, 1, 3, 21) }),
+    makeAttack({ kind: 'headache', startedAt: at(2026, 1, 4, 9), endedAt: at(2026, 1, 4, 11) }),
+  ];
+  expect(averageMigraineDaysPerMonth(attacks, range, now)).toBeCloseTo((1 / 59) * 30);
+  // The 3rd is a migraine day, so only the 4th counts as a headache day.
+  expect(averageHeadacheDaysPerMonth(attacks, range, now)).toBeCloseTo((1 / 59) * 30);
 });
 
 test('averageMigraineDaysPerMonth counts only up to today', () => {

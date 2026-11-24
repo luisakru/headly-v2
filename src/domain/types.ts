@@ -1,5 +1,10 @@
+/** `headache` is a headache that is not migraine, e.g. tension-type. */
+export type AttackKind = 'migraine' | 'headache';
+
 export type Attack = {
   id: string;
+  /** Missing on attacks from before other headaches could be logged; those are migraine. */
+  kind?: AttackKind;
   startedAt: number;
   endedAt?: number;
   painLevel?: number;
@@ -109,6 +114,8 @@ export type Settings = {
   backupReminderSnoozedUntil?: number;
   installHintDismissed: boolean;
   introSeen: boolean;
+  /** Log other headaches separately from migraine. */
+  trackOtherHeadaches: boolean;
 };
 
 /** Half-open interval [start, end) in epoch milliseconds. */

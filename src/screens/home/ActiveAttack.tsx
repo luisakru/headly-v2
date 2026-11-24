@@ -6,13 +6,15 @@ import { EffectivenessChips } from '../../components/EffectivenessChips';
 import { MoreIcon, PlusIcon } from '../../components/icons';
 import { IntakeRows } from '../../components/IntakeRows';
 import { PainScale } from '../../components/PainScale';
+import { SegmentedControl } from '../../components/SegmentedControl';
 import { SymptomChips } from '../../components/SymptomChips';
 import { ValueRow } from '../../components/ValueRow';
 import { deleteAttack, endAttack, updateAttack } from '../../data/attackRepository';
 import { deleteIntake, rateIntake } from '../../data/intakeRepository';
+import { attackLabel } from '../../domain/attacks';
 import { durationParts } from '../../domain/days';
 import { activeAttackPrompt } from '../../domain/prompts';
-import type { Attack, MedicationIntake } from '../../domain/types';
+import type { Attack, AttackKind, MedicationIntake } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
 import { formatDateTime, formatTime } from '../../i18n/format';
 import { symptomName } from '../../i18n/symptoms';
@@ -31,9 +33,16 @@ type Sheet =
   | 'symptoms'
   | { rate: MedicationIntake };
 
-type ActiveAttackProps = HomeData & { attack: Attack; now: number };
+type ActiveAttackProps = HomeData & { attack: Attack; now: number; trackOtherHeadaches: boolean };
 
-export function ActiveAttack({ attack, intakes, medications, symptoms, now }: ActiveAttackProps) {
+export function ActiveAttack({
+  attack,
+  intakes,
+  medications,
+  symptoms,
+  now,
+  trackOtherHeadaches,
+}: ActiveAttackProps) {
   const { t, language } = useI18n();
   const [sheet, setSheet] = useState<Sheet>();
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -41,6 +50,7 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
   const attackIntakes = intakes.filter((intake) => intake.attackId === attack.id);
   const shownSymptoms = symptoms.filter((symptom) => symptom.enabled);
   const attackSymptoms = shownSymptoms.filter((symptom) => attack.symptomIds?.includes(symptom.id));
+  const label = attackLabel(attack.kind, trackOtherHeadaches);
   const medicationName = (intake: MedicationIntake) =>
     medications.find((medication) => medication.id === intake.medicationId)?.name ?? '';
 
@@ -49,7 +59,7 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
       <div className={styles.activeHeader}>
         <p className={styles.activeLabel}>
           <span className={styles.pulseDot} aria-hidden="true" />
-          {t.activeAttack.label}
+          {t.activeAttack.label[label]}
         </p>
         <button
           type="button"
@@ -71,6 +81,18 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
             : t.activeAttack.sinceOn(formatDateTime(attack.startedAt, language))}
         </button>
       </div>
+
+      {label !== 'attack' && (
+        <SegmentedControl<AttackKind>
+          label={t.editAttack.kind}
+          options={(['migraine', 'headache'] as const).map((value) => ({
+            value,
+            label: t.attackKind[value],
+          }))}
+          value={attack.kind ?? 'migraine'}
+          onChange={(kind) => void updateAttack(attack.id, { kind })}
+        />
+      )}
 
       <AttackPromptCard attack={attack} now={now} onEndEarlier={() => setSheet('endTime')} />
       <RatingPromptCard intakes={intakes} medications={medications} now={now} />
@@ -119,7 +141,7 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
           {t.activeAttack.logMedication}
         </Button>
         <Button large onClick={() => void endAttack(attack.id)}>
-          {t.activeAttack.endMigraine}
+          {t.activeAttack.end[label]}
         </Button>
       </div>
 
@@ -135,7 +157,7 @@ export function ActiveAttack({ attack, intakes, medications, symptoms, now }: Ac
                 confirmingDelete ? void deleteAttack(attack.id) : setConfirmingDelete(true)
               }
             >
-              {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete}
+              {confirmingDelete ? t.editAttack.confirmDelete : t.editAttack.delete[label]}
             </Button>
           </div>
         </BottomSheet>

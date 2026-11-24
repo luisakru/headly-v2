@@ -7,7 +7,13 @@ import {
   startOfWeek,
 } from 'date-fns';
 
-export type DayKind = 'none' | 'migraine' | 'migraineWithMedication' | 'medicationOnly';
+export type DayKind =
+  | 'none'
+  | 'migraine'
+  | 'migraineWithMedication'
+  | 'headache'
+  | 'headacheWithMedication'
+  | 'medicationOnly';
 
 /** Days of the last `weeks` weeks, Monday first, ending with the current week. */
 export function recentWeekDays(now: number, weeks: number): Date[] {
@@ -28,12 +34,15 @@ export function monthGridDays(month: number | Date): (Date | undefined)[] {
   ];
 }
 
+/** Migraine wins over another headache on the same day. */
 export function dayKind(
   dayKey: string,
   migraineDayKeys: Set<string>,
   medicationDayKeys: Set<string>,
+  headacheDayKeys: Set<string> = new Set(),
 ): DayKind {
   const hasMedication = medicationDayKeys.has(dayKey);
   if (migraineDayKeys.has(dayKey)) return hasMedication ? 'migraineWithMedication' : 'migraine';
+  if (headacheDayKeys.has(dayKey)) return hasMedication ? 'headacheWithMedication' : 'headache';
   return hasMedication ? 'medicationOnly' : 'none';
 }

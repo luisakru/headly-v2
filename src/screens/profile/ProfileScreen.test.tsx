@@ -180,6 +180,12 @@ test('toggles the backup reminder', async () => {
   await waitFor(async () => expect((await getSettings()).backupReminderEnabled).toBe(false));
 });
 
+test('turns on other headaches', async () => {
+  await renderProfile();
+  fireEvent.click(await screen.findByRole('switch', { name: /Other headaches/ }));
+  await waitFor(async () => expect((await getSettings()).trackOtherHeadaches).toBe(true));
+});
+
 test('switches the language', async () => {
   await renderProfile();
 

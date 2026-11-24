@@ -56,7 +56,7 @@ test('the start shortcut starts one attack and shows it on Home', async () => {
   window.history.pushState({}, '', '/start');
   render(<App />);
 
-  expect(await screen.findByText('Migraine active')).toBeInTheDocument();
+  expect(await screen.findByText('Attack active')).toBeInTheDocument();
   expect(window.location.pathname).toBe('/');
   expect((await listAttacks()).filter((attack) => !attack.endedAt)).toHaveLength(1);
 });

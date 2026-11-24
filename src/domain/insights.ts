@@ -9,6 +9,7 @@ import {
   PREVENTION_WINDOW_RELIABLE_DAYS,
 } from './constants';
 import { previousRange } from './dateRange';
+import { isMigraine } from './attacks';
 import { dayEventPatterns, menstrualPattern } from './dayEvents';
 import {
   firstDataDay,
@@ -269,8 +270,9 @@ function dayEventInsights({
   ];
 }
 
-/** All insights whose data condition is met, most relevant first. */
-export function generateInsights(input: InsightInput): Insight[] {
+/** All insights whose data condition is met, most relevant first. Only migraine counts, not other headaches. */
+export function generateInsights(allInput: InsightInput): Insight[] {
+  const input = { ...allInput, attacks: allInput.attacks.filter(isMigraine) };
   const previous = previousRange(input.range);
   const dataStart = firstDataDay(input.attacks, input.intakes);
   const hasPrevious = dataStart !== undefined && dataStart <= previous.start;

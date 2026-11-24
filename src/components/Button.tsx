@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.css';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'outline';
+  variant?: 'primary' | 'outline' | 'soft';
   /** Primary actions are 64 px tall; regular buttons 48 px. */
   large?: boolean;
 };

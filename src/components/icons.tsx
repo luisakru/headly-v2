@@ -202,6 +202,15 @@ export function InfoIcon() {
   );
 }
 
+export function HeadacheIcon() {
+  return (
+    <svg {...svgProps} width={24} height={24}>
+      <circle cx="12" cy="14" r="7" />
+      <path d="M12 3v2.5M6 4.5l1.5 2M18 4.5l-1.5 2" />
+    </svg>
+  );
+}
+
 export function BookIcon() {
   return (
     <svg {...svgProps} width={24} height={24}>

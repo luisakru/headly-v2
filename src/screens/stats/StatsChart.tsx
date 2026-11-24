@@ -37,7 +37,7 @@ const MAX_SHORT_MONTHS = 6;
 // Only pages this close to the visible one are drawn; years of weeks would be too slow.
 const RENDERED_NEIGHBOURS = 2;
 
-type Series = { key: 'migraineDays' | 'medicationDays'; className?: string };
+type Series = { key: 'migraineDays' | 'headacheDays' | 'medicationDays'; className?: string };
 
 type StatsChartProps = {
   /** Buckets per page, oldest page first. */
@@ -46,6 +46,7 @@ type StatsChartProps = {
   /** Drawn as thin vertical lines at their date. */
   lifeEvents: LifeEvent[];
   showMigraine: boolean;
+  showHeadache: boolean;
   showMedication: boolean;
   onPageChange: (index: number) => void;
 };
@@ -55,6 +56,7 @@ export function StatsChart({
   size,
   lifeEvents,
   showMigraine,
+  showHeadache,
   showMedication,
   onPageChange,
 }: StatsChartProps) {
@@ -79,6 +81,7 @@ export function StatsChart({
 
   const series: Series[] = [
     ...(showMigraine ? [{ key: 'migraineDays' as const, className: styles.migraineBar }] : []),
+    ...(showHeadache ? [{ key: 'headacheDays' as const, className: styles.headacheBar }] : []),
     ...(showMedication
       ? [{ key: 'medicationDays' as const, className: styles.medicationBar }]
       : []),
@@ -127,6 +130,13 @@ export function StatsChart({
                 : `${t.dayDetail.pain} ${t.dayDetail.painOutOfTen(bucket.pain)}`,
             ]
           : []),
+        ...(showHeadache && bucket.headacheDays > 0
+          ? [
+              bucket.headachePain === undefined
+                ? t.stats.series.headache
+                : `${t.stats.series.headache} ${t.dayDetail.painOutOfTen(bucket.headachePain)}`,
+            ]
+          : []),
         ...(showMedication && bucket.medicationDays > 0 ? [t.stats.series.medication] : []),
       ];
       return [
@@ -141,19 +151,23 @@ export function StatsChart({
           ? String(new Date(bucket.range.start).getFullYear())
           : formatMonthYearShort(bucket.range.start, language),
       ...(showMigraine ? [t.stats.migraineDayCount(bucket.migraineDays)] : []),
+      ...(showHeadache ? [t.stats.headacheDayCount(bucket.headacheDays)] : []),
       ...(showMedication ? [t.stats.medicationDayCount(bucket.medicationDays)] : []),
     ].join(' · ');
   };
 
   const renderDay = (bucket: ChartBucket, center: number, barWidth: number) => {
     const hasMigraine = showMigraine && bucket.migraineDays > 0;
-    const pain = hasMigraine ? (bucket.pain ?? 0) : 0;
+    const hasHeadache = showHeadache && bucket.headacheDays > 0;
+    const hasPainDay = hasMigraine || hasHeadache;
+    const barClass = hasMigraine ? styles.migraineBar : styles.headacheBar;
+    const pain = hasMigraine ? (bucket.pain ?? 0) : hasHeadache ? (bucket.headachePain ?? 0) : 0;
     const top = y(pain);
     return (
       <>
-        {hasMigraine && pain > 0 && (
+        {hasPainDay && pain > 0 && (
           <rect
-            className={styles.migraineBar}
+            className={barClass}
             x={center - barWidth / 2}
             y={top}
             width={barWidth}
@@ -161,19 +175,14 @@ export function StatsChart({
             rx={Math.min(4, barWidth / 2)}
           />
         )}
-        {hasMigraine && pain === 0 && (
-          <circle
-            className={styles.migraineBar}
-            cx={center}
-            cy={y(0) - DOT_RADIUS}
-            r={DOT_RADIUS}
-          />
+        {hasPainDay && pain === 0 && (
+          <circle className={barClass} cx={center} cy={y(0) - DOT_RADIUS} r={DOT_RADIUS} />
         )}
         {showMedication && bucket.medicationDays > 0 && (
           <circle
             className={styles.medicationBar}
             cx={center}
-            cy={(hasMigraine ? top - DOT_RADIUS : y(0)) - DOT_RADIUS * 2}
+            cy={(hasPainDay ? top - DOT_RADIUS : y(0)) - DOT_RADIUS * 2}
             r={DOT_RADIUS}
           />
         )}

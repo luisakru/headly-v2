@@ -300,6 +300,11 @@
   background: var(--color-bg);
 }
 
+.startChoices {
+  display: flex;
+  gap: var(--space-3);
+}
+
 /* Sheets */
 
 .sheetContent,

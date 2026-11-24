@@ -48,6 +48,21 @@ describe('migraineDaysChange', () => {
     );
   });
 
+  test('ignores other headaches', () => {
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const headaches = monthlyAttacks(4, 3, 4).map((attack) => ({
+      ...attack,
+      id: `h-${attack.id}`,
+      kind: 'headache' as const,
+      startedAt: attack.startedAt + DAY_MS,
+      endedAt: attack.endedAt! + DAY_MS,
+    }));
+    const attacks = [...monthlyAttacks(1, 3, 6), ...monthlyAttacks(4, 3, 4), ...headaches];
+    expect(generateInsights({ ...empty, attacks })).toContainEqual(
+      expect.objectContaining({ kind: 'migraineDaysChange', before: 6, after: 4 }),
+    );
+  });
+
   test('is hidden when the change is below one day', () => {
     const attacks = [...monthlyAttacks(1, 3, 4), ...monthlyAttacks(4, 3, 4)];
     expect(generateInsights({ ...empty, attacks }).map((i) => i.kind)).not.toContain(

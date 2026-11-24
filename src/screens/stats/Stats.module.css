@@ -83,6 +83,10 @@
   fill: var(--color-primary-soft);
 }
 
+.headacheBar {
+  fill: var(--color-headache);
+}
+
 .medicationBar {
   fill: var(--color-primary);
 }

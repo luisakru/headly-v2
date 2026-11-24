@@ -1,5 +1,5 @@
 import { validateAttack, type AttackValidationError } from '../domain/attacks';
-import type { Attack, Effectiveness } from '../domain/types';
+import type { Attack, AttackKind, Effectiveness } from '../domain/types';
 import { db, DomainError, newRecordFields } from './db';
 import { logIntake, updateIntake } from './intakeRepository';
 
@@ -27,8 +27,8 @@ export async function createAttack(fields: AttackFields): Promise<Attack> {
   });
 }
 
-export function startAttack(startedAt = Date.now()): Promise<Attack> {
-  return createAttack({ startedAt });
+export function startAttack(startedAt = Date.now(), kind?: AttackKind): Promise<Attack> {
+  return createAttack({ startedAt, ...(kind && { kind }) });
 }
 
 export async function updateAttack(id: string, changes: Partial<AttackFields>): Promise<Attack> {

@@ -36,12 +36,14 @@ export const en = {
       n === 1
         ? '1 migraine day during the last 4 weeks'
         : `${n} migraine days during the last 4 weeks`,
-    startMigraine: 'Start migraine',
+    startMigraine: 'Start attack',
     insight: 'Insight',
   },
+  attackKind: { migraine: 'Migraine', headache: 'Headache' },
   dayLegend: {
     migraine: 'Migraine',
     withMedication: '+ Medication',
+    headache: 'Headache',
     today: 'Today',
   },
   dayDetail: {
@@ -55,8 +57,9 @@ export const en = {
     noEntry: 'No entry on this day',
   },
   editAttack: {
-    title: 'Edit migraine',
-    addTitle: 'Add migraine',
+    title: { attack: 'Edit attack', migraine: 'Edit migraine', headache: 'Edit headache' },
+    addTitle: 'Add attack',
+    kind: 'Type',
     start: 'Start',
     end: 'End',
     painLevel: 'Pain level',
@@ -65,11 +68,11 @@ export const en = {
     takenAt: 'Taken at',
     removeIntake: (name: string) => `Remove ${name}`,
     save: 'Save',
-    delete: 'Delete migraine',
+    delete: { attack: 'Delete attack', migraine: 'Delete migraine', headache: 'Delete headache' },
     confirmDelete: 'Really delete?',
   },
   activeAttack: {
-    label: 'Migraine active',
+    label: { attack: 'Attack active', migraine: 'Migraine active', headache: 'Headache active' },
     duration: ({ days, hours, minutes }: DurationParts) =>
       days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
     sinceToday: (time: string) => `since ${time}`,
@@ -79,7 +82,7 @@ export const en = {
     painNow: 'Pain level now',
     medicationsDuring: 'Medication',
     logMedication: 'Log medication',
-    endMigraine: 'End migraine',
+    end: { attack: 'End attack', migraine: 'End migraine', headache: 'End headache' },
     endedEarlier: 'Ended earlier?',
     moreActions: 'More actions',
     deleteIntake: (name: string) => `Delete ${name}`,
@@ -182,7 +185,8 @@ export const en = {
     previousMonth: 'Previous month',
     nextMonth: 'Next month',
     tapADay: 'Tap a day for details',
-    addMigraine: 'Add migraine',
+    addMigraine: 'Add attack',
+    headacheDays: (n: number) => (n === 1 ? '1 headache day' : `${n} headache days`),
   },
   stats: {
     startPattern: {
@@ -203,6 +207,7 @@ export const en = {
     painAxis: 'Intensity (0–10)',
     series: {
       migraine: 'Migraine',
+      headache: 'Headache',
       medication: 'Medication',
     },
     chartLabel: 'Migraine days and medication days per month',
@@ -210,6 +215,8 @@ export const en = {
     migraineDayCount: (n: number) => (n === 1 ? '1 migraine day' : `${n} migraine days`),
     medicationDayCount: (n: number) => (n === 1 ? '1 medication day' : `${n} medication days`),
     averageMigraineDays: 'Avg. migraine days/month',
+    averageHeadacheDays: 'Avg. headache days/month',
+    headacheDayCount: (n: number) => (n === 1 ? '1 headache day' : `${n} headache days`),
     effectivenessRate: 'Effectiveness',
     unrated: (n: number) => `${n} not rated`,
     averagePain: 'Avg. pain',
@@ -402,6 +409,8 @@ Rules:
       'From the package leaflet or your doctor. Headly then shows when you may take it again.',
     lifeEventsHint: 'Big shifts, e.g. a new job or a move',
     tracking: 'What I track',
+    otherHeadaches: 'Other headaches',
+    otherHeadachesHint: 'Log separately from migraine, e.g. tension-type headache',
     help: 'Help and info',
     display: 'Display',
     backupAndRestore: 'Back up and restore',
@@ -533,6 +542,8 @@ Rules:
     intakes: 'Medication intakes',
     date: 'Date',
     migraine: 'Migraine',
+    headaches: 'Headaches',
+    kind: 'Type',
     yes: 'Yes',
     helped: 'Helped',
   },
