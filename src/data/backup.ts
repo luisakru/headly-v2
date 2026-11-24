@@ -15,7 +15,8 @@ import { db, DomainError } from './db';
 import { updateSettings } from './settingsRepository';
 
 /** Matches the database version; bump both together and migrate older backups below. */
-export const BACKUP_SCHEMA_VERSION = 5;
+// 6: attacks can have `kind: 'headache'`.
+export const BACKUP_SCHEMA_VERSION = 6;
 
 export type BackupData = {
   attacks: Attack[];
@@ -182,7 +183,15 @@ export function recordsToMerge<T extends { id: string; updatedAt: number }>(
 }
 
 /** Writes all records of a backup at once; counts the records that were written. */
-export function importBackup(backup: Backup, mode: ImportMode): Promise<ImportSummary> {
+export async function importBackup(backup: Backup, mode: ImportMode): Promise<ImportSummary> {
+  const summary = await writeBackup(backup, mode);
+  // Imported headaches stay visible and editable.
+  if (backup.data.attacks.some((attack) => attack.kind === 'headache'))
+    await updateSettings({ trackOtherHeadaches: true });
+  return summary;
+}
+
+function writeBackup(backup: Backup, mode: ImportMode): Promise<ImportSummary> {
   return db.transaction('rw', [...TABLE_NAMES], async () => {
     const summary = {
       attacks: 0,

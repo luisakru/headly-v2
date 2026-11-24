@@ -128,8 +128,8 @@ export const en = {
       startInFuture: 'This time is in the future.',
       endBeforeStart: 'The end has to be after the start.',
       invalidPainLevel: 'Pain level has to be between 0 and 10.',
-      overlap: 'This overlaps with another migraine.',
-      activeAttackExists: 'A migraine is already active.',
+      overlap: 'This overlaps with another attack.',
+      activeAttackExists: 'An attack is already active.',
       notFound: 'This migraine no longer exists.',
     },
     prevention: {
@@ -330,10 +330,10 @@ export const en = {
 
 {
   "app": "headly",
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "exportedAt": <now as Unix time in milliseconds>,
   "data": {
-    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"?, "symptomIds"? }],
+    "attacks": [{ "id", "createdAt", "updatedAt", "kind"?, "startedAt", "endedAt", "painLevel"?, "symptomIds"? }],
     "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "minIntervalHours"?, "archived": false }],
     "medicationIntakes": [{ "id", "createdAt", "updatedAt", "medicationId", "attackId"?, "takenAt", "effectiveness"? }],
     "preventions": [{ "id", "createdAt", "updatedAt", "name", "type", "dose"?, "startDate", "endDate"? }],
@@ -348,7 +348,8 @@ Rules:
 - All times (startedAt, endedAt, takenAt, createdAt, updatedAt, exportedAt) are Unix time in milliseconds (13 digits) in my time zone ${timeZone}. Set createdAt and updatedAt to the time of the entry.
 - id: a unique text per record, e.g. "attack-1", "med-1", "intake-1".
 - painLevel: whole number from 0 to 10. Convert other scales, e.g. mild = 3, moderate = 6, severe = 9.
-- Always set endedAt. If the end is unknown, use the end of that day. Migraines must not overlap.
+- Always set endedAt. If the end is unknown, use the end of that day. Entries in attacks must not overlap.
+- kind: "headache" for headaches that are not migraine, e.g. tension-type headache. Leave kind out for migraine.
 - List each medication only once in medications. isTriptan is true for triptans such as sumatriptan or rizatriptan.
 - medicationId points to a medication; attackId points to the migraine during which it was taken, if there is one.
 - effectiveness only if known: "strong" (much better), "slight" (a little better), "none" (no effect), "worse".

@@ -206,6 +206,16 @@ describe('importBackup', () => {
   });
 });
 
+test('importing other headaches turns them on so they stay visible', async () => {
+  const backup = buildBackup(
+    { ...data, attacks: [{ ...data.attacks[0]!, kind: 'headache' as const }] },
+    now,
+  );
+  await importBackup(backup, 'replace');
+  expect((await getSettings()).trackOtherHeadaches).toBe(true);
+  expect((await listAttacks())[0]?.kind).toBe('headache');
+});
+
 test('deleteAllData removes records and backup dates but keeps preferences', async () => {
   await createAttack({ startedAt: at(2026, 10, 1, 9), endedAt: at(2026, 10, 1, 12) });
   await updateSettings({ language: 'de', backupReminderEnabled: false, lastBackupAt: 1 });
@@ -220,7 +230,7 @@ test('deleteAllData removes records and backup dates but keeps preferences', asy
 test('imports a file written by an assistant from the import prompt', () => {
   const file = {
     app: 'headly',
-    schemaVersion: 5,
+    schemaVersion: 6,
     exportedAt: now,
     data: {
       attacks: [

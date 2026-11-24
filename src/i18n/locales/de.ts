@@ -139,8 +139,8 @@ export const de: Dictionary = {
       startInFuture: 'Dieser Zeitpunkt liegt in der Zukunft.',
       endBeforeStart: 'Das Ende muss nach dem Beginn liegen.',
       invalidPainLevel: 'Die Schmerzintensität muss zwischen 0 und 10 liegen.',
-      overlap: 'Das überschneidet sich mit einer anderen Migräne.',
-      activeAttackExists: 'Es ist bereits eine Migräne aktiv.',
+      overlap: 'Das überschneidet sich mit einer anderen Attacke.',
+      activeAttackExists: 'Es ist bereits eine Attacke aktiv.',
       notFound: 'Diese Migräne gibt es nicht mehr.',
     },
     prevention: {
@@ -352,10 +352,10 @@ export const de: Dictionary = {
 
 {
   "app": "headly",
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "exportedAt": <jetzt als Unix-Zeit in Millisekunden>,
   "data": {
-    "attacks": [{ "id", "createdAt", "updatedAt", "startedAt", "endedAt", "painLevel"?, "symptomIds"? }],
+    "attacks": [{ "id", "createdAt", "updatedAt", "kind"?, "startedAt", "endedAt", "painLevel"?, "symptomIds"? }],
     "medications": [{ "id", "createdAt", "updatedAt", "name", "dose"?, "isTriptan", "minIntervalHours"?, "archived": false }],
     "medicationIntakes": [{ "id", "createdAt", "updatedAt", "medicationId", "attackId"?, "takenAt", "effectiveness"? }],
     "preventions": [{ "id", "createdAt", "updatedAt", "name", "type", "dose"?, "startDate", "endDate"? }],
@@ -370,7 +370,8 @@ Regeln:
 - Alle Zeiten (startedAt, endedAt, takenAt, createdAt, updatedAt, exportedAt) sind Unix-Zeit in Millisekunden (13 Stellen) in meiner Zeitzone ${timeZone}. Setze createdAt und updatedAt auf die Zeit des Eintrags.
 - id: ein eindeutiger Text pro Eintrag, z. B. "attack-1", "med-1", "intake-1".
 - painLevel: ganze Zahl von 0 bis 10. Rechne andere Skalen um, z. B. leicht = 3, mittel = 6, stark = 9.
-- Setze immer endedAt. Ist das Ende unbekannt, nimm das Ende des Tages. Migränen dürfen sich nicht überschneiden.
+- Setze immer endedAt. Ist das Ende unbekannt, nimm das Ende des Tages. Einträge in attacks dürfen sich nicht überschneiden.
+- kind: "headache" für Kopfschmerzen, die keine Migräne sind, z. B. Spannungskopfschmerz. Bei Migräne lass kind weg.
 - Jedes Medikament nur einmal in medications. isTriptan ist true für Triptane wie Sumatriptan oder Rizatriptan.
 - medicationId zeigt auf ein Medikament, attackId auf die Migräne, während der es genommen wurde, falls es eine gibt.
 - effectiveness nur, wenn bekannt: "strong" (stark gebessert), "slight" (etwas gebessert), "none" (keine Wirkung), "worse" (verschlimmert).
