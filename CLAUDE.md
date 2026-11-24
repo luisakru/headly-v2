@@ -35,7 +35,9 @@ Every domain concept has exactly one English code name. German appears only as l
 | German UI term                             | Code name                                 | Notes                                                 |
 | ------------------------------------------ | ----------------------------------------- | ----------------------------------------------------- |
 | Migräneattacke                             | `Attack`                                  | One episode with a start and optional end             |
-| Migränetag                                 | `migraineDay`                             | A calendar day touched by any attack                  |
+| Migränetag                                 | `migraineDay`                             | A calendar day touched by a migraine attack           |
+| Kopfschmerz (anderer)                      | `headache`                                | `kind` on `Attack`; not migraine, e.g. tension-type   |
+| Kopfschmerztag                             | `headacheDay`                             | A day with another headache and no migraine           |
 | Aktive Migräne                             | `activeAttack`                            | The attack with no `endedAt`; at most one             |
 | Schmerzintensität                          | `painLevel`                               | Integer 0–10 on `Attack`, kept up to date             |
 | Medikament                                 | `Medication`                              | A saved medication the user can pick                  |

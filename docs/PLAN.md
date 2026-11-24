@@ -63,7 +63,9 @@ Every domain concept has exactly one English code name. German appears only as l
 | German UI term | Code name | Notes |
 | --- | --- | --- |
 | Migräneattacke | `Attack` | One episode with a start and optional end |
-| Migränetag | `migraineDay` | A calendar day touched by any attack |
+| Migränetag | `migraineDay` | A calendar day touched by a migraine attack |
+| Kopfschmerz (anderer) | `headache` | `kind` on `Attack`; a headache that is not migraine, e.g. tension-type |
+| Kopfschmerztag | `headacheDay` | A day with another headache and no migraine |
 | Aktive Migräne | `activeAttack` | The attack with no `endedAt`; at most one |
 | Schmerzintensität | `painLevel` | Integer 0–10 on `Attack`, kept up to date |
 | Medikament | `Medication` | A saved medication the user can pick |
@@ -88,6 +90,7 @@ Four stored tables plus one settings record; every statistic is computed, never 
 ```ts
 type Attack = {
   id: string;
+  kind?: 'migraine' | 'headache'; // undefined = migraine (all attacks before this existed)
   startedAt: number;
   endedAt?: number;          // undefined = active
   painLevel?: number;        // 0–10, 0 = no pain
@@ -203,13 +206,16 @@ Top to bottom, with the main action in thumb reach like on the active-attack scr
 - "Today" row of event chips (only once at least one event exists)
 - Prompt cards when due: rate an intake; the backup reminder as a quiet banner in the warning tint
 - One insight card, the most relevant current insight
-- "Start migraine" (primary, large) pinned above the tab bar: one tap creates an attack at now and opens the active-attack screen
+- "Start attack" (primary, large) pinned above the tab bar: one tap creates an attack at now and opens the active-attack screen. With "Other headaches" on, two buttons side by side instead: "Migraine" (primary) and "Headache" (in the lighter `--color-headache`), each one tap
+
+**Other headaches** (off by default, Profile → What I track → "Other headaches", "Log separately from migraine, e.g. tension-type headache"): while off, the UI says "attack" ("Attack active", "End attack"). While on, it says "Migraine" or "Headache". "Headache" always means a headache that is not migraine; migraine can come without headache. Only migraine counts for migraine days, insights, prevention effects, start patterns, average pain and the menstrual pattern. Medication days count all intakes, as overuse does not depend on why the tablet was taken. A day with both counts as a migraine day
 
 ### Active attack
 
 Shown on the Home tab while an attack is active.
 
-- "Migraine active" label with the pulsing dot; a "…" button on the right opens "More actions"
+- "Attack active" label with the pulsing dot ("Migraine active" / "Headache active" with other headaches on); a "…" button on the right opens "More actions"
+- With other headaches on: a segmented control "Migraine · Headache" below the time to change the kind at any time
 - Elapsed time, large; below it a quiet "since 08:40" that edits the start time when tapped
 - "Is it still going?" prompt as a quiet banner (same style as the backup banner) when due
 - Pain as one row, "Pain 6 of 10 ›"; tapping opens the 0–10 pain scale in a sheet, and choosing a level saves it and closes the sheet
@@ -238,8 +244,8 @@ Small, repeatable things (UI name "Events"; life events are called "Life changes
 ### Calendar
 
 - Month title with previous and next arrow buttons; horizontal swipe also changes month. No swipe hint text
-- Subtitle "N migraine days"
-- Grid Monday to Sunday. Cell colors: neutral = no entry; `--color-primary-soft` = migraine day; `--color-primary` = migraine day with medication. A medication day without migraine shows a small dot
+- Subtitle "N migraine days", followed by " · N headache days" when there are any
+- Grid Monday to Sunday. Cell colors: neutral = no entry; `--color-primary-soft` = migraine day; `--color-primary` = migraine day with medication; `--color-headache` = headache day (with a medication dot when medication was taken). A medication day without migraine shows a small dot
 - **Today = small dot at the bottom of the cell. Selected day = 2 px ring in `--color-text` just outside the cell**
 - Legend row: migraine, with medication, today, selected
 - Tapping a day selects it and shows a detail card below: date, then one card per attack (start, end, duration, pain, the medication taken for that attack with its effectiveness). Tapping a card opens the edit sheet; there is no separate "Edit" link. Days with no entry show "No entry on this day"; no selection shows "Tap a day for details"
@@ -260,13 +266,13 @@ Layout, one element per row, in this order:
 
 1. Title "Statistics"
 2. Segmented control: 1M, 3M, 6M, 1Y, 2Y, All. Default 3M. It sets how much the chart shows at once, not which data exists
-3. The chart legend below the chart doubles as the filter: slim toggles "Migraine" and "Medication" (swatch and label, no frame, crossed out when off), both on by default. Their tap area stays 48 px
+3. The chart legend below the chart doubles as the filter: slim toggles "Migraine", "Headache" (only when other headaches exist) and "Medication" (swatch and label, no frame, crossed out when off), both on by default. Their tap area stays 48 px
 4. Chart with all data, one page per period, swiped sideways (snapping), starting at the page with today. The visible period is named above the chart
    - 1W (calendar week, Monday first) and 1M (calendar month): one bar per day, height = highest pain level (0–10), a dot at the baseline for an unrated migraine day, a medication dot above
    - 3M: 13 weeks ending with the current week, grouped bars per week (migraine days, medication days)
    - 6M, 1Y, 2Y: that many months ending with the current month, grouped bars per month. All: one page from the first month with data, or one bar per year from the first year once the data spans 36 months or more. Only the visible page and its neighbours are drawn
    - Tapping a bar shows its period and values below the chart
-5. Four stat cards for the visible page: average migraine days per 30 days (counted only up to today), effectiveness rate, average pain, total medication days
+5. Four stat cards for the visible page: average migraine days per 30 days (counted only up to today), effectiveness rate, average pain, total medication days; a fifth with average headache days per 30 days when other headaches exist
 6. Overuse warning banner when triggered in a month the visible page touches
 7. Insights (up to three cards), comparing the preset's length up to today (e.g. the last 3 months) with the same number of days before
 8. Preventions overlapping the visible page, each with its before/after effect or the reason it is missing, plus a mini bar chart independent of the range filter: migraine days per 30 days in up to 90 days before the start, during the prevention (markers at start, `effectiveFrom` and end), and up to 90 days after the end; a dashed line marks the average before the start; 60-day blocks beyond 24 blocks; tapping a bar shows its period and value
@@ -290,7 +296,7 @@ A "When it starts" section in Statistics, after the insights, from 5 attacks in 
 
 Four cards, no single-row sections:
 
-- **What I track:** Medication, Prevention, Symptoms, Events, Life changes. Events and Life changes show a one-line explanation as subtitle instead of a count. Each row opens its sheet:
+- **What I track:** Medication, Prevention, Symptoms, Other headaches (a switch), Events, Life changes. Events and Life changes show a one-line explanation as subtitle instead of a count. Each row opens its sheet:
   - Medication: list, add, edit, archive. Fields: name, dose, "is a triptan", optional minimum gap in hours (entered by the user from the leaflet or their doctor; Headly never suggests a value). In the medication sheet, a medication whose gap has not passed yet (measured from the chosen "Taken at" time) shows a small clock and "from 11:15" in the warning tint; nothing is shown otherwise
   - Prevention: active and past lists, add and edit. Fields: name, type, dose, start date, optional expected-effect date, optional end date
   - Symptoms and Events: see their sections above
@@ -299,7 +305,7 @@ Four cards, no single-row sections:
 - **Help and info:** Knowledge, Introduction, About with version, Privacy policy, Imprint
   - Knowledge: a list of short articles in two groups, "Basics" and "Lesser known" (topics that were hard to find), each with an emoji and a title; tapping one opens the article (big emoji, title, text, sources). Articles are Markdown files the developer writes in `src/i18n/knowledge/<language>/<group>/NN-slug.md`, first line `# <emoji> <title>`; `**bold**` and links work. Titles and headings look like on every other page; the article text is sans; links open in a new tab
 - **Display:** language (Deutsch / English) and appearance (System / Light / Dark)
-- **PDF export:** choose 3 or 6 months (the current month and the ones before, up to today; doctors rarely want more), then "Create PDF" opens the browser's print menu (no PDF library). Nothing is previewed in the app; only the print shows a plain black-and-white table with one row per day: date, migraine, pain, medication, whether it helped, symptoms
+- **PDF export:** choose 3 or 6 months (the current month and the ones before, up to today; doctors rarely want more), then "Create PDF" opens the browser's print menu (no PDF library). Nothing is previewed in the app; only the print shows a plain black-and-white table with one row per day: date, migraine, pain, medication, whether it helped, symptoms. When the range has other headaches, the monthly overview gets a "Headaches" column and the day column "Type" names migraine or headache
 
 ## Native feel on iPhone
 
