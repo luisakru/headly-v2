@@ -13,8 +13,11 @@ export async function createDayEventType(
   return type;
 }
 
-export async function renameDayEventType(id: string, name: string) {
-  await db.dayEventTypes.update(id, { name, updatedAt: Date.now() });
+export async function updateDayEventType(
+  id: string,
+  changes: Partial<Pick<DayEventType, 'name' | 'hidden'>>,
+) {
+  await db.dayEventTypes.update(id, { ...changes, updatedAt: Date.now() });
 }
 
 /** Removes the type and every day it was logged on. */

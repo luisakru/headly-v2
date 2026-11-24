@@ -413,8 +413,9 @@ Regeln:
     ownName: 'Oder ein eigenes',
     addOwn: 'Hinzufügen',
     count: (n: number) => (n === 1 ? '1 Ereignis' : `${n} Ereignisse`),
-    manageHint: 'Tippe auf eines, um es umzubenennen oder zu entfernen.',
-    rename: 'Name',
+    manageHint:
+      'Schalte aus, was du gerade nicht erfasst. Die Einträge bleiben erhalten. Tippe auf einen Namen, um ihn zu ändern.',
+    editTitle: 'Ereignis bearbeiten',
     deleteWarning: 'Entfernt auch alle Tage, an denen es eingetragen ist.',
   },
   knowledge: {

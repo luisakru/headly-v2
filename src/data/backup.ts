@@ -107,7 +107,14 @@ const backupSchema = z.object({
       .default([]),
     // Added in version 4.
     dayEventTypes: z
-      .array(z.object({ ...recordFields, name: z.string(), kind: z.enum(['custom', 'period']) }))
+      .array(
+        z.object({
+          ...recordFields,
+          name: z.string(),
+          kind: z.enum(['custom', 'period']),
+          hidden: z.boolean().optional(),
+        }),
+      )
       .default([]),
     dayEvents: z
       .array(z.object({ ...recordFields, typeId: z.string(), date: z.string().regex(ISO_DATE) }))

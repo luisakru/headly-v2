@@ -10,6 +10,7 @@ import { recentWeekDays } from '../../domain/calendar';
 import { lookbackRange } from '../../domain/dateRange';
 import { firstDataDay } from '../../domain/prevention';
 import { countDaysInRange, migraineDays, toDayKey } from '../../domain/days';
+import { shownDayEvents } from '../../domain/dayEvents';
 import { generateInsights } from '../../domain/insights';
 import { timeOfDay } from '../../domain/timeOfDay';
 import { useI18n } from '../../i18n/context';
@@ -60,6 +61,7 @@ export function IdleHome({
     }
   };
 
+  const shownEvents = shownDayEvents(dayEventTypes, dayEvents);
   const recentDays = recentWeekDays(now, RECENT_WEEKS);
   const recentStart = recentDays[0]!;
   const recentRange = {
@@ -130,10 +132,14 @@ export function IdleHome({
         </section>
       )}
 
-      {dayEventTypes.length > 0 && (
+      {shownEvents.types.length > 0 && (
         <section className={styles.section}>
           <h2 className={styles.sectionLabel}>{t.dayEvents.today}</h2>
-          <DayEventChips types={dayEventTypes} events={dayEvents} date={toDayKey(now)} />
+          <DayEventChips
+            types={shownEvents.types}
+            events={shownEvents.events}
+            date={toDayKey(now)}
+          />
         </section>
       )}
 

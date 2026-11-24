@@ -37,6 +37,16 @@ function dayKeys(first: string, last: string): string[] {
  * Small events that are clearly followed by migraine, or clearly not.
  * Only days whose next day is already over count, so every window is complete.
  */
+/** Only event types the user still tracks, with their logged days. */
+export function shownDayEvents(
+  types: DayEventType[],
+  events: DayEvent[],
+): { types: DayEventType[]; events: DayEvent[] } {
+  const shown = types.filter((type) => !type.hidden);
+  const ids = new Set(shown.map((type) => type.id));
+  return { types: shown, events: events.filter((event) => ids.has(event.typeId)) };
+}
+
 export function dayEventPatterns(
   types: DayEventType[],
   events: DayEvent[],

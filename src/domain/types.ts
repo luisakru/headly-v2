@@ -73,6 +73,8 @@ export type DayEventType = {
   id: string;
   name: string;
   kind: 'custom' | 'period';
+  /** Hidden from logging and insights; its logged days are kept. */
+  hidden?: boolean;
   createdAt: number;
   updatedAt: number;
 };

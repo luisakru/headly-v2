@@ -1,5 +1,5 @@
 import { at, makeAttack } from '../test/factories';
-import { dayEventPatterns, menstrualPattern, periodStarts } from './dayEvents';
+import { dayEventPatterns, menstrualPattern, periodStarts, shownDayEvents } from './dayEvents';
 import type { DayEvent, DayEventType } from './types';
 
 const flight: DayEventType = {
@@ -116,4 +116,14 @@ describe('menstrualPattern', () => {
       undefined,
     );
   });
+});
+
+test('shownDayEvents leaves out hidden types and their days', () => {
+  const alcohol: DayEventType = { ...flight, id: 'alcohol', name: 'Alcohol', hidden: true };
+  const shown = shownDayEvents(
+    [flight, alcohol],
+    [event('2026-10-01'), event('2026-10-02', 'alcohol')],
+  );
+  expect(shown.types).toEqual([flight]);
+  expect(shown.events.map((e) => e.typeId)).toEqual(['flight']);
 });

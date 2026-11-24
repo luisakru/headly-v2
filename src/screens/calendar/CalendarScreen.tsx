@@ -8,6 +8,7 @@ import { DayGrid, DayLegend } from '../../components/DayGrid';
 import { EditAttackSheet } from '../../components/EditAttackSheet';
 import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from '../../components/icons';
 import { monthGridDays } from '../../domain/calendar';
+import { shownDayEvents } from '../../domain/dayEvents';
 import { countDaysInRange, headacheDays, migraineDays, toDayKey } from '../../domain/days';
 import type { Attack } from '../../domain/types';
 import { useI18n } from '../../i18n/context';
@@ -31,7 +32,11 @@ export function CalendarScreen() {
   const swipeStart = useRef<{ x: number; y: number }>(undefined);
 
   if (!data || !settings) return null;
-  const { attacks, intakes, medications, dayEventTypes, dayEvents, symptoms } = data;
+  const { attacks, intakes, medications, symptoms } = data;
+  const { types: dayEventTypes, events: dayEvents } = shownDayEvents(
+    data.dayEventTypes,
+    data.dayEvents,
+  );
 
   const monthRange = { start: month.getTime(), end: addMonths(month, 1).getTime() };
   const migraineDayCount = countDaysInRange(migraineDays(attacks, now), monthRange);

@@ -390,8 +390,9 @@ Rules:
     ownName: 'Or your own',
     addOwn: 'Add',
     count: (n: number) => (n === 1 ? '1 event' : `${n} events`),
-    manageHint: 'Tap one to rename or remove it.',
-    rename: 'Name',
+    manageHint:
+      "Turn off what you're not tracking right now; logged days are kept. Tap a name to change it.",
+    editTitle: 'Edit event',
     deleteWarning: 'Also removes every day it was logged on.',
   },
   knowledge: {

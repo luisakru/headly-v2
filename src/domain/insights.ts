@@ -10,7 +10,7 @@ import {
 } from './constants';
 import { previousRange } from './dateRange';
 import { isMigraine } from './attacks';
-import { dayEventPatterns, menstrualPattern } from './dayEvents';
+import { dayEventPatterns, menstrualPattern, shownDayEvents } from './dayEvents';
 import {
   firstDataDay,
   isActivePrevention,
@@ -270,9 +270,15 @@ function dayEventInsights({
   ];
 }
 
-/** All insights whose data condition is met, most relevant first. Only migraine counts, not other headaches. */
+/** All insights whose data condition is met, most relevant first. Only migraine and shown events count. */
 export function generateInsights(allInput: InsightInput): Insight[] {
-  const input = { ...allInput, attacks: allInput.attacks.filter(isMigraine) };
+  const shown = shownDayEvents(allInput.dayEventTypes ?? [], allInput.dayEvents ?? []);
+  const input = {
+    ...allInput,
+    attacks: allInput.attacks.filter(isMigraine),
+    dayEventTypes: shown.types,
+    dayEvents: shown.events,
+  };
   const previous = previousRange(input.range);
   const dataStart = firstDataDay(input.attacks, input.intakes);
   const hasPrevious = dataStart !== undefined && dataStart <= previous.start;

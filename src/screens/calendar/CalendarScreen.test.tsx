@@ -104,9 +104,7 @@ test('rejects an overlapping new migraine and saves nothing', async () => {
   setTime('End', day.getTime() + 5 * HOUR_MS);
   fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-  expect(await screen.findByRole('alert')).toHaveTextContent(
-    'This overlaps with another attack.',
-  );
+  expect(await screen.findByRole('alert')).toHaveTextContent('This overlaps with another attack.');
   expect(await listAttacks()).toHaveLength(1);
 });
 
