@@ -43,3 +43,21 @@ test('lists one row per day and prints', async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Create PDF' }));
   expect(print).toHaveBeenCalled();
 });
+
+test('names migraine and other headaches when the range has both', async () => {
+  const migraine = addMonths(new Date(), -1).getTime();
+  const headache = migraine - 2 * 24 * HOUR_MS;
+  await createAttack({ startedAt: migraine, endedAt: migraine + HOUR_MS });
+  await createAttack({ kind: 'headache', startedAt: headache, endedAt: headache + HOUR_MS });
+
+  await renderWithI18n(
+    <MemoryRouter>
+      <ReportPage />
+    </MemoryRouter>,
+  );
+
+  expect(await screen.findByRole('columnheader', { name: 'Headaches' })).toBeInTheDocument();
+  expect(screen.getAllByRole('columnheader', { name: 'Type' }).length).toBeGreaterThan(0);
+  expect(screen.getByRole('cell', { name: 'Migraine' })).toBeInTheDocument();
+  expect(screen.getByRole('cell', { name: 'Headache' })).toBeInTheDocument();
+});
