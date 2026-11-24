@@ -359,6 +359,7 @@ Because data exists only on one phone, a regular JSON backup is the user's only 
 
 - File picker accepts `.json`; the content is validated with zod. Invalid files show a clear error and change nothing
 - Older `schemaVersion` values are migrated before import
+- Schema version 6 adds the optional `kind` on attacks; importing any `headache` attack turns on "Other headaches" so they stay visible
 - The user chooses "Merge" (add new records, update records with the same ID if the imported `updatedAt` is newer) or "Replace all" (confirmation required)
 - Summary afterwards: "Imported 42 attacks, 3 medications…"
 
