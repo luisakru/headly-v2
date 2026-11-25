@@ -1,0 +1,162 @@
+[
+  {
+    "text": "Alrededor de una de cada siete personas tiene migraña; las mujeres, unas tres veces más que los hombres.",
+    "article": "what-is-migraine"
+  },
+  {
+    "text": "Según la OMS, la migraña está entre las enfermedades que más limitan la vida diaria en todo el mundo.",
+    "article": "what-is-migraine"
+  },
+  {
+    "text": "Hay migraña sin dolor de cabeza: en la migraña vestibular lo principal es el mareo.",
+    "article": "what-is-migraine"
+  },
+  {
+    "text": "Algunos niños tienen migraña abdominal: dolor de barriga y náuseas en vez de dolor de cabeza.",
+    "article": "what-is-migraine"
+  },
+  {
+    "text": "La migraña suele ser cosa de familia. Muchos genes aportan cada uno un poquito.",
+    "article": "what-is-migraine"
+  },
+  {
+    "text": "Una crisis puede empezar hasta dos días antes del dolor, por ejemplo con bostezos o antojos.",
+    "article": "phases"
+  },
+  {
+    "text": "Un aura puede afectar a todos los sentidos: la vista, el tacto, el habla y, más raramente, el oído o el olfato.",
+    "article": "phases"
+  },
+  {
+    "text": "Después de una crisis, muchas personas se sienten como con resaca. Esta fase puede durar hasta dos días.",
+    "article": "phases"
+  },
+  {
+    "text": "Un aura suele durar de unos minutos a una hora. Si aparecen varios síntomas, suelen llegar uno detrás de otro.",
+    "article": "phases"
+  },
+  {
+    "text": "Los medicamentos para la crisis suelen funcionar mejor si se toman pronto.",
+    "article": "triptans"
+  },
+  {
+    "text": "La regla de los 10 días cuenta días, no pastillas: tres pastillas en un día son un día.",
+    "article": "medication-overuse"
+  },
+  {
+    "text": "Si la primera dosis de triptán no ayuda nada, una segunda en la misma crisis normalmente tampoco.",
+    "article": "medication-overuse"
+  },
+  {
+    "text": "Demasiados analgésicos pueden causar dolor de cabeza por sí mismos. Se llama cefalea por uso excesivo de medicación.",
+    "article": "medication-overuse"
+  },
+  {
+    "text": "Un tratamiento preventivo ya se considera un éxito si reduce más o menos a la mitad tus días de migraña.",
+    "article": "prevention"
+  },
+  {
+    "text": "Si un tratamiento preventivo funciona, normalmente solo se ve después de dos o tres meses.",
+    "article": "prevention"
+  },
+  {
+    "text": "Los anticuerpos anti-CGRP son los primeros medicamentos desarrollados específicamente contra la migraña.",
+    "article": "prevention"
+  },
+  {
+    "text": "Muchos preventivos clásicos vienen de campos muy distintos, como la tensión alta o la epilepsia.",
+    "article": "prevention"
+  },
+  {
+    "text": "Muchas mujeres tienen migraña alrededor de la regla, probablemente por la bajada de estrógenos.",
+    "article": "menstrual-migraine"
+  },
+  {
+    "text": "Muy pocas mujeres tienen migraña exclusivamente alrededor de la regla.",
+    "article": "menstrual-migraine"
+  },
+  {
+    "text": "A partir de unas tres crisis al mes, merece la pena hablar de prevención.",
+    "article": "when-to-see-a-doctor"
+  },
+  {
+    "text": "Una crisis que dura más de 72 horas se llama estado migrañoso y necesita atención médica.",
+    "article": "status-migrainosus"
+  },
+  {
+    "text": "En Alemania, el 116 117 conecta con el servicio médico de guardia a cualquier hora.",
+    "article": "on-call-doctor"
+  },
+  {
+    "text": "La migraña grave puede reconocerse como discapacidad. En Alemania, a partir de un grado de 50 hay tarjeta de discapacidad grave.",
+    "article": "disability-card"
+  },
+  {
+    "text": "El cerebro con migraña se acostumbra peor a los estímulos. Un ruido sigue sonando fuerte incluso la décima vez.",
+    "article": "migraine-brain"
+  },
+  {
+    "text": "Muchos desencadenantes son en realidad cambios: levantarse más tarde, saltarse una comida, estrés que baja.",
+    "article": "migraine-brain"
+  },
+  {
+    "text": "Algunas migrañas de fin de semana aparecen porque el sueño, las comidas y el café llegan más tarde que entre semana.",
+    "article": "migraine-brain"
+  },
+  {
+    "text": "La migraña y la depresión están relacionadas en ambas direcciones. No es debilidad, sino en parte la misma biología.",
+    "article": "comorbidities"
+  },
+  {
+    "text": "Con migraña, merece la pena mirar el tiroides. Un tiroides lento se puede comprobar con un análisis de sangre.",
+    "article": "comorbidities"
+  },
+  {
+    "text": "El antojo de chocolate a menudo ya es una señal previa. El chocolate es inocente.",
+    "article": "surprising"
+  },
+  {
+    "text": "En una encuesta de Münster, más de la mitad dijo que el sexo durante una crisis alivió el dolor.",
+    "article": "surprising"
+  },
+  {
+    "text": "Las visiones de Hildegarda de Bingen se interpretan hoy a menudo como aura migrañosa.",
+    "article": "surprising"
+  },
+  {
+    "text": "En muchas mujeres, la migraña se vuelve mucho menos frecuente después de la menopausia.",
+    "article": "surprising"
+  },
+  {
+    "text": "Los cuerpos cetónicos son una segunda fuente de energía para el cerebro. Esa es la idea detrás de la dieta cetogénica.",
+    "article": "ketogenic-diet"
+  },
+  {
+    "text": "La vitamina B2 en dosis altas tiñe la orina de amarillo intenso. Es inofensivo.",
+    "article": "magnesium-b2-q10"
+  },
+  {
+    "text": "El magnesio, la vitamina B2 y la Q10 deben apoyar el suministro de energía de las neuronas. Por eso se usan para prevenir.",
+    "article": "magnesium-b2-q10"
+  },
+  {
+    "text": "La matricaria no se debe dejar de golpe; si no, pueden aparecer dolor de cabeza y dolor en las articulaciones.",
+    "article": "feverfew"
+  },
+  {
+    "text": "La cafeína hace que los analgésicos funcionen mejor. Por eso está en algunos productos combinados.",
+    "article": "caffeine"
+  },
+  {
+    "text": "La abstinencia de cafeína puede causar dolor de cabeza cuando el cuerpo está acostumbrado a mucho café.",
+    "article": "caffeine"
+  },
+  {
+    "text": "En estudios, la acupuntura en puntos «equivocados» funcionó casi igual de bien que en los correctos.",
+    "article": "acupuncture"
+  },
+  {
+    "text": "Algunos perros parecen notar una crisis antes de que su persona note nada.",
+    "article": "migraine-dog"
+  }
+]

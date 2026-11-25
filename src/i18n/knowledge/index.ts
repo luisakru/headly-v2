@@ -2,6 +2,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import type { Language } from '../../domain/types';
 import factsDe from './de/facts.json';
 import factsEn from './en/facts.json';
+import factsEs from './es/facts.json';
 
 export type KnowledgeGroup = 'basics' | 'alternatives' | 'lesserKnown';
 
@@ -36,7 +37,7 @@ const files = import.meta.glob<string>('./*/*/*.md', {
   eager: true,
 });
 
-export const knowledgeArticles: Record<Language, Article[]> = { de: [], en: [] };
+export const knowledgeArticles: Record<Language, Article[]> = { de: [], en: [], es: [] };
 
 for (const path of Object.keys(files).sort()) {
   const { language, ...article } = parseArticle(path, files[path] ?? '');
@@ -50,7 +51,11 @@ const figureFiles = import.meta.glob<string>('./*/figures/*.svg', {
 });
 
 /** SVG figures by language and name, e.g. `de/figures/pill.svg` is `knowledgeFigures.de.pill`. */
-export const knowledgeFigures: Record<Language, Record<string, string>> = { de: {}, en: {} };
+export const knowledgeFigures: Record<Language, Record<string, string>> = {
+  de: {},
+  en: {},
+  es: {},
+};
 
 for (const [path, svg] of Object.entries(figureFiles)) {
   const [, language, name] = /(\w+)\/figures\/([\w-]+)\.svg$/.exec(path) ?? [];
@@ -63,7 +68,11 @@ export type Fact = {
   article: string;
 };
 
-export const knowledgeFacts: Record<Language, Fact[]> = { de: factsDe, en: factsEn };
+export const knowledgeFacts: Record<Language, Fact[]> = {
+  de: factsDe,
+  en: factsEn,
+  es: factsEs,
+};
 
 /** One fact per day, in a fixed order, so every fact comes once before any repeats. */
 export function factOfTheDay(facts: Fact[], now: number): Fact | undefined {

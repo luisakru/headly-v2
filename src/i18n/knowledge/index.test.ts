@@ -15,15 +15,16 @@ test('parses group, slug, emoji, title and body from an article file', () => {
   });
 });
 
-test('every article exists in both languages', () => {
-  const keys = (language: 'de' | 'en') =>
+test('every article exists in every language', () => {
+  const keys = (language: 'de' | 'en' | 'es') =>
     knowledgeArticles[language].map(({ group, slug, emoji }) => `${group}/${slug}/${emoji}`);
   expect(keys('de').length).toBeGreaterThan(0);
   expect(keys('de')).toEqual(keys('en'));
+  expect(keys('de')).toEqual(keys('es'));
 });
 
 test('every figure an article shows exists in its language', () => {
-  for (const language of ['de', 'en'] as const) {
+  for (const language of ['de', 'en', 'es'] as const) {
     for (const article of knowledgeArticles[language]) {
       for (const [, name] of article.body.matchAll(/^!\[[^\]]*\]\(([\w-]+)\)$/gm)) {
         expect(knowledgeFigures[language]).toHaveProperty(name ?? '');
@@ -33,10 +34,11 @@ test('every figure an article shows exists in its language', () => {
 });
 
 describe('facts', () => {
-  test('both languages have the same facts, each pointing to an existing article', () => {
-    expect(knowledgeFacts.de.map((fact) => fact.article)).toEqual(
-      knowledgeFacts.en.map((fact) => fact.article),
-    );
+  test('every language has the same facts, each pointing to an existing article', () => {
+    const articles = (language: 'de' | 'en' | 'es') =>
+      knowledgeFacts[language].map((fact) => fact.article);
+    expect(articles('de')).toEqual(articles('en'));
+    expect(articles('de')).toEqual(articles('es'));
     const slugs = new Set(knowledgeArticles.de.map((article) => article.slug));
     for (const fact of knowledgeFacts.de) expect(slugs).toContain(fact.article);
   });
