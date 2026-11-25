@@ -2,8 +2,9 @@ import { createContext, useContext } from 'react';
 import type { Language } from '../domain/types';
 import { de } from './locales/de';
 import { en, type Dictionary } from './locales/en';
+import { es } from './locales/es';
 
-export const dictionaries: Record<Language, Dictionary> = { de, en };
+export const dictionaries: Record<Language, Dictionary> = { de, en, es };
 
 export type I18n = {
   language: Language;

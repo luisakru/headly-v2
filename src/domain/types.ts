@@ -104,7 +104,7 @@ export type Symptom = {
   updatedAt: number;
 };
 
-export type Language = 'de' | 'en';
+export type Language = 'de' | 'en' | 'es';
 
 export type Theme = 'system' | 'light' | 'dark';
 

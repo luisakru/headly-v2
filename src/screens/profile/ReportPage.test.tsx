@@ -45,7 +45,8 @@ test('lists one row per day and prints', async () => {
 });
 
 test('names migraine and other headaches when the range has both', async () => {
-  const migraine = addMonths(new Date(), -1).getTime();
+  // Noon, so neither attack crosses midnight into a second row.
+  const migraine = addMonths(new Date(), -1).setHours(12, 0, 0, 0);
   const headache = migraine - 2 * 24 * HOUR_MS;
   await createAttack({ startedAt: migraine, endedAt: migraine + HOUR_MS });
   await createAttack({ kind: 'headache', startedAt: headache, endedAt: headache + HOUR_MS });

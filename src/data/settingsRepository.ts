@@ -2,7 +2,10 @@ import type { Language, Settings } from '../domain/types';
 import { db, SETTINGS_ID } from './db';
 
 export function deviceLanguage(languageTag = navigator.language): Language {
-  return languageTag.toLowerCase().startsWith('de') ? 'de' : 'en';
+  const tag = languageTag.toLowerCase();
+  if (tag.startsWith('de')) return 'de';
+  if (tag.startsWith('es')) return 'es';
+  return 'en';
 }
 
 export function defaultSettings(): Settings {

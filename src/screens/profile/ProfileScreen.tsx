@@ -29,7 +29,7 @@ import styles from './Profile.module.css';
 import { ProfileRow } from './ProfileRow';
 import { SymptomsSheet } from './SymptomsSheet';
 
-const LANGUAGES: Language[] = ['de', 'en'];
+const LANGUAGES: Language[] = ['de', 'en', 'es'];
 const SUPPORT_EMAIL = 'headly@bylu.app';
 const THEMES: Theme[] = ['system', 'light', 'dark'];
 

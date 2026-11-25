@@ -5,6 +5,7 @@ export const en = {
   languages: {
     de: 'Deutsch',
     en: 'English',
+    es: 'Español',
   },
   themes: {
     system: 'System',
@@ -279,7 +280,7 @@ export const en = {
         title: 'Welcome to Headly',
         text: 'A calm migraine tracker.',
         items: [
-          ['🌀', 'One tap is enough', 'Tap “Start migraine” when it begins. Add details later.'],
+          ['🌀', 'One tap is enough', 'Tap “Start attack” when it begins. Add details later.'],
           ['🔒', 'Only on this device', 'No account, no cloud. Back up now and then in Profile.'],
         ],
       },

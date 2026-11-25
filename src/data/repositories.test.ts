@@ -200,6 +200,7 @@ describe('settingsRepository', () => {
 
   test('deviceLanguage picks German for any German locale', () => {
     expect(deviceLanguage('de-AT')).toBe('de');
+    expect(deviceLanguage('es-MX')).toBe('es');
     expect(deviceLanguage('en-US')).toBe('en');
     expect(deviceLanguage('fr-FR')).toBe('en');
   });

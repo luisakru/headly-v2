@@ -6,6 +6,7 @@ export const de: Dictionary = {
   languages: {
     de: 'Deutsch',
     en: 'English',
+    es: 'Español',
   },
   themes: {
     system: 'System',
@@ -301,7 +302,7 @@ export const de: Dictionary = {
           [
             '🌀',
             'Ein Tipp genügt',
-            'Tippe auf „Migräne starten“, wenn es losgeht. Details später.',
+            'Tippe auf „Attacke starten“, wenn es losgeht. Details später.',
           ],
           ['🔒', 'Nur auf diesem Gerät', 'Kein Konto, keine Cloud. Sichere ab und zu im Profil.'],
         ],
