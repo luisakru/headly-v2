@@ -28,7 +28,7 @@ Headly records a few facts about each migraine and turns them into trends you ca
 - **Life events** like a new job or stopping the pill, with the same before/after view.
 - **PDF report for the doctor**: a plain, printable table with one row per day for the last 3 or 6 months, plus a monthly overview.
 - **Backup**: JSON export and import, and a gentle reminder to back up.
-- **German and English**, switchable at any time.
+- **German, English and Spanish**, switchable at any time.
 - **Installable and offline**: add it to the iPhone home screen and it opens full-screen and works without a network.
 
 ## The thinking behind it

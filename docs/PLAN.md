@@ -15,7 +15,7 @@ It must be usable during an acute migraine. That means low contrast, large touch
 - Manage saved medications and prevention measures (with optional end date)
 - Calendar with day details and editing
 - Statistics with flexible time ranges and plain-language insights
-- German and English UI, switchable in settings
+- German, English and Spanish UI, switchable in settings
 - JSON export and import, plus a gentle backup reminder
 - Installable to the iPhone home screen, works fully offline
 
@@ -278,7 +278,7 @@ Layout, one element per row, in this order:
 8. Preventions overlapping the visible page, each with its before/after effect or the reason it is missing, plus a mini bar chart independent of the range filter: migraine days per 30 days in up to 90 days before the start, during the prevention (markers at start, `effectiveFrom` and end), and up to 90 days after the end; a dashed line marks the average before the start; 60-day blocks beyond 24 blocks; tapping a bar shows its period and value
 9. Life events on the visible page, each with the same before/after effect (90 days before vs. from the event) and a mini chart of up to 90 days before and after; the main chart marks each event with a thin vertical line, and tapping its bar names it
 
-**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%).", "Aquipta works less well than at first: 3.4 at first, 5.6 migraine days per month lately (before: 7.3)." (active preventions with six full 30-day blocks; first vs. latest 90 days differ by at least one day), "Since “New job”: 7 instead of 2.4 migraine days per month." (life events in the range, at least 30 days compared, change of at least one day; Home only, Statistics shows life events in their own section) Each template has a German and English version and only appears when its data condition is met.
+**Insights** are generated from templates with values filled in, for example: "Migraine days dropped from 6 to 4 per month.", "Fewer attacks, but on average 1.3 points stronger.", "Since Amitriptyline: 2.5 instead of 5 medication days per month." (with an info button that explains both compared windows), "Sumatriptan has helped less recently (91% to 78%).", "Aquipta works less well than at first: 3.4 at first, 5.6 migraine days per month lately (before: 7.3)." (active preventions with six full 30-day blocks; first vs. latest 90 days differ by at least one day), "Since “New job”: 7 instead of 2.4 migraine days per month." (life events in the range, at least 30 days compared, change of at least one day; Home only, Statistics shows life events in their own section) Each template has a version in every language and only appears when its data condition is met.
 
 ### Intro
 
@@ -333,9 +333,9 @@ Users are expected to add Headly to their home screen; once installed it must be
 
 **Offline:** the service worker precaches the whole app shell and fonts, so the app opens without a network after the first visit. On startup, call `navigator.storage.persist()` to ask the browser not to evict data.
 
-## Languages: German and English
+## Languages: German, English and Spanish
 
-The UI ships in German and English from day one, switchable in Profile; the default follows the device language (German if it starts with `de`, otherwise English).
+The UI ships in German, English and Spanish, switchable in Profile; the default follows the device language (German for `de`, Spanish for `es`, otherwise English). Knowledge articles, facts and figures exist in all three languages. The Spanish privacy policy is a courtesy translation; the German version is binding.
 
 - **No i18n library.** A typed dictionary is enough: `src/i18n/locales/en.ts` is the source of truth and `de.ts` must satisfy the same type, so a missing German key is a compile error.
 - **Keys are English and structured by screen**, for example `home.startMigraine`, `calendar.noEntry`, `stats.range.custom`.
